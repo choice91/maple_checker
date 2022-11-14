@@ -1,0 +1,18 @@
+doctype html
+
+html(lang="ko")
+    head
+        meta(charset="UTF-8")
+        title Maple Helper
+        link(rel="stylesheet" href="/static/css/login.css")
+    body
+        form.login-form(action="/" method="post")
+            div.login-form__container
+                h2.login-form__title 로그인
+                div.login-form__id-block
+                    span.login-form__id ID
+                    input(type="text" name="id")
+                div.login-form__pw-block
+                    span.login-form__pw PW
+                    input(type="text" name="password")
+                button.login-form__submit-button 로그인
