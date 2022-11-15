@@ -11,14 +11,17 @@ block content
         form.join-container__form-block(action="/join" method="post")
             h2.join-container__title 회원가입
             div.join-container__id-block
-                span ID
-                input(type="text" name="id" placeholder="ID")
+                span 아이디
+                input(type="text" name="id" placeholder="아이디")
             div.join-container__pw-block
-                span PW
-                input(type="password" name="password" placeholder="PW")
+                span 비밀번호
+                input(type="password" name="password" placeholder="비밀번호")
+            div.join-container__pw-check-block
+                span 비밀번호 확인
+                input(type="password" name="password2" placeholder="비밀번호 확인")
             div.join-container__name-block
                 span 이름
-                input(type="text" name="name" placeholder="NAME")
+                input(type="text" name="name" placeholder="이름")
             button.join-container__submit-btn 가입하기
         div.auth-switch
             span 이미 계정이 있나요? &nbsp;
