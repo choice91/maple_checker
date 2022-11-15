@@ -1,18 +1,21 @@
-doctype html
+extends base.pug
 
-html(lang="ko")
-    head
-        meta(charset="UTF-8")
-        title Maple Helper
-        link(rel="stylesheet" href="/static/css/login.css")
-    body
-        form.login-form(action="/" method="post")
-            div.login-form__container
-                h2.login-form__title 로그인
-                div.login-form__id-block
-                    span.login-form__id ID
-                    input(type="text" name="id")
-                div.login-form__pw-block
-                    span.login-form__pw PW
-                    input(type="text" name="password")
-                button.login-form__submit-button 로그인
+block stylesheet
+    link(rel="stylesheet" href="/static/css/login.css")
+
+block content
+    if errorMessage
+        span=errorMessage
+    div.login-container
+        form.login-container__form(action="/login" method="post")
+            h2.login-container__title 로그인
+            div.login-container__id-block
+                span ID
+                input(type="text" name="id" placeholder="ID")
+            div.login-container__pw-block
+                span PW
+                input(type="password" name="password" placeholder="PW")
+            button.login-container__submit-btn 로그인
+        div.auth-switch
+            span 계정이 없나요? &nbsp;
+            a(href="/join") 회원가입 하러가기 &rarr;
