@@ -8,7 +8,7 @@ block content
         span=errorMessage
 
     div.join-container
-        form.join-container__form-block(action="/join" method="post")
+        form.join-container__form-block(action="/join" method="post" onsubmit="return submitJoin();")
             h2.join-container__title 회원가입
             div.join-container__id-block
                 span 아이디
@@ -16,10 +16,10 @@ block content
                 span.join-container__id-msg
             div.join-container__pw-block
                 span 비밀번호
-                input(type="password" name="password" placeholder="비밀번호")
+                input.join-container__pw(type="password" name="password" placeholder="비밀번호")
             div.join-container__pw-check-block
                 span 비밀번호 확인
-                input(type="password" name="password2" placeholder="비밀번호 확인")
+                input.join-container__pw2(type="password" name="password2" placeholder="비밀번호 확인")
             div.join-container__name-block
                 span 이름
                 input.join-container__name(type="text" name="name" placeholder="이름")
