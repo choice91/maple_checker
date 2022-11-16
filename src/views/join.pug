@@ -12,7 +12,8 @@ block content
             h2.join-container__title 회원가입
             div.join-container__id-block
                 span 아이디
-                input(type="text" name="id" placeholder="아이디")
+                input.join-container__id(type="text" name="id" placeholder="아이디")
+                span.join-container__id-msg
             div.join-container__pw-block
                 span 비밀번호
                 input(type="password" name="password" placeholder="비밀번호")
@@ -21,8 +22,11 @@ block content
                 input(type="password" name="password2" placeholder="비밀번호 확인")
             div.join-container__name-block
                 span 이름
-                input(type="text" name="name" placeholder="이름")
-            button.join-container__submit-btn 가입하기
+                input.join-container__name(type="text" name="name" placeholder="이름")
+            button.join-container__submit-btn(type="submit") 가입하기
         div.auth-switch
             span 이미 계정이 있나요? &nbsp;
             a(href="/login") 로그인 하러가기 &rarr;
+
+block script
+    script(src="/static/js/join.js")
