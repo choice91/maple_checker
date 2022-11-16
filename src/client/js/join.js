@@ -5,10 +5,15 @@ const $pw2 = document.querySelector('.join-container__pw2');
 const $name = document.querySelector('.join-container__name');
 
 const checkId = async () => {
+  const regExp = /^[a-z]+[a-z0-9]{4,19}$/g;
+
   if (!$id.value) {
     $idDuplicationBlock.innerText = '아이디를 입력해주세요.';
   } else if ($id.value.length < 5) {
     $idDuplicationBlock.innerText = '아이디를 5글자 이상 입력해주세요.';
+  } else if (!regExp.test($id.value)) {
+    $idDuplicationBlock.innerText =
+      '영문자로 시작하는 영문자 또는 숫자 5~20자로 입력해주세요';
   } else {
     const response = await fetch('/id-check', {
       method: 'POST',
