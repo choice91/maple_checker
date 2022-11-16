@@ -1,9 +1,17 @@
 const express = require('express');
 
-const { getLogin } = require('../controllers/root');
+const {
+  getJoin,
+  postJoin,
+  idCheck,
+  getLogin,
+  postLogin,
+} = require('../controllers/user');
 
 const rootRouter = express.Router();
 
-rootRouter.get('/', getLogin);
+rootRouter.route('/login').get(getLogin).post(postLogin);
+rootRouter.route('/join').get(getJoin).post(postJoin);
+rootRouter.route('/id-check').post(idCheck);
 
 module.exports = rootRouter;
