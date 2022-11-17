@@ -2,11 +2,11 @@ const bcrypt = require('bcrypt');
 
 const User = require('../models/user');
 
-const getJoin = (req, res) => {
+exports.getJoin = (req, res) => {
   res.render('join');
 };
 
-const postJoin = async (req, res, next) => {
+exports.postJoin = async (req, res) => {
   const { id, password, password2, name } = req.body;
 
   if (password !== password2) {
@@ -18,7 +18,7 @@ const postJoin = async (req, res, next) => {
 
   try {
     const exists = await User.exists({
-      $or: [{ id }],
+      id,
     });
 
     if (exists) {
@@ -36,7 +36,7 @@ const postJoin = async (req, res, next) => {
       name,
     });
 
-    res.render('login');
+    res.status(200).redirect('/login');
   } catch (e) {
     res.status(404).render('join', {
       errorMessage: e.message,
@@ -44,7 +44,7 @@ const postJoin = async (req, res, next) => {
   }
 };
 
-const idCheck = async (req, res) => {
+exports.idCheck = async (req, res) => {
   const { id } = req.body;
 
   try {
@@ -70,11 +70,11 @@ const idCheck = async (req, res) => {
   }
 };
 
-const getLogin = (req, res) => {
+exports.getLogin = (req, res) => {
   res.render('login');
 };
 
-const postLogin = async (req, res) => {
+exports.postLogin = async (req, res) => {
   const { id, password } = req.body;
 
   try {
@@ -96,7 +96,10 @@ const postLogin = async (req, res) => {
       return;
     }
 
-    res.render('home');
+    req.session.loggedIn = true;
+    req.session.user = user;
+
+    res.redirect('/home');
   } catch (e) {
     res.status(404).render('login', {
       errorMessage: e.message,
@@ -104,10 +107,7 @@ const postLogin = async (req, res) => {
   }
 };
 
-module.exports = {
-  getJoin,
-  postJoin,
-  idCheck,
-  getLogin,
-  postLogin,
+exports.logout = (req, res) => {
+  req.session.destroy();
+  res.redirect('/');
 };
