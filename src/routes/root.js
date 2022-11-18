@@ -9,20 +9,14 @@ const {
   logout,
 } = require('../controllers/user');
 const { home } = require('../controllers/home');
+const { isLoggedIn } = require('../middlewares');
 
 const rootRouter = express.Router();
 
-rootRouter.get('/', getLogin);
-
-rootRouter.get('/login', getLogin);
-rootRouter.post('/login', postLogin);
-rootRouter.get('/logout', logout);
-
-rootRouter.get('/join', getJoin);
-rootRouter.post('/join', postJoin);
-
-rootRouter.post('/id-check', idCheck);
-
-rootRouter.get('/home', home);
+rootRouter.route('/').all(isLoggedIn).get(home);
+rootRouter.route('/login').get(getLogin).post(postLogin);
+rootRouter.route('/logout').get(logout);
+rootRouter.route('/join').get(getJoin).post(postJoin);
+rootRouter.route('/id-check').post(idCheck);
 
 module.exports = rootRouter;

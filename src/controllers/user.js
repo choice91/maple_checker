@@ -99,7 +99,7 @@ exports.postLogin = async (req, res) => {
     req.session.loggedIn = true;
     req.session.user = user;
 
-    res.redirect('/home');
+    res.redirect('/');
   } catch (e) {
     res.status(404).render('login', {
       errorMessage: e.message,
