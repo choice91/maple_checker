@@ -1,15 +1,15 @@
-const express = require('express');
+import express from 'express';
 
-const {
+import {
   getJoin,
   postJoin,
   idCheck,
   getLogin,
   postLogin,
   logout,
-} = require('../controllers/user');
-const { home } = require('../controllers/home');
-const { isLoggedIn } = require('../middlewares');
+} from '../controllers/user.js';
+import { home } from '../controllers/home.js';
+import { isLoggedIn } from '../middlewares.js';
 
 const rootRouter = express.Router();
 
@@ -19,4 +19,5 @@ rootRouter.route('/logout').get(logout);
 rootRouter.route('/join').get(getJoin).post(postJoin);
 rootRouter.route('/id-check').post(idCheck);
 
-module.exports = rootRouter;
+// module.exports = rootRouter;
+export default rootRouter;

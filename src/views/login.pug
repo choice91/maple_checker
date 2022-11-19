@@ -1,8 +1,5 @@
 extends base.pug
 
-block stylesheet
-    link(rel="stylesheet" href="/static/css/login.css")
-
 block content
     div.login-container
         form.login-container__form(action="/login", method="post", onsubmit="return login(event)")

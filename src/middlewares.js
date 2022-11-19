@@ -1,4 +1,4 @@
-exports.isLoggedIn = (req, res, next) => {
+export const isLoggedIn = (req, res, next) => {
   if (req.session.loggedIn) {
     return next();
   } else {
@@ -6,7 +6,7 @@ exports.isLoggedIn = (req, res, next) => {
   }
 };
 
-exports.localsMiddleware = (req, res, next) => {
+export const localsMiddleware = (req, res, next) => {
   res.locals.loggedIn = Boolean(req.session.loggedIn);
   res.locals.user = req.session.user;
   next();

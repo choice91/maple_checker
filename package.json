@@ -4,8 +4,12 @@
   "description": "maple helper",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon src/server"
+    "start": "node build/server.js",
+    "build": "npm run build:server && npm run build:assets",
+    "build:server": "babel src -d build",
+    "build:assets": "webpack --mode=production",
+    "dev:server": "nodemon ",
+    "dev:assets": "webpack --mode=development -w"
   },
   "repository": {
     "type": "git",
@@ -18,15 +22,25 @@
   },
   "homepage": "https://github.com/choice91/maple_helper#readme",
   "devDependencies": {
+    "@babel/cli": "^7.19.3",
+    "@babel/core": "^7.20.2",
+    "@babel/node": "^7.20.2",
+    "@babel/preset-env": "^7.20.2",
+    "babel-loader": "^9.1.0",
+    "css-loader": "^6.7.2",
     "eslint": "^8.27.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-node": "^11.1.0",
     "jest": "^29.3.1",
+    "mini-css-extract-plugin": "^2.7.0",
     "nodemon": "^2.0.20",
     "prettier": "^2.7.1",
-    "supertest": "^6.3.1"
+    "style-loader": "^3.3.1",
+    "supertest": "^6.3.1",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.0"
   },
   "dependencies": {
     "bcrypt": "^5.1.0",

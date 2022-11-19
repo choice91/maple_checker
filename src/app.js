@@ -1,15 +1,14 @@
-const express = require('express');
-const logger = require('morgan');
-const path = require('path');
-const session = require('express-session');
-const MongoStore = require('connect-mongo');
+import express from 'express';
+import logger from 'morgan';
+import session from 'express-session';
+import MongoStore from 'connect-mongo';
 
-const routes = require('./routes/index');
+import routes from './routes/index';
 
 const app = express();
 
 app.set('view engine', 'pug');
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', process.cwd() + '/src/views');
 
 app.use(logger('dev'));
 app.use(express.urlencoded({ extended: true }));
@@ -23,7 +22,7 @@ app.use(
   })
 );
 
-app.use('/static', express.static(path.join(__dirname, 'client')));
+app.use('/static', express.static('assets'));
 app.use('/', routes);
 
-module.exports = app;
+export default app;
