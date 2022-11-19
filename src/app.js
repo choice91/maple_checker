@@ -9,7 +9,6 @@ const app = express();
 
 app.set('view engine', 'pug');
 app.set('views', process.cwd() + '/src/views');
-console.log(process.cwd());
 
 app.use(logger('dev'));
 app.use(express.urlencoded({ extended: true }));
