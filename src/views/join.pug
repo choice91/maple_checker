@@ -1,8 +1,5 @@
 extends base.pug
 
-block stylesheet
-    link(rel="stylesheet" href="/static/css/join.css")
-
 block content
     div.join-container
         form.join-container__form-block(action="/join", method="post", onsubmit="return submitJoin(event)")
