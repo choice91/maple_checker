@@ -1,12 +1,12 @@
-const express = require('express');
+import express from 'express';
 
-const rootRoutes = require('./root');
+import rootRoutes from './root.js';
 
-const { localsMiddleware } = require('../middlewares');
+import { localsMiddleware } from '../middlewares.js';
 
 const router = express.Router();
 
 router.use(localsMiddleware);
 router.use('/', rootRoutes);
 
-module.exports = router;
+export default router;

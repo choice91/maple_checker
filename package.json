@@ -17,6 +17,7 @@
     "url": "https://github.com/choice91/maple_helper/issues"
   },
   "homepage": "https://github.com/choice91/maple_helper#readme",
+  "type": "module",
   "devDependencies": {
     "eslint": "^8.27.0",
     "eslint-config-airbnb-base": "^15.0.0",

@@ -1,12 +1,12 @@
-const bcrypt = require('bcrypt');
+import bcrypt from 'bcrypt';
 
-const User = require('../models/user');
+import User from '../models/user.js';
 
-exports.getJoin = (req, res) => {
+export const getJoin = (req, res) => {
   res.render('join');
 };
 
-exports.postJoin = async (req, res) => {
+export const postJoin = async (req, res) => {
   const { id, password, password2, name } = req.body;
 
   if (password !== password2) {
@@ -44,7 +44,7 @@ exports.postJoin = async (req, res) => {
   }
 };
 
-exports.idCheck = async (req, res) => {
+export const idCheck = async (req, res) => {
   const { id } = req.body;
 
   try {
@@ -70,11 +70,11 @@ exports.idCheck = async (req, res) => {
   }
 };
 
-exports.getLogin = (req, res) => {
+export const getLogin = (req, res) => {
   res.render('login');
 };
 
-exports.postLogin = async (req, res) => {
+export const postLogin = async (req, res) => {
   const { id, password } = req.body;
 
   try {
@@ -107,7 +107,7 @@ exports.postLogin = async (req, res) => {
   }
 };
 
-exports.logout = (req, res) => {
+export const logout = (req, res) => {
   req.session.destroy();
   res.redirect('/login');
 };
