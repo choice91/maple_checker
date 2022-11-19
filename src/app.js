@@ -3,7 +3,7 @@ import logger from 'morgan';
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
 
-import routes from './routes/index.js';
+import routes from './routes/index';
 
 const app = express();
 
@@ -22,7 +22,7 @@ app.use(
   })
 );
 
-app.use('/static', express.static(process.cwd() + '/src/client'));
+app.use('/static', express.static('assets'));
 app.use('/', routes);
 
 export default app;

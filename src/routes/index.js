@@ -1,8 +1,8 @@
 import express from 'express';
 
-import rootRoutes from './root.js';
+import rootRoutes from './root';
 
-import { localsMiddleware } from '../middlewares.js';
+import { localsMiddleware } from '../middlewares';
 
 const router = express.Router();
 
