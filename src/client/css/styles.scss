@@ -1,5 +1,11 @@
-@import './default.scss';
-@import './header.scss';
-@import './home.scss';
-@import './join.scss';
-@import './login.scss';
+// Config
+@import './config/_variables.scss';
+@import './config/default';
+
+// Component
+@import './components/header';
+
+// Screen
+@import './screens/home';
+@import './screens/join';
+@import './screens/login';

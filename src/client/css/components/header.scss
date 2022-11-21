@@ -39,12 +39,12 @@ header {
         }
 
         .header__logout-btn {
-          color: #191919;
+          color: $black;
         }
 
         .header__profile-btn {
-          color: #ffffff;
-          background-color: #191919;
+          color: $white;
+          background-color: $black;
         }
       }
     }

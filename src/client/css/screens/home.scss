@@ -10,13 +10,19 @@
     padding: 0;
 
     li {
-      border: 1px solid #191919;
-      border-radius: 10px;
+      border: 1px solid #e0e2e7;
+      border-radius: 5px;
       margin: 0 5px;
       width: calc(25% - 8px);
       height: 60px;
       text-align: center;
       line-height: 60px;
+      box-shadow: 1px 2px 4px 1px rgb(60 60 60 / 30%);
+
+      &:hover {
+        cursor: pointer;
+        transition: transform 0.2s ease-in-out;
+      }
     }
 
     &:first-child {
