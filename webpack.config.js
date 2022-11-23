@@ -19,6 +19,7 @@ module.exports = {
   output: {
     filename: 'js/[name].js',
     path: path.resolve(__dirname, 'assets'),
+    assetModuleFilename: 'images/[name].[ext]',
     // clean: true,
   },
   module: {
@@ -35,6 +36,10 @@ module.exports = {
       {
         test: /\.scss$/,
         use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
+      },
+      {
+        test: /\.(png|jpe?g)$/i,
+        type: 'asset',
       },
     ],
   },
