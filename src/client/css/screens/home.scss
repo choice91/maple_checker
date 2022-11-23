@@ -10,7 +10,7 @@
     padding: 0;
 
     li {
-      border: 1px solid #e0e2e7;
+      border: 1px solid $gray;
       border-radius: 5px;
       margin: 0 5px;
       width: calc(25% - 8px);
@@ -18,15 +18,120 @@
       text-align: center;
       line-height: 60px;
       box-shadow: 1px 2px 4px 1px rgb(60 60 60 / 30%);
+      transition: transform 0.2s ease-in-out;
 
       &:hover {
         cursor: pointer;
-        transition: transform 0.2s ease-in-out;
+        transform: scale(0.9);
       }
     }
 
     &:first-child {
       display: flex;
+    }
+  }
+
+  .home-container__quest {
+    border: 1px solid $black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .home-container__arcane-river,
+    .home-container__grandis {
+      width: 100%;
+      padding: 10px;
+      border-radius: 10px;
+
+      ul {
+        padding: 0;
+
+        li {
+          border: 1px solid $black;
+          border-radius: 10px;
+          padding: 5px;
+          text-align: center;
+          margin: 5px;
+          height: 60px;
+          line-height: 60px;
+          background-color: $white;
+          font-size: 20px;
+          font-weight: 600;
+          text-shadow: -1px 0 $white, 0 1px $white, 1px 0 $white, 0 -1px $white;
+          background-size: cover;
+          transition: transform 0.2s ease-in-out;
+        }
+
+        li:hover {
+          cursor: pointer;
+        }
+
+        li:active {
+          transform: scale(0.9);
+        }
+      }
+    }
+
+    .home-container__arcane-river {
+      border: 1px solid red;
+      margin: 10px 5px 10px 0px;
+
+      ul {
+        display: grid;
+        grid-template-rows: 1fr 1fr;
+        grid-template-columns: 1fr 1fr 1fr;
+
+        li:first-child {
+          background-image: url('../images/vanishing_journey.png');
+        }
+
+        li:nth-child(2) {
+          background-image: url('../images/chu_chu_island.png');
+        }
+
+        li:nth-child(3) {
+          background-image: url('../images/lachelein.jpg');
+        }
+
+        li:nth-child(4) {
+          background-image: url('../images/arcana.png');
+        }
+
+        li:nth-child(5) {
+          background-image: url('../images/morass.jpg');
+        }
+
+        li:nth-child(6) {
+          background-image: url('../images/esfera.jpg');
+        }
+      }
+    }
+
+    .home-container__grandis {
+      border: 1px solid orange;
+      margin: 10px 0px 10px 5px;
+
+      ul {
+        display: grid;
+        grid-template-rows: 1fr 1fr;
+        grid-template-columns: 1fr 1fr;
+
+        li:first-child {
+          background-image: url('../images/cernium.png');
+        }
+
+        li:nth-child(2) {
+          background-image: url('../images/buring_cernium.jpg');
+        }
+
+        li:nth-child(3) {
+          background-image: url('../images/hotel_arcs.png');
+        }
+
+        li:nth-child(4) {
+          background-image: url('../images/odium.jpg');
+        }
+      }
     }
   }
 }
@@ -50,4 +155,8 @@
       width: calc(20% - 8px);
     }
   }
+}
+
+.home-container__quest__bg-gray {
+  filter: grayscale(1);
 }
