@@ -1,4 +1,28 @@
 extends base.pug
 
 block content
-    div.container hello
+    div.home-container
+        ul.home-container__menu
+            li 일일퀘스트
+            li 주간보스
+            li 이벤트
+        div.home-container__quest
+            div.home-container__arcane-river
+                h2 아케인리버
+                ul
+                    li#vanishing-journey.home-container__quest--gray 소멸의 여로
+                    li#chu-chu-island.home-container__quest--gray 츄츄 아일랜드
+                    li#lachelein.home-container__quest--gray 레헬른
+                    li#arcana.home-container__quest--gray 아르카나
+                    li#morass.home-container__quest--gray 모라스
+                    li#esfera.home-container__quest--gray 에스페라
+            div.home-container__grandis
+                h2 그란디스
+                ul
+                    li#cernium.home-container__quest--gray 세르니움(전)
+                    li#burning-cernium.home-container__quest--gray 세르니움(후)
+                    li#hotel-arcs.home-container__quest--gray 호텔 아르크스
+                    li#odium.home-container__quest--gray 오디움
+
+block script
+    script(src="/static/js/home.js")

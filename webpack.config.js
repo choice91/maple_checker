@@ -8,6 +8,7 @@ module.exports = {
     main: BASE_JS + 'main.js',
     join: BASE_JS + 'join.js',
     login: BASE_JS + 'login.js',
+    home: BASE_JS + 'home.js',
   },
   // mode: 'development',
   // watch: true,
@@ -19,6 +20,7 @@ module.exports = {
   output: {
     filename: 'js/[name].js',
     path: path.resolve(__dirname, 'assets'),
+    assetModuleFilename: 'images/[name].[ext]',
     // clean: true,
   },
   module: {
@@ -33,8 +35,12 @@ module.exports = {
         },
       },
       {
-        test: /\.css$/,
-        use: [MiniCssExtractPlugin.loader, 'css-loader'],
+        test: /\.scss$/,
+        use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
+      },
+      {
+        test: /\.(png|jpe?g)$/i,
+        type: 'asset',
       },
     ],
   },
