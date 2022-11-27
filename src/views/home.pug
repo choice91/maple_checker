@@ -7,22 +7,80 @@ block content
             li 주간보스
             li 이벤트
         div.home-container__quest
-            div.home-container__arcane-river
-                h2 아케인리버
-                ul
-                    li#vanishing-journey.home-container__quest--gray 소멸의 여로
-                    li#chu-chu-island.home-container__quest--gray 츄츄 아일랜드
-                    li#lachelein.home-container__quest--gray 레헬른
-                    li#arcana.home-container__quest--gray 아르카나
-                    li#morass.home-container__quest--gray 모라스
-                    li#esfera.home-container__quest--gray 에스페라
-            div.home-container__grandis
-                h2 그란디스
-                ul
-                    li#cernium.home-container__quest--gray 세르니움(전)
-                    li#burning-cernium.home-container__quest--gray 세르니움(후)
-                    li#hotel-arcs.home-container__quest--gray 호텔 아르크스
-                    li#odium.home-container__quest--gray 오디움
+            button.home-container__add-character 캐릭터추가
+            button.home-container__delete-character 캐릭터삭제
+            table
+                thead
+                    tr
+                        th
+                        th 여섯글자닉넴
+                tbody
+                    tr
+                        td 소멸의 여로
+                        td
+                            input(type="checkbox")
+                    tr
+                        td 츄츄 아일랜드
+                        td
+                            input(type="checkbox")
+                    tr
+                        td 레헬른
+                        td
+                            input(type="checkbox")
+                    tr
+                        td 아르카나
+                        td
+                            input(type="checkbox")
+                    tr
+                        td 모라스
+                        td
+                            input(type="checkbox")
+                    tr
+                        td 에스페라
+                        td
+                            input(type="checkbox")
+                    tr
+                        td 세르니움(전)
+                        td
+                            input(type="checkbox")
+                    tr
+                        td 세르니움(후)
+                        td
+                            input(type="checkbox")
+                    tr
+                        td 호텔 아르크스
+                        td
+                            input(type="checkbox")
+                    tr
+                        td 오디움
+                        td
+                            input(type="checkbox")
+    div.modal.modal--hidden
+        div.modal__layer
+            div.modal__input-block
+                input#nickname.modal__input(type="text" placeholder="여기에 닉네임을 입력하세요" required)
+                label.modal__label(for="nickname")
+                    span 여기에 닉네임을 입력하세요
+            div.modal__btn
+                button.modal__submit 확인
+                button.modal__cancel 취소
+
+            //div.home-container__arcane-river
+            //    h2 아케인리버
+            //    ul
+            //        li#vanishing-journey.home-container__quest--gray 소멸의 여로
+            //        li#chu-chu-island.home-container__quest--gray 츄츄 아일랜드
+            //        li#lachelein.home-container__quest--gray 레헬른
+            //        li#arcana.home-container__quest--gray 아르카나
+            //        li#morass.home-container__quest--gray 모라스
+            //        li#esfera.home-container__quest--gray 에스페라
+            //div.home-container__grandis
+            //    h2 그란디스
+            //    ul
+            //        li#cernium.home-container__quest--gray 세르니움(전)
+            //        li#burning-cernium.home-container__quest--gray 세르니움(후)
+            //        li#hotel-arcs.home-container__quest--gray 호텔 아르크스
+            //        li#odium.home-container__quest--gray 오디움
 
 block script
     script(src="/static/js/home.js")
