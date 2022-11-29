@@ -34,15 +34,7 @@ block content
                         td 호텔 아르크스
                     tr
                         td 오디움
-    div.modal.modal--hidden
-        div.modal__layer
-            div.modal__input-block
-                input#nickname.modal__input(type="text" placeholder="여기에 닉네임을 입력하세요" required)
-                label.modal__label(for="nickname")
-                    span 여기에 닉네임을 입력하세요
-            div.modal__btn
-                button.modal__submit 확인
-                button.modal__cancel 취소
+    include partials/modal.pug
 
 block script
     script(src="/static/js/home.js")
