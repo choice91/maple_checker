@@ -1,61 +1,58 @@
-const yeoroBtn = document.querySelector('#vanishing-journey');
-const chuChuIsland = document.querySelector('#chu-chu-island');
-const lachelein = document.querySelector('#lachelein');
-const arcana = document.querySelector('#arcana');
-const morass = document.querySelector('#morass');
-const esfera = document.querySelector('#esfera');
-const cernium = document.querySelector('#cernium');
-const burningCernium = document.querySelector('#burning-cernium');
-const hotelArcs = document.querySelector('#hotel-arcs');
-const odium = document.querySelector('#odium');
+const $characterPlusBtn = document.querySelector(
+  '.home-container__add-character'
+);
+const $characterDeleteBtn = document.querySelector(
+  '.home-container__delete-character'
+);
+const $characterName = document.querySelector('thead > tr');
+const $questName = document.querySelectorAll('tbody > tr');
+const $modal = document.querySelector('.modal');
+const $modalInput = document.querySelector('.modal__input');
+const $modalSubmitBtn = document.querySelector('.modal__submit');
+const $modalCancelBtn = document.querySelector('.modal__cancel');
 
-const yeoroSwitch = () => {
-  yeoroBtn.classList.toggle('home-container__quest--gray');
+const modalOpen = () => $modal.classList.remove('modal--hidden');
+const modalClose = () => $modal.classList.add('modal--hidden');
+
+const openModal = () => {
+  $modalInput.value = '';
+  modalOpen();
 };
 
-const chuChuSwitch = () => {
-  chuChuIsland.classList.toggle('home-container__quest--gray');
+const addCharacter = () => {
+  const nickname = $modalInput.value;
+
+  const newTh = document.createElement('th');
+  newTh.innerText = nickname;
+  $characterName.appendChild(newTh);
+
+  $questName.forEach((element) => {
+    const td = document.createElement('td');
+    td.innerHTML = '<input type="checkbox" />';
+    element.appendChild(td);
+  });
+
+  modalClose();
 };
 
-const lacheleinSwitch = () => {
-  lachelein.classList.toggle('home-container__quest--gray');
+const addCharacterEnter = (e) => {
+  if (e.keyCode === 13 && $modalInput.value !== '') {
+    e.preventDefault();
+    $modalSubmitBtn.click();
+  }
 };
 
-const arcanaSwitch = () => {
-  arcana.classList.toggle('home-container__quest--gray');
+const deleteCharacter = () => {
+  console.log('삭제');
+  modalClose();
 };
 
-const morassSwitch = () => {
-  morass.classList.toggle('home-container__quest--gray');
+const modalCancel = () => {
+  modalClose();
 };
 
-const esferaSwitch = () => {
-  esfera.classList.toggle('home-container__quest--gray');
-};
-
-const cerniumSwitch = () => {
-  cernium.classList.toggle('home-container__quest--gray');
-};
-
-const burningCerniumSwitch = () => {
-  burningCernium.classList.toggle('home-container__quest--gray');
-};
-
-const hotelArcsSwitch = () => {
-  hotelArcs.classList.toggle('home-container__quest--gray');
-};
-
-const odiumSwitch = () => {
-  odium.classList.toggle('home-container__quest--gray');
-};
-
-yeoroBtn.addEventListener('click', yeoroSwitch);
-chuChuIsland.addEventListener('click', chuChuSwitch);
-lachelein.addEventListener('click', lacheleinSwitch);
-arcana.addEventListener('click', arcanaSwitch);
-morass.addEventListener('click', morassSwitch);
-esfera.addEventListener('click', esferaSwitch);
-cernium.addEventListener('click', cerniumSwitch);
-burningCernium.addEventListener('click', burningCerniumSwitch);
-hotelArcs.addEventListener('click', hotelArcsSwitch);
-odium.addEventListener('click', odiumSwitch);
+$characterPlusBtn.addEventListener('click', openModal);
+$characterDeleteBtn.addEventListener('click', deleteCharacter);
+$modalInput.addEventListener('keydown', addCharacterEnter);
+$modalSubmitBtn.addEventListener('click', addCharacter);
+$modalCancelBtn.addEventListener('click', modalCancel);
