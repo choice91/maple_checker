@@ -10,29 +10,54 @@ const $modal = document.querySelector('.modal');
 const $modalInput = document.querySelector('.modal__input');
 const $modalSubmitBtn = document.querySelector('.modal__submit');
 const $modalCancelBtn = document.querySelector('.modal__cancel');
+const $modalErrorMsg = document.querySelector('.modal__error-msg');
 
-const modalOpen = () => $modal.classList.remove('modal--hidden');
-const modalClose = () => $modal.classList.add('modal--hidden');
+const hiddenModal = () => $modal.classList.add('hidden');
+const showErrorMsg = () => $modalErrorMsg.classList.remove('hidden');
+const hiddenErrorMsg = () => $modalErrorMsg.classList.add('hidden');
 
 const openModal = () => {
   $modalInput.value = '';
-  modalOpen();
+  $modal.classList.remove('hidden');
 };
 
-const addCharacter = () => {
+const addCharacter = async () => {
   const nickname = $modalInput.value;
 
-  const newTh = document.createElement('th');
-  newTh.innerText = nickname;
-  $characterName.appendChild(newTh);
+  try {
+    const response = await (
+      await fetch('/quest/nickname', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          nickname,
+        }),
+      })
+    ).json();
 
-  $questName.forEach((element) => {
-    const td = document.createElement('td');
-    td.innerHTML = '<input type="checkbox" />';
-    element.appendChild(td);
-  });
+    if (!response.ok) {
+      showErrorMsg();
+      $modalErrorMsg.textContent = response.message;
+      return;
+    }
 
-  modalClose();
+    const newTh = document.createElement('th');
+    newTh.innerText = nickname;
+    $characterName.appendChild(newTh);
+
+    $questName.forEach((element) => {
+      const td = document.createElement('td');
+      td.innerHTML = '<input type="checkbox" />';
+      element.appendChild(td);
+    });
+
+    hiddenModal();
+  } catch (err) {
+    console.error(err);
+    alert('알 수 없는 에러 발생. 다시 시도해주세요.');
+  }
 };
 
 const addCharacterEnter = (e) => {
@@ -44,11 +69,12 @@ const addCharacterEnter = (e) => {
 
 const deleteCharacter = () => {
   console.log('삭제');
-  modalClose();
+  hiddenModal();
 };
 
 const modalCancel = () => {
-  modalClose();
+  hiddenModal();
+  hiddenErrorMsg();
 };
 
 $characterPlusBtn.addEventListener('click', openModal);
