@@ -1,9 +1,9 @@
 export const isLoggedIn = (req, res, next) => {
   if (req.session.loggedIn) {
     return next();
-  } else {
-    return res.redirect('/login');
   }
+
+  return res.redirect('/login');
 };
 
 export const localsMiddleware = (req, res, next) => {
