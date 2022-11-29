@@ -1,8 +1,11 @@
 module.exports = {
-  parser: '@babel/eslint-parser',
   parserOptions: {
     ecmaVersion: 12,
     sourceType: 'module',
+  },
+  globals: {
+    window: true,
+    document: true,
   },
   env: {
     node: true,
