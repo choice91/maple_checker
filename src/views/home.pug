@@ -1,4 +1,5 @@
 extends base.pug
+include mixins/table-column.pug
 
 block content
     div.home-container
@@ -9,31 +10,21 @@ block content
         div.home-container__quest
             button.home-container__add-character 캐릭터추가
             button.home-container__delete-character 캐릭터삭제
-            table
-                thead
-                    tr
-                        th &nbsp;
-                tbody
-                    tr
-                        td 소멸의 여로
-                    tr
-                        td 츄츄 아일랜드
-                    tr
-                        td 레헬른
-                    tr
-                        td 아르카나
-                    tr
-                        td 모라스
-                    tr
-                        td 에스페라
-                    tr
-                        td 세르니움(전)
-                    tr
-                        td 세르니움(후)
-                    tr
-                        td 호텔 아르크스
-                    tr
-                        td 오디움
+            div.home-container__table
+                ul.home-container__column
+                    li &nbsp;
+                    li 여로
+                    li 츄츄
+                    li 레헬른
+                    li 아르카나
+                    li 모라스
+                    li 에스페라
+                    li 세르니움(전)
+                    li 세르니움(후)
+                    li 호텔 아르크스
+                    li 오디움
+                each quest in quests
+                    +tableColumn(quest)
     include partials/modal.pug
 
 block script

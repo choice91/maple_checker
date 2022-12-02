@@ -37,6 +37,20 @@
     overflow: auto;
     overflow-y: hidden;
 
+    .home-container__table {
+      display: flex;
+      text-align: center;
+
+      ul {
+        margin: 0;
+        padding: 0;
+      }
+
+      li {
+        border: 1px solid $black;
+      }
+    }
+
     table {
       width: auto;
       white-space: nowrap;
