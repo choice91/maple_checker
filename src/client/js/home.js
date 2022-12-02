@@ -4,8 +4,7 @@ const $characterPlusBtn = document.querySelector(
 const $characterDeleteBtn = document.querySelector(
   '.home-container__delete-character'
 );
-const $characterName = document.querySelector('thead > tr');
-const $questName = document.querySelectorAll('tbody > tr');
+const $table = document.querySelector('.home-container__table');
 const $modal = document.querySelector('.modal');
 const $modalInput = document.querySelector('.modal__input');
 const $modalSubmitBtn = document.querySelector('.modal__submit');
@@ -43,15 +42,18 @@ const addCharacter = async () => {
       return;
     }
 
-    const newTh = document.createElement('th');
-    newTh.innerText = nickname;
-    $characterName.appendChild(newTh);
+    const ul = document.createElement('ul');
+    const nicknameBlock = document.createElement('li');
+    nicknameBlock.innerText = nickname;
+    ul.appendChild(nicknameBlock);
 
-    $questName.forEach((element) => {
-      const td = document.createElement('td');
-      td.innerHTML = '<input type="checkbox" />';
-      element.appendChild(td);
-    });
+    for (let i = 0; i < 10; i += 1) {
+      const li = document.createElement('li');
+      li.innerHTML = '<input type="checkbox" />';
+      ul.appendChild(li);
+    }
+
+    $table.appendChild(ul);
 
     hiddenModal();
   } catch (err) {
