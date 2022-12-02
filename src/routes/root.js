@@ -7,9 +7,9 @@ import {
   getLogin,
   postLogin,
   logout,
-} from '../controllers/user.js';
-import { home } from '../controllers/home.js';
-import { isLoggedIn } from '../middlewares.js';
+} from '../controllers/user';
+import { home } from '../controllers/home';
+import { isLoggedIn } from '../middlewares';
 
 const rootRouter = express.Router();
 
