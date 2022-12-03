@@ -24,7 +24,7 @@ const questSchema = new mongoose.Schema(
       morass: { type: Boolean, default: false },
       esfera: { type: Boolean, default: false },
       cernium: { type: Boolean, default: false },
-      buringCernium: { type: Boolean, default: false },
+      burningCernium: { type: Boolean, default: false },
       arcs: { type: Boolean, default: false },
       odium: { type: Boolean, default: false },
     },
