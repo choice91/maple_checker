@@ -8,7 +8,7 @@ import routes from './routes/index';
 const app = express();
 
 app.set('view engine', 'pug');
-app.set('views', process.cwd() + '/src/views');
+app.set('views', `${process.cwd()}/src/views`);
 
 app.use(logger('dev'));
 app.use(express.urlencoded({ extended: true }));
