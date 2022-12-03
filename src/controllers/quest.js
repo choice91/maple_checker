@@ -49,3 +49,34 @@ export const getDailyQuest = async (req, res) => {
     res.status(404);
   }
 };
+
+export const questComplete = async (req, res) => {
+  const {
+    session: {
+      user: { _id: loginUserId },
+    },
+    body: { nickname, questType },
+  } = req;
+
+  try {
+    const quest = await db.Quest.findOne({ owner: loginUserId, nickname });
+
+    if (!quest) {
+      res.status(404).json({
+        ok: false,
+        message: '존재하지 않는 캐릭터입니다.',
+      });
+      return;
+    }
+
+    quest.quests[`${questType}`] = !quest.quests[`${questType}`];
+    await quest.save();
+
+    res.status(200).json({
+      ok: true,
+      message: quest.quests[`${questType}`] ? '완료' : '취소',
+    });
+  } catch (err) {
+    res.status(404);
+  }
+};
