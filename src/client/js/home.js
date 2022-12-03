@@ -10,6 +10,16 @@ const $modalInput = document.querySelector('.modal__input');
 const $modalSubmitBtn = document.querySelector('.modal__submit');
 const $modalCancelBtn = document.querySelector('.modal__cancel');
 const $modalErrorMsg = document.querySelector('.modal__error-msg');
+const $yeoro = document.querySelectorAll('.yeoro');
+const $chuchu = document.querySelectorAll('.chuchu');
+const $lachelein = document.querySelectorAll('.lachelein');
+const $arcana = document.querySelectorAll('.arcana');
+const $morass = document.querySelectorAll('.morass');
+const $esfera = document.querySelectorAll('.esfera');
+const $cernium = document.querySelectorAll('.cernium');
+const $burningCernium = document.querySelectorAll('.burning-cernium');
+const $arcs = document.querySelectorAll('.arcs');
+const $odium = document.querySelectorAll('.odium');
 
 const hiddenModal = () => $modal.classList.add('hidden');
 const showErrorMsg = () => $modalErrorMsg.classList.remove('hidden');
@@ -79,8 +89,39 @@ const modalCancel = () => {
   hiddenErrorMsg();
 };
 
+const checkbox = async (e) => {
+  console.log(e.target.getAttribute('name'), e.target.value, e.target.checked);
+  const nickname = e.target.value;
+  const questType = e.target.getAttribute('name');
+
+  const response = await fetch('/quest', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      nickname,
+      questType,
+    }),
+  });
+  const responseJson = await response.json();
+  console.log(responseJson);
+};
+
 $characterPlusBtn.addEventListener('click', openModal);
 $characterDeleteBtn.addEventListener('click', deleteCharacter);
 $modalInput.addEventListener('keydown', addCharacterEnter);
 $modalSubmitBtn.addEventListener('click', addCharacter);
 $modalCancelBtn.addEventListener('click', modalCancel);
+$yeoro.forEach((element) => element.addEventListener('click', checkbox));
+$chuchu.forEach((element) => element.addEventListener('click', checkbox));
+$lachelein.forEach((element) => element.addEventListener('click', checkbox));
+$arcana.forEach((element) => element.addEventListener('click', checkbox));
+$morass.forEach((element) => element.addEventListener('click', checkbox));
+$esfera.forEach((element) => element.addEventListener('click', checkbox));
+$cernium.forEach((element) => element.addEventListener('click', checkbox));
+$burningCernium.forEach((element) =>
+  element.addEventListener('click', checkbox)
+);
+$arcs.forEach((element) => element.addEventListener('click', checkbox));
+$odium.forEach((element) => element.addEventListener('click', checkbox));
