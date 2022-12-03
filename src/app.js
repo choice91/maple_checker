@@ -25,4 +25,13 @@ app.use(
 app.use('/static', express.static('assets'));
 app.use('/', routes);
 
+app.use((error, req, res, next) => {
+  const errorStatus = error.statusCode || 500;
+
+  res.status(errorStatus).json({
+    message: 'Server Error',
+    error,
+  });
+});
+
 export default app;
