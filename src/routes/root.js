@@ -9,15 +9,15 @@ import {
   logout,
 } from '../controllers/user';
 import { home } from '../controllers/home';
-import { isLoggedIn } from '../middlewares';
+import { asyncHandler, isLoggedIn } from '../middlewares';
 
 const rootRouter = express.Router();
 
-rootRouter.route('/').all(isLoggedIn).get(home);
-rootRouter.route('/login').get(getLogin).post(postLogin);
+rootRouter.route('/').all(isLoggedIn).get(asyncHandler(home));
+rootRouter.route('/login').get(getLogin).post(asyncHandler(postLogin));
 rootRouter.route('/logout').get(logout);
-rootRouter.route('/join').get(getJoin).post(postJoin);
-rootRouter.route('/id-check').post(idCheck);
+rootRouter.route('/join').get(getJoin).post(asyncHandler(postJoin));
+rootRouter.route('/id-check').post(asyncHandler(idCheck));
 
 // module.exports = rootRouter;
 export default rootRouter;

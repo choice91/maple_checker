@@ -90,22 +90,25 @@ const modalCancel = () => {
 };
 
 const checkbox = async (e) => {
-  console.log(e.target.getAttribute('name'), e.target.value, e.target.checked);
   const nickname = e.target.value;
   const questType = e.target.getAttribute('name');
 
-  const response = await fetch('/quest', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      nickname,
-      questType,
-    }),
-  });
-  const responseJson = await response.json();
-  console.log(responseJson);
+  try {
+    const response = await fetch('/quest', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        nickname,
+        questType,
+      }),
+    });
+    const responseJson = await response.json();
+    console.log(responseJson);
+  } catch (err) {
+    console.error(err);
+  }
 };
 
 $characterPlusBtn.addEventListener('click', openModal);

@@ -1,6 +1,6 @@
 import express from 'express';
 
-import { isLoggedIn } from '../middlewares';
+import { asyncHandler, isLoggedIn } from '../middlewares';
 import {
   questComplete,
   getDailyQuest,
@@ -9,7 +9,11 @@ import {
 
 const questRouter = express.Router();
 
-questRouter.route('/').all(isLoggedIn).get(getDailyQuest).post(questComplete);
-questRouter.route('/nickname').all(isLoggedIn).post(saveNickname);
+questRouter
+  .route('/')
+  .all(isLoggedIn)
+  .get(asyncHandler(getDailyQuest))
+  .post(asyncHandler(questComplete));
+questRouter.route('/nickname').all(isLoggedIn).post(asyncHandler(saveNickname));
 
 export default questRouter;
