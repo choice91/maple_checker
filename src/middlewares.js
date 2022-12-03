@@ -11,3 +11,11 @@ export const localsMiddleware = (req, res, next) => {
   res.locals.user = req.session.user;
   next();
 };
+
+export const asyncHandler = (fn) => async (req, res, next) => {
+  try {
+    await fn(req, res, next);
+  } catch (err) {
+    next(err);
+  }
+};
