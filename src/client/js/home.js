@@ -45,7 +45,7 @@ const addCharacter = async () => {
     }
 
     const th = document.createElement('th');
-    th.textContent = nickname;
+    th.innerHTML = `<span>${nickname}</span><i class="material-icons">delete</i>`;
     $tableTheadTr.appendChild(th);
 
     const questTypes = [
