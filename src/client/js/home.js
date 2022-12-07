@@ -1,9 +1,6 @@
 const $characterPlusBtn = document.querySelector(
   '.home-container__add-character'
 );
-const $characterDeleteBtn = document.querySelector(
-  '.home-container__delete-character'
-);
 const $tableTheadTr = document.querySelector('table > thead > tr');
 const $tableTbodyTr = document.querySelectorAll('table > tbody > tr');
 const $modal = document.querySelector('.modal');
@@ -83,11 +80,6 @@ const addCharacterEnter = (e) => {
   }
 };
 
-const deleteCharacter = () => {
-  console.log('삭제');
-  hiddenModal();
-};
-
 const modalCancel = () => {
   hiddenModal();
   hiddenErrorMsg();
@@ -139,7 +131,6 @@ const checkbox = async (e) => {
 };
 
 $characterPlusBtn.addEventListener('click', openModal);
-$characterDeleteBtn.addEventListener('click', deleteCharacter);
 $modalInput.addEventListener('keydown', addCharacterEnter);
 $modalSubmitBtn.addEventListener('click', addCharacter);
 $modalCancelBtn.addEventListener('click', modalCancel);
