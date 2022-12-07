@@ -10,16 +10,7 @@ const $modalInput = document.querySelector('.modal__input');
 const $modalSubmitBtn = document.querySelector('.modal__submit');
 const $modalCancelBtn = document.querySelector('.modal__cancel');
 const $modalErrorMsg = document.querySelector('.modal__error-msg');
-const $yeoro = document.querySelectorAll('.yeoro');
-const $chuchu = document.querySelectorAll('.chuchu');
-const $lachelein = document.querySelectorAll('.lachelein');
-const $arcana = document.querySelectorAll('.arcana');
-const $morass = document.querySelectorAll('.morass');
-const $esfera = document.querySelectorAll('.esfera');
-const $cernium = document.querySelectorAll('.cernium');
-const $burningCernium = document.querySelectorAll('.burning-cernium');
-const $arcs = document.querySelectorAll('.arcs');
-const $odium = document.querySelectorAll('.odium');
+const $checkboxBtn = document.querySelectorAll('tbody > tr > td > button');
 
 const hiddenModal = () => $modal.classList.add('hidden');
 const showErrorMsg = () => $modalErrorMsg.classList.remove('hidden');
@@ -68,7 +59,7 @@ const addCharacter = async () => {
     hiddenModal();
   } catch (err) {
     console.error(err);
-    alert('알 수 없는 에러 발생. 다시 시도해주세요.');
+    window.alert('알 수 없는 에러 발생. 다시 시도해주세요.');
   }
 };
 
@@ -90,8 +81,26 @@ const modalCancel = () => {
 };
 
 const checkbox = async (e) => {
-  const nickname = e.target.value;
-  const questType = e.target.getAttribute('name');
+  console.log(
+    e.currentTarget.value,
+    e.currentTarget.getAttribute('name'),
+    e.currentTarget.firstChild.textContent
+  );
+
+  const checkStatus = e.currentTarget.firstChild.textContent;
+
+  if (checkStatus === 'check_box') {
+    e.currentTarget.firstChild.textContent = 'check_box_outline_blank';
+    e.currentTarget.firstChild.classList.remove('checkbox--blue');
+    e.currentTarget.firstChild.classList.add('checkbox--white');
+  } else if (checkStatus === 'check_box_outline_blank') {
+    e.currentTarget.firstChild.textContent = 'check_box';
+    e.currentTarget.firstChild.classList.remove('checkbox--white');
+    e.currentTarget.firstChild.classList.add('checkbox--blue');
+  }
+
+  const nickname = e.currentTarget.name;
+  const questType = e.currentTarget.value;
 
   try {
     const response = await fetch('/quest', {
@@ -104,8 +113,13 @@ const checkbox = async (e) => {
         questType,
       }),
     });
-    const responseJson = await response.json();
-    console.log(responseJson);
+
+    const responseJSON = await response.json();
+    console.log(responseJSON);
+
+    if (!responseJSON.ok) {
+      window.alert('서버 에러. 다시 시도해주세요.');
+    }
   } catch (err) {
     console.error(err);
   }
@@ -116,15 +130,5 @@ $characterDeleteBtn.addEventListener('click', deleteCharacter);
 $modalInput.addEventListener('keydown', addCharacterEnter);
 $modalSubmitBtn.addEventListener('click', addCharacter);
 $modalCancelBtn.addEventListener('click', modalCancel);
-$yeoro.forEach((element) => element.addEventListener('click', checkbox));
-$chuchu.forEach((element) => element.addEventListener('click', checkbox));
-$lachelein.forEach((element) => element.addEventListener('click', checkbox));
-$arcana.forEach((element) => element.addEventListener('click', checkbox));
-$morass.forEach((element) => element.addEventListener('click', checkbox));
-$esfera.forEach((element) => element.addEventListener('click', checkbox));
-$cernium.forEach((element) => element.addEventListener('click', checkbox));
-$burningCernium.forEach((element) =>
-  element.addEventListener('click', checkbox)
-);
-$arcs.forEach((element) => element.addEventListener('click', checkbox));
-$odium.forEach((element) => element.addEventListener('click', checkbox));
+console.log($checkboxBtn);
+$checkboxBtn.forEach((element) => element.addEventListener('click', checkbox));
