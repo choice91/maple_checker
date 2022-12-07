@@ -55,6 +55,15 @@
           th:first-child {
             width: 100px;
           }
+
+          th {
+            i {
+              font-size: 17px;
+              cursor: pointer;
+              color: #9b9b9b;
+              padding-left: 5px;
+            }
+          }
         }
       }
 
