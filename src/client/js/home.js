@@ -4,7 +4,8 @@ const $characterPlusBtn = document.querySelector(
 const $characterDeleteBtn = document.querySelector(
   '.home-container__delete-character'
 );
-const $table = document.querySelector('.home-container__table');
+const $tableTheadTr = document.querySelector('table > thead > tr');
+const $tableTbodyTr = document.querySelectorAll('table > tbody > tr');
 const $modal = document.querySelector('.modal');
 const $modalInput = document.querySelector('.modal__input');
 const $modalSubmitBtn = document.querySelector('.modal__submit');
@@ -43,18 +44,30 @@ const addCharacter = async () => {
       return;
     }
 
-    const ul = document.createElement('ul');
-    const nicknameBlock = document.createElement('li');
-    nicknameBlock.innerText = nickname;
-    ul.appendChild(nicknameBlock);
+    const th = document.createElement('th');
+    th.textContent = nickname;
+    $tableTheadTr.appendChild(th);
 
-    for (let i = 0; i < 10; i += 1) {
-      const li = document.createElement('li');
-      li.innerHTML = '<input type="checkbox" />';
-      ul.appendChild(li);
-    }
+    const questTypes = [
+      'yeoro',
+      'chuchu',
+      'lachelein',
+      'arcana',
+      'morass',
+      'esfera',
+      'cernium',
+      'burningCernium',
+      'arcs',
+      'odium',
+    ];
 
-    $table.appendChild(ul);
+    $tableTbodyTr.forEach((element, index) => {
+      const td = document.createElement('td');
+      td.innerHTML = `<button name=${nickname} value=${questTypes[index]}>
+                        <i class="material-icons checkbox--white">check_box_outline_blank</i>
+                      </button>`;
+      element.appendChild(td);
+    });
 
     hiddenModal();
   } catch (err) {
