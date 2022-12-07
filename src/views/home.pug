@@ -1,5 +1,6 @@
 extends base.pug
-include mixins/table-column.pug
+include mixins/table-nicknames.pug
+include mixins/table-body.pug
 
 block content
     div.home-container
@@ -10,21 +11,14 @@ block content
         div.home-container__quest
             button.home-container__add-character 캐릭터추가
             button.home-container__delete-character 캐릭터삭제
-            div.home-container__table
-                ul.home-container__column
-                    li &nbsp;
-                    li 여로
-                    li 츄츄
-                    li 레헬른
-                    li 아르카나
-                    li 모라스
-                    li 에스페라
-                    li 세르니움(전)
-                    li 세르니움(후)
-                    li 호텔 아르크스
-                    li 오디움
-                each quest in quests
-                    +tableColumn(quest)
+            table
+                thead
+                    tr
+                        th &nbsp;
+                         each quest in quests
+                             +nicknames(quest)
+                tbody
+                    +tableBody(quests)
     include partials/modal.pug
 
 block script
