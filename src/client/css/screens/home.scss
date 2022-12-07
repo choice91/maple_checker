@@ -1,7 +1,6 @@
 .home-container {
   width: 100%;
   margin: 0 auto;
-  box-sizeing: border-box;
 
   .home-container__menu {
     display: flex;
@@ -107,8 +106,9 @@
 
 @media screen and (min-width: 768px) and (max-width: 1199px) {
   .home-container {
-    max-width: 960px;
+    width: 100%;
     padding: 0 30px;
+    box-sizing: border-box;
 
     .home-container__menu > li {
       width: calc(20% - 8px);
