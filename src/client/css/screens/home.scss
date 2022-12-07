@@ -57,12 +57,25 @@
           }
 
           th {
+            padding: 10px 0px;
+            border-radius: 5px;
+            transition: background-color 0.1s ease-in-out;
+
             i {
               font-size: 17px;
               cursor: pointer;
               color: #9b9b9b;
               padding-left: 5px;
+              transition: color 0.1s ease-in-out;
             }
+
+            i:hover {
+              color: $red;
+            }
+          }
+
+          th:hover {
+            background-color: #333333;
           }
         }
       }
@@ -81,6 +94,7 @@
               height: 100%;
               background-color: $table-bg;
               border: 1px solid $table-bg;
+              transition: all 0.1s ease-in-out;
             }
 
             button:hover {
