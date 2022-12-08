@@ -42,7 +42,11 @@ const addCharacter = async () => {
     }
 
     const th = document.createElement('th');
-    th.innerHTML = `<span>${nickname}</span><i class="material-icons">delete</i>`;
+    th.innerHTML = `<div>${nickname}</div>
+                    <div>
+                      <i class="material-icons">create</i>
+                      <i class="material-icons">delete</i>
+                    </div>`;
     $tableTheadTr.appendChild(th);
 
     const questTypes = [
@@ -134,5 +138,4 @@ $characterPlusBtn.addEventListener('click', openModal);
 $modalInput.addEventListener('keydown', addCharacterEnter);
 $modalSubmitBtn.addEventListener('click', addCharacter);
 $modalCancelBtn.addEventListener('click', modalCancel);
-console.log($checkboxBtn);
 $checkboxBtn.forEach((element) => element.addEventListener('click', checkbox));
