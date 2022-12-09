@@ -1,0 +1,19 @@
+doctype html
+
+html(lang="ko")
+    head
+        meta(charset="UTF-8")
+        title Maple Helper
+        //link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css")
+        link(rel="stylesheet", href="https://fonts.googleapis.com/icon?family=Material+Icons")
+        link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css")
+        link(rel="stylesheet", href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap")
+        link(rel="stylesheet", href="/static/css/styles.css")
+        block stylesheet
+    body
+        if loggedIn
+            include partials/header
+        main
+            block content
+
+    block script

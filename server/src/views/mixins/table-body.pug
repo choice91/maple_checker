@@ -1,0 +1,61 @@
+mixin tableBody(data)
+    tr
+        td 소멸의 여로
+        each d in data
+            td
+                button(name=`${d.nickname}`, value='yeoro')
+                    i.material-icons(class=`checkbox--${d.quests.yeoro ? 'blue' : 'white'}`) #{d.quests.yeoro ? 'check_box' : 'check_box_outline_blank'}
+    tr
+        td 츄츄 아일랜드
+        each d in data
+            td
+                button(name=`${d.nickname}`, value='chuchu')
+                    i.material-icons(class=`checkbox--${d.quests.chuchu ? 'blue' : 'white'}`) #{d.quests.chuchu ? 'check_box' : 'check_box_outline_blank'}
+    tr
+        td 레헬른
+        each d in data
+            td
+                button(name=`${d.nickname}`, value='lachelein')
+                    i.material-icons(class=`checkbox--${d.quests.lachelein ? 'blue' : 'white'}`) #{d.quests.lachelein ? 'check_box' : 'check_box_outline_blank'}
+    tr
+        td 아르카나
+        each d in data
+            td
+                button(name=`${d.nickname}`, value='arcana')
+                    i.material-icons(class=`checkbox--${d.quests.arcana ? 'blue' : 'white'}`) #{d.quests.arcana ? 'check_box' : 'check_box_outline_blank'}
+    tr
+        td 모라스
+        each d in data
+            td
+                button(name=`${d.nickname}`, value='morass')
+                    i.material-icons(class=`checkbox--${d.quests.morass ? 'blue' : 'white'}`) #{d.quests.morass ? 'check_box' : 'check_box_outline_blank'}
+    tr
+        td 에스페라
+        each d in data
+            td
+                button(name=`${d.nickname}`, value='esfera')
+                    i.material-icons(class=`checkbox--${d.quests.esfera ? 'blue' : 'white'}`) #{d.quests.esfera ? 'check_box' : 'check_box_outline_blank'}
+    tr
+        td 세르니움(전)
+        each d in data
+            td
+                button(name=`${d.nickname}`, value='cernium')
+                    i.material-icons(class=`checkbox--${d.quests.cernium ? 'blue' : 'white'}`) #{d.quests.cernium ? 'check_box' : 'check_box_outline_blank'}
+    tr
+        td 세르니움(후)
+        each d in data
+            td
+                button(name=`${d.nickname}`, value='burningCernium')
+                    i.material-icons(class=`checkbox--${d.quests.burningCernium ? 'blue' : 'white'}`) #{d.quests.burningCernium ? 'check_box' : 'check_box_outline_blank'}
+    tr
+        td 호텔 아르크스
+        each d in data
+            td
+                button(name=`${d.nickname}`, value='arcs')
+                    i.material-icons(class=`checkbox--${d.quests.arcs ? 'blue' : 'white'}`) #{d.quests.arcs ? 'check_box' : 'check_box_outline_blank'}
+    tr
+        td 오디움
+        each d in data
+            td
+                button(name=`${d.nickname}`, value='odium')
+                    i.material-icons(class=`checkbox--${d.quests.odium ? 'blue' : 'white'}`) #{d.quests.odium ? 'check_box' : 'check_box_outline_blank'}
