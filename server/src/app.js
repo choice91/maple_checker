@@ -17,6 +17,7 @@ const corsOptions = {
       callback(new Error('Not allowed by CORS'));
     }
   },
+  credentials: true,
 };
 
 app.set('view engine', 'pug');
@@ -32,6 +33,9 @@ app.use(
     resave: false,
     saveUninitialized: false,
     store: MongoStore.create({ mongoUrl: process.env.DB_URL }),
+    cookie: {
+      maxAge: 3.6e6 * 24,
+    },
   })
 );
 
