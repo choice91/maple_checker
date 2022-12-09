@@ -67,7 +67,8 @@ export const postLogin = async (req, res) => {
   const user = await User.findOne({ id });
 
   if (!user) {
-    res.status(400).render('login', {
+    res.status(400).json({
+      ok: false,
       errorMessage: '존재하지 않는 유저입니다.',
     });
     return;
@@ -76,8 +77,9 @@ export const postLogin = async (req, res) => {
   const pwCompare = await bcrypt.compare(password, user.password);
 
   if (!pwCompare) {
-    res.status(400).render('login', {
-      errorMessage: '비밀번호가 틀렸습니다.',
+    res.status(400).json({
+      ok: false,
+      errorMessage: '비밀번호가 틀렸습니다',
     });
     return;
   }
@@ -85,7 +87,10 @@ export const postLogin = async (req, res) => {
   req.session.loggedIn = true;
   req.session.user = user;
 
-  res.redirect('/quest');
+  res.status(200).json({
+    ok: true,
+    message: '로그인 성공',
+  });
 };
 
 export const logout = (req, res) => {

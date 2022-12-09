@@ -1,4 +1,4 @@
-import db from '../models/index';
+import db from '../models';
 
 export const saveNickname = async (req, res) => {
   const {
@@ -28,6 +28,30 @@ export const saveNickname = async (req, res) => {
   res.status(200).json({
     ok: true,
     message: '캐릭터 추가 완료',
+  });
+};
+
+export const deleteCharacter = async (req, res) => {
+  const {
+    session: {
+      user: { _id: loginUserId },
+    },
+    body: { nickname },
+  } = req;
+
+  const response = await db.Quest.deleteOne({ owner: loginUserId, nickname });
+
+  if (response.deletedCount !== 1) {
+    res.status(400).json({
+      ok: false,
+      message: '삭제중 오류가 발생했습니다. 다시 시도해주세요.',
+    });
+    return;
+  }
+
+  res.status(200).json({
+    ok: true,
+    message: '닉네임 변경 성공',
   });
 };
 

@@ -1,6 +1,6 @@
-extends base.pug
-include mixins/table-nicknames.pug
-include mixins/table-body.pug
+extends base
+include mixins/table-nicknames
+include mixins/table-body
 
 block content
     div.home-container
@@ -10,15 +10,15 @@ block content
             li 이벤트
         div.home-container__quest
             button.home-container__add-character 캐릭터추가
-            table
+            table.home-container__quest-table
                 thead
                     tr
                         th &nbsp;
-                         each quest in quests
-                             +nicknames(quest)
+                          each quest in quests
+                              +nicknames(quest)
                 tbody
                     +tableBody(quests)
-    include partials/modal.pug
+    include partials/modal
 
 block script
     script(src="/static/js/home.js")
