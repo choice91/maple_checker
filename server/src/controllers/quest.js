@@ -56,11 +56,12 @@ export const deleteCharacter = async (req, res) => {
 };
 
 export const getDailyQuest = async (req, res) => {
-  const { _id: loginUserId } = req.session.user;
+  const { id: loginUserId } = req.user;
 
   const quest = await db.Quest.find({ owner: loginUserId });
 
-  res.render('home', {
+  res.status(200).json({
+    ok: true,
     quests: quest,
   });
 };

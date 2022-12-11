@@ -1,10 +1,7 @@
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 
-import User from '../models/user';
-
-export const getJoin = (req, res) => {
-  res.render('join');
-};
+import db from '../models';
 
 export const postJoin = async (req, res) => {
   const { id, password, password2, name } = req.body;
@@ -16,7 +13,7 @@ export const postJoin = async (req, res) => {
     return;
   }
 
-  const exists = await User.exists({
+  const exists = await db.User.exists({
     id,
   });
 
@@ -29,7 +26,7 @@ export const postJoin = async (req, res) => {
 
   const hashedPassword = await bcrypt.hash(password, 12);
 
-  await User.create({
+  await db.User.create({
     id,
     password: hashedPassword,
     name,
@@ -41,7 +38,7 @@ export const postJoin = async (req, res) => {
 export const idCheck = async (req, res) => {
   const { id } = req.body;
 
-  const exists = await User.exists({ id });
+  const exists = await db.User.exists({ id });
 
   if (exists) {
     res.status(409).json({
@@ -57,14 +54,10 @@ export const idCheck = async (req, res) => {
   });
 };
 
-export const getLogin = (req, res) => {
-  res.render('login');
-};
-
 export const postLogin = async (req, res) => {
   const { id, password } = req.body;
 
-  const user = await User.findOne({ id });
+  const user = await db.User.findOne({ id });
 
   if (!user) {
     res.status(400).json({
@@ -84,12 +77,21 @@ export const postLogin = async (req, res) => {
     return;
   }
 
-  req.session.loggedIn = true;
-  req.session.user = user;
+  const payload = {
+    id: user._id,
+    username: user.name,
+  };
+
+  const options = { expiresIn: '1h' };
+
+  const accessToken = await jwt.sign(payload, process.env.JWT_SECRET, options);
 
   res.status(200).json({
     ok: true,
     message: '로그인 성공',
+    token: {
+      accessToken,
+    },
   });
 };
 
