@@ -7,7 +7,8 @@ export const postJoin = async (req, res) => {
   const { id, password, password2, name } = req.body;
 
   if (password !== password2) {
-    res.status(400).render('join', {
+    res.status(400).json({
+      ok: false,
       errorMessage: '비밀번호가 일치하지 않습니다.',
     });
     return;
@@ -18,7 +19,8 @@ export const postJoin = async (req, res) => {
   });
 
   if (exists) {
-    res.status(400).render('join', {
+    res.status(400).json({
+      ok: false,
       errorMessage: '이미 존재하는 아이디입니다.',
     });
     return;
@@ -32,7 +34,10 @@ export const postJoin = async (req, res) => {
     name,
   });
 
-  res.status(200).redirect('/login');
+  res.status(200).json({
+    ok: true,
+    message: '회원가입 성공',
+  });
 };
 
 export const idCheck = async (req, res) => {
@@ -43,7 +48,7 @@ export const idCheck = async (req, res) => {
   if (exists) {
     res.status(409).json({
       ok: false,
-      message: 'ID가 죽복입니다.',
+      message: 'ID가 중복입니다.',
     });
     return;
   }
