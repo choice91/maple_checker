@@ -40,7 +40,10 @@ export const login = createAsyncThunk(
 export const signUp = createAsyncThunk(
   'user/signUp',
   async (payload, thunkAPI) => {
-    const { id, pw, pw2, name } = payload;
+    const {
+      data: { id, pw, pw2, name },
+      navigate,
+    } = payload;
 
     try {
       const response = await instance.post('/join', {
@@ -56,11 +59,13 @@ export const signUp = createAsyncThunk(
   }
 );
 
-export const loginCheck = createAsyncThunk(
-  'user/loginCheck',
+export const idCheck = createAsyncThunk(
+  'user/idCheck',
   async (payload, thunkAPI) => {
+    const { id } = payload;
+
     try {
-      const response = await instance.get('/auth-check');
+      const response = await instance.post('id-check', { id });
       return response.data;
     } catch (err) {
       return thunkAPI.rejectWithValue(err.response.data);
