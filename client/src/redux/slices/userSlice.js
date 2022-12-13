@@ -1,49 +1,66 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { login, idCheck } from '../async/user';
+import { login, signUp, idCheck } from '../async/user';
 
 export const userSlice = createSlice({
   name: 'user',
   initialState: {
     id: null,
     username: null,
-    isFetching: false,
+    isLoginFetching: false,
+    isSignUpFetching: false,
+    isIdDupFetching: false,
     isLoggedIn: false,
-    checkIdDupLoading: false,
-    checkIdDupResult: null,
-    checkIdDupMessage: null,
-    checkIdDupColor: '',
+    idDupMsg: null,
+    idDupColor: '',
     errorMessage: null,
   },
   reducers: {},
   extraReducers: {
+    // 로그인
     [login.pending]: (state, { payload }) => {
-      state.isFetching = true;
+      state.isLoginFetching = true;
     },
     [login.fulfilled]: (state, { payload }) => {
-      state.isFetching = false;
+      state.isLoginFetching = false;
       state.isLoggedIn = true;
       state.id = payload.id;
       state.username = payload.username;
     },
     [login.rejected]: (state, { payload }) => {
-      state.isFetching = false;
+      state.isLoginFetching = false;
     },
+
+    // 회원가입
+    [signUp.pending]: (state, { payload }) => {
+      state.isSignUpFetching = true;
+    },
+    [signUp.fulfilled]: (state, { payload }) => {
+      state.isSignUpFetching = false;
+    },
+    [signUp.rejected]: (state, { payload }) => {
+      state.isSignUpFetching = false;
+      if (payload.type === 'exist id') {
+        state.errorMessage = 'PW를 확인해주세요';
+      } else if (payload.type === 'password incorrect') {
+        state.errorMessage = 'ID 중복확인을 해주세요.';
+      }
+    },
+
+    // ID 중복확인
     [idCheck.pending]: (state, { payload }) => {
-      state.checkIdDupLoading = true;
+      state.isIdDupFetching = true;
     },
     [idCheck.fulfilled]: (state, { payload }) => {
       console.log(payload);
-      state.checkIdDupLoading = false;
-      state.checkIdDupResult = !payload.ok;
-      state.checkIdDupMessage = payload.message;
-      state.checkIdDupColor = 'blue';
+      state.isIdDupFetching = false;
+      state.idDupMsg = payload.message;
+      state.idDupColor = 'blue';
     },
     [idCheck.rejected]: (state, { payload }) => {
       console.error(payload);
-      state.checkIdDupLoading = false;
-      state.checkIdDupResult = !payload.ok;
-      state.checkIdDupMessage = payload.message;
-      state.checkIdDupColor = 'red';
+      state.isIdDupFetching = false;
+      state.idDupMsg = payload.message;
+      state.idDupColor = 'red';
     },
   },
 });

@@ -1,0 +1,32 @@
+.sign-up-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  min-height: 100vh;
+
+  .sign-up-container__form {
+    .sign-up-container__id-block,
+    .sign-up-container__pw-check-block {
+      display: flex;
+
+      div {
+        display: flex;
+        justify-content: center;
+        align-items: self-start;
+        flex-direction: column;
+      }
+    }
+
+    .sign-up-container__id-block {
+    }
+  }
+}
+
+.sign-up-container__msg--blue {
+  color: #3498db;
+}
+
+.sign-up-container__msg--red {
+  color: #e74c3c;
+}

@@ -52,8 +52,10 @@ export const signUp = createAsyncThunk(
         password2: pw2,
         name,
       });
-      console.log(response);
+      navigate('/login', { replace: false });
+      return response.data;
     } catch (err) {
+      console.error(err.response);
       return thunkAPI.rejectWithValue(err.response.data);
     }
   }
