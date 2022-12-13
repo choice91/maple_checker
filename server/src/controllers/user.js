@@ -9,6 +9,7 @@ export const postJoin = async (req, res) => {
   if (password !== password2) {
     res.status(400).json({
       ok: false,
+      type: 'password incorrect',
       errorMessage: '비밀번호가 일치하지 않습니다.',
     });
     return;
@@ -21,6 +22,7 @@ export const postJoin = async (req, res) => {
   if (exists) {
     res.status(400).json({
       ok: false,
+      type: 'exist id',
       errorMessage: '이미 존재하는 아이디입니다.',
     });
     return;
