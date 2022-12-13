@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 
 import { getQuests } from '../redux/async/quest';
 
+import Header from '../components/Header';
+
 const Main = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -14,7 +16,7 @@ const Main = () => {
 
   return (
     <>
-      <h2>메인화면</h2>
+      <Header />
     </>
   );
 };

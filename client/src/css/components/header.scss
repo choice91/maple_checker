@@ -1,0 +1,66 @@
+@import '../config/_variables.scss';
+
+.header {
+  border-bottom: 1px solid #e0e2e7;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 20px;
+
+  .header__title {
+    color: darkorange;
+    font-size: 25px;
+    font-weight: 600;
+    background-color: inherit;
+    border: none;
+    cursor: pointer;
+  }
+
+  .header__btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    li {
+      padding: 5px 10px;
+      border-radius: 7px;
+      margin-left: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+
+    .header__logout-btn {
+      color: white;
+      background-color: inherit;
+    }
+
+    .header__profile-btn {
+      color: $bg;
+      background-color: white;
+    }
+  }
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  li {
+    border: 1px solid white;
+    width: 100%;
+    text-align: center;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: 600;
+    padding: 5px 0;
+    transition: background-color 0.1s ease-in-out;
+  }
+
+  li:hover {
+    background-color: $hover-gray;
+  }
+}
