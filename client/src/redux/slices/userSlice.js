@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { login, loginCheck } from '../async/user';
+import { login, idCheck } from '../async/user';
 
 export const userSlice = createSlice({
   name: 'user',
@@ -8,6 +8,10 @@ export const userSlice = createSlice({
     username: null,
     isFetching: false,
     isLoggedIn: false,
+    checkIdDupLoading: false,
+    checkIdDupResult: null,
+    checkIdDupMessage: null,
+    checkIdDupColor: '',
     errorMessage: null,
   },
   reducers: {},
@@ -24,15 +28,22 @@ export const userSlice = createSlice({
     [login.rejected]: (state, { payload }) => {
       state.isFetching = false;
     },
-    [loginCheck.pending]: (state, { payload }) => {},
-    [loginCheck.fulfilled]: (state, { payload }) => {
-      state.isLoggedIn = true;
-      state.id = payload.userInfo.id;
-      state.username = payload.userInfo.username;
+    [idCheck.pending]: (state, { payload }) => {
+      state.checkIdDupLoading = true;
     },
-    [loginCheck.rejected]: (state, { payload }) => {
-      state.isLoggedIn = false;
-      state.errorMessage = payload.errorMessage;
+    [idCheck.fulfilled]: (state, { payload }) => {
+      console.log(payload);
+      state.checkIdDupLoading = false;
+      state.checkIdDupResult = !payload.ok;
+      state.checkIdDupMessage = payload.message;
+      state.checkIdDupColor = 'blue';
+    },
+    [idCheck.rejected]: (state, { payload }) => {
+      console.error(payload);
+      state.checkIdDupLoading = false;
+      state.checkIdDupResult = !payload.ok;
+      state.checkIdDupMessage = payload.message;
+      state.checkIdDupColor = 'red';
     },
   },
 });
