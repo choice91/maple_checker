@@ -1,13 +1,16 @@
-import React, { Component, useState } from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
 import { login } from '../redux/async/user';
 
 import '../css/pages/login.scss';
 
 const Login = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const [id, setId] = useState('');
   const [pw, setPw] = useState('');
-  const dispatch = useDispatch();
 
   const onChange = (e) => {
     const {
@@ -22,8 +25,8 @@ const Login = () => {
   };
 
   const onSubmit = () => {
-    const data = { id, pw };
-    dispatch(login(data));
+    const payload = { data: { id, pw }, navigate };
+    dispatch(login(payload));
   };
 
   const onEnterPress = (e) => {
@@ -63,7 +66,7 @@ const Login = () => {
         </div>
         <div className="auth-switch">
           <span>계정이 없나요? &nbsp;</span>
-          <a href="">회원가입 하러가기 &rarr;</a>
+          <Link to="/sign-up">회원가입 하러가기 &rarr;</Link>
         </div>
       </div>
     </>

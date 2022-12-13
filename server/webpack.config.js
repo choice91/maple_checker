@@ -5,10 +5,10 @@ const BASE_JS = './src/client/js/';
 
 module.exports = {
   entry: {
-    main: BASE_JS + 'main.js',
-    join: BASE_JS + 'join.js',
-    login: BASE_JS + 'login.js',
-    home: BASE_JS + 'home.js',
+    main: `${BASE_JS}main.js`,
+    join: `${BASE_JS}join.js`,
+    login: `${BASE_JS}login.js`,
+    home: `${BASE_JS}home.js`,
   },
   // mode: 'development',
   // watch: true,
