@@ -17,26 +17,42 @@ const Header = () => {
     navigate('/login', { replace: true });
   };
 
+  const changePage = (e) => {
+    const { value } = e.currentTarget;
+
+    switch (value) {
+      case 0:
+        navigate('/quest');
+        break;
+      case 1:
+        navigate('/boss');
+        break;
+      case 2:
+        navigate('/event');
+        break;
+    }
+  };
+
   return (
     <>
       <header>
-        <li>
+        <li value={0} onClick={changePage}>
           <CheckBoxIcon fontSize="large" />
           <span>일퀘</span>
         </li>
-        <li>
+        <li value={1} onClick={changePage}>
           <PaidIcon fontSize="large" />
           <span>주보</span>
         </li>
-        <li>
+        <li value={2} onClick={changePage}>
           <CalendarMonthIcon fontSize="large" />
           <span>이벤트</span>
         </li>
-        <li onClick={logout}>
+        <li value={3} onClick={logout}>
           <LogoutIcon fontSize="large" />
           <span>로그아웃</span>
         </li>
-        <li>
+        <li value={4} onClick={changePage}>
           <AccountBoxIcon fontSize="large" />
           <span>프로필</span>
         </li>
