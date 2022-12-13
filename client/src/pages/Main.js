@@ -5,6 +5,11 @@ import { useNavigate } from 'react-router-dom';
 import { getQuests } from '../redux/async/quest';
 
 import Header from '../components/Header';
+import Quest from '../components/Quest';
+import Boss from '../components/Boss';
+import Event from '../components/Event';
+
+import '../css/pages/main.scss';
 
 const Main = () => {
   const dispatch = useDispatch();
@@ -17,6 +22,11 @@ const Main = () => {
   return (
     <>
       <Header />
+      <main>
+        <Quest />
+        <Boss />
+        <Event />
+      </main>
     </>
   );
 };
