@@ -25,15 +25,8 @@ const Login = () => {
   };
 
   const onSubmit = () => {
-    dispatch(
-      login({
-        data: {
-          id,
-          pw,
-        },
-        navigate,
-      })
-    );
+    const payload = { data: { id, pw }, navigate };
+    dispatch(login(payload));
   };
 
   const onEnterPress = (e) => {
