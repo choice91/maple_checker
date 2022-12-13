@@ -28,7 +28,7 @@ export const login = createAsyncThunk(
         })
       );
 
-      navigate('/', { replace: true });
+      navigate('/quest', { replace: true });
 
       return { id, username: decodedToken.username };
     } catch (err) {
