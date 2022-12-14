@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 
 import Login from './pages/Login';
@@ -7,6 +7,7 @@ import Quest from './pages/Quest';
 import Boss from './pages/Boss';
 import Event from './pages/Event';
 import RequireAuth from './utils/RequireAuth';
+import RedirectTo from './utils/RedirectTo';
 
 import './css/default.scss';
 
@@ -14,6 +15,7 @@ function App() {
   return (
     <>
       <Routes>
+        <Route path="/" element={<RedirectTo />} />
         <Route
           path="/quest"
           element={
