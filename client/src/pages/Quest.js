@@ -1,13 +1,39 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+
+import { getQuests } from '../redux/async/quest';
 
 import Header from '../components/Header';
 import Layout from '../components/Layout';
+import TableTitle from '../components/TableTitle';
+import TableContent from '../components/TableContent';
+
+import '../css/pages/quest.scss';
 
 const Quest = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { quests } = useSelector((state) => state.quest);
+  console.log(quests);
+
+  useEffect(() => {
+    dispatch(getQuests({ navigate }));
+  }, [dispatch]);
+
   return (
     <>
       <Header page="quest" />
-      <Layout>퀘스트</Layout>
+      <Layout>
+        <table>
+          <thead>
+            <TableTitle quests={quests} />
+          </thead>
+          <tbody>
+            <TableContent quests={quests} />
+          </tbody>
+        </table>
+      </Layout>
     </>
   );
 };

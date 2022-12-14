@@ -1,0 +1,51 @@
+@import '../config/_variables.scss';
+
+table {
+  border: 1px solid white;
+  border-collapse: collapse;
+  width: 100%;
+  white-space: nowrap;
+  table-layout: fixed;
+  margin-top: 70px;
+
+  thead {
+    th:first-child {
+      width: 120px;
+    }
+
+    th {
+      border: 1px solid white;
+      background-color: inherit;
+      transition: background-color 0.1s ease-in-out;
+    }
+
+    th:nth-child(n + 2):hover {
+      background-color: $gray;
+    }
+  }
+
+  tbody {
+    tr {
+      border: 1px solid white;
+
+      td:first-child {
+        text-align: center;
+      }
+
+      td {
+        border: 1px solid white;
+        text-align: center;
+        transition: background-color 0.1s ease-in-out;
+
+        button {
+          background-color: inherit;
+          border: none;
+        }
+      }
+
+      td:nth-child(n + 2):hover {
+        background-color: $gray;
+      }
+    }
+  }
+}
