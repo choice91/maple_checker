@@ -9,7 +9,7 @@ import AccountBoxIcon from '@mui/icons-material/AccountBox';
 
 import '../css/components/header.scss';
 
-const Header = () => {
+const Header = ({ page }) => {
   const navigate = useNavigate();
 
   const logout = () => {
@@ -36,15 +36,27 @@ const Header = () => {
   return (
     <>
       <header>
-        <li value={0} onClick={changePage}>
+        <li
+          className={page === 'quest' ? 'header__nav--orange' : ''}
+          value={0}
+          onClick={changePage}
+        >
           <CheckBoxIcon fontSize="large" />
           <span>일퀘</span>
         </li>
-        <li value={1} onClick={changePage}>
+        <li
+          className={page === 'boss' ? 'header__nav--orange' : ''}
+          value={1}
+          onClick={changePage}
+        >
           <PaidIcon fontSize="large" />
           <span>주보</span>
         </li>
-        <li value={2} onClick={changePage}>
+        <li
+          className={page === 'event' ? 'header__nav--orange' : ''}
+          value={2}
+          onClick={changePage}
+        >
           <CalendarMonthIcon fontSize="large" />
           <span>이벤트</span>
         </li>

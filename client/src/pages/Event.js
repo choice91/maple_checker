@@ -6,7 +6,7 @@ import Layout from '../components/Layout';
 const Event = () => {
   return (
     <>
-      <Header page="quest" />
+      <Header page="event" />
       <Layout>이벤트</Layout>
     </>
   );

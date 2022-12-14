@@ -6,7 +6,7 @@ import Layout from '../components/Layout';
 const Boss = () => {
   return (
     <>
-      <Header page="quest" />
+      <Header page="boss" />
       <Layout>보스</Layout>
     </>
   );
