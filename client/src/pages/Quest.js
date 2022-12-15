@@ -6,8 +6,8 @@ import { getQuests } from '../redux/async/quest';
 
 import Header from '../components/Header';
 import Layout from '../components/Layout';
-import TableTitle from '../components/TableTitle';
-import TableContent from '../components/TableContent';
+import TableTitle from '../components/table/TableTitle';
+import TableContent from '../components/table/TableContent';
 
 import '../css/pages/quest.scss';
 
