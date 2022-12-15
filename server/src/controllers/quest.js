@@ -33,11 +33,10 @@ export const saveNickname = async (req, res) => {
 
 export const deleteCharacter = async (req, res) => {
   const {
-    session: {
-      user: { _id: loginUserId },
-    },
-    body: { nickname },
+    user: { id: loginUserId },
+    params: { nickname },
   } = req;
+  console.log(nickname);
 
   const response = await db.Quest.deleteOne({ owner: loginUserId, nickname });
 
@@ -51,7 +50,7 @@ export const deleteCharacter = async (req, res) => {
 
   res.status(200).json({
     ok: true,
-    message: '닉네임 변경 성공',
+    message: '캐릭터 삭제',
   });
 };
 

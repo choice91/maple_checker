@@ -1,6 +1,6 @@
 import express from 'express';
 
-import { asyncHandler, authJWT, isLoggedIn } from '../middlewares';
+import { asyncHandler, authJWT } from '../middlewares';
 import {
   questComplete,
   getDailyQuest,
@@ -15,10 +15,7 @@ questRouter
   .all(authJWT)
   .get(asyncHandler(getDailyQuest))
   .post(asyncHandler(questComplete));
-questRouter
-  .route('/nickname')
-  .all(isLoggedIn)
-  .post(asyncHandler(saveNickname))
-  .delete(asyncHandler(deleteCharacter));
+questRouter.route('/:nickname').all(authJWT).delete(deleteCharacter);
+questRouter.route('/nickname').all(authJWT).post(asyncHandler(saveNickname));
 
 export default questRouter;
