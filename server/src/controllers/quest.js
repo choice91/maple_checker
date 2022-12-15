@@ -68,9 +68,7 @@ export const getDailyQuest = async (req, res) => {
 
 export const questComplete = async (req, res) => {
   const {
-    session: {
-      user: { _id: loginUserId },
-    },
+    user: { id: loginUserId },
     body: { nickname, questType },
   } = req;
 
