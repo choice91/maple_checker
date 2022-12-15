@@ -1,14 +1,30 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
+
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 
+import { questCheck } from '../redux/async/quest';
+import questSlice from '../redux/slices/questSlice';
+
 const Td = ({ quests, type }) => {
+  const dispatch = useDispatch();
+
+  const handleQuestCheck = (e) => {
+    const name = e.currentTarget.getAttribute('name');
+    const value = e.currentTarget.getAttribute('value');
+
+    const payload = { name, questType: value };
+    dispatch(questCheck(payload));
+    dispatch(questSlice.actions.questCheck(payload));
+  };
+
   return (
     <>
       {quests.map((quest, index) => (
         <td key={index}>
-          <button name={quest.nickname} value={type}>
-            {quest.quests.yeoro ? (
+          <button name={quest.nickname} value={type} onClick={handleQuestCheck}>
+            {quest.quests[`${type}`] ? (
               <CheckBoxIcon style={{ color: '#3498db' }} />
             ) : (
               <CheckBoxOutlineBlankIcon style={{ color: '#fff' }} />

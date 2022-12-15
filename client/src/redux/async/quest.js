@@ -30,3 +30,30 @@ export const getQuests = createAsyncThunk(
     }
   }
 );
+
+export const questCheck = createAsyncThunk(
+  'quest/check',
+  async (payload, thunkAPI) => {
+    const { name, questType } = payload;
+    const user = JSON.parse(localStorage.getItem('user'));
+
+    try {
+      const response = await instance.post(
+        '/quest',
+        {
+          nickname: name,
+          questType,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
+
+      return response.data;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err.response.data);
+    }
+  }
+);

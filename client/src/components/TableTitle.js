@@ -4,8 +4,8 @@ const TableTitle = ({ quests }) => {
   return (
     <>
       <th>&nbsp;</th>
-      {quests.map(({ nickname }) => (
-        <th>{nickname}</th>
+      {quests.map(({ nickname }, index) => (
+        <th key={index}>{nickname}</th>
       ))}
     </>
   );

@@ -14,8 +14,7 @@ import '../css/pages/quest.scss';
 const Quest = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { quests } = useSelector((state) => state.quest);
-  console.log(quests);
+  const { questData } = useSelector((state) => state.quest);
 
   useEffect(() => {
     dispatch(getQuests({ navigate }));
@@ -27,10 +26,10 @@ const Quest = () => {
       <Layout>
         <table>
           <thead>
-            <TableTitle quests={quests} />
+            <TableTitle quests={questData} />
           </thead>
           <tbody>
-            <TableContent quests={quests} />
+            <TableContent quests={questData} />
           </tbody>
         </table>
       </Layout>
