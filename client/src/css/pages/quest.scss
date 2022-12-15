@@ -17,6 +17,13 @@ table {
       border: 1px solid white;
       background-color: inherit;
       transition: background-color 0.1s ease-in-out;
+
+      .icons {
+        .icons__update-btn,
+        .icons__delete-btn {
+          cursor: pointer;
+        }
+      }
     }
 
     th:nth-child(n + 2):hover {
