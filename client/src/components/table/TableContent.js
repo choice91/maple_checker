@@ -4,8 +4,8 @@ import { useDispatch } from 'react-redux';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 
-import { questCheck } from '../redux/async/quest';
-import questSlice from '../redux/slices/questSlice';
+import { questCheck } from '../../redux/async/quest';
+import questSlice from '../../redux/slices/questSlice';
 
 const Td = ({ quests, type }) => {
   const dispatch = useDispatch();
