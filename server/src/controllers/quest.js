@@ -1,5 +1,7 @@
 import db from '../models';
 
+import { arrayToObjectFn } from '../service/functions';
+
 export const saveNickname = async (req, res) => {
   const {
     body: { nickname },
@@ -58,10 +60,11 @@ export const getDailyQuest = async (req, res) => {
   const { id: loginUserId } = req.user;
 
   const quest = await db.Quest.find({ owner: loginUserId });
+  const questObj = arrayToObjectFn(quest);
 
   res.status(200).json({
     ok: true,
-    quests: quest,
+    quests: questObj,
   });
 };
 
