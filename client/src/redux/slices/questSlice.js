@@ -6,16 +6,13 @@ export const questSlice = createSlice({
   initialState: {
     isFetching: false,
     questCheckFetching: false,
-    questData: [],
+    questData: {},
   },
   reducers: {
     questCheck: (state, { payload }) => {
-      const { name, questType } = payload;
-      const index = state.questData.findIndex(
-        (quest) => quest.nickname === name
-      );
-      state.questData[index].quests[`${questType}`] =
-        !state.questData[index].quests[`${questType}`];
+      const { nickname, questType } = payload;
+      state.questData[`${nickname}`].quests[`${questType}`] =
+        !state.questData[`${nickname}`].quests[`${questType}`];
     },
   },
   extraReducers: {
@@ -23,7 +20,7 @@ export const questSlice = createSlice({
       state.isFetching = true;
     },
     [getQuests.fulfilled]: (state, { payload }) => {
-      state.questData = [...payload.quests];
+      state.questData = { ...payload.quests };
     },
     [getQuests.rejected]: (state, { payload }) => {
       state.isFetching = false;

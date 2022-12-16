@@ -2,11 +2,11 @@ import React from 'react';
 
 import TableTitleBtn from './TableTitleBtn';
 
-const TableTitle = ({ quests }) => {
+const TableTitle = ({ nicknames }) => {
   return (
     <>
       <th>&nbsp;</th>
-      {quests.map(({ nickname }, index) => (
+      {nicknames.map((nickname, index) => (
         <th key={index}>
           <span>{nickname}</span>
           <TableTitleBtn nickname={nickname} />
