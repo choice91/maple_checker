@@ -17,7 +17,9 @@ const Quest = () => {
   const navigate = useNavigate();
 
   const { questData } = useSelector((state) => state.quest);
-  const { isModalOpen, nickname } = useSelector((state) => state.modal);
+  const { isModalOpen, nickname, questId } = useSelector(
+    (state) => state.modal
+  );
 
   const ids = Object.keys(questData);
 
@@ -38,7 +40,7 @@ const Quest = () => {
           </tbody>
         </table>
       </Layout>
-      {isModalOpen && <UpdateModal nickname={nickname} />}
+      {isModalOpen && <UpdateModal nickname={nickname} questId={questId} />}
     </>
   );
 };

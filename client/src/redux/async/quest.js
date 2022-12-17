@@ -62,8 +62,24 @@ export const updateNickname = createAsyncThunk(
   'quest/update',
   async (payload, thunkAPI) => {
     const { prevNickname, newNickname } = payload;
+    const user = JSON.parse(localStorage.getItem('user'));
 
     try {
+      const response = await instance.put(
+        '/quest',
+        {
+          prevNickname,
+          newNickname,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
+      console.log(response);
+
+      return response.data;
     } catch (err) {
       console.error(err.response);
       return thunkAPI.rejectWithValue(err.response.data);

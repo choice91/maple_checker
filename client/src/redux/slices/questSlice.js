@@ -9,30 +9,40 @@ export const questSlice = createSlice({
     questData: {},
   },
   reducers: {
-    questCheck: (state, { payload }) => {
-      const { nickname, questType } = payload;
+    questCheck: (state, action) => {
+      const {
+        payload: { nickname, questType },
+      } = action;
+
       state.questData[`${nickname}`].quests[`${questType}`] =
         !state.questData[`${nickname}`].quests[`${questType}`];
     },
+    updateNicknameInTable: (state, action) => {
+      const {
+        payload: { questId, newNickname },
+      } = action;
+
+      state.questData[`${questId}`].nickname = newNickname;
+    },
   },
   extraReducers: {
-    [getQuests.pending]: (state, { payload }) => {
+    [getQuests.pending]: (state, action) => {
       state.isFetching = true;
     },
-    [getQuests.fulfilled]: (state, { payload }) => {
-      state.questData = { ...payload.quests };
+    [getQuests.fulfilled]: (state, action) => {
+      state.questData = { ...action.payload.quests };
     },
-    [getQuests.rejected]: (state, { payload }) => {
+    [getQuests.rejected]: (state, action) => {
       state.isFetching = false;
     },
 
-    [questCheck.pending]: (state, { payload }) => {
+    [questCheck.pending]: (state, action) => {
       state.questCheckFetching = true;
     },
-    [questCheck.fulfilled]: (state, { payload }) => {
+    [questCheck.fulfilled]: (state, action) => {
       state.questCheckFetching = false;
     },
-    [questCheck.rejected]: (state, { payload }) => {},
+    [questCheck.rejected]: (state, action) => {},
   },
 });
 

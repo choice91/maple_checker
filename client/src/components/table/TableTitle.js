@@ -6,10 +6,13 @@ const TableTitle = ({ ids, quests }) => {
   return (
     <>
       <th>&nbsp;</th>
-      {ids.map((id, index) => (
+      {ids.map((questId, index) => (
         <th key={index}>
-          <span>{quests[`${id}`].nickname}</span>
-          <TableTitleBtn nickname={quests[`${id}`].nickname} />
+          <span>{quests[`${questId}`].nickname}</span>
+          <TableTitleBtn
+            nickname={quests[`${questId}`].nickname}
+            questId={questId}
+          />
         </th>
       ))}
     </>

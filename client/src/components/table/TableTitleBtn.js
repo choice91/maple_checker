@@ -7,12 +7,12 @@ import modalSlice from '../../redux/slices/modalSlice';
 import CreateIcon from '@mui/icons-material/Create';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-const TableTitleBtn = ({ nickname }) => {
+const TableTitleBtn = ({ nickname, questId }) => {
   const dispatch = useDispatch();
 
   const handleOpenModal = () => {
     dispatch(modalSlice.actions.openAndCloseModal());
-    dispatch(modalSlice.actions.setNickname({ nickname }));
+    dispatch(modalSlice.actions.setNickAndId({ nickname, questId }));
   };
 
   const handleDeleteChar = () => {

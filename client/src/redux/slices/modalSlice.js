@@ -5,16 +5,19 @@ const modalSlice = createSlice({
   initialState: {
     isModalOpen: false,
     nickname: '',
+    questId: '',
   },
   reducers: {
     openAndCloseModal: (state, action) => {
       state.isModalOpen = !state.isModalOpen;
     },
-    setNickname: (state, action) => {
+    setNickAndId: (state, action) => {
       const {
-        payload: { nickname },
+        payload: { nickname, questId },
       } = action;
+
       state.nickname = nickname;
+      state.questId = questId;
     },
   },
   extraReducers: {},

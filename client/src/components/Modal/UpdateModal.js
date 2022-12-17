@@ -2,15 +2,18 @@ import React, { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import modalSlice from '../../redux/slices/modalSlice';
+import questSlice from '../../redux/slices/questSlice';
+import { updateNickname } from '../../redux/async/quest';
 
 import '../../css/components/modal.scss';
 
-const UpdateModal = ({ nickname: curNickname }) => {
+const UpdateModal = ({ nickname: prevNickname, questId }) => {
   const dispatch = useDispatch();
 
   const outside = useRef();
 
-  const [nickname, setNickname] = useState(curNickname);
+  const [nickname, setNickname] = useState(prevNickname);
+  const [nicknameEqualErrMsg, setNicknameEqualErrMsg] = useState('');
 
   const clickModalOutsideClick = (e) => {
     if (outside.current === e.target) {
@@ -26,6 +29,28 @@ const UpdateModal = ({ nickname: curNickname }) => {
     setNickname(e.target.value);
   };
 
+  const submitNickname = () => {
+    const regExp = /\s/g;
+
+    if (prevNickname === nickname.replaceAll(regExp, '')) {
+      setNicknameEqualErrMsg('동일한 닉네임입니다.');
+    } else {
+      dispatch(
+        updateNickname({
+          prevNickname,
+          newNickname: nickname.replaceAll(regExp, ''),
+        })
+      );
+      dispatch(
+        questSlice.actions.updateNicknameInTable({
+          questId,
+          newNickname: nickname.replaceAll(regExp, ''),
+        })
+      );
+      dispatch(modalSlice.actions.openAndCloseModal());
+    }
+  };
+
   return (
     <>
       <div
@@ -35,7 +60,6 @@ const UpdateModal = ({ nickname: curNickname }) => {
         onMouseDown={clickModalOutsideClick}
       >
         <div className="modal__container">
-          <span className="modal__error-msg"></span>
           <div className="modal__title">
             <h2>닉네임 수정</h2>
           </div>
@@ -48,12 +72,15 @@ const UpdateModal = ({ nickname: curNickname }) => {
               value={nickname}
               onChange={onChangeNickname}
             />
+            <span className="modal__err-msg">{nicknameEqualErrMsg}</span>
           </div>
           <div className="modal__btn">
             <button className="modal__cancel" onClick={handleCloseModal}>
               취소
             </button>
-            <button className="modal__submit">확인</button>
+            <button className="modal__submit" onClick={submitNickname}>
+              확인
+            </button>
           </div>
         </div>
       </div>
