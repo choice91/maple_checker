@@ -36,7 +36,6 @@ export const updateNickname = async (req, res) => {
     user: { id: loginUserId },
     body: { prevNickname, newNickname },
   } = req;
-  console.log(prevNickname, newNickname);
 
   const character = await db.Quest.findOne({
     owner: loginUserId,
@@ -65,7 +64,6 @@ export const deleteCharacter = async (req, res) => {
     user: { id: loginUserId },
     params: { nickname },
   } = req;
-  console.log(nickname);
 
   const response = await db.Quest.deleteOne({ owner: loginUserId, nickname });
 
