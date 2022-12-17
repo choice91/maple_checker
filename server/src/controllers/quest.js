@@ -4,10 +4,8 @@ import { arrayToObjectFn } from '../service/functions';
 
 export const saveNickname = async (req, res) => {
   const {
+    user: { id: loginUserId },
     body: { nickname },
-    session: {
-      user: { _id: loginUserId },
-    },
   } = req;
 
   const quest = await db.Quest.findOne({ owner: loginUserId, nickname });
@@ -36,13 +34,13 @@ export const saveNickname = async (req, res) => {
 export const updateNickname = async (req, res) => {
   const {
     user: { id: loginUserId },
-    body: { prevName, newName },
+    body: { prevNickname, newNickname },
   } = req;
-  console.log(prevName, newName);
+  console.log(prevNickname, newNickname);
 
   const character = await db.Quest.findOne({
     owner: loginUserId,
-    nickname: prevName,
+    nickname: prevNickname,
   });
 
   if (!character) {
@@ -53,7 +51,7 @@ export const updateNickname = async (req, res) => {
     return;
   }
 
-  character.nickname = newName;
+  character.nickname = newNickname;
   await character.save();
 
   res.status(200).json({
