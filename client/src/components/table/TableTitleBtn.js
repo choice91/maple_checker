@@ -7,8 +7,6 @@ import modalSlice from '../../redux/slices/modalSlice';
 import CreateIcon from '@mui/icons-material/Create';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-// import UpdateModal from '../Modal/UpdateModal';
-
 const TableTitleBtn = ({ nickname }) => {
   const dispatch = useDispatch();
 
@@ -31,7 +29,6 @@ const TableTitleBtn = ({ nickname }) => {
           <DeleteIcon />
         </span>
       </div>
-      {/*{isModalOpen && <UpdateModal nickname={nickname} />}*/}
     </>
   );
 };
