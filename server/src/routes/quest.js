@@ -5,6 +5,7 @@ import {
   questComplete,
   getDailyQuest,
   saveNickname,
+  updateNickname,
   deleteCharacter,
 } from '../controllers/quest';
 
@@ -14,8 +15,12 @@ questRouter
   .route('/')
   .all(authJWT)
   .get(asyncHandler(getDailyQuest))
-  .post(asyncHandler(questComplete));
-questRouter.route('/:nickname').all(authJWT).delete(deleteCharacter);
+  .post(asyncHandler(questComplete))
+  .put(asyncHandler(updateNickname));
+questRouter
+  .route('/:nickname')
+  .all(authJWT)
+  .delete(asyncHandler(deleteCharacter));
 questRouter.route('/nickname').all(authJWT).post(asyncHandler(saveNickname));
 
 export default questRouter;

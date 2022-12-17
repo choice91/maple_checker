@@ -33,6 +33,35 @@ export const saveNickname = async (req, res) => {
   });
 };
 
+export const updateNickname = async (req, res) => {
+  const {
+    user: { id: loginUserId },
+    body: { prevName, newName },
+  } = req;
+  console.log(prevName, newName);
+
+  const character = await db.Quest.findOne({
+    owner: loginUserId,
+    nickname: prevName,
+  });
+
+  if (!character) {
+    res.status(404).json({
+      ok: false,
+      errorMessage: '존재하지 않는 캐릭터',
+    });
+    return;
+  }
+
+  character.nickname = newName;
+  await character.save();
+
+  res.status(200).json({
+    ok: true,
+    message: '닉네임 변경 성공',
+  });
+};
+
 export const deleteCharacter = async (req, res) => {
   const {
     user: { id: loginUserId },
