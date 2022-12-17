@@ -1,14 +1,17 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { createLogger } from 'redux-logger';
+
 import userSlice from './slices/userSlice';
 import questSlice from './slices/questSlice';
+import modalSlice from './slices/modalSlice';
 
 const logger = createLogger();
 
 const rootReducer = combineReducers({
   user: userSlice.reducer,
   quest: questSlice.reducer,
+  modal: modalSlice.reducer,
 });
 
 const initialState = {};

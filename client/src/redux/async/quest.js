@@ -58,6 +58,19 @@ export const questCheck = createAsyncThunk(
   }
 );
 
+export const updateNickname = createAsyncThunk(
+  'quest/update',
+  async (payload, thunkAPI) => {
+    const { prevNickname, newNickname } = payload;
+
+    try {
+    } catch (err) {
+      console.error(err.response);
+      return thunkAPI.rejectWithValue(err.response.data);
+    }
+  }
+);
+
 export const deleteCharacter = createAsyncThunk(
   'quest/delete',
   async (payload, thunkAPI) => {
