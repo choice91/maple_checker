@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
@@ -8,6 +8,7 @@ import Header from '../components/Header';
 import Layout from '../components/Layout';
 import TableTitle from '../components/table/TableTitle';
 import TableContent from '../components/table/TableContent';
+import UpdateModal from '../components/Modal/UpdateModal';
 
 import '../css/pages/quest.scss';
 
@@ -16,6 +17,7 @@ const Quest = () => {
   const navigate = useNavigate();
 
   const { questData } = useSelector((state) => state.quest);
+  const { isModalOpen, nickname } = useSelector((state) => state.modal);
 
   const nicknames = Object.keys(questData);
 
@@ -36,6 +38,7 @@ const Quest = () => {
           </tbody>
         </table>
       </Layout>
+      {isModalOpen && <UpdateModal nickname={nickname} />}
     </>
   );
 };
