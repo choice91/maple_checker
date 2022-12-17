@@ -19,7 +19,7 @@ const Quest = () => {
   const { questData } = useSelector((state) => state.quest);
   const { isModalOpen, nickname } = useSelector((state) => state.modal);
 
-  const nicknames = Object.keys(questData);
+  const ids = Object.keys(questData);
 
   useEffect(() => {
     dispatch(getQuests({ navigate }));
@@ -31,10 +31,10 @@ const Quest = () => {
       <Layout>
         <table>
           <thead>
-            <TableTitle nicknames={nicknames} />
+            <TableTitle ids={ids} quests={questData} />
           </thead>
           <tbody>
-            <TableContent nicknames={nicknames} quests={questData} />
+            <TableContent ids={ids} quests={questData} />
           </tbody>
         </table>
       </Layout>

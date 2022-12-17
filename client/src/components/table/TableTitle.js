@@ -2,14 +2,14 @@ import React from 'react';
 
 import TableTitleBtn from './TableTitleBtn';
 
-const TableTitle = ({ nicknames }) => {
+const TableTitle = ({ ids, quests }) => {
   return (
     <>
       <th>&nbsp;</th>
-      {nicknames.map((nickname, index) => (
+      {ids.map((id, index) => (
         <th key={index}>
-          <span>{nickname}</span>
-          <TableTitleBtn nickname={nickname} />
+          <span>{quests[`${id}`].nickname}</span>
+          <TableTitleBtn nickname={quests[`${id}`].nickname} />
         </th>
       ))}
     </>
