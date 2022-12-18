@@ -90,11 +90,11 @@ export const updateNickname = createAsyncThunk(
 export const deleteCharacter = createAsyncThunk(
   'quest/delete',
   async (payload, thunkAPI) => {
-    const { nickname } = payload;
+    const { delQuestId } = payload;
     const user = JSON.parse(localStorage.getItem('user'));
 
     try {
-      const response = await instance.delete(`/quest/${nickname}`, {
+      const response = await instance.delete(`/quest/${delQuestId}`, {
         headers: {
           Authorization: `Bearer ${user.token}`,
         },

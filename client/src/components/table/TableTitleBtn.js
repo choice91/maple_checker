@@ -1,7 +1,6 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
-import { deleteCharacter } from '../../redux/async/quest';
 import modalSlice from '../../redux/slices/modalSlice';
 
 import CreateIcon from '@mui/icons-material/Create';
@@ -16,7 +15,8 @@ const TableTitleBtn = ({ nickname, questId }) => {
   };
 
   const handleDeleteChar = () => {
-    dispatch(deleteCharacter({ nickname }));
+    dispatch(modalSlice.actions.openAndCloseDelModal());
+    dispatch(modalSlice.actions.setDelNickAndId({ nickname, questId }));
   };
 
   return (

@@ -9,6 +9,7 @@ import Layout from '../components/Layout';
 import TableTitle from '../components/table/TableTitle';
 import TableContent from '../components/table/TableContent';
 import UpdateModal from '../components/Modal/UpdateModal';
+import DelConfirmModal from '../components/Modal/DelConfirmModal';
 
 import '../css/pages/quest.scss';
 
@@ -17,9 +18,14 @@ const Quest = () => {
   const navigate = useNavigate();
 
   const { questData } = useSelector((state) => state.quest);
-  const { isModalOpen, nickname, questId } = useSelector(
-    (state) => state.modal
-  );
+  const {
+    isModalOpen,
+    isDelModalOpen,
+    nickname,
+    delNickname,
+    questId,
+    delQuestId,
+  } = useSelector((state) => state.modal);
 
   const ids = Object.keys(questData);
 
@@ -41,6 +47,9 @@ const Quest = () => {
         </table>
       </Layout>
       {isModalOpen && <UpdateModal nickname={nickname} questId={questId} />}
+      {isDelModalOpen && (
+        <DelConfirmModal delNickname={delNickname} delQuestId={delQuestId} />
+      )}
     </>
   );
 };

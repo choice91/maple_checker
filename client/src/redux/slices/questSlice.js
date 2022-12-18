@@ -24,6 +24,13 @@ export const questSlice = createSlice({
 
       state.questData[`${questId}`].nickname = newNickname;
     },
+    delNicknameInTable: (state, action) => {
+      const {
+        payload: { delQuestId },
+      } = action;
+
+      delete state.questData[`${delQuestId}`];
+    },
   },
   extraReducers: {
     [getQuests.pending]: (state, action) => {
