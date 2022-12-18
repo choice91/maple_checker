@@ -7,6 +7,7 @@ import questSlice from '../../redux/slices/questSlice';
 import { deleteCharacter } from '../../redux/async/quest';
 
 import '../../css/components/confirmModal.scss';
+import '../../css/components/commonModal.scss';
 
 const DelConfirmModal = ({ delNickname, delQuestId }) => {
   const dispatch = useDispatch();
@@ -60,23 +61,23 @@ const DelConfirmModal = ({ delNickname, delQuestId }) => {
   return (
     <>
       <div
-        className="del-modal"
+        className="modal"
         aria-hidden="true"
         ref={outside}
         onMouseDown={clickModalOutsideClick}
       >
-        <div className="del-modal__container">
-          <div className="del-modal__title">
+        <div className="modal__container">
+          <div className="modal__title">
             <h2>캐릭터 삭제</h2>
           </div>
-          <div className="del-modal__msg">
-            정말 {delNickname}을 삭제하시겠습니까?
+          <div className="modal__del-msg">
+            정말 <span>{delNickname}</span>을 삭제하시겠습니까?
           </div>
-          <div className="del-modal__btn">
-            <button className="del-modal__cancel" onClick={closeDelModal}>
+          <div className="modal__btn">
+            <button className="modal__cancel" onClick={closeDelModal}>
               취소
             </button>
-            <button className="del-modal__submit" onClick={delCharacterSubmit}>
+            <button className="modal__submit" onClick={delCharacterSubmit}>
               삭제
             </button>
           </div>

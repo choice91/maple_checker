@@ -49,10 +49,25 @@
         background-color: #424242;
         transition: background-color 0.1s ease-in-out;
         padding: 7px 16px;
-        color: $white;
 
         &:hover {
-          background-color: #8e8e8e;
+          background-color: #515151;
+        }
+      }
+
+      .modal__cancel {
+        color: #e74c3c;
+
+        &:hover {
+          background-color: rgba(155, 79, 71, 0.2);
+        }
+      }
+
+      .modal__submit {
+        color: #3498db;
+
+        &:hover {
+          background-color: rgba(52, 152, 219, 0.2);
         }
       }
     }
