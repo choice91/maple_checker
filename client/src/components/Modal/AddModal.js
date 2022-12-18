@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
 import modalSlice from '../../redux/slices/modalSlice';
@@ -11,6 +11,7 @@ const AddModal = () => {
   const dispatch = useDispatch();
 
   const outside = useRef();
+  const inputRef = useRef();
 
   const [nickname, setNickname] = useState('');
 
@@ -36,6 +37,12 @@ const AddModal = () => {
     dispatch(addCharacter({ nickname }));
   };
 
+  useEffect(() => {
+    if (inputRef.current !== null) {
+      inputRef.current.focus();
+    }
+  }, []);
+
   return (
     <>
       <div
@@ -55,6 +62,8 @@ const AddModal = () => {
               className="modal__input"
               placeholder="닉네임"
               onChange={onChangeNickname}
+              onKeyPress={addCharacterSubmit}
+              ref={inputRef}
             />
             <span className="modal__err-msg"></span>
           </div>
