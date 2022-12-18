@@ -5,7 +5,8 @@ import modalSlice from '../../redux/slices/modalSlice';
 import questSlice from '../../redux/slices/questSlice';
 import { updateNickname } from '../../redux/async/quest';
 
-import '../../css/components/modal.scss';
+import '../../css/components/commonModal.scss';
+import '../../css/components/inputModal.scss';
 
 const UpdateModal = ({ nickname: prevNickname, questId }) => {
   const dispatch = useDispatch();
@@ -79,7 +80,7 @@ const UpdateModal = ({ nickname: prevNickname, questId }) => {
               취소
             </button>
             <button className="modal__submit" onClick={submitNickname}>
-              확인
+              수정
             </button>
           </div>
         </div>

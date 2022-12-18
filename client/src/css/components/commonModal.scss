@@ -1,6 +1,6 @@
 @import '../config/variables';
 
-.del-modal {
+.modal {
   position: absolute;
   top: 0;
   left: 0;
@@ -13,7 +13,7 @@
   align-items: center;
   justify-content: center;
 
-  .del-modal__container {
+  .modal__container {
     background: #424242;
     backdrop-filter: blur(13.5px);
     border-radius: 5px;
@@ -27,7 +27,7 @@
     justify-content: space-between;
     flex-direction: column;
 
-    .del-modal__title {
+    .modal__title {
       margin-top: 5px;
 
       h2 {
@@ -35,7 +35,7 @@
       }
     }
 
-    .del-modal__btn {
+    .modal__btn {
       display: flex;
       justify-content: flex-end;
       align-items: center;
@@ -49,10 +49,25 @@
         background-color: #424242;
         transition: background-color 0.1s ease-in-out;
         padding: 7px 16px;
-        color: $white;
 
         &:hover {
-          background-color: #8e8e8e;
+          background-color: #515151;
+        }
+      }
+
+      .modal__cancel {
+        color: #e74c3c;
+
+        &:hover {
+          background-color: rgba(155, 79, 71, 0.2);
+        }
+      }
+
+      .modal__submit {
+        color: #3498db;
+
+        &:hover {
+          background-color: rgba(52, 152, 219, 0.2);
         }
       }
     }

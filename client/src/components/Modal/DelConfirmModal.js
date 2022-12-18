@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 
 import modalSlice from '../../redux/slices/modalSlice';
@@ -6,7 +6,8 @@ import questSlice from '../../redux/slices/questSlice';
 
 import { deleteCharacter } from '../../redux/async/quest';
 
-import '../../css/components/deleteModal.scss';
+import '../../css/components/confirmModal.scss';
+import '../../css/components/commonModal.scss';
 
 const DelConfirmModal = ({ delNickname, delQuestId }) => {
   const dispatch = useDispatch();
@@ -29,27 +30,55 @@ const DelConfirmModal = ({ delNickname, delQuestId }) => {
     dispatch(modalSlice.actions.openAndCloseDelModal());
   };
 
+  const handleEscKey = useCallback(
+    (e) => {
+      if (e.key === 'Escape') {
+        closeDelModal();
+      }
+    },
+    [closeDelModal]
+  );
+
+  const handleEnterKey = useCallback(
+    (e) => {
+      if (e.key === 'Enter') {
+        delCharacterSubmit();
+      }
+    },
+    [delCharacterSubmit]
+  );
+
+  useEffect(() => {
+    document.addEventListener('keyup', handleEscKey, false);
+    document.addEventListener('keyup', handleEnterKey, false);
+
+    return () => {
+      document.removeEventListener('keyup', handleEscKey, false);
+      document.removeEventListener('keyup', handleEnterKey, false);
+    };
+  }, [handleEscKey, handleEnterKey]);
+
   return (
     <>
       <div
-        className="del-modal"
+        className="modal"
         aria-hidden="true"
         ref={outside}
         onMouseDown={clickModalOutsideClick}
       >
-        <div className="del-modal__container">
-          <div className="del-modal__title">
+        <div className="modal__container">
+          <div className="modal__title">
             <h2>캐릭터 삭제</h2>
           </div>
-          <div className="del-modal__msg">
-            정말 {delNickname}을 삭제하시겠습니까?
+          <div className="modal__del-msg">
+            정말 <span>{delNickname}</span>을 삭제하시겠습니까?
           </div>
-          <div className="del-modal__btn">
-            <button className="del-modal__cancel" onClick={closeDelModal}>
+          <div className="modal__btn">
+            <button className="modal__cancel" onClick={closeDelModal}>
               취소
             </button>
-            <button className="del-modal__submit" onClick={delCharacterSubmit}>
-              확인
+            <button className="modal__submit" onClick={delCharacterSubmit}>
+              삭제
             </button>
           </div>
         </div>

@@ -1,48 +1,92 @@
 @import '../config/_variables.scss';
 
+.table-btn {
+  margin: 70px 0 10px;
+
+  button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: inherit;
+    color: $white;
+    border: 1px solid $white;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background-color 0.1s ease-in-out;
+
+    &:hover {
+      background-color: #333333;
+    }
+
+    span {
+      margin-left: 5px;
+    }
+  }
+}
+
 table {
-  border: 1px solid white;
   border-collapse: collapse;
+  border-radius: 7px;
   width: 100%;
   white-space: nowrap;
   table-layout: fixed;
-  margin-top: 70px;
+  background-color: #222;
 
   thead {
-    th:first-child {
-      width: 120px;
-    }
-
     th {
-      border: 1px solid white;
       background-color: inherit;
       transition: background-color 0.1s ease-in-out;
+      border-bottom: 1px solid $white;
+      padding: 7px 0;
+
+      &:first-child {
+        width: 120px;
+      }
+
+      &:not(:first-child):hover {
+        background-color: $gray;
+        border-radius: 5px;
+      }
 
       .icons {
         .icons__update-btn,
         .icons__delete-btn {
           cursor: pointer;
+          color: #515151;
+          transition: color 0.1s ease-in-out;
+        }
+
+        .icons__update-btn:hover {
+          color: #3498db;
+        }
+
+        .icons__delete-btn:hover {
+          color: #e74c3c;
         }
       }
-    }
-
-    th:nth-child(n + 2):hover {
-      background-color: $gray;
     }
   }
 
   tbody {
     tr {
-      border: 1px solid white;
-
-      td:first-child {
-        text-align: center;
+      &:not(:first-child) {
+        border-top: 1px solid #515151;
       }
 
       td {
-        border: 1px solid white;
         text-align: center;
         transition: background-color 0.1s ease-in-out;
+        padding: 12px 0;
+
+        &:first-child {
+          text-align: center;
+        }
+
+        &:not(:first-child):hover {
+          background-color: $gray;
+          border-radius: 5px;
+        }
 
         button {
           background-color: inherit;
@@ -51,10 +95,6 @@ table {
           height: 100%;
           cursor: pointer;
         }
-      }
-
-      td:nth-child(n + 2):hover {
-        background-color: $gray;
       }
     }
   }

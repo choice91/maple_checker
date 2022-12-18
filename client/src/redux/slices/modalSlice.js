@@ -5,6 +5,7 @@ const modalSlice = createSlice({
   initialState: {
     isModalOpen: false,
     isDelModalOpen: false,
+    isAddModalOpen: false,
     nickname: '',
     questId: '',
     delNickname: '',
@@ -16,6 +17,9 @@ const modalSlice = createSlice({
     },
     openAndCloseDelModal: (state, action) => {
       state.isDelModalOpen = !state.isDelModalOpen;
+    },
+    openAndCloseAddModal: (state, action) => {
+      state.isAddModalOpen = !state.isAddModalOpen;
     },
     setNickAndId: (state, action) => {
       const {

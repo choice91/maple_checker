@@ -1,6 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import instance from '../apis';
 
+import modalSlice from '../slices/modalSlice';
+
 export const getQuests = createAsyncThunk(
   'quest/getQuests',
   async (payload, thunkAPI) => {
@@ -39,7 +41,7 @@ export const questCheck = createAsyncThunk(
 
     try {
       const response = await instance.post(
-        '/quest',
+        '/quest/done',
         {
           nickname,
           questType,
@@ -50,6 +52,34 @@ export const questCheck = createAsyncThunk(
           },
         }
       );
+
+      return response.data;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err.response.data);
+    }
+  }
+);
+
+export const addCharacter = createAsyncThunk(
+  'quest/add',
+  async (payload, thunkAPI) => {
+    const { nickname } = payload;
+    const user = JSON.parse(localStorage.getItem('user'));
+
+    try {
+      const response = await instance.post(
+        '/quest',
+        {
+          nickname,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
+
+      thunkAPI.dispatch(modalSlice.actions.openAndCloseAddModal());
 
       return response.data;
     } catch (err) {

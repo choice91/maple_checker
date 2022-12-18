@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getQuests, questCheck } from '../async/quest';
+import { getQuests, questCheck, addCharacter } from '../async/quest';
 
 export const questSlice = createSlice({
   name: 'quest',
@@ -11,11 +11,11 @@ export const questSlice = createSlice({
   reducers: {
     questCheck: (state, action) => {
       const {
-        payload: { nickname, questType },
+        payload: { questId, questType },
       } = action;
 
-      state.questData[`${nickname}`].quests[`${questType}`] =
-        !state.questData[`${nickname}`].quests[`${questType}`];
+      state.questData[`${questId}`].quests[`${questType}`] =
+        !state.questData[`${questId}`].quests[`${questType}`];
     },
     updateNicknameInTable: (state, action) => {
       const {
@@ -50,6 +50,16 @@ export const questSlice = createSlice({
       state.questCheckFetching = false;
     },
     [questCheck.rejected]: (state, action) => {},
+
+    [addCharacter.pending]: (state, action) => {},
+    [addCharacter.fulfilled]: (state, action) => {
+      const {
+        payload: { newCharacter },
+      } = action;
+
+      state.questData = Object.assign(state.questData, newCharacter);
+    },
+    [addCharacter.rejected]: (state, action) => {},
   },
 });
 
