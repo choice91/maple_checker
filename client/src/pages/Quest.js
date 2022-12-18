@@ -4,12 +4,15 @@ import { useNavigate } from 'react-router-dom';
 
 import { getQuests } from '../redux/async/quest';
 
+import modalSlice from '../redux/slices/modalSlice';
+
 import Header from '../components/Header';
 import Layout from '../components/Layout';
 import TableTitle from '../components/table/TableTitle';
 import TableContent from '../components/table/TableContent';
 import UpdateModal from '../components/Modal/UpdateModal';
 import DelConfirmModal from '../components/Modal/DelConfirmModal';
+import AddModal from '../components/Modal/AddModal';
 
 import AddIcon from '@mui/icons-material/Add';
 
@@ -23,6 +26,7 @@ const Quest = () => {
   const {
     isModalOpen,
     isDelModalOpen,
+    isAddModalOpen,
     nickname,
     delNickname,
     questId,
@@ -30,6 +34,10 @@ const Quest = () => {
   } = useSelector((state) => state.modal);
 
   const ids = Object.keys(questData);
+
+  const addModalOpen = () => {
+    dispatch(modalSlice.actions.openAndCloseAddModal());
+  };
 
   useEffect(() => {
     dispatch(getQuests({ navigate }));
@@ -40,7 +48,7 @@ const Quest = () => {
       <Header page="quest" />
       <Layout>
         <div className="table-btn">
-          <button>
+          <button onClick={addModalOpen}>
             <AddIcon />
             <span>캐릭터 추가</span>
           </button>
@@ -58,6 +66,7 @@ const Quest = () => {
       {isDelModalOpen && (
         <DelConfirmModal delNickname={delNickname} delQuestId={delQuestId} />
       )}
+      {isAddModalOpen && <AddModal />}
     </>
   );
 };
