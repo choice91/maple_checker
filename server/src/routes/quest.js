@@ -4,7 +4,7 @@ import { asyncHandler, authJWT } from '../middlewares';
 import {
   questComplete,
   getDailyQuest,
-  saveNickname,
+  addCharacter,
   updateNickname,
   deleteCharacter,
 } from '../controllers/quest';
@@ -15,7 +15,7 @@ questRouter
   .route('/')
   .all(authJWT)
   .get(asyncHandler(getDailyQuest))
-  .post(asyncHandler(saveNickname))
+  .post(asyncHandler(addCharacter))
   .put(asyncHandler(updateNickname));
 questRouter
   .route('/:questId')

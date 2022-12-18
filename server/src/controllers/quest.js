@@ -2,7 +2,7 @@ import db from '../models';
 
 import { arrayToObjectFn } from '../service/functions';
 
-export const saveNickname = async (req, res) => {
+export const addCharacter = async (req, res) => {
   const {
     user: { id: loginUserId },
     body: { nickname },
