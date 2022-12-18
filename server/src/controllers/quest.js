@@ -20,14 +20,23 @@ export const saveNickname = async (req, res) => {
   }
 
   // 캐릭터 등록
-  await db.Quest.create({
+  const newCharacter = await db.Quest.create({
     owner: loginUserId,
     nickname,
   });
 
+  const result = {
+    [newCharacter._id]: {
+      nickname: newCharacter.nickname,
+      owner: newCharacter.owner,
+      quests: newCharacter.quests,
+    },
+  };
+
   res.status(200).json({
     ok: true,
     message: '캐릭터 추가 완료',
+    newCharacter: result,
   });
 };
 

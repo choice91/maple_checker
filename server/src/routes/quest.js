@@ -15,12 +15,12 @@ questRouter
   .route('/')
   .all(authJWT)
   .get(asyncHandler(getDailyQuest))
-  .post(asyncHandler(questComplete))
+  .post(asyncHandler(saveNickname))
   .put(asyncHandler(updateNickname));
 questRouter
   .route('/:questId')
   .all(authJWT)
   .delete(asyncHandler(deleteCharacter));
-questRouter.route('/nickname').all(authJWT).post(asyncHandler(saveNickname));
+questRouter.route('/done').all(authJWT).post(asyncHandler(questComplete));
 
 export default questRouter;
