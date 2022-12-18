@@ -53,6 +53,16 @@ table {
         .icons__update-btn,
         .icons__delete-btn {
           cursor: pointer;
+          color: #515151;
+          transition: color 0.1s ease-in-out;
+        }
+
+        .icons__update-btn:hover {
+          color: #3498db;
+        }
+
+        .icons__delete-btn:hover {
+          color: #e74c3c;
         }
       }
     }

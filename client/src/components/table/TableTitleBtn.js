@@ -23,10 +23,10 @@ const TableTitleBtn = ({ nickname, questId }) => {
     <>
       <div className="icons">
         <span className="icons__update-btn" onClick={handleOpenModal}>
-          <CreateIcon />
+          <CreateIcon fontSize="small" />
         </span>
         <span className="icons__delete-btn" onClick={handleDeleteChar}>
-          <DeleteIcon />
+          <DeleteIcon fontSize="small" />
         </span>
       </div>
     </>
