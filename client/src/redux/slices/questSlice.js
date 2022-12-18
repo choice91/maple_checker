@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getQuests, questCheck } from '../async/quest';
+import { getQuests, questCheck, addCharacter } from '../async/quest';
 
 export const questSlice = createSlice({
   name: 'quest',
@@ -50,6 +50,16 @@ export const questSlice = createSlice({
       state.questCheckFetching = false;
     },
     [questCheck.rejected]: (state, action) => {},
+
+    [addCharacter.pending]: (state, action) => {},
+    [addCharacter.fulfilled]: (state, action) => {
+      const {
+        payload: { newCharacter },
+      } = action;
+
+      state.questData = Object.assign(state.questData, newCharacter);
+    },
+    [addCharacter.rejected]: (state, action) => {},
   },
 });
 

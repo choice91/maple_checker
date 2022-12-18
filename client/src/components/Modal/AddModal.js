@@ -1,7 +1,8 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import modalSlice from '../../redux/slices/modalSlice';
+import { addCharacter } from '../../redux/async/quest';
 
 import '../../css/components/commonModal.scss';
 import '../../css/components/inputModal.scss';
@@ -11,6 +12,8 @@ const AddModal = () => {
 
   const outside = useRef();
 
+  const [nickname, setNickname] = useState('');
+
   const clickModalOutsideClick = (e) => {
     if (outside.current === e.target) {
       dispatch(modalSlice.actions.openAndCloseAddModal());
@@ -19,6 +22,18 @@ const AddModal = () => {
 
   const closeModal = () => {
     dispatch(modalSlice.actions.openAndCloseAddModal());
+  };
+
+  const onChangeNickname = (e) => {
+    const {
+      target: { value },
+    } = e;
+
+    setNickname(value);
+  };
+
+  const addCharacterSubmit = () => {
+    dispatch(addCharacter({ nickname }));
   };
 
   return (
@@ -39,6 +54,7 @@ const AddModal = () => {
               id="nickname"
               className="modal__input"
               placeholder="닉네임"
+              onChange={onChangeNickname}
             />
             <span className="modal__err-msg"></span>
           </div>
@@ -46,7 +62,9 @@ const AddModal = () => {
             <button className="modal__cancel" onClick={closeModal}>
               취소
             </button>
-            <button className="modal__submit">확인</button>
+            <button className="modal__submit" onClick={addCharacterSubmit}>
+              확인
+            </button>
           </div>
         </div>
       </div>
