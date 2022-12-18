@@ -6,7 +6,7 @@ import questSlice from '../../redux/slices/questSlice';
 
 import { deleteCharacter } from '../../redux/async/quest';
 
-import '../../css/components/deleteModal.scss';
+import '../../css/components/confirmModal.scss';
 
 const DelConfirmModal = ({ delNickname, delQuestId }) => {
   const dispatch = useDispatch();
