@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 
 import modalSlice from '../../redux/slices/modalSlice';
@@ -29,6 +29,34 @@ const DelConfirmModal = ({ delNickname, delQuestId }) => {
     dispatch(modalSlice.actions.openAndCloseDelModal());
   };
 
+  const handleEscKey = useCallback(
+    (e) => {
+      if (e.key === 'Escape') {
+        closeDelModal();
+      }
+    },
+    [closeDelModal]
+  );
+
+  const handleEnterKey = useCallback(
+    (e) => {
+      if (e.key === 'Enter') {
+        delCharacterSubmit();
+      }
+    },
+    [delCharacterSubmit]
+  );
+
+  useEffect(() => {
+    document.addEventListener('keyup', handleEscKey, false);
+    document.addEventListener('keyup', handleEnterKey, false);
+
+    return () => {
+      document.removeEventListener('keyup', handleEscKey, false);
+      document.removeEventListener('keyup', handleEnterKey, false);
+    };
+  }, [handleEscKey, handleEnterKey]);
+
   return (
     <>
       <div
@@ -49,7 +77,7 @@ const DelConfirmModal = ({ delNickname, delQuestId }) => {
               취소
             </button>
             <button className="del-modal__submit" onClick={delCharacterSubmit}>
-              확인
+              삭제
             </button>
           </div>
         </div>
