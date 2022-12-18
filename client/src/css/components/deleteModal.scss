@@ -26,5 +26,35 @@
     display: flex;
     justify-content: space-between;
     flex-direction: column;
+
+    .del-modal__title {
+      margin-top: 5px;
+
+      h2 {
+        margin: 0;
+      }
+    }
+
+    .del-modal__btn {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+
+      button {
+        font-size: 14px;
+        font-weight: 700;
+        cursor: pointer;
+        border-radius: 4px;
+        border: none;
+        background-color: #424242;
+        transition: background-color 0.1s ease-in-out;
+        padding: 7px 16px;
+        color: $white;
+
+        &:hover {
+          background-color: #8e8e8e;
+        }
+      }
+    }
   }
 }
