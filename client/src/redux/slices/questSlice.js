@@ -11,11 +11,11 @@ export const questSlice = createSlice({
   reducers: {
     questCheck: (state, action) => {
       const {
-        payload: { nickname, questType },
+        payload: { questId, questType },
       } = action;
 
-      state.questData[`${nickname}`].quests[`${questType}`] =
-        !state.questData[`${nickname}`].quests[`${questType}`];
+      state.questData[`${questId}`].quests[`${questType}`] =
+        !state.questData[`${questId}`].quests[`${questType}`];
     },
     updateNicknameInTable: (state, action) => {
       const {

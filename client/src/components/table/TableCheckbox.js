@@ -7,13 +7,12 @@ import questSlice from '../../redux/slices/questSlice';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 
-const TableCheckbox = ({ nickname, questValue, questType }) => {
+const TableCheckbox = ({ nickname, questValue, questType, questId }) => {
   const dispatch = useDispatch();
 
   const handleQuestCheck = () => {
-    const payload = { nickname, questType };
-    dispatch(questCheck(payload));
-    dispatch(questSlice.actions.questCheck(payload));
+    dispatch(questCheck({ nickname, questType }));
+    dispatch(questSlice.actions.questCheck({ questId, questType }));
   };
 
   return (

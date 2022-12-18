@@ -11,6 +11,7 @@ const TableTd = ({ ids, quests, type }) => {
             nickname={quests[`${id}`].nickname}
             questValue={quests[`${id}`]}
             questType={type}
+            questId={id}
           />
         </td>
       ))}
