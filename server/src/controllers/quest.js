@@ -62,10 +62,13 @@ export const updateNickname = async (req, res) => {
 export const deleteCharacter = async (req, res) => {
   const {
     user: { id: loginUserId },
-    params: { nickname },
+    params: { questId },
   } = req;
 
-  const response = await db.Quest.deleteOne({ owner: loginUserId, nickname });
+  const response = await db.Quest.deleteOne({
+    _id: questId,
+    owner: loginUserId,
+  });
 
   if (response.deletedCount !== 1) {
     res.status(400).json({

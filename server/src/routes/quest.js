@@ -18,7 +18,7 @@ questRouter
   .post(asyncHandler(questComplete))
   .put(asyncHandler(updateNickname));
 questRouter
-  .route('/:nickname')
+  .route('/:questId')
   .all(authJWT)
   .delete(asyncHandler(deleteCharacter));
 questRouter.route('/nickname').all(authJWT).post(asyncHandler(saveNickname));
