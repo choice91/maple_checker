@@ -30,3 +30,80 @@ export const getQuests = createAsyncThunk(
     }
   }
 );
+
+export const questCheck = createAsyncThunk(
+  'quest/check',
+  async (payload, thunkAPI) => {
+    const { nickname, questType } = payload;
+    const user = JSON.parse(localStorage.getItem('user'));
+
+    try {
+      const response = await instance.post(
+        '/quest',
+        {
+          nickname,
+          questType,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
+
+      return response.data;
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err.response.data);
+    }
+  }
+);
+
+export const updateNickname = createAsyncThunk(
+  'quest/update',
+  async (payload, thunkAPI) => {
+    const { prevNickname, newNickname } = payload;
+    const user = JSON.parse(localStorage.getItem('user'));
+
+    try {
+      const response = await instance.put(
+        '/quest',
+        {
+          prevNickname,
+          newNickname,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
+      console.log(response);
+
+      return response.data;
+    } catch (err) {
+      console.error(err.response);
+      return thunkAPI.rejectWithValue(err.response.data);
+    }
+  }
+);
+
+export const deleteCharacter = createAsyncThunk(
+  'quest/delete',
+  async (payload, thunkAPI) => {
+    const { delQuestId } = payload;
+    const user = JSON.parse(localStorage.getItem('user'));
+
+    try {
+      const response = await instance.delete(`/quest/${delQuestId}`, {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
+      console.log(response);
+      return response.data;
+    } catch (err) {
+      console.error(err);
+      return thunkAPI.rejectWithValue(err.response.data);
+    }
+  }
+);

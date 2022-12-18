@@ -1,10 +1,11 @@
 import express from 'express';
 
-import { asyncHandler, authJWT, isLoggedIn } from '../middlewares';
+import { asyncHandler, authJWT } from '../middlewares';
 import {
   questComplete,
   getDailyQuest,
   saveNickname,
+  updateNickname,
   deleteCharacter,
 } from '../controllers/quest';
 
@@ -14,11 +15,12 @@ questRouter
   .route('/')
   .all(authJWT)
   .get(asyncHandler(getDailyQuest))
-  .post(asyncHandler(questComplete));
+  .post(asyncHandler(questComplete))
+  .put(asyncHandler(updateNickname));
 questRouter
-  .route('/nickname')
-  .all(isLoggedIn)
-  .post(asyncHandler(saveNickname))
+  .route('/:questId')
+  .all(authJWT)
   .delete(asyncHandler(deleteCharacter));
+questRouter.route('/nickname').all(authJWT).post(asyncHandler(saveNickname));
 
 export default questRouter;

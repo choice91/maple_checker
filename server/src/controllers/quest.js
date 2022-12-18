@@ -1,11 +1,11 @@
 import db from '../models';
 
+import { arrayToObjectFn } from '../service/functions';
+
 export const saveNickname = async (req, res) => {
   const {
+    user: { id: loginUserId },
     body: { nickname },
-    session: {
-      user: { _id: loginUserId },
-    },
   } = req;
 
   const quest = await db.Quest.findOne({ owner: loginUserId, nickname });
@@ -31,15 +31,44 @@ export const saveNickname = async (req, res) => {
   });
 };
 
-export const deleteCharacter = async (req, res) => {
+export const updateNickname = async (req, res) => {
   const {
-    session: {
-      user: { _id: loginUserId },
-    },
-    body: { nickname },
+    user: { id: loginUserId },
+    body: { prevNickname, newNickname },
   } = req;
 
-  const response = await db.Quest.deleteOne({ owner: loginUserId, nickname });
+  const character = await db.Quest.findOne({
+    owner: loginUserId,
+    nickname: prevNickname,
+  });
+
+  if (!character) {
+    res.status(404).json({
+      ok: false,
+      errorMessage: '존재하지 않는 캐릭터',
+    });
+    return;
+  }
+
+  character.nickname = newNickname;
+  await character.save();
+
+  res.status(200).json({
+    ok: true,
+    message: '닉네임 변경 성공',
+  });
+};
+
+export const deleteCharacter = async (req, res) => {
+  const {
+    user: { id: loginUserId },
+    params: { questId },
+  } = req;
+
+  const response = await db.Quest.deleteOne({
+    _id: questId,
+    owner: loginUserId,
+  });
 
   if (response.deletedCount !== 1) {
     res.status(400).json({
@@ -51,7 +80,7 @@ export const deleteCharacter = async (req, res) => {
 
   res.status(200).json({
     ok: true,
-    message: '닉네임 변경 성공',
+    message: '캐릭터 삭제',
   });
 };
 
@@ -59,18 +88,17 @@ export const getDailyQuest = async (req, res) => {
   const { id: loginUserId } = req.user;
 
   const quest = await db.Quest.find({ owner: loginUserId });
+  const questObj = arrayToObjectFn(quest);
 
   res.status(200).json({
     ok: true,
-    quests: quest,
+    quests: questObj,
   });
 };
 
 export const questComplete = async (req, res) => {
   const {
-    session: {
-      user: { _id: loginUserId },
-    },
+    user: { id: loginUserId },
     body: { nickname, questType },
   } = req;
 
