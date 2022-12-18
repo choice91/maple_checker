@@ -1,12 +1,32 @@
 @import '../config/_variables.scss';
 
+.table-btn {
+  margin: 70px 0 10px;
+
+  button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: inherit;
+    color: $white;
+    border: 1px solid $white;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background-color 0.1s ease-in-out;
+
+    &:hover {
+      background-color: #333333;
+    }
+  }
+}
+
 table {
   border: 1px solid white;
   border-collapse: collapse;
   width: 100%;
   white-space: nowrap;
   table-layout: fixed;
-  margin-top: 70px;
 
   thead {
     th:first-child {

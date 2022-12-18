@@ -11,6 +11,8 @@ import TableContent from '../components/table/TableContent';
 import UpdateModal from '../components/Modal/UpdateModal';
 import DelConfirmModal from '../components/Modal/DelConfirmModal';
 
+import AddIcon from '@mui/icons-material/Add';
+
 import '../css/pages/quest.scss';
 
 const Quest = () => {
@@ -37,6 +39,12 @@ const Quest = () => {
     <>
       <Header page="quest" />
       <Layout>
+        <div className="table-btn">
+          <button>
+            <AddIcon />
+            <span>캐릭터 추가</span>
+          </button>
+        </div>
         <table>
           <thead>
             <TableTitle ids={ids} quests={questData} />
