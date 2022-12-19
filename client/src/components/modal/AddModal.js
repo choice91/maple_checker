@@ -3,11 +3,12 @@ import { useDispatch } from 'react-redux';
 
 import modalSlice from '../../redux/slices/modalSlice';
 import { addCharacter } from '../../redux/async/quest';
+import { submitAddCharacterToBoss } from '../../redux/async/boss';
 
 import '../../css/components/commonModal.scss';
 import '../../css/components/inputModal.scss';
 
-const AddModal = () => {
+const AddModal = ({ type }) => {
   const dispatch = useDispatch();
 
   const outside = useRef();
@@ -17,12 +18,12 @@ const AddModal = () => {
 
   const clickModalOutsideClick = (e) => {
     if (outside.current === e.target) {
-      dispatch(modalSlice.actions.openAndCloseAddModal({ type: 'quest' }));
+      dispatch(modalSlice.actions.openAndCloseAddModal({ type }));
     }
   };
 
   const closeModal = () => {
-    dispatch(modalSlice.actions.openAndCloseAddModal({ type: 'quest' }));
+    dispatch(modalSlice.actions.openAndCloseAddModal({ type }));
   };
 
   const onChangeNickname = (e) => {
@@ -34,12 +35,20 @@ const AddModal = () => {
   };
 
   const addCharacterSubmit = () => {
-    dispatch(addCharacter({ nickname }));
+    if (type === 'quest') {
+      dispatch(addCharacter({ nickname }));
+    } else {
+      dispatch(submitAddCharacterToBoss({ nickname }));
+    }
   };
 
   const addCharacterSubmitEnter = (e) => {
     if (e.key === 'Enter') {
-      dispatch(addCharacter({ nickname }));
+      if (type === 'quest') {
+        dispatch(addCharacter({ nickname }));
+      } else {
+        dispatch(submitAddCharacterToBoss({ nickname }));
+      }
     }
   };
 
