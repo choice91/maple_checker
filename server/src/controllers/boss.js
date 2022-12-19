@@ -1,4 +1,5 @@
 import db from '../models';
+import { bossArrayToObjectFn } from '../service/functions';
 
 export const addCharacterToBossDB = async (req, res) => {
   const {
@@ -29,5 +30,20 @@ export const addCharacterToBossDB = async (req, res) => {
   res.status(200).json({
     ok: true,
     newCharacter: newCharObj,
+  });
+};
+
+export const getBossData = async (req, res) => {
+  const {
+    user: { id: loginUserId },
+  } = req;
+
+  const boss = await db.Boss.find({ owner: loginUserId });
+
+  const bossObj = bossArrayToObjectFn(boss);
+
+  res.status(200).json({
+    ok: true,
+    bossData: bossObj,
   });
 };
