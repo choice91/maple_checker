@@ -17,12 +17,12 @@ const AddModal = () => {
 
   const clickModalOutsideClick = (e) => {
     if (outside.current === e.target) {
-      dispatch(modalSlice.actions.openAndCloseAddModal());
+      dispatch(modalSlice.actions.openAndCloseAddModal({ type: 'quest' }));
     }
   };
 
   const closeModal = () => {
-    dispatch(modalSlice.actions.openAndCloseAddModal());
+    dispatch(modalSlice.actions.openAndCloseAddModal({ type: 'quest' }));
   };
 
   const onChangeNickname = (e) => {
@@ -35,6 +35,12 @@ const AddModal = () => {
 
   const addCharacterSubmit = () => {
     dispatch(addCharacter({ nickname }));
+  };
+
+  const addCharacterSubmitEnter = (e) => {
+    if (e.key === 'Enter') {
+      dispatch(addCharacter({ nickname }));
+    }
   };
 
   useEffect(() => {
@@ -62,7 +68,7 @@ const AddModal = () => {
               className="modal__input"
               placeholder="닉네임"
               onChange={onChangeNickname}
-              onKeyPress={addCharacterSubmit}
+              onKeyPress={addCharacterSubmitEnter}
               ref={inputRef}
             />
             <span className="modal__err-msg"></span>

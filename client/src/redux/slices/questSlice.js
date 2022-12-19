@@ -19,17 +19,17 @@ export const questSlice = createSlice({
     },
     updateNicknameInTable: (state, action) => {
       const {
-        payload: { questId, newNickname },
+        payload: { id, newNickname },
       } = action;
 
-      state.questData[`${questId}`].nickname = newNickname;
+      state.questData[`${id}`].nickname = newNickname;
     },
     delNicknameInTable: (state, action) => {
       const {
-        payload: { delQuestId },
+        payload: { id },
       } = action;
 
-      delete state.questData[`${delQuestId}`];
+      delete state.questData[`${id}`];
     },
   },
   extraReducers: {

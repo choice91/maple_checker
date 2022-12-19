@@ -28,6 +28,7 @@ const Quest = () => {
     isDelModalOpen,
     isAddModalOpen,
     nickname,
+    type,
     delNickname,
     questId,
     delQuestId,
@@ -36,7 +37,7 @@ const Quest = () => {
   const ids = Object.keys(questData);
 
   const addModalOpen = () => {
-    dispatch(modalSlice.actions.openAndCloseAddModal());
+    dispatch(modalSlice.actions.openAndCloseAddModal({ type: 'quest' }));
   };
 
   useEffect(() => {
@@ -55,18 +56,20 @@ const Quest = () => {
         </div>
         <table>
           <thead>
-            <TableTitle ids={ids} quests={questData} />
+            <TableTitle ids={ids} data={questData} />
           </thead>
           <tbody>
             <TableContent ids={ids} quests={questData} />
           </tbody>
         </table>
       </Layout>
-      {isModalOpen && <UpdateModal nickname={nickname} questId={questId} />}
-      {isDelModalOpen && (
-        <DelConfirmModal delNickname={delNickname} delQuestId={delQuestId} />
+      {isModalOpen && (
+        <UpdateModal type="quest" nickname={nickname} id={questId} />
       )}
-      {isAddModalOpen && <AddModal />}
+      {isDelModalOpen && (
+        <DelConfirmModal type="quest" nickname={delNickname} id={delQuestId} />
+      )}
+      {isAddModalOpen && <AddModal type="quest" />}
     </>
   );
 };

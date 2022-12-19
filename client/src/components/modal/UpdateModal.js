@@ -8,7 +8,7 @@ import { updateNickname } from '../../redux/async/quest';
 import '../../css/components/commonModal.scss';
 import '../../css/components/inputModal.scss';
 
-const UpdateModal = ({ nickname: prevNickname, questId }) => {
+const UpdateModal = ({ type, nickname: prevNickname, id }) => {
   const dispatch = useDispatch();
 
   const outside = useRef();
@@ -18,12 +18,12 @@ const UpdateModal = ({ nickname: prevNickname, questId }) => {
 
   const clickModalOutsideClick = (e) => {
     if (outside.current === e.target) {
-      dispatch(modalSlice.actions.openAndCloseModal());
+      dispatch(modalSlice.actions.openAndCloseModal({ type }));
     }
   };
 
   const handleCloseModal = () => {
-    dispatch(modalSlice.actions.openAndCloseModal());
+    dispatch(modalSlice.actions.openAndCloseModal({ type }));
   };
 
   const onChangeNickname = (e) => {
@@ -36,19 +36,21 @@ const UpdateModal = ({ nickname: prevNickname, questId }) => {
     if (prevNickname === nickname.replaceAll(regExp, '')) {
       setNicknameEqualErrMsg('동일한 닉네임입니다.');
     } else {
-      dispatch(
-        updateNickname({
-          prevNickname,
-          newNickname: nickname.replaceAll(regExp, ''),
-        })
-      );
-      dispatch(
-        questSlice.actions.updateNicknameInTable({
-          questId,
-          newNickname: nickname.replaceAll(regExp, ''),
-        })
-      );
-      dispatch(modalSlice.actions.openAndCloseModal());
+      if (type === 'quest') {
+        dispatch(
+          updateNickname({
+            prevNickname,
+            newNickname: nickname.replaceAll(regExp, ''),
+          })
+        );
+        dispatch(
+          questSlice.actions.updateNicknameInTable({
+            id,
+            newNickname: nickname.replaceAll(regExp, ''),
+          })
+        );
+        dispatch(modalSlice.actions.openAndCloseModal({ type }));
+      }
     }
   };
 

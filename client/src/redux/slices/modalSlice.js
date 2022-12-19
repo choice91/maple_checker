@@ -7,35 +7,66 @@ const modalSlice = createSlice({
     isDelModalOpen: false,
     isAddModalOpen: false,
     nickname: '',
+    type: '',
     questId: '',
     delNickname: '',
     delQuestId: '',
   },
   reducers: {
     openAndCloseModal: (state, action) => {
+      const {
+        payload: { type },
+      } = action;
+
       state.isModalOpen = !state.isModalOpen;
+
+      if (state.isModalOpen) {
+        state.type = type;
+      } else {
+        state.type = '';
+      }
     },
     openAndCloseDelModal: (state, action) => {
+      const {
+        payload: { type },
+      } = action;
+
       state.isDelModalOpen = !state.isDelModalOpen;
+
+      if (state.isDelModalOpen) {
+        state.type = type;
+      } else {
+        state.type = '';
+      }
     },
     openAndCloseAddModal: (state, action) => {
+      const {
+        payload: { type },
+      } = action;
+
       state.isAddModalOpen = !state.isAddModalOpen;
+
+      if (state.isAddModalOpen) {
+        state.type = type;
+      } else {
+        state.type = '';
+      }
     },
     setNickAndId: (state, action) => {
       const {
-        payload: { nickname, questId },
+        payload: { nickname, id },
       } = action;
 
       state.nickname = nickname;
-      state.questId = questId;
+      state.questId = id;
     },
     setDelNickAndId: (state, action) => {
       const {
-        payload: { nickname, questId },
+        payload: { nickname, id },
       } = action;
 
       state.delNickname = nickname;
-      state.delQuestId = questId;
+      state.delQuestId = id;
     },
   },
   extraReducers: {},
