@@ -10,9 +10,9 @@ import Header from '../components/Header';
 import Layout from '../components/Layout';
 import TableTitle from '../components/table/TableTitle';
 import TableContent from '../components/table/TableContent';
-import UpdateModal from '../components/Modal/UpdateModal';
-import DelConfirmModal from '../components/Modal/DelConfirmModal';
-import AddModal from '../components/Modal/AddModal';
+import UpdateModal from '../components/modal/UpdateModal';
+import DelConfirmModal from '../components/modal/DelConfirmModal';
+import AddModal from '../components/modal/AddModal';
 
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 
