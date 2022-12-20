@@ -9,6 +9,7 @@ import TableBtn from '../components/TableBtn';
 import AddModal from '../components/modal/AddModal';
 import TableTitle from '../components/table/TableTitle';
 import BossTableContent from '../components/table/BossTableContent';
+import NoContents from '../components/table/NoContents';
 
 const Boss = () => {
   const dispatch = useDispatch();
@@ -27,14 +28,18 @@ const Boss = () => {
       <Header page="boss" />
       <Layout>
         <TableBtn type="boss" />
-        <table>
-          <thead>
-            <TableTitle ids={ids} data={bossData} />
-          </thead>
-          <tbody>
-            <BossTableContent ids={ids} bossData={bossData} />
-          </tbody>
-        </table>
+        {ids.length === 0 ? (
+          <NoContents type="boss" />
+        ) : (
+          <table>
+            <thead>
+              <TableTitle ids={ids} data={bossData} />
+            </thead>
+            <tbody>
+              <BossTableContent ids={ids} bossData={bossData} />
+            </tbody>
+          </table>
+        )}
       </Layout>
       {isAddModalOpen && <AddModal type="boss" />}
     </>
