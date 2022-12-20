@@ -1,6 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { getBossData, bossCheckToServer } from '../async/boss';
+import {
+  submitAddCharacterToBoss,
+  getBossData,
+  bossCheckToServer,
+} from '../async/boss';
 
 const bossSlice = createSlice({
   name: 'boss',
@@ -19,6 +23,16 @@ const bossSlice = createSlice({
     },
   },
   extraReducers: {
+    [submitAddCharacterToBoss.pending]: (state, action) => {},
+    [submitAddCharacterToBoss.fulfilled]: (state, action) => {
+      const {
+        payload: { newCharacter },
+      } = action;
+
+      state.bossData = Object.assign(state.bossData, newCharacter);
+    },
+    [submitAddCharacterToBoss.rejected]: (state, action) => {},
+
     [getBossData.pending]: (state, action) => {
       state.isFetching = true;
     },
