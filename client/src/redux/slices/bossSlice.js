@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { getBossData } from '../async/boss';
+import { getBossData, bossCheckToServer } from '../async/boss';
 
 const bossSlice = createSlice({
   name: 'boss',
@@ -8,7 +8,16 @@ const bossSlice = createSlice({
     isFetching: false,
     bossData: {},
   },
-  reducers: {},
+  reducers: {
+    bossCheckReducer: (state, action) => {
+      const {
+        payload: { bossId, bossType },
+      } = action;
+
+      state.bossData[`${bossId}`].boss[`${bossType}`] =
+        !state.bossData[`${bossId}`].boss[`${bossType}`];
+    },
+  },
   extraReducers: {
     [getBossData.pending]: (state, action) => {
       state.isFetching = true;
@@ -24,6 +33,10 @@ const bossSlice = createSlice({
     [getBossData.rejected]: (state, action) => {
       state.isFetching = false;
     },
+
+    [bossCheckToServer.pending]: (state, action) => {},
+    [bossCheckToServer.fulfilled]: (state, action) => {},
+    [bossCheckToServer.rejected]: (state, action) => {},
   },
 });
 

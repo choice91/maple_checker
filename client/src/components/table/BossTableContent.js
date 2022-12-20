@@ -7,10 +7,12 @@ const BossTableContent = ({ ids, bossData }) => {
     <>
       <TableTr bossName="자쿰" ids={ids} bossData={bossData} />
       <TableTr bossName="매그너스" ids={ids} bossData={bossData} />
+      <TableTr bossName="힐라" ids={ids} bossData={bossData} />
       <TableTr bossName="파풀라투스" ids={ids} bossData={bossData} />
       <TableTr bossName="피에르" ids={ids} bossData={bossData} />
       <TableTr bossName="반반" ids={ids} bossData={bossData} />
       <TableTr bossName="블러디 퀸" ids={ids} bossData={bossData} />
+      <TableTr bossName="벨룸" ids={ids} bossData={bossData} />
       <TableTr bossName="핑크빈" ids={ids} bossData={bossData} />
       <TableTr bossName="시그너스" ids={ids} bossData={bossData} />
       <TableTr bossName="스우" ids={ids} bossData={bossData} />

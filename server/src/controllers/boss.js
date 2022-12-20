@@ -53,6 +53,7 @@ export const bossCheck = async (req, res) => {
     user: { id: loginUserId },
     body: { nickname, bossType },
   } = req;
+  console.log(nickname, bossType);
 
   const bossData = await db.Boss.findOne({ owner: loginUserId, nickname });
 
