@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import modalSlice from '../../redux/slices/modalSlice';
 import { addCharacter } from '../../redux/async/quest';
@@ -10,6 +11,7 @@ import '../../css/components/inputModal.scss';
 
 const AddModal = ({ type }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const outside = useRef();
   const inputRef = useRef();
@@ -36,18 +38,18 @@ const AddModal = ({ type }) => {
 
   const addCharacterSubmit = () => {
     if (type === 'quest') {
-      dispatch(addCharacter({ nickname }));
+      dispatch(addCharacter({ data: { nickname }, navigate }));
     } else {
-      dispatch(submitAddCharacterToBoss({ nickname }));
+      dispatch(submitAddCharacterToBoss({ data: { nickname }, navigate }));
     }
   };
 
   const addCharacterSubmitEnter = (e) => {
     if (e.key === 'Enter') {
       if (type === 'quest') {
-        dispatch(addCharacter({ nickname }));
+        dispatch(addCharacter({ data: { nickname }, navigate }));
       } else {
-        dispatch(submitAddCharacterToBoss({ nickname }));
+        dispatch(submitAddCharacterToBoss({ data: { nickname }, navigate }));
       }
     }
   };

@@ -63,7 +63,10 @@ export const questCheck = createAsyncThunk(
 export const addCharacter = createAsyncThunk(
   'quest/add',
   async (payload, thunkAPI) => {
-    const { nickname } = payload;
+    const {
+      data: { nickname },
+      navigate,
+    } = payload;
     const user = JSON.parse(localStorage.getItem('user'));
 
     try {
@@ -85,7 +88,17 @@ export const addCharacter = createAsyncThunk(
 
       return response.data;
     } catch (err) {
-      return thunkAPI.rejectWithValue(err.response.data);
+      const { response } = err;
+
+      if (
+        response.data.error.name === 'TokenExpiredError' &&
+        response.status === 401
+      ) {
+        localStorage.removeItem('user');
+        navigate('/login');
+      }
+
+      return thunkAPI.rejectWithValue(response.data);
     }
   }
 );

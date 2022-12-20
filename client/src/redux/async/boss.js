@@ -1,10 +1,15 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import instance from '../apis';
 
+import modalSlice from '../slices/modalSlice';
+
 export const submitAddCharacterToBoss = createAsyncThunk(
   'boss/add',
   async (payload, thunkAPI) => {
-    const { nickname } = payload;
+    const {
+      data: { nickname },
+      navigate,
+    } = payload;
     const user = JSON.parse(localStorage.getItem('user'));
 
     try {
@@ -19,12 +24,24 @@ export const submitAddCharacterToBoss = createAsyncThunk(
           },
         }
       );
-      console.log(response);
+
+      thunkAPI.dispatch(
+        modalSlice.actions.openAndCloseAddModal({ type: 'boss' })
+      );
 
       return response.data;
     } catch (err) {
-      console.error(err.response);
-      return thunkAPI.rejectWithValue(err.response.data);
+      const { response } = err;
+
+      if (
+        response.data.error.name === 'TokenExpiredError' &&
+        response.status === 401
+      ) {
+        localStorage.removeItem('user');
+        navigate('/login');
+      }
+
+      return thunkAPI.rejectWithValue(response.data);
     }
   }
 );
@@ -70,12 +87,10 @@ export const bossCheckToServer = createAsyncThunk(
           },
         }
       );
-      console.log(response);
 
       return response.data;
     } catch (err) {
       const { response } = err;
-      console.error(response);
 
       if (
         response.data.error.name === 'TokenExpiredError' &&
