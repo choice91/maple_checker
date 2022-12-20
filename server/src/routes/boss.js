@@ -1,7 +1,11 @@
 import express from 'express';
 
 import { asyncHandler, authJWT } from '../middlewares';
-import { addCharacterToBossDB, getBossData } from '../controllers/boss';
+import {
+  addCharacterToBossDB,
+  getBossData,
+  bossCheck,
+} from '../controllers/boss';
 
 const bossRouter = express.Router();
 
@@ -10,5 +14,6 @@ bossRouter
   .all(authJWT)
   .get(asyncHandler(getBossData))
   .post(asyncHandler(addCharacterToBossDB));
+bossRouter.route('/done').all(authJWT).post(asyncHandler(bossCheck));
 
 export default bossRouter;

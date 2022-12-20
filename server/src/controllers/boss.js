@@ -47,3 +47,28 @@ export const getBossData = async (req, res) => {
     bossData: bossObj,
   });
 };
+
+export const bossCheck = async (req, res) => {
+  const {
+    user: { id: loginUserId },
+    body: { nickname, bossType },
+  } = req;
+
+  const bossData = await db.Boss.findOne({ owner: loginUserId, nickname });
+
+  if (!bossData) {
+    res.status(404).json({
+      ok: false,
+      errorMessage: '존재하지 않는 캐릭터',
+    });
+    return;
+  }
+
+  bossData.boss[`${bossType}`] = !bossData.boss[`${bossType}`];
+  await bossData.save();
+
+  res.status(200).json({
+    ok: true,
+    message: '완료',
+  });
+};
