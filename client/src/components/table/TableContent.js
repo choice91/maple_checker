@@ -7,43 +7,43 @@ const TableContent = ({ ids, quests }) => {
     <>
       <tr>
         <td>여로</td>
-        <TableTd ids={ids} quests={quests} type="yeoro" />
+        <TableTd ids={ids} data={quests} type="yeoro" />
       </tr>
       <tr>
         <td>츄츄</td>
-        <TableTd ids={ids} quests={quests} type="chuchu" />
+        <TableTd ids={ids} data={quests} type="chuchu" />
       </tr>
       <tr>
         <td>레헬른</td>
-        <TableTd ids={ids} quests={quests} type="lachelein" />
+        <TableTd ids={ids} data={quests} type="lachelein" />
       </tr>
       <tr>
         <td>아르카나</td>
-        <TableTd ids={ids} quests={quests} type="arcana" />
+        <TableTd ids={ids} data={quests} type="arcana" />
       </tr>
       <tr>
         <td>모라스</td>
-        <TableTd ids={ids} quests={quests} type="morass" />
+        <TableTd ids={ids} data={quests} type="morass" />
       </tr>
       <tr>
         <td>에스페라</td>
-        <TableTd ids={ids} quests={quests} type="esfera" />
+        <TableTd ids={ids} data={quests} type="esfera" />
       </tr>
       <tr>
         <td>세르니움(전)</td>
-        <TableTd ids={ids} quests={quests} type="cernium" />
+        <TableTd ids={ids} data={quests} type="cernium" />
       </tr>
       <tr>
         <td>세르니움(후)</td>
-        <TableTd ids={ids} quests={quests} type="burningCernium" />
+        <TableTd ids={ids} data={quests} type="burningCernium" />
       </tr>
       <tr>
         <td>호텔 아르크스</td>
-        <TableTd ids={ids} quests={quests} type="arcs" />
+        <TableTd ids={ids} data={quests} type="arcs" />
       </tr>
       <tr>
         <td>오디움</td>
-        <TableTd ids={ids} quests={quests} type="odium" />
+        <TableTd ids={ids} data={quests} type="odium" />
       </tr>
     </>
   );
