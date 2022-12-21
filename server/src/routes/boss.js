@@ -5,6 +5,7 @@ import {
   addCharacterToBossDB,
   getBossData,
   bossCheck,
+  deleteCharacterToBossDB,
 } from '../controllers/boss';
 
 const bossRouter = express.Router();
@@ -15,5 +16,9 @@ bossRouter
   .get(asyncHandler(getBossData))
   .post(asyncHandler(addCharacterToBossDB));
 bossRouter.route('/done').all(authJWT).post(asyncHandler(bossCheck));
+bossRouter
+  .route('/:bossId')
+  .all(authJWT)
+  .delete(asyncHandler(deleteCharacterToBossDB));
 
 export default bossRouter;

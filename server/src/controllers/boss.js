@@ -33,6 +33,31 @@ export const addCharacterToBossDB = async (req, res) => {
   });
 };
 
+export const deleteCharacterToBossDB = async (req, res) => {
+  const {
+    user: { id: loginUserId },
+    params: { bossId },
+  } = req;
+
+  const bossDeleteResult = await db.Boss.deleteOne({
+    owner: loginUserId,
+    _id: bossId,
+  });
+
+  if (bossDeleteResult.deletedCount === 0) {
+    res.status(404).json({
+      ok: false,
+      errorMessage: '삭제할 캐릭터가 없음',
+    });
+    return;
+  }
+
+  res.status(200).json({
+    ok: true,
+    message: '삭제완료',
+  });
+};
+
 export const getBossData = async (req, res) => {
   const {
     user: { id: loginUserId },
