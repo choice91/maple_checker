@@ -10,6 +10,11 @@ const bossSlice = createSlice({
   name: 'boss',
   initialState: {
     isFetching: false,
+    isAddModalOpen: false,
+    isUpdateModalOpen: false,
+    isDelModalOpen: false,
+    nickname: null,
+    bossId: null,
     bossData: {},
     errorMessage: '',
   },
@@ -24,6 +29,13 @@ const bossSlice = createSlice({
     },
     bossErrorMessageClear: (state, action) => {
       state.errorMessage = '';
+    },
+    openBossAddModal: (state, action) => {
+      state.isAddModalOpen = true;
+      state.errorMessage = '';
+    },
+    closeBossAddModal: (state, action) => {
+      state.isAddModalOpen = false;
     },
   },
   extraReducers: {

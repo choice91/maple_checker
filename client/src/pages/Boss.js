@@ -7,6 +7,7 @@ import Header from '../components/Header';
 import Layout from '../components/Layout';
 import TableBtn from '../components/TableBtn';
 import AddModal from '../components/modal/AddModal';
+import DelConfirmModal from '../components/modal/DelConfirmModal';
 import TableTitle from '../components/table/TableTitle';
 import BossTableContent from '../components/table/BossTableContent';
 import NoContents from '../components/table/NoContents';
@@ -14,8 +15,10 @@ import NoContents from '../components/table/NoContents';
 const Boss = () => {
   const dispatch = useDispatch();
 
-  const { bossData } = useSelector((state) => state.boss);
-  const { isAddModalOpen } = useSelector((state) => state.modal);
+  const { bossData, isAddModalOpen } = useSelector((state) => state.boss);
+  // const { isAddModalOpen, isDelModalOpen, nickname, bossId } = useSelector(
+  //   (state) => state.modal
+  // );
 
   const ids = Object.keys(bossData);
 
@@ -33,7 +36,7 @@ const Boss = () => {
         ) : (
           <table>
             <thead>
-              <TableTitle ids={ids} data={bossData} />
+              <TableTitle ids={ids} data={bossData} type="boss" />
             </thead>
             <tbody>
               <BossTableContent ids={ids} bossData={bossData} />
@@ -42,6 +45,9 @@ const Boss = () => {
         )}
       </Layout>
       {isAddModalOpen && <AddModal type="boss" />}
+      {/*{isDelModalOpen && (*/}
+      {/*  <DelConfirmModal type="boss" nickname={nickname} id={bossId} />*/}
+      {/*)}*/}
     </>
   );
 };

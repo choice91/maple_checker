@@ -8,9 +8,10 @@ const modalSlice = createSlice({
     isAddModalOpen: false,
     nickname: '',
     type: '',
-    questId: '',
+    questId: null,
+    bossId: null,
     delNickname: '',
-    delQuestId: '',
+    delQuestId: null,
   },
   reducers: {
     openAndCloseModal: (state, action) => {
@@ -28,15 +29,19 @@ const modalSlice = createSlice({
     },
     openAndCloseDelModal: (state, action) => {
       const {
-        payload: { type },
+        payload: { type, nickname, id },
       } = action;
 
       state.isDelModalOpen = !state.isDelModalOpen;
 
       if (state.isDelModalOpen) {
         state.type = type;
+        state.nickname = nickname;
+        state[`${type}Id`] = id;
       } else {
         state.type = '';
+        state.nickname = null;
+        state[`${type}Id`] = null;
       }
     },
     openAndCloseAddModal: (state, action) => {

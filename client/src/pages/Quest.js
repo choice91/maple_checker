@@ -43,7 +43,7 @@ const Quest = () => {
         <TableBtn type="quest" />
         <table>
           <thead>
-            <TableTitle ids={ids} data={questData} />
+            <TableTitle ids={ids} data={questData} type="quest" />
           </thead>
           <tbody>
             <TableContent ids={ids} quests={questData} />

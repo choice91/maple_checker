@@ -1,7 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 
-import modalSlice from '../redux/slices/modalSlice';
 import bossSlice from '../redux/slices/bossSlice';
 
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
@@ -12,9 +11,8 @@ const TableBtn = ({ type }) => {
   const openAddModal = () => {
     if (type === 'quest') {
     } else {
-      dispatch(bossSlice.actions.bossErrorMessageClear());
+      dispatch(bossSlice.actions.openBossAddModal());
     }
-    dispatch(modalSlice.actions.openAndCloseAddModal({ type }));
   };
 
   return (
