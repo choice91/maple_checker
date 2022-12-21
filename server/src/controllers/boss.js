@@ -12,7 +12,7 @@ export const addCharacterToBossDB = async (req, res) => {
   if (character) {
     res.status(400).json({
       ok: false,
-      message: '이미 존재하는 캐릭터입니다.',
+      errorMessage: '이미 존재하는 캐릭터입니다.',
     });
     return;
   }
