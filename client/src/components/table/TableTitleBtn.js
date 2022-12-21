@@ -11,8 +11,12 @@ const TableTitleBtn = ({ nickname, id, type }) => {
   const dispatch = useDispatch();
 
   const handleOpenModal = () => {
-    dispatch(modalSlice.actions.openAndCloseModal({ type }));
-    dispatch(modalSlice.actions.setNickAndId({ nickname, id }));
+    if (type === 'quest') {
+      dispatch(modalSlice.actions.openAndCloseModal({ type }));
+      dispatch(modalSlice.actions.setNickAndId({ nickname, id }));
+    } else {
+      dispatch(bossSlice.actions.openBossUpdateModal({ nickname, id }));
+    }
   };
 
   const handleDeleteChar = () => {

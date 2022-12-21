@@ -1,15 +1,19 @@
 import React, { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import modalSlice from '../../redux/slices/modalSlice';
 import questSlice from '../../redux/slices/questSlice';
+import bossSlice from '../../redux/slices/bossSlice';
 import { updateNickname } from '../../redux/async/quest';
+import { updateNicknameInBossTable } from '../../redux/async/boss';
 
 import '../../css/components/commonModal.scss';
 import '../../css/components/inputModal.scss';
 
 const UpdateModal = ({ type, nickname: prevNickname, id }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const outside = useRef();
 
@@ -18,12 +22,20 @@ const UpdateModal = ({ type, nickname: prevNickname, id }) => {
 
   const clickModalOutsideClick = (e) => {
     if (outside.current === e.target) {
-      dispatch(modalSlice.actions.openAndCloseModal({ type }));
+      if (type === 'quest') {
+        dispatch(modalSlice.actions.openAndCloseModal({ type }));
+      } else {
+        dispatch(bossSlice.actions.closeBossUpdateModal());
+      }
     }
   };
 
   const handleCloseModal = () => {
-    dispatch(modalSlice.actions.openAndCloseModal({ type }));
+    if (type === 'quest') {
+      dispatch(modalSlice.actions.openAndCloseModal({ type }));
+    } else {
+      dispatch(bossSlice.actions.closeBossUpdateModal());
+    }
   };
 
   const onChangeNickname = (e) => {
@@ -50,6 +62,48 @@ const UpdateModal = ({ type, nickname: prevNickname, id }) => {
           })
         );
         dispatch(modalSlice.actions.openAndCloseModal({ type }));
+      } else {
+        dispatch(
+          updateNicknameInBossTable({
+            data: { bossId: id, prevNickname, newNickname: nickname },
+            navigate,
+          })
+        );
+        dispatch(bossSlice.actions.updateNicknameInTable({ id, nickname }));
+      }
+    }
+  };
+
+  const submitNicknameEnter = (e) => {
+    const regExp = /\s/g;
+
+    if (e.key === 'Enter') {
+      if (prevNickname === nickname.replaceAll(regExp, '')) {
+        setNicknameEqualErrMsg('동일한 닉네임입니다.');
+      } else {
+        if (type === 'quest') {
+          dispatch(
+            updateNickname({
+              prevNickname,
+              newNickname: nickname.replaceAll(regExp, ''),
+            })
+          );
+          dispatch(
+            questSlice.actions.updateNicknameInTable({
+              id,
+              newNickname: nickname.replaceAll(regExp, ''),
+            })
+          );
+          dispatch(modalSlice.actions.openAndCloseModal({ type }));
+        } else {
+          dispatch(
+            updateNicknameInBossTable({
+              data: { bossId: id, prevNickname, newNickname: nickname },
+              navigate,
+            })
+          );
+          dispatch(bossSlice.actions.updateNicknameInTable({ id, nickname }));
+        }
       }
     }
   };
@@ -74,6 +128,7 @@ const UpdateModal = ({ type, nickname: prevNickname, id }) => {
               placeholder="닉네임"
               value={nickname}
               onChange={onChangeNickname}
+              onKeyPress={submitNicknameEnter}
             />
             <span className="modal__err-msg">{nicknameEqualErrMsg}</span>
           </div>

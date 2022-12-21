@@ -35,10 +35,27 @@ const bossSlice = createSlice({
     // 캐릭터 추가 모달
     openBossAddModal: (state, action) => {
       state.isAddModalOpen = true;
-      state.errorMessage = '';
     },
     closeBossAddModal: (state, action) => {
       state.isAddModalOpen = false;
+      state.errorMessage = '';
+    },
+
+    // 캐릭터 닉네임 수정 모달
+    openBossUpdateModal: (state, action) => {
+      const {
+        payload: { nickname, id: bossId },
+      } = action;
+
+      state.isUpdateModalOpen = true;
+      state.nickname = nickname;
+      state.bossId = bossId;
+    },
+    closeBossUpdateModal: (state, action) => {
+      state.isUpdateModalOpen = false;
+      state.errorMessage = '';
+      state.nickname = null;
+      state.bossId = null;
     },
 
     // 캐릭터 삭제 모달
@@ -55,6 +72,19 @@ const bossSlice = createSlice({
       state.isDelModalOpen = false;
       state.nickname = null;
       state.bossId = null;
+    },
+
+    // 캐릭터 닉네임 수정
+    updateNicknameInTable: (state, action) => {
+      const {
+        payload: { id: bossId, nickname },
+      } = action;
+
+      state.bossData[`${bossId}`].nickname = nickname;
+      state.isUpdateModalOpen = false;
+      state.errorMessage = false;
+      state.nickname = null;
+      state.id = null;
     },
 
     // 캐릭터 삭제
