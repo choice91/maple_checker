@@ -1,7 +1,7 @@
 import db from '../models';
 import { bossArrayToObjectFn } from '../service/functions';
 
-export const addCharacterToBossDB = async (req, res) => {
+export const addCharacter = async (req, res) => {
   const {
     user: { id: loginUserId },
     body: { nickname },
@@ -33,7 +33,37 @@ export const addCharacterToBossDB = async (req, res) => {
   });
 };
 
-export const deleteCharacterToBossDB = async (req, res) => {
+export const updateNickname = async (req, res) => {
+  const {
+    user: { id: loginUserId },
+    body: { prevNickname, newNickname },
+    params: { bossId },
+  } = req;
+
+  const boss = await db.Boss.findOne({
+    owner: loginUserId,
+    _id: bossId,
+    nickname: prevNickname,
+  });
+
+  if (!boss) {
+    res.status(404).json({
+      ok: false,
+      errorMessage: '캐릭터를 찾을 수 없음',
+    });
+    return;
+  }
+
+  boss.nickname = newNickname;
+  await boss.save();
+
+  res.status(200).json({
+    ok: true,
+    message: '삭제완료',
+  });
+};
+
+export const deleteCharacter = async (req, res) => {
   const {
     user: { id: loginUserId },
     params: { bossId },
