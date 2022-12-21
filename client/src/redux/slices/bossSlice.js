@@ -4,6 +4,7 @@ import {
   addCharacterToBoss,
   getBossData,
   bossCheckToServer,
+  delCharacterToBoss,
 } from '../async/boss';
 
 const bossSlice = createSlice({
@@ -43,14 +44,26 @@ const bossSlice = createSlice({
     // 캐릭터 삭제 모달
     openBossDelModal: (state, action) => {
       const {
-        payload: { nickname, id },
+        payload: { nickname, id: bossId },
       } = action;
 
       state.isDelModalOpen = true;
       state.nickname = nickname;
-      state.bossId = id;
+      state.bossId = bossId;
     },
     closeBossDelModal: (state, action) => {
+      state.isDelModalOpen = false;
+      state.nickname = null;
+      state.bossId = null;
+    },
+
+    // 캐릭터 삭제
+    delCharacterInTable: (state, action) => {
+      const {
+        payload: { id: bossId },
+      } = action;
+
+      delete state.bossData[`${bossId}`];
       state.isDelModalOpen = false;
       state.nickname = null;
       state.bossId = null;
@@ -68,6 +81,16 @@ const bossSlice = createSlice({
       state.bossData = Object.assign(state.bossData, newCharacter);
     },
     [addCharacterToBoss.rejected]: (state, action) => {
+      const {
+        payload: { errorMessage },
+      } = action;
+
+      state.errorMessage = errorMessage;
+    },
+
+    [delCharacterToBoss.pending]: (state, action) => {},
+    [delCharacterToBoss.fulfilled]: (state, action) => {},
+    [delCharacterToBoss.rejected]: (state, action) => {
       const {
         payload: { errorMessage },
       } = action;

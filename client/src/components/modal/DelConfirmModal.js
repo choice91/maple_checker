@@ -1,17 +1,20 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import modalSlice from '../../redux/slices/modalSlice';
 import questSlice from '../../redux/slices/questSlice';
 import bossSlice from '../../redux/slices/bossSlice';
 
 import { deleteCharacter } from '../../redux/async/quest';
+import { delCharacterToBoss } from '../../redux/async/boss';
 
 import '../../css/components/confirmModal.scss';
 import '../../css/components/commonModal.scss';
 
 const DelConfirmModal = ({ type, nickname, id }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const outside = useRef();
 
@@ -34,9 +37,14 @@ const DelConfirmModal = ({ type, nickname, id }) => {
   };
 
   const delCharacterSubmit = () => {
-    dispatch(deleteCharacter({ id }));
-    dispatch(questSlice.actions.delNicknameInTable({ id }));
-    dispatch(modalSlice.actions.openAndCloseDelModal({ type }));
+    if (type === 'quest') {
+      dispatch(deleteCharacter({ id }));
+      dispatch(questSlice.actions.delNicknameInTable({ id }));
+      dispatch(modalSlice.actions.openAndCloseDelModal({ type }));
+    } else {
+      dispatch(delCharacterToBoss({ data: { bossId: id }, navigate }));
+      dispatch(bossSlice.actions.delCharacterInTable({ id }));
+    }
   };
 
   const handleEscKey = useCallback(

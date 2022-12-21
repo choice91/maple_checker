@@ -106,3 +106,37 @@ export const bossCheckToServer = createAsyncThunk(
     }
   }
 );
+
+export const delCharacterToBoss = createAsyncThunk(
+  'boss/delete',
+  async (payload, thunkAPI) => {
+    const {
+      data: { bossId },
+      navigate,
+    } = payload;
+    const user = JSON.parse(localStorage.getItem('user'));
+
+    try {
+      const response = await instance.delete(`/boss/${bossId}`, {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
+
+      return response.data;
+    } catch (err) {
+      const { response } = err;
+
+      switch (response.status) {
+        case 401:
+          if (response.data.error.name === 'TokenExpiredError') {
+            localStorage.removeItem('user');
+            navigate('/login');
+          }
+          return;
+        case 404:
+          return thunkAPI.rejectWithValue(response.data);
+      }
+    }
+  }
+);
