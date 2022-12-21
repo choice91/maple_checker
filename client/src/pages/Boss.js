@@ -15,7 +15,8 @@ import NoContents from '../components/table/NoContents';
 const Boss = () => {
   const dispatch = useDispatch();
 
-  const { bossData, isAddModalOpen } = useSelector((state) => state.boss);
+  const { bossData, isAddModalOpen, isDelModalOpen, nickname, bossId } =
+    useSelector((state) => state.boss);
   // const { isAddModalOpen, isDelModalOpen, nickname, bossId } = useSelector(
   //   (state) => state.modal
   // );
@@ -45,9 +46,9 @@ const Boss = () => {
         )}
       </Layout>
       {isAddModalOpen && <AddModal type="boss" />}
-      {/*{isDelModalOpen && (*/}
-      {/*  <DelConfirmModal type="boss" nickname={nickname} id={bossId} />*/}
-      {/*)}*/}
+      {isDelModalOpen && (
+        <DelConfirmModal type="boss" nickname={nickname} id={bossId} />
+      )}
     </>
   );
 };

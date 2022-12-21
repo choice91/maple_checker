@@ -30,12 +30,30 @@ const bossSlice = createSlice({
     bossErrorMessageClear: (state, action) => {
       state.errorMessage = '';
     },
+
+    // 캐릭터 추가 모달
     openBossAddModal: (state, action) => {
       state.isAddModalOpen = true;
       state.errorMessage = '';
     },
     closeBossAddModal: (state, action) => {
       state.isAddModalOpen = false;
+    },
+
+    // 캐릭터 삭제 모달
+    openBossDelModal: (state, action) => {
+      const {
+        payload: { nickname, id },
+      } = action;
+
+      state.isDelModalOpen = true;
+      state.nickname = nickname;
+      state.bossId = id;
+    },
+    closeBossDelModal: (state, action) => {
+      state.isDelModalOpen = false;
+      state.nickname = null;
+      state.bossId = null;
     },
   },
   extraReducers: {

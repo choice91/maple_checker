@@ -2,6 +2,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 
 import modalSlice from '../../redux/slices/modalSlice';
+import bossSlice from '../../redux/slices/bossSlice';
 
 import CreateIcon from '@mui/icons-material/Create';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -15,8 +16,12 @@ const TableTitleBtn = ({ nickname, id, type }) => {
   };
 
   const handleDeleteChar = () => {
-    dispatch(modalSlice.actions.openAndCloseDelModal({ type, nickname, id }));
-    // dispatch(modalSlice.actions.setDelNickAndId({ nickname, id }));
+    if (type === 'quest') {
+      dispatch(modalSlice.actions.openAndCloseDelModal({ type, nickname, id }));
+      // dispatch(modalSlice.actions.setDelNickAndId({ nickname, id }));
+    } else {
+      dispatch(bossSlice.actions.openBossDelModal({ nickname, id }));
+    }
   };
 
   return (

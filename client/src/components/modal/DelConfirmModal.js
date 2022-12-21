@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 
 import modalSlice from '../../redux/slices/modalSlice';
 import questSlice from '../../redux/slices/questSlice';
+import bossSlice from '../../redux/slices/bossSlice';
 
 import { deleteCharacter } from '../../redux/async/quest';
 
@@ -16,12 +17,20 @@ const DelConfirmModal = ({ type, nickname, id }) => {
 
   const clickModalOutsideClick = (e) => {
     if (outside.current === e.target) {
-      dispatch(modalSlice.actions.openAndCloseDelModal({ type }));
+      if (type === 'quest') {
+        dispatch(modalSlice.actions.openAndCloseDelModal({ type }));
+      } else {
+        dispatch(bossSlice.actions.closeBossDelModal());
+      }
     }
   };
 
   const closeDelModal = () => {
-    dispatch(modalSlice.actions.openAndCloseDelModal({ type }));
+    if (type === 'quest') {
+      dispatch(modalSlice.actions.openAndCloseDelModal({ type }));
+    } else {
+      dispatch(bossSlice.actions.closeBossDelModal());
+    }
   };
 
   const delCharacterSubmit = () => {
