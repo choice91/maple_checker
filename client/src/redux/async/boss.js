@@ -3,7 +3,7 @@ import instance from '../apis';
 
 import modalSlice from '../slices/modalSlice';
 
-export const submitAddCharacterToBoss = createAsyncThunk(
+export const addCharacterToBoss = createAsyncThunk(
   'boss/add',
   async (payload, thunkAPI) => {
     const {
@@ -33,15 +33,17 @@ export const submitAddCharacterToBoss = createAsyncThunk(
     } catch (err) {
       const { response } = err;
 
-      if (
-        response.data.error.name === 'TokenExpiredError' &&
-        response.status === 401
-      ) {
-        localStorage.removeItem('user');
-        navigate('/login');
+      switch (response.status) {
+        case 400:
+          console.error(response);
+          return thunkAPI.rejectWithValue(response.data);
+        case 401:
+          if (response.data.error.name === 'TokenExpiredError') {
+            localStorage.removeItem('user');
+            navigate('/login');
+          }
+          return;
       }
-
-      return thunkAPI.rejectWithValue(response.data);
     }
   }
 );

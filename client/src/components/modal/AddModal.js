@@ -1,10 +1,10 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import modalSlice from '../../redux/slices/modalSlice';
 import { addCharacter } from '../../redux/async/quest';
-import { submitAddCharacterToBoss } from '../../redux/async/boss';
+import { addCharacterToBoss } from '../../redux/async/boss';
 
 import '../../css/components/commonModal.scss';
 import '../../css/components/inputModal.scss';
@@ -12,6 +12,7 @@ import '../../css/components/inputModal.scss';
 const AddModal = ({ type }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { errorMessage } = useSelector((state) => state.boss);
 
   const outside = useRef();
   const inputRef = useRef();
@@ -40,7 +41,7 @@ const AddModal = ({ type }) => {
     if (type === 'quest') {
       dispatch(addCharacter({ data: { nickname }, navigate }));
     } else {
-      dispatch(submitAddCharacterToBoss({ data: { nickname }, navigate }));
+      dispatch(addCharacterToBoss({ data: { nickname }, navigate }));
     }
   };
 
@@ -49,7 +50,7 @@ const AddModal = ({ type }) => {
       if (type === 'quest') {
         dispatch(addCharacter({ data: { nickname }, navigate }));
       } else {
-        dispatch(submitAddCharacterToBoss({ data: { nickname }, navigate }));
+        dispatch(addCharacterToBoss({ data: { nickname }, navigate }));
       }
     }
   };
@@ -82,7 +83,9 @@ const AddModal = ({ type }) => {
               onKeyPress={addCharacterSubmitEnter}
               ref={inputRef}
             />
-            <span className="modal__err-msg"></span>
+            <span className="modal__err-msg">
+              {errorMessage === '' ? '' : errorMessage}
+            </span>
           </div>
           <div className="modal__btn">
             <button className="modal__cancel" onClick={closeModal}>

@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import {
-  submitAddCharacterToBoss,
+  addCharacterToBoss,
   getBossData,
   bossCheckToServer,
 } from '../async/boss';
@@ -11,6 +11,7 @@ const bossSlice = createSlice({
   initialState: {
     isFetching: false,
     bossData: {},
+    errorMessage: '',
   },
   reducers: {
     bossCheckReducer: (state, action) => {
@@ -21,17 +22,28 @@ const bossSlice = createSlice({
       state.bossData[`${bossId}`].boss[`${bossType}`] =
         !state.bossData[`${bossId}`].boss[`${bossType}`];
     },
+    bossErrorMessageClear: (state, action) => {
+      state.errorMessage = '';
+    },
   },
   extraReducers: {
-    [submitAddCharacterToBoss.pending]: (state, action) => {},
-    [submitAddCharacterToBoss.fulfilled]: (state, action) => {
+    [addCharacterToBoss.pending]: (state, action) => {
+      state.errorMessage = '';
+    },
+    [addCharacterToBoss.fulfilled]: (state, action) => {
       const {
         payload: { newCharacter },
       } = action;
 
       state.bossData = Object.assign(state.bossData, newCharacter);
     },
-    [submitAddCharacterToBoss.rejected]: (state, action) => {},
+    [addCharacterToBoss.rejected]: (state, action) => {
+      const {
+        payload: { errorMessage },
+      } = action;
+
+      state.errorMessage = errorMessage;
+    },
 
     [getBossData.pending]: (state, action) => {
       state.isFetching = true;
