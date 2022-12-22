@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import modalSlice from '../../redux/slices/modalSlice';
+import questSlice from '../../redux/slices/questSlice';
 import bossSlice from '../../redux/slices/bossSlice';
 import { addCharacter } from '../../redux/async/quest';
 import { addCharacterToBoss } from '../../redux/async/boss';
@@ -23,7 +24,7 @@ const AddModal = ({ type }) => {
   const clickModalOutsideClick = (e) => {
     if (outside.current === e.target) {
       if (type === 'quest') {
-        dispatch(modalSlice.actions.openAndCloseAddModal({ type }));
+        dispatch(questSlice.actions.closeQuestAddModal());
       } else {
         dispatch(bossSlice.actions.closeBossAddModal());
       }
@@ -32,7 +33,7 @@ const AddModal = ({ type }) => {
 
   const closeModal = () => {
     if (type === 'quest') {
-      dispatch(modalSlice.actions.openAndCloseAddModal({ type }));
+      dispatch(questSlice.actions.closeQuestAddModal());
     } else {
       dispatch(bossSlice.actions.closeBossAddModal());
     }

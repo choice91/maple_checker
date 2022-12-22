@@ -19,16 +19,23 @@ const Quest = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { questData } = useSelector((state) => state.quest);
   const {
-    isModalOpen,
-    isDelModalOpen,
+    questData,
     isAddModalOpen,
+    isUpdateModalOpen,
+    isDelModalOpen,
     nickname,
-    delNickname,
     questId,
-    delQuestId,
-  } = useSelector((state) => state.modal);
+  } = useSelector((state) => state.quest);
+  // const {
+  //   isModalOpen,
+  //   isDelModalOpen,
+  //   isAddModalOpen,
+  //   nickname,
+  //   delNickname,
+  //   questId,
+  //   delQuestId,
+  // } = useSelector((state) => state.modal);
 
   const ids = Object.keys(questData);
 
@@ -50,13 +57,13 @@ const Quest = () => {
           </tbody>
         </table>
       </Layout>
-      {isModalOpen && (
+      {isAddModalOpen && <AddModal type="quest" />}
+      {isUpdateModalOpen && (
         <UpdateModal type="quest" nickname={nickname} id={questId} />
       )}
       {isDelModalOpen && (
-        <DelConfirmModal type="quest" nickname={delNickname} id={delQuestId} />
+        <DelConfirmModal type="quest" nickname={nickname} id={questId} />
       )}
-      {isAddModalOpen && <AddModal type="quest" />}
     </>
   );
 };

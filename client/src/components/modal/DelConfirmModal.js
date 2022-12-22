@@ -21,7 +21,7 @@ const DelConfirmModal = ({ type, nickname, id }) => {
   const clickModalOutsideClick = (e) => {
     if (outside.current === e.target) {
       if (type === 'quest') {
-        dispatch(modalSlice.actions.openAndCloseDelModal({ type }));
+        dispatch(questSlice.actions.closeQuestDelModal());
       } else {
         dispatch(bossSlice.actions.closeBossDelModal());
       }
@@ -30,7 +30,7 @@ const DelConfirmModal = ({ type, nickname, id }) => {
 
   const closeDelModal = () => {
     if (type === 'quest') {
-      dispatch(modalSlice.actions.openAndCloseDelModal({ type }));
+      dispatch(questSlice.actions.closeQuestDelModal());
     } else {
       dispatch(bossSlice.actions.closeBossDelModal());
     }
@@ -39,8 +39,7 @@ const DelConfirmModal = ({ type, nickname, id }) => {
   const delCharacterSubmit = () => {
     if (type === 'quest') {
       dispatch(deleteCharacter({ id }));
-      dispatch(questSlice.actions.delNicknameInTable({ id }));
-      dispatch(modalSlice.actions.openAndCloseDelModal({ type }));
+      dispatch(questSlice.actions.delCharacterInTable({ id }));
     } else {
       dispatch(delCharacterToBoss({ data: { bossId: id }, navigate }));
       dispatch(bossSlice.actions.delCharacterInTable({ id }));

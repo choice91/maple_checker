@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 
-import modalSlice from '../../redux/slices/modalSlice';
+import questSlice from '../../redux/slices/questSlice';
 import bossSlice from '../../redux/slices/bossSlice';
 
 import CreateIcon from '@mui/icons-material/Create';
@@ -10,19 +10,17 @@ import DeleteIcon from '@mui/icons-material/Delete';
 const TableTitleBtn = ({ nickname, id, type }) => {
   const dispatch = useDispatch();
 
-  const handleOpenModal = () => {
+  const openUpdateModal = () => {
     if (type === 'quest') {
-      dispatch(modalSlice.actions.openAndCloseModal({ type }));
-      dispatch(modalSlice.actions.setNickAndId({ nickname, id }));
+      dispatch(questSlice.actions.openQuestUpdateModal({ nickname, id }));
     } else {
       dispatch(bossSlice.actions.openBossUpdateModal({ nickname, id }));
     }
   };
 
-  const handleDeleteChar = () => {
+  const openDelModal = () => {
     if (type === 'quest') {
-      dispatch(modalSlice.actions.openAndCloseDelModal({ type, nickname, id }));
-      // dispatch(modalSlice.actions.setDelNickAndId({ nickname, id }));
+      dispatch(questSlice.actions.openQuestDelModal({ nickname, id }));
     } else {
       dispatch(bossSlice.actions.openBossDelModal({ nickname, id }));
     }
@@ -31,10 +29,10 @@ const TableTitleBtn = ({ nickname, id, type }) => {
   return (
     <>
       <div className="icons">
-        <span className="icons__update-btn" onClick={handleOpenModal}>
+        <span className="icons__update-btn" onClick={openUpdateModal}>
           <CreateIcon fontSize="small" />
         </span>
-        <span className="icons__delete-btn" onClick={handleDeleteChar}>
+        <span className="icons__delete-btn" onClick={openDelModal}>
           <DeleteIcon fontSize="small" />
         </span>
       </div>

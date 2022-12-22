@@ -2,7 +2,6 @@ import React, { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import modalSlice from '../../redux/slices/modalSlice';
 import questSlice from '../../redux/slices/questSlice';
 import bossSlice from '../../redux/slices/bossSlice';
 import { updateNickname } from '../../redux/async/quest';
@@ -23,7 +22,7 @@ const UpdateModal = ({ type, nickname: prevNickname, id }) => {
   const clickModalOutsideClick = (e) => {
     if (outside.current === e.target) {
       if (type === 'quest') {
-        dispatch(modalSlice.actions.openAndCloseModal({ type }));
+        dispatch(questSlice.actions.closeQuestUpdateModal());
       } else {
         dispatch(bossSlice.actions.closeBossUpdateModal());
       }
@@ -32,7 +31,7 @@ const UpdateModal = ({ type, nickname: prevNickname, id }) => {
 
   const handleCloseModal = () => {
     if (type === 'quest') {
-      dispatch(modalSlice.actions.openAndCloseModal({ type }));
+      dispatch(questSlice.actions.closeQuestUpdateModal());
     } else {
       dispatch(bossSlice.actions.closeBossUpdateModal());
     }
@@ -61,7 +60,6 @@ const UpdateModal = ({ type, nickname: prevNickname, id }) => {
             newNickname: nickname.replaceAll(regExp, ''),
           })
         );
-        dispatch(modalSlice.actions.openAndCloseModal({ type }));
       } else {
         dispatch(
           updateNicknameInBossTable({
@@ -94,7 +92,6 @@ const UpdateModal = ({ type, nickname: prevNickname, id }) => {
               newNickname: nickname.replaceAll(regExp, ''),
             })
           );
-          dispatch(modalSlice.actions.openAndCloseModal({ type }));
         } else {
           dispatch(
             updateNicknameInBossTable({

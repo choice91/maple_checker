@@ -84,7 +84,7 @@ const bossSlice = createSlice({
       state.isUpdateModalOpen = false;
       state.errorMessage = false;
       state.nickname = null;
-      state.id = null;
+      state.bossId = null;
     },
 
     // 캐릭터 삭제
