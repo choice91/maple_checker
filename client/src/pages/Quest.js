@@ -11,6 +11,7 @@ import TableContent from '../components/table/TableContent';
 import UpdateModal from '../components/modal/UpdateModal';
 import DelConfirmModal from '../components/modal/DelConfirmModal';
 import AddModal from '../components/modal/AddModal';
+import NoContents from '../components/table/NoContents';
 
 import '../css/pages/quest.scss';
 import TableBtn from '../components/TableBtn';
@@ -27,15 +28,6 @@ const Quest = () => {
     nickname,
     questId,
   } = useSelector((state) => state.quest);
-  // const {
-  //   isModalOpen,
-  //   isDelModalOpen,
-  //   isAddModalOpen,
-  //   nickname,
-  //   delNickname,
-  //   questId,
-  //   delQuestId,
-  // } = useSelector((state) => state.modal);
 
   const ids = Object.keys(questData);
 
@@ -48,14 +40,18 @@ const Quest = () => {
       <Header page="quest" />
       <Layout>
         <TableBtn type="quest" />
-        <table>
-          <thead>
-            <TableTitle ids={ids} data={questData} type="quest" />
-          </thead>
-          <tbody>
-            <TableContent ids={ids} quests={questData} />
-          </tbody>
-        </table>
+        {ids.length === 0 ? (
+          <NoContents type="quest" />
+        ) : (
+          <table>
+            <thead>
+              <TableTitle ids={ids} data={questData} type="quest" />
+            </thead>
+            <tbody>
+              <TableContent ids={ids} quests={questData} />
+            </tbody>
+          </table>
+        )}
       </Layout>
       {isAddModalOpen && <AddModal type="quest" />}
       {isUpdateModalOpen && (
