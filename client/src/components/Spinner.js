@@ -7,7 +7,7 @@ const Spinner = () => {
   return (
     <>
       <div className="spinner">
-        <MoonLoader color="#e74c3c" />
+        <MoonLoader color="#e74c3c" size={100} />
       </div>
     </>
   );
