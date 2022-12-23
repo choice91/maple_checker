@@ -12,11 +12,13 @@ import DelConfirmModal from '../components/modal/DelConfirmModal';
 import TableTitle from '../components/table/TableTitle';
 import BossTableContent from '../components/table/BossTableContent';
 import NoContents from '../components/table/NoContents';
+import Spinner from '../components/Spinner';
 
 const Boss = () => {
   const dispatch = useDispatch();
 
   const {
+    isFetching,
     bossData,
     isAddModalOpen,
     isUpdateModalOpen,
@@ -36,7 +38,9 @@ const Boss = () => {
       <Header page="boss" />
       <Layout>
         <TableBtn type="boss" />
-        {ids.length === 0 ? (
+        {isFetching ? (
+          <Spinner />
+        ) : ids.length === 0 ? (
           <NoContents type="boss" />
         ) : (
           <table>

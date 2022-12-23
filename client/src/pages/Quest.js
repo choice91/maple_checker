@@ -12,6 +12,7 @@ import UpdateModal from '../components/modal/UpdateModal';
 import DelConfirmModal from '../components/modal/DelConfirmModal';
 import AddModal from '../components/modal/AddModal';
 import NoContents from '../components/table/NoContents';
+import Spinner from '../components/Spinner';
 
 import '../css/pages/quest.scss';
 import TableBtn from '../components/TableBtn';
@@ -21,6 +22,7 @@ const Quest = () => {
   const navigate = useNavigate();
 
   const {
+    isFetching,
     questData,
     isAddModalOpen,
     isUpdateModalOpen,
@@ -40,7 +42,9 @@ const Quest = () => {
       <Header page="quest" />
       <Layout>
         <TableBtn type="quest" />
-        {ids.length === 0 ? (
+        {isFetching ? (
+          <Spinner />
+        ) : ids.length === 0 ? (
           <NoContents type="quest" />
         ) : (
           <table>

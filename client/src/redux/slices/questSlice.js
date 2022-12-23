@@ -94,6 +94,7 @@ export const questSlice = createSlice({
     },
     [getQuests.fulfilled]: (state, action) => {
       state.questData = { ...action.payload.quests };
+      state.isFetching = false;
     },
     [getQuests.rejected]: (state, action) => {
       state.isFetching = false;
