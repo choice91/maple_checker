@@ -2,14 +2,14 @@ import React from 'react';
 
 import TableCheckbox from './TableCheckbox';
 
-const TableTd = ({ ids, quests, type }) => {
+const TableTd = ({ ids, data, type }) => {
   return (
     <>
       {ids.map((id, index) => (
         <td key={index}>
           <TableCheckbox
-            nickname={quests[`${id}`].nickname}
-            questValue={quests[`${id}`]}
+            nickname={data[`${id}`].nickname}
+            questValue={data[`${id}`]}
             questType={type}
             questId={id}
           />

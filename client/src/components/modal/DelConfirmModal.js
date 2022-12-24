@@ -1,33 +1,49 @@
 import React, { useCallback, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import modalSlice from '../../redux/slices/modalSlice';
 import questSlice from '../../redux/slices/questSlice';
+import bossSlice from '../../redux/slices/bossSlice';
 
 import { deleteCharacter } from '../../redux/async/quest';
+import { delCharacterToBoss } from '../../redux/async/boss';
 
 import '../../css/components/confirmModal.scss';
 import '../../css/components/commonModal.scss';
 
-const DelConfirmModal = ({ delNickname, delQuestId }) => {
+const DelConfirmModal = ({ type, nickname, id }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const outside = useRef();
 
   const clickModalOutsideClick = (e) => {
     if (outside.current === e.target) {
-      dispatch(modalSlice.actions.openAndCloseDelModal());
+      if (type === 'quest') {
+        dispatch(questSlice.actions.closeQuestDelModal());
+      } else {
+        dispatch(bossSlice.actions.closeBossDelModal());
+      }
     }
   };
 
   const closeDelModal = () => {
-    dispatch(modalSlice.actions.openAndCloseDelModal());
+    if (type === 'quest') {
+      dispatch(questSlice.actions.closeQuestDelModal());
+    } else {
+      dispatch(bossSlice.actions.closeBossDelModal());
+    }
   };
 
   const delCharacterSubmit = () => {
-    dispatch(deleteCharacter({ delQuestId }));
-    dispatch(questSlice.actions.delNicknameInTable({ delQuestId }));
-    dispatch(modalSlice.actions.openAndCloseDelModal());
+    if (type === 'quest') {
+      dispatch(deleteCharacter({ id }));
+      dispatch(questSlice.actions.delCharacterInTable({ id }));
+    } else {
+      dispatch(delCharacterToBoss({ data: { bossId: id }, navigate }));
+      dispatch(bossSlice.actions.delCharacterInTable({ id }));
+    }
   };
 
   const handleEscKey = useCallback(
@@ -71,7 +87,7 @@ const DelConfirmModal = ({ delNickname, delQuestId }) => {
             <h2>캐릭터 삭제</h2>
           </div>
           <div className="modal__del-msg">
-            정말 <span>{delNickname}</span>을 삭제하시겠습니까?
+            정말 <span>{nickname}</span>을 삭제하시겠습니까?
           </div>
           <div className="modal__btn">
             <button className="modal__cancel" onClick={closeDelModal}>

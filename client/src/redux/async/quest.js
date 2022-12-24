@@ -63,7 +63,10 @@ export const questCheck = createAsyncThunk(
 export const addCharacter = createAsyncThunk(
   'quest/add',
   async (payload, thunkAPI) => {
-    const { nickname } = payload;
+    const {
+      data: { nickname },
+      navigate,
+    } = payload;
     const user = JSON.parse(localStorage.getItem('user'));
 
     try {
@@ -79,11 +82,23 @@ export const addCharacter = createAsyncThunk(
         }
       );
 
-      thunkAPI.dispatch(modalSlice.actions.openAndCloseAddModal());
+      thunkAPI.dispatch(
+        modalSlice.actions.openAndCloseAddModal({ type: 'quest' })
+      );
 
       return response.data;
     } catch (err) {
-      return thunkAPI.rejectWithValue(err.response.data);
+      const { response } = err;
+
+      if (
+        response.data.error.name === 'TokenExpiredError' &&
+        response.status === 401
+      ) {
+        localStorage.removeItem('user');
+        navigate('/login');
+      }
+
+      return thunkAPI.rejectWithValue(response.data);
     }
   }
 );
@@ -107,7 +122,6 @@ export const updateNickname = createAsyncThunk(
           },
         }
       );
-      console.log(response);
 
       return response.data;
     } catch (err) {
@@ -120,16 +134,16 @@ export const updateNickname = createAsyncThunk(
 export const deleteCharacter = createAsyncThunk(
   'quest/delete',
   async (payload, thunkAPI) => {
-    const { delQuestId } = payload;
+    const { id } = payload;
     const user = JSON.parse(localStorage.getItem('user'));
 
     try {
-      const response = await instance.delete(`/quest/${delQuestId}`, {
+      const response = await instance.delete(`/quest/${id}`, {
         headers: {
           Authorization: `Bearer ${user.token}`,
         },
       });
-      console.log(response);
+
       return response.data;
     } catch (err) {
       console.error(err);

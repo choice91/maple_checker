@@ -1,14 +1,20 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 import modalSlice from '../../redux/slices/modalSlice';
+import questSlice from '../../redux/slices/questSlice';
+import bossSlice from '../../redux/slices/bossSlice';
 import { addCharacter } from '../../redux/async/quest';
+import { addCharacterToBoss } from '../../redux/async/boss';
 
 import '../../css/components/commonModal.scss';
 import '../../css/components/inputModal.scss';
 
-const AddModal = () => {
+const AddModal = ({ type }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { errorMessage } = useSelector((state) => state.boss);
 
   const outside = useRef();
   const inputRef = useRef();
@@ -17,12 +23,20 @@ const AddModal = () => {
 
   const clickModalOutsideClick = (e) => {
     if (outside.current === e.target) {
-      dispatch(modalSlice.actions.openAndCloseAddModal());
+      if (type === 'quest') {
+        dispatch(questSlice.actions.closeQuestAddModal());
+      } else {
+        dispatch(bossSlice.actions.closeBossAddModal());
+      }
     }
   };
 
   const closeModal = () => {
-    dispatch(modalSlice.actions.openAndCloseAddModal());
+    if (type === 'quest') {
+      dispatch(questSlice.actions.closeQuestAddModal());
+    } else {
+      dispatch(bossSlice.actions.closeBossAddModal());
+    }
   };
 
   const onChangeNickname = (e) => {
@@ -34,7 +48,21 @@ const AddModal = () => {
   };
 
   const addCharacterSubmit = () => {
-    dispatch(addCharacter({ nickname }));
+    if (type === 'quest') {
+      dispatch(addCharacter({ data: { nickname }, navigate }));
+    } else {
+      dispatch(addCharacterToBoss({ data: { nickname }, navigate }));
+    }
+  };
+
+  const addCharacterSubmitEnter = (e) => {
+    if (e.key === 'Enter') {
+      if (type === 'quest') {
+        dispatch(addCharacter({ data: { nickname }, navigate }));
+      } else {
+        dispatch(addCharacterToBoss({ data: { nickname }, navigate }));
+      }
+    }
   };
 
   useEffect(() => {
@@ -62,10 +90,12 @@ const AddModal = () => {
               className="modal__input"
               placeholder="닉네임"
               onChange={onChangeNickname}
-              onKeyPress={addCharacterSubmit}
+              onKeyPress={addCharacterSubmitEnter}
               ref={inputRef}
             />
-            <span className="modal__err-msg"></span>
+            <span className="modal__err-msg">
+              {errorMessage === '' ? '' : errorMessage}
+            </span>
           </div>
           <div className="modal__btn">
             <button className="modal__cancel" onClick={closeModal}>
