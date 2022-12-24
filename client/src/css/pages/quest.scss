@@ -2,6 +2,9 @@
 
 .table-btn {
   margin: 70px 0 10px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
 
   button {
     display: flex;
@@ -14,6 +17,7 @@
     padding: 5px 10px;
     cursor: pointer;
     transition: background-color 0.1s ease-in-out;
+    margin-right: 5px;
 
     &:hover {
       background-color: #333333;
