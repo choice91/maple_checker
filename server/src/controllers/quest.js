@@ -82,7 +82,7 @@ export const deleteCharacter = async (req, res) => {
   if (response.deletedCount !== 1) {
     res.status(400).json({
       ok: false,
-      message: '삭제중 오류가 발생했습니다. 다시 시도해주세요.',
+      errorMessage: '삭제중 오류가 발생했습니다. 다시 시도해주세요.',
     });
     return;
   }
