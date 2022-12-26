@@ -151,3 +151,38 @@ export const deleteCharacter = createAsyncThunk(
     }
   }
 );
+
+export const resetQuestData = createAsyncThunk(
+  'quest/reset',
+  async (payload, thunkAPI) => {
+    const { navigate } = payload;
+    const user = JSON.parse(localStorage.getItem('user'));
+
+    try {
+      const response = await instance.post(
+        '/quest/reset',
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
+
+      return response.data;
+    } catch (err) {
+      const { response } = err;
+
+      switch (response.status) {
+        case 400:
+          return thunkAPI.rejectWithValue(response.data);
+        case 401:
+          if (response.data.error.name === 'TokenExpiredError') {
+            localStorage.removeItem('user');
+            navigate('/login');
+          }
+          return;
+      }
+    }
+  }
+);
