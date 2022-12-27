@@ -108,7 +108,6 @@ export const bossCheck = async (req, res) => {
     user: { id: loginUserId },
     body: { nickname, bossType },
   } = req;
-  console.log(nickname, bossType);
 
   const bossData = await db.Boss.findOne({ owner: loginUserId, nickname });
 
@@ -126,5 +125,51 @@ export const bossCheck = async (req, res) => {
   res.status(200).json({
     ok: true,
     message: '완료',
+  });
+};
+
+export const resetBossData = async (req, res) => {
+  const {
+    user: { id: loginUserId },
+  } = req;
+
+  const bossDefaultValues = {
+    zaqqum: false,
+    magnus: false,
+    hilla: false,
+    papulatus: false,
+    pierre: false,
+    banban: false,
+    bloodyQueen: false,
+    vellum: false,
+    pinkBean: false,
+    lotus: false,
+    damian: false,
+    guardianAngelSlime: false,
+    lucid: false,
+    will: false,
+    dusk: false,
+    jinHilla: false,
+    darknell: false,
+    seren: false,
+    kalos: false,
+  };
+
+  const bossResetResponse = await db.Boss.updateMany(
+    { owner: loginUserId },
+    { $set: { boss: bossDefaultValues } }
+  );
+
+  if (bossResetResponse.modifiedCount === 0) {
+    res.status(400).json({
+      ok: false,
+      errorMessage: '보스 데이터 초기화 에러',
+    });
+    return;
+  }
+
+  res.status(200).json({
+    ok: true,
+    message: '보스 데이터 초기화',
   });
 };

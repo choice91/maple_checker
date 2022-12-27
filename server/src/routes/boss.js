@@ -7,6 +7,7 @@ import {
   bossCheck,
   deleteCharacter,
   updateNickname,
+  resetBossData,
 } from '../controllers/boss';
 
 const bossRouter = express.Router();
@@ -17,6 +18,7 @@ bossRouter
   .get(asyncHandler(getBossData))
   .post(asyncHandler(addCharacter));
 bossRouter.route('/done').all(authJWT).post(asyncHandler(bossCheck));
+bossRouter.route('/reset').all(authJWT).post(asyncHandler(resetBossData));
 bossRouter
   .route('/:bossId')
   .all(authJWT)

@@ -82,7 +82,7 @@ export const deleteCharacter = async (req, res) => {
   if (response.deletedCount !== 1) {
     res.status(400).json({
       ok: false,
-      message: '삭제중 오류가 발생했습니다. 다시 시도해주세요.',
+      errorMessage: '삭제중 오류가 발생했습니다. 다시 시도해주세요.',
     });
     return;
   }
@@ -127,5 +127,42 @@ export const questComplete = async (req, res) => {
   res.status(200).json({
     ok: true,
     message: quest.quests[`${questType}`] ? '완료' : '취소',
+  });
+};
+
+export const resetQuestData = async (req, res) => {
+  const {
+    user: { id: loginUserId },
+  } = req;
+
+  const questDefaultValues = {
+    yeoro: false,
+    chuchu: false,
+    lachelein: false,
+    arcana: false,
+    morass: false,
+    esfera: false,
+    cernium: false,
+    burningCernium: false,
+    arcs: false,
+    odium: false,
+  };
+
+  const updateResponse = await db.Quest.updateMany(
+    { owner: loginUserId },
+    { $set: { quests: questDefaultValues } }
+  );
+
+  if (updateResponse.modifiedCount === 0) {
+    res.status(400).json({
+      ok: false,
+      errorMessage: '초기화 에러',
+    });
+    return;
+  }
+
+  res.status(200).json({
+    ok: true,
+    message: '퀘스트 데이터 초기화',
   });
 };

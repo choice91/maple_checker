@@ -1,5 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getQuests, questCheck, addCharacter } from '../async/quest';
+import {
+  getQuests,
+  questCheck,
+  addCharacter,
+  resetQuestData,
+} from '../async/quest';
 
 export const questSlice = createSlice({
   name: 'quest',
@@ -118,6 +123,34 @@ export const questSlice = createSlice({
       state.isAddModalOpen = false;
     },
     [addCharacter.rejected]: (state, action) => {},
+
+    // 퀘스트 데이터 초기화
+    [resetQuestData.pending]: (state, action) => {
+      state.isFetching = true;
+    },
+    [resetQuestData.fulfilled]: (state, action) => {
+      const questDefaultValues = {
+        yeoro: false,
+        chuchu: false,
+        lachelein: false,
+        arcana: false,
+        morass: false,
+        esfera: false,
+        cernium: false,
+        burningCernium: false,
+        arcs: false,
+        odium: false,
+      };
+
+      for (let [key, _] of Object.entries(state.questData)) {
+        state.questData[key].quests = questDefaultValues;
+      }
+
+      state.isFetching = false;
+    },
+    [resetQuestData.rejected]: (state, action) => {
+      state.isFetching = false;
+    },
   },
 });
 
