@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import questSlice from '../redux/slices/questSlice';
 import bossSlice from '../redux/slices/bossSlice';
 import { resetQuestData } from '../redux/async/quest';
+import { resetBossData } from '../redux/async/boss';
 
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
@@ -24,6 +25,8 @@ const TableBtn = ({ type }) => {
   const resetData = () => {
     if (type === 'quest') {
       dispatch(resetQuestData({ navigate }));
+    } else {
+      dispatch(resetBossData({ navigate }));
     }
   };
 

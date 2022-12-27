@@ -5,6 +5,7 @@ import {
   getBossData,
   bossCheckToServer,
   delCharacterToBoss,
+  resetBossData,
 } from '../async/boss';
 
 const bossSlice = createSlice({
@@ -146,6 +147,43 @@ const bossSlice = createSlice({
     [bossCheckToServer.pending]: (state, action) => {},
     [bossCheckToServer.fulfilled]: (state, action) => {},
     [bossCheckToServer.rejected]: (state, action) => {},
+
+    // 퀘스트 데이터 초기화
+    [resetBossData.pending]: (state, action) => {
+      state.isFetching = true;
+    },
+    [resetBossData.fulfilled]: (state, action) => {
+      const bossDefaultValues = {
+        zaqqum: false,
+        magnus: false,
+        hilla: false,
+        papulatus: false,
+        pierre: false,
+        banban: false,
+        bloodyQueen: false,
+        vellum: false,
+        pinkBean: false,
+        lotus: false,
+        damian: false,
+        guardianAngelSlime: false,
+        lucid: false,
+        will: false,
+        dusk: false,
+        jinHilla: false,
+        darknell: false,
+        seren: false,
+        kalos: false,
+      };
+
+      for (let [key, _] of Object.entries(state.bossData)) {
+        state.bossData[key].boss = bossDefaultValues;
+      }
+
+      state.isFetching = false;
+    },
+    [resetBossData.rejected]: (state, action) => {
+      state.isFetching = false;
+    },
   },
 });
 
