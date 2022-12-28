@@ -1,6 +1,7 @@
 import express from 'express';
 
 import { postJoin, idCheck, postLogin, logout } from '../controllers/user';
+import auth from '../controllers/auth';
 import { home } from '../controllers/home';
 import { asyncHandler, isLoggedIn } from '../middlewares';
 
@@ -11,5 +12,6 @@ rootRouter.route('/login').post(asyncHandler(postLogin));
 rootRouter.route('/logout').get(logout);
 rootRouter.route('/join').post(asyncHandler(postJoin));
 rootRouter.route('/id-check').post(asyncHandler(idCheck));
+rootRouter.route('/refresh').get(asyncHandler(auth.reissueToken));
 
 export default rootRouter;

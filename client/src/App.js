@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
@@ -10,8 +10,12 @@ import RequireAuth from './utils/RequireAuth';
 import RedirectTo from './utils/RedirectTo';
 
 import './css/default.scss';
+import { setupInterceptor } from './redux/apis';
 
 function App() {
+  const navigate = useNavigate();
+  setupInterceptor(navigate);
+
   return (
     <>
       <Routes>
