@@ -23,8 +23,6 @@ export const userSlice = createSlice({
     [login.fulfilled]: (state, { payload }) => {
       state.isLoginFetching = false;
       state.isLoggedIn = true;
-      state.id = payload.id;
-      state.username = payload.username;
     },
     [login.rejected]: (state, { payload }) => {
       state.isLoginFetching = false;

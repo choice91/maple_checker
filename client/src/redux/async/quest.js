@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { instance, authInstance } from '../apis';
+import API from '../apis';
 
 import modalSlice from '../slices/modalSlice';
 
@@ -9,7 +9,7 @@ export const getQuests = createAsyncThunk(
     const { navigate } = payload;
 
     try {
-      const response = await authInstance.get('/quest');
+      const response = await API.get('/quest');
 
       return response.data;
     } catch (err) {
@@ -34,7 +34,7 @@ export const questCheck = createAsyncThunk(
     const { nickname, questType } = payload;
 
     try {
-      const response = await authInstance.post('/quest/done', {
+      const response = await API.post('/quest/done', {
         nickname,
         questType,
       });
@@ -55,7 +55,7 @@ export const addCharacter = createAsyncThunk(
     } = payload;
 
     try {
-      const response = await authInstance.post('/quest', {
+      const response = await API.post('/quest', {
         nickname,
       });
 
@@ -86,7 +86,7 @@ export const updateNickname = createAsyncThunk(
     const { prevNickname, newNickname } = payload;
 
     try {
-      const response = await authInstance.put('/quest', {
+      const response = await API.put('/quest', {
         prevNickname,
         newNickname,
       });
@@ -105,7 +105,7 @@ export const deleteCharacter = createAsyncThunk(
     const { id } = payload;
 
     try {
-      const response = await authInstance.delete(`/quest/${id}`);
+      const response = await API.delete(`/quest/${id}`);
 
       return response.data;
     } catch (err) {
@@ -121,7 +121,7 @@ export const resetQuestData = createAsyncThunk(
     const { navigate } = payload;
 
     try {
-      const response = await authInstance.post('/quest/reset');
+      const response = await API.post('/quest/reset');
 
       return response.data;
     } catch (err) {

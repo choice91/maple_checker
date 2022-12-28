@@ -1,6 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { instance } from '../apis';
-import jwtDecode from 'jwt-decode';
+import API from '../apis';
 
 export const login = createAsyncThunk(
   'user/login',
@@ -11,27 +10,23 @@ export const login = createAsyncThunk(
     } = payload;
 
     try {
-      const response = await instance.post('/login', {
+      const response = await API.post('/login', {
         id,
         password: pw,
       });
 
-      const { accessToken } = response.data.token;
-      const decodedToken = jwtDecode(accessToken);
+      const { accessToken, refreshToken } = response.data.token;
 
       localStorage.setItem(
-        'user',
-        JSON.stringify({
-          id: decodedToken.id,
-          username: decodedToken.username,
-          token: accessToken,
-        })
+        'token',
+        JSON.stringify({ accessToken, refreshToken })
       );
 
       navigate('/quest', { replace: true });
 
-      return { id, username: decodedToken.username };
+      return;
     } catch (err) {
+      console.error(err);
       return thunkAPI.rejectWithValue(err.response.data);
     }
   }
@@ -46,13 +41,15 @@ export const signUp = createAsyncThunk(
     } = payload;
 
     try {
-      const response = await instance.post('/join', {
+      const response = await API.post('/join', {
         id,
         password: pw,
         password2: pw2,
         name,
       });
+
       navigate('/login', { replace: false });
+
       return response.data;
     } catch (err) {
       console.error(err.response);
@@ -67,7 +64,7 @@ export const idCheck = createAsyncThunk(
     const { id } = payload;
 
     try {
-      const response = await instance.post('id-check', { id });
+      const response = await API.post('id-check', { id });
       return response.data;
     } catch (err) {
       return thunkAPI.rejectWithValue(err.response.data);

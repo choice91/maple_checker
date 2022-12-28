@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { instance, authInstance } from '../apis';
+import API from '../apis';
 
 import modalSlice from '../slices/modalSlice';
 
@@ -12,7 +12,7 @@ export const addCharacterToBoss = createAsyncThunk(
     } = payload;
 
     try {
-      const response = await authInstance.post('/boss', {
+      const response = await API.post('/boss', {
         nickname,
       });
 
@@ -43,7 +43,7 @@ export const getBossData = createAsyncThunk(
   'boss/getBoss',
   async (payload, thunkAPI) => {
     try {
-      const response = await authInstance.get('/boss');
+      const response = await API.get('/boss');
 
       return response.data;
     } catch (err) {
@@ -61,7 +61,7 @@ export const bossCheckToServer = createAsyncThunk(
     } = payload;
 
     try {
-      const response = await authInstance.post('/boss/done', {
+      const response = await API.post('/boss/done', {
         nickname,
         bossType,
       });
@@ -92,7 +92,7 @@ export const delCharacterToBoss = createAsyncThunk(
     } = payload;
 
     try {
-      const response = await authInstance.delete(`/boss/${bossId}`);
+      const response = await API.delete(`/boss/${bossId}`);
 
       return response.data;
     } catch (err) {
@@ -121,7 +121,7 @@ export const updateNicknameInBossTable = createAsyncThunk(
     } = payload;
 
     try {
-      const response = await authInstance.put(`/boss/${bossId}`, {
+      const response = await API.put(`/boss/${bossId}`, {
         prevNickname,
         newNickname,
       });
@@ -150,7 +150,7 @@ export const resetBossData = createAsyncThunk(
     const { navigate } = payload;
 
     try {
-      const response = await authInstance.post('/boss/reset');
+      const response = await API.post('/boss/reset');
 
       return response.data;
     } catch (err) {
