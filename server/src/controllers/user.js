@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
 
 import db from '../models';
+import { signAccessToken, signRefreshToken } from '../utils/jwt';
 
 export const postJoin = async (req, res) => {
   const { id, password, password2, name } = req.body;
@@ -84,20 +84,18 @@ export const postLogin = async (req, res) => {
     return;
   }
 
-  const payload = {
-    id: user._id,
-    username: user.name,
-  };
+  const accessToken = await signAccessToken(user._id, user.name);
+  const refreshToken = await signRefreshToken();
 
-  const options = { expiresIn: '1h' };
-
-  const accessToken = await jwt.sign(payload, process.env.JWT_SECRET, options);
+  user.refreshToken = refreshToken;
+  await user.save();
 
   res.status(200).json({
     ok: true,
     message: '로그인 성공',
     token: {
       accessToken,
+      refreshToken,
     },
   });
 };
