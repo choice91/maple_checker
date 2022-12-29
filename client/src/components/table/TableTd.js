@@ -6,14 +6,13 @@ const TableTd = ({ ids, data, type }) => {
   return (
     <>
       {ids.map((id, index) => (
-        <td key={index}>
-          <TableCheckbox
-            nickname={data[`${id}`].nickname}
-            questValue={data[`${id}`]}
-            questType={type}
-            questId={id}
-          />
-        </td>
+        <TableCheckbox
+          index={index}
+          nickname={data[`${id}`].nickname}
+          questValue={data[`${id}`]}
+          questType={type}
+          questId={id}
+        />
       ))}
     </>
   );
