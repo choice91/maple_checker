@@ -44,12 +44,13 @@ export default {
   updateNickname: async (req, res) => {
     const {
       user: { id: loginUserId },
-      body: { prevNickname, newNickname },
+      body: { newNickname },
+      params: { questId },
     } = req;
 
     const character = await db.Quest.findOne({
+      _id: questId,
       owner: loginUserId,
-      nickname: prevNickname,
     });
 
     if (!character) {
@@ -109,10 +110,10 @@ export default {
   questComplete: async (req, res) => {
     const {
       user: { id: loginUserId },
-      body: { nickname, questType },
+      body: { questId, questType },
     } = req;
 
-    const quest = await db.Quest.findOne({ owner: loginUserId, nickname });
+    const quest = await db.Quest.findOne({ _id: questId, owner: loginUserId });
 
     if (!quest) {
       res.status(404).json({
@@ -122,12 +123,12 @@ export default {
       return;
     }
 
-    quest.quests[`${questType}`] = !quest.quests[`${questType}`];
+    quest.quest[questType] = !quest.quest[questType];
     await quest.save();
 
     res.status(200).json({
       ok: true,
-      message: quest.quests[`${questType}`] ? '완료' : '취소',
+      message: quest.quest[questType] ? '완료' : '취소',
     });
   },
 

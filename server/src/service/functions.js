@@ -5,7 +5,7 @@ export const arrayToObjectFn = (array) => {
       [cur._id]: {
         nickname: cur.nickname,
         owner: cur.owner,
-        quests: cur.quests,
+        quest: cur.quest,
       },
     }),
     {}

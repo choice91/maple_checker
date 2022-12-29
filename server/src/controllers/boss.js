@@ -38,14 +38,13 @@ export default {
   updateNickname: async (req, res) => {
     const {
       user: { id: loginUserId },
-      body: { prevNickname, newNickname },
+      body: { newNickname },
       params: { bossId },
     } = req;
 
     const boss = await db.Boss.findOne({
-      owner: loginUserId,
       _id: bossId,
-      nickname: prevNickname,
+      owner: loginUserId,
     });
 
     if (!boss) {
@@ -108,10 +107,10 @@ export default {
   checkBossData: async (req, res) => {
     const {
       user: { id: loginUserId },
-      body: { nickname, bossType },
+      body: { bossId, bossType },
     } = req;
 
-    const bossData = await db.Boss.findOne({ owner: loginUserId, nickname });
+    const bossData = await db.Boss.findOne({ _id: bossId, owner: loginUserId });
 
     if (!bossData) {
       res.status(404).json({

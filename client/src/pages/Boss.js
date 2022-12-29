@@ -6,11 +6,11 @@ import { getBossData } from '../redux/async/boss';
 import Header from '../components/Header';
 import Layout from '../components/Layout';
 import TableBtn from '../components/TableBtn';
+import TableContent from '../components/table/TableContent';
 import AddModal from '../components/modal/AddModal';
 import UpdateModal from '../components/modal/UpdateModal';
 import DelConfirmModal from '../components/modal/DelConfirmModal';
 import TableTitle from '../components/table/TableTitle';
-import BossTableContent from '../components/table/BossTableContent';
 import NoContents from '../components/table/NoContents';
 import Spinner from '../components/Spinner';
 
@@ -48,7 +48,7 @@ const Boss = () => {
               <TableTitle ids={ids} data={bossData} type="boss" />
             </thead>
             <tbody>
-              <BossTableContent ids={ids} bossData={bossData} />
+              <TableContent ids={ids} data={bossData} />
             </tbody>
           </table>
         )}

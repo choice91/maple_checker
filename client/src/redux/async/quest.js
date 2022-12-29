@@ -31,17 +31,31 @@ export const getQuests = createAsyncThunk(
 export const questCheck = createAsyncThunk(
   'quest/check',
   async (payload, thunkAPI) => {
-    const { nickname, questType } = payload;
+    const {
+      data: { questId, questType },
+      navigate,
+    } = payload;
 
     try {
       const response = await API.post('/quest/done', {
-        nickname,
+        questId,
         questType,
       });
 
       return response.data;
     } catch (err) {
-      return thunkAPI.rejectWithValue(err.response.data);
+      const { response } = err;
+
+      switch (response.status) {
+        case 401:
+          if (response.data.error.name === 'TokenExpiredError') {
+            localStorage.removeItem('user');
+            navigate('/login');
+          }
+          return;
+        case 404:
+          return thunkAPI.rejectWithValue(response.data);
+      }
     }
   }
 );
@@ -67,15 +81,16 @@ export const addCharacter = createAsyncThunk(
     } catch (err) {
       const { response } = err;
 
-      if (
-        response.data.error.name === 'TokenExpiredError' &&
-        response.status === 401
-      ) {
-        localStorage.removeItem('user');
-        navigate('/login');
+      switch (response.status) {
+        case 400:
+          return thunkAPI.rejectWithValue(response.data);
+        case 401:
+          if (response.data.error.name === 'TokenExpiredError') {
+            localStorage.removeItem('user');
+            navigate('/login');
+          }
+          return;
       }
-
-      return thunkAPI.rejectWithValue(response.data);
     }
   }
 );
@@ -83,18 +98,30 @@ export const addCharacter = createAsyncThunk(
 export const updateNickname = createAsyncThunk(
   'quest/update',
   async (payload, thunkAPI) => {
-    const { prevNickname, newNickname } = payload;
+    const {
+      data: { questId, newNickname },
+      navigate,
+    } = payload;
 
     try {
-      const response = await API.put('/quest', {
-        prevNickname,
+      const response = await API.put(`/quest/${questId}`, {
         newNickname,
       });
 
       return response.data;
     } catch (err) {
-      console.error(err.response);
-      return thunkAPI.rejectWithValue(err.response.data);
+      const { response } = err;
+
+      switch (response.status) {
+        case 401:
+          if (response.data.error.name === 'TokenExpiredError') {
+            localStorage.removeItem('user');
+            navigate('/login');
+          }
+          return;
+        case 404:
+          return thunkAPI.rejectWithValue(response.data);
+      }
     }
   }
 );
@@ -102,15 +129,28 @@ export const updateNickname = createAsyncThunk(
 export const deleteCharacter = createAsyncThunk(
   'quest/delete',
   async (payload, thunkAPI) => {
-    const { id } = payload;
+    const {
+      data: { questId },
+      navigate,
+    } = payload;
 
     try {
-      const response = await API.delete(`/quest/${id}`);
+      const response = await API.delete(`/quest/${questId}`);
 
       return response.data;
     } catch (err) {
-      console.error(err);
-      return thunkAPI.rejectWithValue(err.response.data);
+      const { response } = err;
+
+      switch (response.status) {
+        case 401:
+          if (response.data.error.name === 'TokenExpiredError') {
+            localStorage.removeItem('user');
+            navigate('/login');
+          }
+          return;
+        case 404:
+          return thunkAPI.rejectWithValue(response.data);
+      }
     }
   }
 );

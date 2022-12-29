@@ -9,8 +9,7 @@ questRouter
   .route('/')
   .all(authJWT)
   .get(asyncHandler(questCtrl.getQuestData))
-  .post(asyncHandler(questCtrl.addCharacter))
-  .put(asyncHandler(questCtrl.updateNickname));
+  .post(asyncHandler(questCtrl.addCharacter));
 questRouter
   .route('/done')
   .all(authJWT)
@@ -22,6 +21,7 @@ questRouter
 questRouter
   .route('/:questId')
   .all(authJWT)
+  .put(asyncHandler(questCtrl.updateNickname))
   .delete(asyncHandler(questCtrl.deleteCharacter));
 
 export default questRouter;

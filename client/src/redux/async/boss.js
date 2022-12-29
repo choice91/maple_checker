@@ -56,13 +56,13 @@ export const bossCheckToServer = createAsyncThunk(
   'boss/check',
   async (payload, thunkAPI) => {
     const {
-      data: { nickname, bossType },
+      data: { bossId, bossType },
       navigate,
     } = payload;
 
     try {
       const response = await API.post('/boss/done', {
-        nickname,
+        bossId,
         bossType,
       });
 
@@ -116,13 +116,12 @@ export const updateNicknameInBossTable = createAsyncThunk(
   'boss/update',
   async (payload, thunkAPI) => {
     const {
-      data: { bossId, prevNickname, newNickname },
+      data: { bossId, newNickname },
       navigate,
     } = payload;
 
     try {
       const response = await API.put(`/boss/${bossId}`, {
-        prevNickname,
         newNickname,
       });
 

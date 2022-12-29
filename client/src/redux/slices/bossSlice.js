@@ -26,8 +26,8 @@ const bossSlice = createSlice({
         payload: { bossId, bossType },
       } = action;
 
-      state.bossData[`${bossId}`].boss[`${bossType}`] =
-        !state.bossData[`${bossId}`].boss[`${bossType}`];
+      state.bossData[bossId].boss[bossType] =
+        !state.bossData[bossId].boss[bossType];
     },
     bossErrorMessageClear: (state, action) => {
       state.errorMessage = '';
@@ -78,10 +78,10 @@ const bossSlice = createSlice({
     // 캐릭터 닉네임 수정
     updateNicknameInTable: (state, action) => {
       const {
-        payload: { id: bossId, nickname },
+        payload: { bossId, nickname },
       } = action;
 
-      state.bossData[`${bossId}`].nickname = nickname;
+      state.bossData[bossId].nickname = nickname;
       state.isUpdateModalOpen = false;
       state.errorMessage = false;
       state.nickname = null;
@@ -91,10 +91,10 @@ const bossSlice = createSlice({
     // 캐릭터 삭제
     delCharacterInTable: (state, action) => {
       const {
-        payload: { id: bossId },
+        payload: { bossId },
       } = action;
 
-      delete state.bossData[`${bossId}`];
+      delete state.bossData[bossId];
       state.isDelModalOpen = false;
       state.nickname = null;
       state.bossId = null;

@@ -35,7 +35,7 @@ const Quest = () => {
 
   useEffect(() => {
     dispatch(getQuests({ navigate }));
-  }, [dispatch]);
+  }, []);
 
   return (
     <>
@@ -52,7 +52,7 @@ const Quest = () => {
               <TableTitle ids={ids} data={questData} type="quest" />
             </thead>
             <tbody>
-              <TableContent ids={ids} quests={questData} />
+              <TableContent ids={ids} data={questData} />
             </tbody>
           </table>
         )}

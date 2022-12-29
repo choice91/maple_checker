@@ -1,13 +1,23 @@
 import React from 'react';
 
-import BossTableTd from './BossTableTd';
+import TableTd from './TableTd';
 
-const TableTr = ({ bossName, ids, bossData }) => {
+const TableTr = ({ index, dataType, name, ids, data, pathname }) => {
   return (
     <>
       <tr>
-        <td>{bossName}</td>
-        <BossTableTd ids={ids} data={bossData} type={bossName} />
+        <td key={index}>{name}</td>
+        {ids.map((id, index) => (
+          <>
+            <TableTd
+              index={index}
+              dataType={dataType}
+              dataId={id}
+              data={data[id]}
+              pathname={pathname}
+            />
+          </>
+        ))}
       </tr>
     </>
   );
