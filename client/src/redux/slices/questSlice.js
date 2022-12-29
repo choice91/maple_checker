@@ -25,8 +25,8 @@ export const questSlice = createSlice({
         payload: { questId, questType },
       } = action;
 
-      state.questData[`${questId}`].quests[`${questType}`] =
-        !state.questData[`${questId}`].quests[`${questType}`];
+      state.questData[`${questId}`].quest[`${questType}`] =
+        !state.questData[`${questId}`].quest[`${questType}`];
     },
 
     // 캐릭터 추가 모달

@@ -56,13 +56,13 @@ export const bossCheckToServer = createAsyncThunk(
   'boss/check',
   async (payload, thunkAPI) => {
     const {
-      data: { nickname, bossType },
+      data: { bossId, bossType },
       navigate,
     } = payload;
 
     try {
       const response = await API.post('/boss/done', {
-        nickname,
+        bossId,
         bossType,
       });
 

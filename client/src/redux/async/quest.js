@@ -31,11 +31,14 @@ export const getQuests = createAsyncThunk(
 export const questCheck = createAsyncThunk(
   'quest/check',
   async (payload, thunkAPI) => {
-    const { nickname, questType } = payload;
+    const {
+      data: { questId, questType },
+      navigate,
+    } = payload;
 
     try {
       const response = await API.post('/quest/done', {
-        nickname,
+        questId,
         questType,
       });
 
