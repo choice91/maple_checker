@@ -6,14 +6,13 @@ const BossTableTd = ({ ids, data, type }) => {
   return (
     <>
       {ids.map((id, index) => (
-        <td key={index}>
-          <BossTableCheckbox
-            nickname={data[`${id}`].nickname}
-            bossData={data[`${id}`]}
-            bossType={type}
-            bossId={id}
-          />
-        </td>
+        <BossTableCheckbox
+          index={index}
+          nickname={data[`${id}`].nickname}
+          bossData={data[`${id}`]}
+          bossType={type}
+          bossId={id}
+        />
       ))}
     </>
   );

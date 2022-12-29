@@ -31,7 +31,7 @@ const BOSS_TABLE = {
   칼로스: 'kalos',
 };
 
-const BossTableCheckbox = ({ nickname, bossData, bossType, bossId }) => {
+const BossTableCheckbox = ({ index, nickname, bossData, bossType, bossId }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -52,13 +52,15 @@ const BossTableCheckbox = ({ nickname, bossData, bossType, bossId }) => {
 
   return (
     <>
-      <button onClick={bossCheck}>
-        {bossData.boss[`${BOSS_TABLE[bossType]}`] ? (
-          <CheckBoxIcon style={{ color: '#3498db' }} />
-        ) : (
-          <CheckBoxOutlineBlankIcon style={{ color: '#fff' }} />
-        )}
-      </button>
+      <td key={index} onClick={bossCheck}>
+        <button>
+          {bossData.boss[`${BOSS_TABLE[bossType]}`] ? (
+            <CheckBoxIcon style={{ color: '#3498db' }} />
+          ) : (
+            <CheckBoxOutlineBlankIcon style={{ color: '#fff' }} />
+          )}
+        </button>
+      </td>
     </>
   );
 };
