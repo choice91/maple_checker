@@ -108,10 +108,10 @@ export default {
   checkBossData: async (req, res) => {
     const {
       user: { id: loginUserId },
-      body: { nickname, bossType },
+      body: { bossId, bossType },
     } = req;
 
-    const bossData = await db.Boss.findOne({ owner: loginUserId, nickname });
+    const bossData = await db.Boss.findOne({ _id: bossId, owner: loginUserId });
 
     if (!bossData) {
       res.status(404).json({

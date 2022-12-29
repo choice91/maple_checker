@@ -16,7 +16,7 @@ const questSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    quests: {
+    quest: {
       yeoro: { type: Boolean, default: false },
       chuchu: { type: Boolean, default: false },
       lachelein: { type: Boolean, default: false },
