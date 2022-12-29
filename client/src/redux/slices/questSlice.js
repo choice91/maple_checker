@@ -73,10 +73,10 @@ export const questSlice = createSlice({
 
     updateNicknameInTable: (state, action) => {
       const {
-        payload: { id, newNickname },
+        payload: { questId, newNickname },
       } = action;
 
-      state.questData[`${id}`].nickname = newNickname;
+      state.questData[questId].nickname = newNickname;
       state.isUpdateModalOpen = false;
       state.errorMessage = false;
       state.nickname = null;
@@ -84,10 +84,10 @@ export const questSlice = createSlice({
     },
     delCharacterInTable: (state, action) => {
       const {
-        payload: { id },
+        payload: { questId },
       } = action;
 
-      delete state.questData[`${id}`];
+      delete state.questData[questId];
       state.isDelModalOpen = false;
       state.nickname = null;
       state.questId = null;

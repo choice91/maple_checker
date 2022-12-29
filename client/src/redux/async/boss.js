@@ -116,13 +116,12 @@ export const updateNicknameInBossTable = createAsyncThunk(
   'boss/update',
   async (payload, thunkAPI) => {
     const {
-      data: { bossId, prevNickname, newNickname },
+      data: { bossId, newNickname },
       navigate,
     } = payload;
 
     try {
       const response = await API.put(`/boss/${bossId}`, {
-        prevNickname,
         newNickname,
       });
 

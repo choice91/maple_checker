@@ -48,26 +48,19 @@ const UpdateModal = ({ type, nickname: prevNickname, id }) => {
       setNicknameEqualErrMsg('동일한 닉네임입니다.');
     } else {
       if (type === 'quest') {
-        dispatch(
-          updateNickname({
-            prevNickname,
-            newNickname: nickname.replaceAll(regExp, ''),
-          })
-        );
-        dispatch(
-          questSlice.actions.updateNicknameInTable({
-            id,
-            newNickname: nickname.replaceAll(regExp, ''),
-          })
-        );
+        const data = {
+          questId: id,
+          newNickname: nickname.replaceAll(regExp, ''),
+        };
+        dispatch(updateNickname({ data, navigate }));
+        dispatch(questSlice.actions.updateNicknameInTable(data));
       } else {
-        dispatch(
-          updateNicknameInBossTable({
-            data: { bossId: id, prevNickname, newNickname: nickname },
-            navigate,
-          })
-        );
-        dispatch(bossSlice.actions.updateNicknameInTable({ id, nickname }));
+        const data = {
+          bossId: id,
+          newNickname: nickname.replaceAll(regExp, ''),
+        };
+        dispatch(updateNicknameInBossTable({ data, navigate }));
+        dispatch(bossSlice.actions.updateNicknameInTable(data));
       }
     }
   };
@@ -80,26 +73,19 @@ const UpdateModal = ({ type, nickname: prevNickname, id }) => {
         setNicknameEqualErrMsg('동일한 닉네임입니다.');
       } else {
         if (type === 'quest') {
-          dispatch(
-            updateNickname({
-              prevNickname,
-              newNickname: nickname.replaceAll(regExp, ''),
-            })
-          );
-          dispatch(
-            questSlice.actions.updateNicknameInTable({
-              id,
-              newNickname: nickname.replaceAll(regExp, ''),
-            })
-          );
+          const data = {
+            questId: id,
+            newNickname: nickname.replaceAll(regExp, ''),
+          };
+          dispatch(updateNickname({ data, navigate }));
+          dispatch(questSlice.actions.updateNicknameInTable(data));
         } else {
-          dispatch(
-            updateNicknameInBossTable({
-              data: { bossId: id, prevNickname, newNickname: nickname },
-              navigate,
-            })
-          );
-          dispatch(bossSlice.actions.updateNicknameInTable({ id, nickname }));
+          const data = {
+            bossId: id,
+            newNickname: nickname.replaceAll(regExp, ''),
+          };
+          dispatch(updateNicknameInBossTable({ data, navigate }));
+          dispatch(bossSlice.actions.updateNicknameInTable(data));
         }
       }
     }

@@ -38,11 +38,13 @@ const DelConfirmModal = ({ type, nickname, id }) => {
 
   const delCharacterSubmit = () => {
     if (type === 'quest') {
-      dispatch(deleteCharacter({ id }));
-      dispatch(questSlice.actions.delCharacterInTable({ id }));
+      const data = { questId: id };
+      dispatch(deleteCharacter({ data, navigate }));
+      dispatch(questSlice.actions.delCharacterInTable(data));
     } else {
-      dispatch(delCharacterToBoss({ data: { bossId: id }, navigate }));
-      dispatch(bossSlice.actions.delCharacterInTable({ id }));
+      const data = { bossId: id };
+      dispatch(delCharacterToBoss({ data, navigate }));
+      dispatch(bossSlice.actions.delCharacterInTable(data));
     }
   };
 
