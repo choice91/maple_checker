@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
@@ -15,6 +15,7 @@ const UpdateModal = ({ type, nickname: prevNickname, id }) => {
   const navigate = useNavigate();
 
   const outside = useRef();
+  const inputRef = useRef();
 
   const [nickname, setNickname] = useState(prevNickname);
   const [nicknameEqualErrMsg, setNicknameEqualErrMsg] = useState('');
@@ -91,6 +92,12 @@ const UpdateModal = ({ type, nickname: prevNickname, id }) => {
     }
   };
 
+  useEffect(() => {
+    if (inputRef.current !== null) {
+      inputRef.current.focus();
+    }
+  }, []);
+
   return (
     <>
       <div
@@ -112,6 +119,7 @@ const UpdateModal = ({ type, nickname: prevNickname, id }) => {
               value={nickname}
               onChange={onChangeNickname}
               onKeyPress={submitNicknameEnter}
+              ref={inputRef}
             />
             <span className="modal__err-msg">{nicknameEqualErrMsg}</span>
           </div>
