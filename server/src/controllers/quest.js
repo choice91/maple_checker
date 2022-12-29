@@ -44,12 +44,13 @@ export default {
   updateNickname: async (req, res) => {
     const {
       user: { id: loginUserId },
-      body: { prevNickname, newNickname },
+      body: { newNickname },
+      params: { questId },
     } = req;
 
     const character = await db.Quest.findOne({
+      _id: questId,
       owner: loginUserId,
-      nickname: prevNickname,
     });
 
     if (!character) {
