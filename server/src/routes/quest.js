@@ -1,28 +1,27 @@
 import express from 'express';
 
 import { asyncHandler, authJWT } from '../middlewares';
-import {
-  questComplete,
-  getDailyQuest,
-  addCharacter,
-  updateNickname,
-  deleteCharacter,
-  resetQuestData,
-} from '../controllers/quest';
+import questCtrl from '../controllers/quest';
 
 const questRouter = express.Router();
 
 questRouter
   .route('/')
   .all(authJWT)
-  .get(asyncHandler(getDailyQuest))
-  .post(asyncHandler(addCharacter))
-  .put(asyncHandler(updateNickname));
-questRouter.route('/done').all(authJWT).post(asyncHandler(questComplete));
-questRouter.route('/reset').all(authJWT).post(asyncHandler(resetQuestData));
+  .get(asyncHandler(questCtrl.getQuestData))
+  .post(asyncHandler(questCtrl.addCharacter))
+  .put(asyncHandler(questCtrl.updateNickname));
+questRouter
+  .route('/done')
+  .all(authJWT)
+  .post(asyncHandler(questCtrl.questComplete));
+questRouter
+  .route('/reset')
+  .all(authJWT)
+  .post(asyncHandler(questCtrl.resetQuestData));
 questRouter
   .route('/:questId')
   .all(authJWT)
-  .delete(asyncHandler(deleteCharacter));
+  .delete(asyncHandler(questCtrl.deleteCharacter));
 
 export default questRouter;
