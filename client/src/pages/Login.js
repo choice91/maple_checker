@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Link, Prompt, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { login } from '../redux/async/user';
 
-import { Avatar, Box, Button, Container, Typography } from '@mui/material';
+import { Avatar, Box, Button, Typography } from '@mui/material';
 import LoginIcon from '@mui/icons-material/Login';
 
+import SignContainer from '../components/SignContainer';
 import TextFieldComp from '../components/TextFieldComp';
 
 import '../css/pages/login.scss';
@@ -43,7 +44,7 @@ const Login = () => {
 
   return (
     <>
-      <Container component="main" maxWidth="xs" sx={{ height: '100vh' }}>
+      <SignContainer>
         <Box
           sx={{
             display: 'flex',
@@ -90,7 +91,7 @@ const Login = () => {
             <Link to="/sign-up">회원가입 하러가기 &rarr;</Link>
           </Box>
         </Box>
-      </Container>
+      </SignContainer>
     </>
   );
 };
