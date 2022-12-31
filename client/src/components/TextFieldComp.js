@@ -1,52 +1,74 @@
 import React from 'react';
-import { styled } from '@mui/material/styles';
+import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 
 import { TextField } from '@mui/material';
 
-const CustomTextField = styled(TextField)({
-  '&:hover label': {
-    color: '#fff',
-  },
-  '& input': {
-    color: '#fff',
-  },
-  '& label': {
-    color: '#b2b2b2',
-  },
-  '& label.Mui-focused': {
-    color: '#1976d2',
-  },
-  '& .MuiInput-underline:after': {
-    borderBottomColor: '#1976d2',
-  },
-  '& .MuiOutlinedInput-root': {
-    '& fieldset': {
-      borderColor: '#b2b2b2',
-    },
-    '&:hover fieldset': {
-      borderColor: 'white',
-    },
-    '&.Mui-focused fieldset': {
-      borderColor: '#1976d2',
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#fff',
+      gray: '#b2b2b2',
+      blue: '#1976d2',
+      red: '#e74c3c',
+      green: '#20c997',
     },
   },
 });
 
-const TextFieldComp = ({ id, label, name, type, onChange }) => {
+const CustomTextField = styled(TextField)(({ theme, ok }) => ({
+  '&:hover label': {
+    color: theme.palette.primary.main,
+  },
+  '& input': {
+    color: theme.palette.primary.main,
+  },
+  '& label': {
+    color: !ok ? theme.palette.primary.red : theme.palette.primary.gray,
+  },
+  '& label.Mui-focused': {
+    color: theme.palette.primary.blue,
+  },
+  '& .MuiInput-underline:after': {
+    borderBottomColor: theme.palette.primary.blue,
+  },
+  '& .MuiOutlinedInput-root': {
+    '& fieldset': {
+      borderColor: !ok ? theme.palette.primary.red : theme.palette.primary.gray,
+    },
+    '&:hover fieldset': {
+      borderColor: theme.palette.primary.main,
+    },
+    '&.Mui-focused fieldset': {
+      borderColor: theme.palette.primary.blue,
+    },
+  },
+  '& .MuiFormHelperText-root': {
+    color: !ok ? theme.palette.primary.red : theme.palette.primary.blue,
+  },
+}));
+
+const TextFieldComp = (props) => {
+  const { id, label, name, type, onChange, helperText, onBlur, ok } = props;
+
   return (
     <>
-      <CustomTextField
-        id={id}
-        label={label}
-        name={name}
-        type={type}
-        margin="normal"
-        variant="outlined"
-        autoComplete="off"
-        fullWidth
-        required
-        onChange={onChange}
-      />
+      <ThemeProvider theme={theme}>
+        <CustomTextField
+          id={id}
+          label={label}
+          name={name}
+          type={type}
+          margin="normal"
+          variant="outlined"
+          autoComplete="off"
+          fullWidth
+          required
+          onChange={onChange}
+          onBlur={onBlur}
+          helperText={helperText}
+          ok={ok}
+        />
+      </ThemeProvider>
     </>
   );
 };

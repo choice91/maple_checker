@@ -26,7 +26,6 @@ export const login = createAsyncThunk(
 
       return;
     } catch (err) {
-      console.error(err);
       return thunkAPI.rejectWithValue(err.response.data);
     }
   }
@@ -67,6 +66,7 @@ export const idCheck = createAsyncThunk(
       const response = await API.post('id-check', { id });
       return response.data;
     } catch (err) {
+      console.error(err.response);
       return thunkAPI.rejectWithValue(err.response.data);
     }
   }

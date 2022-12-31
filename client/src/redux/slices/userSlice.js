@@ -10,11 +10,16 @@ export const userSlice = createSlice({
     isSignUpFetching: false,
     isIdDupFetching: false,
     isLoggedIn: false,
-    idDupMsg: null,
-    idDupColor: '',
+    idDupMsg: '',
+    isIdOk: true,
     errorMessage: null,
   },
-  reducers: {},
+  reducers: {
+    initIdCheckMsg: (state, action) => {
+      state.idDupMsg = '';
+      state.isIdOk = true;
+    },
+  },
   extraReducers: {
     // 로그인
     [login.pending]: (state, { payload }) => {
@@ -35,30 +40,41 @@ export const userSlice = createSlice({
     [signUp.fulfilled]: (state, { payload }) => {
       state.isSignUpFetching = false;
     },
-    [signUp.rejected]: (state, { payload }) => {
+    [signUp.rejected]: (state, action) => {
+      const {
+        payload: { type },
+      } = action;
+
       state.isSignUpFetching = false;
-      if (payload.type === 'exist id') {
+
+      if (type === 'exist id') {
         state.errorMessage = 'PW를 확인해주세요';
-      } else if (payload.type === 'password incorrect') {
+      } else if (type === 'password incorrect') {
         state.errorMessage = 'ID 중복확인을 해주세요.';
       }
     },
 
     // ID 중복확인
-    [idCheck.pending]: (state, { payload }) => {
+    [idCheck.pending]: (state, action) => {
       state.isIdDupFetching = true;
     },
-    [idCheck.fulfilled]: (state, { payload }) => {
-      console.log(payload);
+    [idCheck.fulfilled]: (state, action) => {
+      const {
+        payload: { message },
+      } = action;
+
       state.isIdDupFetching = false;
-      state.idDupMsg = payload.message;
-      state.idDupColor = 'blue';
+      state.idDupMsg = message;
+      state.isIdOk = true;
     },
-    [idCheck.rejected]: (state, { payload }) => {
-      console.error(payload);
+    [idCheck.rejected]: (state, action) => {
+      const {
+        payload: { errorMessage },
+      } = action;
+
       state.isIdDupFetching = false;
-      state.idDupMsg = payload.message;
-      state.idDupColor = 'red';
+      state.idDupMsg = errorMessage;
+      state.isIdOk = false;
     },
   },
 });
