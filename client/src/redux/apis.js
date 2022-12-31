@@ -90,6 +90,7 @@ export const setupInterceptor = (navigate) => {
           return Promise.reject(error);
         }
       }
+      return Promise.reject(error);
     }
   );
 };
