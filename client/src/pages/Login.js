@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { login } from '../redux/async/user';
+import userSlice from '../redux/slices/userSlice';
 
 import { Avatar, Box, Button, Typography } from '@mui/material';
 import LoginIcon from '@mui/icons-material/Login';
@@ -20,6 +21,10 @@ const Login = () => {
   const [pw, setPw] = useState('');
 
   const { loginErrorMessage } = useSelector((state) => state.user);
+
+  useEffect(() => {
+    dispatch(userSlice.actions.initLoginErrorMsg());
+  }, []);
 
   const onChange = (e) => {
     const {

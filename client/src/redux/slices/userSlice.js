@@ -20,6 +20,9 @@ export const userSlice = createSlice({
       state.idDupMsg = '';
       state.isIdOk = true;
     },
+    initLoginErrorMsg: (state, action) => {
+      state.loginErrorMessage = '';
+    },
   },
   extraReducers: {
     // 로그인
