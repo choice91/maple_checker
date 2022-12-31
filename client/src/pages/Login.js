@@ -46,14 +46,13 @@ const Login = () => {
     <>
       <SignContainer>
         <Box
+          onKeyPress={onEnterPress}
           sx={{
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
             flexDirection: 'column',
-            height: '100%',
           }}
-          onKeyPress={onEnterPress}
         >
           <Avatar sx={{ m: 1, bgcolor: '#1976D2' }}>
             <LoginIcon />
