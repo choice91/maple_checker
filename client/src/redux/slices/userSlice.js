@@ -12,7 +12,8 @@ export const userSlice = createSlice({
     isLoggedIn: false,
     idDupMsg: '',
     isIdOk: true,
-    errorMessage: null,
+    errorMessage: '',
+    loginErrorMessage: '',
   },
   reducers: {
     initIdCheckMsg: (state, action) => {
@@ -22,22 +23,27 @@ export const userSlice = createSlice({
   },
   extraReducers: {
     // 로그인
-    [login.pending]: (state, { payload }) => {
+    [login.pending]: (state, action) => {
       state.isLoginFetching = true;
     },
-    [login.fulfilled]: (state, { payload }) => {
+    [login.fulfilled]: (state, action) => {
       state.isLoginFetching = false;
       state.isLoggedIn = true;
     },
-    [login.rejected]: (state, { payload }) => {
+    [login.rejected]: (state, action) => {
+      const {
+        payload: { errorMessage },
+      } = action;
+
       state.isLoginFetching = false;
+      state.loginErrorMessage = errorMessage;
     },
 
     // 회원가입
-    [signUp.pending]: (state, { payload }) => {
+    [signUp.pending]: (state, action) => {
       state.isSignUpFetching = true;
     },
-    [signUp.fulfilled]: (state, { payload }) => {
+    [signUp.fulfilled]: (state, action) => {
       state.isSignUpFetching = false;
     },
     [signUp.rejected]: (state, action) => {

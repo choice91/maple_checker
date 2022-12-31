@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { login } from '../redux/async/user';
@@ -18,6 +18,8 @@ const Login = () => {
 
   const [id, setId] = useState('');
   const [pw, setPw] = useState('');
+
+  const { loginErrorMessage } = useSelector((state) => state.user);
 
   const onChange = (e) => {
     const {
@@ -87,6 +89,9 @@ const Login = () => {
             >
               로그인
             </Button>
+            <Box component="span" sx={{ fontSize: 12, color: '#e74c3c' }}>
+              {loginErrorMessage}
+            </Box>
           </Box>
           <Box sx={{ mt: 1, fontSize: 13, color: '#FFF' }}>
             아이디가 없나요? &nbsp;
