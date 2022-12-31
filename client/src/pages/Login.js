@@ -66,6 +66,7 @@ const Login = () => {
               label="아이디"
               name="id"
               type="text"
+              ok={true}
               onChange={onChange}
             />
             <TextFieldComp
@@ -73,14 +74,16 @@ const Login = () => {
               label="비밀번호"
               name="password"
               type="password"
+              ok={true}
               onChange={onChange}
             />
             <Button
               type="submit"
               variant="contained"
               fullWidth
-              sx={{ mt: 3, fontSize: 20, fontWeight: 700 }}
+              ok={true}
               onClick={onSubmit}
+              sx={{ mt: 3, fontSize: 20, fontWeight: 700 }}
             >
               로그인
             </Button>
