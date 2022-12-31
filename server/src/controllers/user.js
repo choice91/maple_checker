@@ -44,14 +44,16 @@ export default {
   },
 
   idCheck: async (req, res) => {
-    const { id } = req.body;
+    const {
+      body: { id },
+    } = req;
 
     const exists = await db.User.exists({ id });
 
     if (exists) {
       res.status(409).json({
         ok: false,
-        message: 'ID가 중복입니다.',
+        errorMessage: 'ID가 중복입니다.',
       });
       return;
     }
