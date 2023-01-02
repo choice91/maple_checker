@@ -9,7 +9,7 @@ export default {
       body: { nickname },
     } = req;
 
-    const quest = await db.Quest.findOne({ owner: loginUserId, nickname });
+    const quest = await db.Todo.findOne({ owner: loginUserId, nickname });
 
     // 이미 캐릭터가 등록되어 있는 경우
     if (quest) {
@@ -21,7 +21,7 @@ export default {
     }
 
     // 캐릭터 등록
-    const newCharacter = await db.Quest.create({
+    const newCharacter = await db.Todo.create({
       owner: loginUserId,
       nickname,
     });
@@ -48,7 +48,7 @@ export default {
       params: { questId },
     } = req;
 
-    const character = await db.Quest.findOne({
+    const character = await db.Todo.findOne({
       _id: questId,
       owner: loginUserId,
     });
@@ -76,7 +76,7 @@ export default {
       params: { questId },
     } = req;
 
-    const response = await db.Quest.deleteOne({
+    const response = await db.Todo.deleteOne({
       _id: questId,
       owner: loginUserId,
     });
@@ -98,7 +98,7 @@ export default {
   getQuestData: async (req, res) => {
     const { id: loginUserId } = req.user;
 
-    const quest = await db.Quest.find({ owner: loginUserId });
+    const quest = await db.Todo.find({ owner: loginUserId });
     const questObj = arrayToObjectFn(quest);
 
     res.status(200).json({
@@ -113,7 +113,7 @@ export default {
       body: { questId, questType },
     } = req;
 
-    const quest = await db.Quest.findOne({ _id: questId, owner: loginUserId });
+    const quest = await db.Todo.findOne({ _id: questId, owner: loginUserId });
 
     if (!quest) {
       res.status(404).json({
@@ -150,7 +150,7 @@ export default {
       odium: false,
     };
 
-    const updateResponse = await db.Quest.updateMany(
+    const updateResponse = await db.Todo.updateMany(
       { owner: loginUserId },
       { $set: { quests: questDefaultValues } }
     );

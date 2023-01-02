@@ -1,9 +1,9 @@
 import User from './user';
-import Quest from './quest';
+import Todo from './todo';
 import Boss from './boss';
 
 export default {
   User,
-  Quest,
+  Todo,
   Boss,
 };
