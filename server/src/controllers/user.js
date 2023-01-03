@@ -44,14 +44,16 @@ export default {
   },
 
   idCheck: async (req, res) => {
-    const { id } = req.body;
+    const {
+      body: { id },
+    } = req;
 
     const exists = await db.User.exists({ id });
 
     if (exists) {
       res.status(409).json({
         ok: false,
-        message: 'ID가 중복입니다.',
+        errorMessage: 'ID가 중복입니다.',
       });
       return;
     }
@@ -68,7 +70,7 @@ export default {
     const user = await db.User.findOne({ id });
 
     if (!user) {
-      res.status(400).json({
+      res.status(404).json({
         ok: false,
         errorMessage: '존재하지 않는 유저입니다.',
       });
@@ -80,7 +82,7 @@ export default {
     if (!pwCompare) {
       res.status(400).json({
         ok: false,
-        errorMessage: '비밀번호가 틀렸습니다',
+        errorMessage: '다시 시도해주세요',
       });
       return;
     }

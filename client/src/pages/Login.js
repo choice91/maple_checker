@@ -1,7 +1,15 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
+
 import { login } from '../redux/async/user';
+import userSlice from '../redux/slices/userSlice';
+
+import { Avatar, Box, Button, Typography } from '@mui/material';
+import LoginIcon from '@mui/icons-material/Login';
+
+import SignContainer from '../components/SignContainer';
+import TextFieldComp from '../components/TextFieldComp';
 
 import '../css/pages/login.scss';
 
@@ -11,6 +19,12 @@ const Login = () => {
 
   const [id, setId] = useState('');
   const [pw, setPw] = useState('');
+
+  const { loginErrorMessage } = useSelector((state) => state.user);
+
+  useEffect(() => {
+    dispatch(userSlice.actions.initLoginErrorMsg());
+  }, []);
 
   const onChange = (e) => {
     const {
@@ -37,38 +51,59 @@ const Login = () => {
 
   return (
     <>
-      <div className="login-container">
-        <div className="login-container__form" onKeyPress={onEnterPress}>
-          <h2 className="login-container__title">로그인</h2>
-          <div className="login-container__id-block">
-            <span>ID</span>
-            <input
-              type="text"
-              className="login-container__id"
-              name="id"
-              placeholder="ID"
-              onChange={onChange}
-            />
-          </div>
-          <div className="login-container__pw-block">
-            <span>PW</span>
-            <input
-              type="password"
-              className="login-container__pw"
-              name="password"
-              placeholder="password"
-              onChange={onChange}
-            />
-          </div>
-          <button className="login-container__submit-btn" onClick={onSubmit}>
+      <SignContainer>
+        <Box
+          onKeyPress={onEnterPress}
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            flexDirection: 'column',
+          }}
+        >
+          <Avatar sx={{ m: 1, bgcolor: '#1976D2' }}>
+            <LoginIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5" sx={{ mb: 2 }}>
             로그인
-          </button>
-        </div>
-        <div className="auth-switch">
-          <span>계정이 없나요? &nbsp;</span>
-          <Link to="/sign-up">회원가입 하러가기 &rarr;</Link>
-        </div>
-      </div>
+          </Typography>
+          <Box>
+            <TextFieldComp
+              id="id"
+              label="아이디"
+              name="id"
+              type="text"
+              ok={true}
+              onChange={onChange}
+            />
+            <TextFieldComp
+              id="password"
+              label="비밀번호"
+              name="password"
+              type="password"
+              ok={true}
+              onChange={onChange}
+            />
+            <Button
+              type="submit"
+              variant="contained"
+              fullWidth
+              ok={true}
+              onClick={onSubmit}
+              sx={{ mt: 3, fontSize: 20, fontWeight: 700 }}
+            >
+              로그인
+            </Button>
+            <Box component="span" sx={{ fontSize: 12, color: '#e74c3c' }}>
+              {loginErrorMessage}
+            </Box>
+          </Box>
+          <Box sx={{ mt: 1, fontSize: 13, color: '#FFF' }}>
+            아이디가 없나요? &nbsp;
+            <Link to="/sign-up">회원가입 하러가기 &rarr;</Link>
+          </Box>
+        </Box>
+      </SignContainer>
     </>
   );
 };

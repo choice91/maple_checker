@@ -3,7 +3,7 @@ import { Routes, Route, useNavigate } from 'react-router-dom';
 
 import Login from './pages/Login';
 import SignUp from './pages/SignUp';
-import Quest from './pages/Quest';
+import Todo from './pages/Todo';
 import Boss from './pages/Boss';
 import Event from './pages/Event';
 import RequireAuth from './utils/RequireAuth';
@@ -21,10 +21,10 @@ function App() {
       <Routes>
         <Route path="/" element={<RedirectTo />} />
         <Route
-          path="/quest"
+          path="/todo"
           element={
             <RequireAuth redirectTo="/login">
-              <Quest />
+              <Todo />
             </RequireAuth>
           }
         />

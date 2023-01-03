@@ -16,6 +16,10 @@ const questSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    monsterPark: {
+      normal: { type: Boolean, default: false },
+      extreme: { type: Boolean, default: false },
+    },
     quest: {
       yeoro: { type: Boolean, default: false },
       chuchu: { type: Boolean, default: false },
@@ -34,6 +38,6 @@ const questSchema = new mongoose.Schema(
   }
 );
 
-const Quest = mongoose.model('Quest', questSchema);
+const Todo = mongoose.model('Todo', questSchema);
 
-export default Quest;
+export default Todo;
