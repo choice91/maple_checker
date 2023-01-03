@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 
-import { IconButton, Menu, MenuItem, TableRow } from '@mui/material';
+import { IconButton, Menu, MenuItem } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+
+import modalSlice from '../../redux/slices/modalSlice';
 
 const style = {
   menuItem: {
@@ -13,12 +16,20 @@ const style = {
   },
 };
 
-const TableMoreBtn = ({ id }) => {
+const TableMoreBtn = ({ id, nickname }) => {
+  const dispatch = useDispatch();
+
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
   const handleClick = (e) => setAnchorEl(e.currentTarget);
   const handleClose = () => setAnchorEl(null);
+
+  const handleOpenUpdateModal = () => {};
+
+  const handleOpenDelModal = () => {
+    dispatch(modalSlice.actions.openDelModal({ nickname }));
+  };
 
   return (
     <>
@@ -49,10 +60,10 @@ const TableMoreBtn = ({ id }) => {
           },
         }}
       >
-        <MenuItem onClick={handleClose} sx={style.menuItem}>
+        <MenuItem onClick={handleOpenUpdateModal} sx={style.menuItem}>
           수정
         </MenuItem>
-        <MenuItem onClick={handleClose} sx={style.menuItem}>
+        <MenuItem onClick={handleOpenDelModal} sx={style.menuItem}>
           삭제
         </MenuItem>
       </Menu>

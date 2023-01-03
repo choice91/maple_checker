@@ -10,14 +10,12 @@ import Header from '../components/Header';
 import TableWrapper from '../components/table/TableWrapper';
 import TableTitle from '../components/table/TableTitle';
 import TodoTable from '../components/table/TodoTable';
+import TableBtn from '../components/table/TableBtn';
 import AddModal from '../components/modal/AddModal';
-
-import UpdateModal from '../components/modal/UpdateModal';
 import DelConfirmModal from '../components/modal/DelConfirmModal';
+import UpdateModal from '../components/modal/UpdateModal';
 import NoContents from '../components/table/NoContents';
 import Spinner from '../components/Spinner';
-
-import TableBtn from '../components/table/TableBtn';
 
 import {
   Table,
@@ -37,9 +35,10 @@ const Todo = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [addModalOpen, setAddModalOpen] = useState(false);
 
   const { todoData } = useSelector((state) => state.todo);
+  const { isAddModalOpen, isUpdateModalOpen, isDelModalOpen, nickname } =
+    useSelector((state) => state.modal);
 
   const ids = Object.keys(todoData);
 
@@ -52,7 +51,7 @@ const Todo = () => {
       <Header page="todo" />
       <TableWrapper>
         <TableContainer component={Paper}>
-          <TableBtn page="todo" setAddModalOpen={setAddModalOpen} />
+          <TableBtn page="todo" />
           <Table stickyHeader aria-label="todo table" className={classes.table}>
             <TableHead>
               <TableTitle ids={ids} data={todoData} page="todo" />
@@ -64,11 +63,8 @@ const Todo = () => {
         </TableContainer>
       </TableWrapper>
 
-      <AddModal
-        page="todo"
-        addModalOpen={addModalOpen}
-        setAddModalOpen={setAddModalOpen}
-      />
+      <AddModal page="todo" isAddModalOpen={isAddModalOpen} />
+      <DelConfirmModal page="todo" isDelModalOpen={isDelModalOpen} />
     </>
   );
 };

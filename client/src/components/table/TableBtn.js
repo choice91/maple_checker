@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 import questSlice from '../../redux/slices/questSlice';
 import bossSlice from '../../redux/slices/bossSlice';
+import modalSlice from '../../redux/slices/modalSlice';
 import { resetQuestData } from '../../redux/async/quest';
 import { resetBossData } from '../../redux/async/boss';
 
@@ -21,14 +22,15 @@ const theme = createTheme({
   },
 });
 
-const TableBtn = ({ page, setAddModalOpen }) => {
+const TableBtn = ({ page }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const openAddModal = () => {
     if (page === 'todo') {
       // dispatch(questSlice.actions.openQuestAddModal());
-      setAddModalOpen(true);
+      // setAddModalOpen(true);
+      dispatch(modalSlice.actions.openAddModal());
     } else {
       dispatch(bossSlice.actions.openBossAddModal());
     }
