@@ -30,10 +30,12 @@ const modalSlice = createSlice({
     // 캐릭터 닉네임 수정 모달 열기
     openUpdateModal: (state, action) => {
       state.isUpdateModalOpen = true;
+      state.nickname = action.payload.nickname;
     },
     // 캐릭터 닉네임 수정 모달 닫기
     closeUpdateModal: (state, action) => {
       state.isUpdateModalOpen = false;
+      state.nickname = '';
     },
   },
   extraReducers: {},

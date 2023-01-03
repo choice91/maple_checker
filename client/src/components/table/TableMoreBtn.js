@@ -25,7 +25,9 @@ const TableMoreBtn = ({ id, nickname }) => {
   const handleClick = (e) => setAnchorEl(e.currentTarget);
   const handleClose = () => setAnchorEl(null);
 
-  const handleOpenUpdateModal = () => {};
+  const handleOpenUpdateModal = () => {
+    dispatch(modalSlice.actions.openUpdateModal({ nickname }));
+  };
 
   const handleOpenDelModal = () => {
     dispatch(modalSlice.actions.openDelModal({ nickname }));
