@@ -3,75 +3,37 @@ import { createSlice } from '@reduxjs/toolkit';
 const modalSlice = createSlice({
   name: 'modal',
   initialState: {
-    isModalOpen: false,
-    isDelModalOpen: false,
     isAddModalOpen: false,
+    isUpdateModalOpen: false,
+    isDelModalOpen: false,
     nickname: '',
-    type: '',
-    questId: null,
-    bossId: null,
-    delNickname: '',
-    delQuestId: null,
   },
   reducers: {
-    openAndCloseModal: (state, action) => {
-      const {
-        payload: { type },
-      } = action;
-
-      state.isModalOpen = !state.isModalOpen;
-
-      if (state.isModalOpen) {
-        state.type = type;
-      } else {
-        state.type = '';
-      }
+    // 캐릭터 추가 모달 열기
+    openAddModal: (state, action) => {
+      state.isAddModalOpen = true;
     },
-    openAndCloseDelModal: (state, action) => {
-      const {
-        payload: { type, nickname, id },
-      } = action;
-
-      state.isDelModalOpen = !state.isDelModalOpen;
-
-      if (state.isDelModalOpen) {
-        state.type = type;
-        state.nickname = nickname;
-        state[`${type}Id`] = id;
-      } else {
-        state.type = '';
-        state.nickname = null;
-        state[`${type}Id`] = null;
-      }
+    // 캐릭터 추가 모달 닫기
+    closeAddModal: (state, action) => {
+      state.isAddModalOpen = false;
     },
-    openAndCloseAddModal: (state, action) => {
-      const {
-        payload: { type },
-      } = action;
-
-      state.isAddModalOpen = !state.isAddModalOpen;
-
-      if (state.isAddModalOpen) {
-        state.type = type;
-      } else {
-        state.type = '';
-      }
+    // 캐릭터 삭제 모달 열기
+    openDelModal: (state, action) => {
+      state.isDelModalOpen = true;
+      state.nickname = action.payload.nickname;
     },
-    setNickAndId: (state, action) => {
-      const {
-        payload: { nickname, id },
-      } = action;
-
-      state.nickname = nickname;
-      state.questId = id;
+    // 캐릭터 삭제 모달 닫기
+    closeDelModal: (state, action) => {
+      state.isDelModalOpen = false;
+      state.nickname = '';
     },
-    setDelNickAndId: (state, action) => {
-      const {
-        payload: { nickname, id },
-      } = action;
-
-      state.delNickname = nickname;
-      state.delQuestId = id;
+    // 캐릭터 닉네임 수정 모달 열기
+    openUpdateModal: (state, action) => {
+      state.isUpdateModalOpen = true;
+    },
+    // 캐릭터 닉네임 수정 모달 닫기
+    closeUpdateModal: (state, action) => {
+      state.isUpdateModalOpen = false;
     },
   },
   extraReducers: {},

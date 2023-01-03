@@ -22,7 +22,7 @@ import CustomButton from '../CustomButton';
 // import '../../css/components/commonModal.scss';
 // import '../../css/components/inputModal.scss';
 
-const AddModal = ({ page, addModalOpen, setAddModalOpen }) => {
+const AddModal = ({ page, isAddModalOpen }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   // const { errorMessage } = useSelector((state) => state.boss);
@@ -76,7 +76,9 @@ const AddModal = ({ page, addModalOpen, setAddModalOpen }) => {
     }
   };
 
-  const handleClose = () => setAddModalOpen(false);
+  const handleClose = () => {
+    dispatch(modalSlice.actions.closeAddModal());
+  };
   //
   // useEffect(() => {
   //   if (inputRef.current !== null) {
@@ -87,18 +89,12 @@ const AddModal = ({ page, addModalOpen, setAddModalOpen }) => {
   return (
     <>
       <Dialog
-        open={addModalOpen}
+        open={isAddModalOpen}
         onClose={handleClose}
         sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
         aria-labelledby="character add modal"
       >
-        <Box
-          sx={{
-            width: 300,
-            backgroundColor: '#424242',
-            p: 1,
-          }}
-        >
+        <Box sx={{ maxWidth: 300, backgroundColor: '#424242', p: 1 }}>
           <DialogTitle sx={{ color: '#fff' }}>캐릭터 추가</DialogTitle>
           <DialogContent
             dividers={true}
