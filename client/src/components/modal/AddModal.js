@@ -94,7 +94,7 @@ const AddModal = ({ page, isAddModalOpen }) => {
         sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
         aria-labelledby="character add modal"
       >
-        <Box sx={{ maxWidth: 300, backgroundColor: '#424242', p: 1 }}>
+        <Box sx={{ maxWidth: 400, backgroundColor: '#424242', p: 1 }}>
           <DialogTitle sx={{ color: '#fff' }}>캐릭터 추가</DialogTitle>
           <DialogContent
             dividers={true}
