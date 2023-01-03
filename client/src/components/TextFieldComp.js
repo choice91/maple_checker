@@ -53,6 +53,7 @@ const TextFieldComp = (props) => {
     label,
     name,
     type,
+    value,
     onChange,
     onBlur,
     onKeyPress,
@@ -68,6 +69,7 @@ const TextFieldComp = (props) => {
           label={label}
           name={name}
           type={type}
+          defaultValue={value}
           margin="dense"
           variant="outlined"
           autoComplete="off"
