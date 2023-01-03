@@ -9,7 +9,7 @@ export const getQuests = createAsyncThunk(
     const { navigate } = payload;
 
     try {
-      const response = await API.get('/quest');
+      const response = await API.get('/todo/quest');
 
       return response.data;
     } catch (err) {
@@ -37,7 +37,7 @@ export const questCheck = createAsyncThunk(
     } = payload;
 
     try {
-      const response = await API.post('/quest/done', {
+      const response = await API.post('/todo/quest/done', {
         questId,
         questType,
       });
@@ -69,7 +69,7 @@ export const addCharacter = createAsyncThunk(
     } = payload;
 
     try {
-      const response = await API.post('/quest', {
+      const response = await API.post('/todo/quest', {
         nickname,
       });
 
@@ -104,7 +104,7 @@ export const updateNickname = createAsyncThunk(
     } = payload;
 
     try {
-      const response = await API.put(`/quest/${questId}`, {
+      const response = await API.put(`/todo/quest/${questId}`, {
         newNickname,
       });
 
@@ -135,7 +135,7 @@ export const deleteCharacter = createAsyncThunk(
     } = payload;
 
     try {
-      const response = await API.delete(`/quest/${questId}`);
+      const response = await API.delete(`/todo/quest/${questId}`);
 
       return response.data;
     } catch (err) {
@@ -161,7 +161,7 @@ export const resetQuestData = createAsyncThunk(
     const { navigate } = payload;
 
     try {
-      const response = await API.post('/quest/reset');
+      const response = await API.post('/todo/quest/reset');
 
       return response.data;
     } catch (err) {
