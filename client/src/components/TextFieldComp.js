@@ -48,7 +48,17 @@ const CustomTextField = styled(TextField)(({ theme, ok }) => ({
 }));
 
 const TextFieldComp = (props) => {
-  const { id, label, name, type, onChange, helperText, onBlur, ok } = props;
+  const {
+    id,
+    label,
+    name,
+    type,
+    onChange,
+    onBlur,
+    onKeyPress,
+    helperText,
+    ok,
+  } = props;
 
   return (
     <>
@@ -58,13 +68,14 @@ const TextFieldComp = (props) => {
           label={label}
           name={name}
           type={type}
-          margin="normal"
+          margin="dense"
           variant="outlined"
           autoComplete="off"
           fullWidth
           required
           onChange={onChange}
           onBlur={onBlur}
+          onKeyPress={onKeyPress}
           helperText={helperText}
           ok={ok}
         />
