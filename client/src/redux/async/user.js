@@ -22,7 +22,7 @@ export const login = createAsyncThunk(
         JSON.stringify({ accessToken, refreshToken })
       );
 
-      navigate('/quest', { replace: true });
+      navigate('/todo', { replace: true });
 
       return;
     } catch (err) {
