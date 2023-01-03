@@ -65,6 +65,7 @@ const Todo = () => {
 
       <AddModal page="todo" isAddModalOpen={isAddModalOpen} />
       <DelConfirmModal page="todo" isDelModalOpen={isDelModalOpen} />
+      <UpdateModal page="todo" isUpdateModalOpen={isUpdateModalOpen} />
     </>
   );
 };
