@@ -15,7 +15,7 @@ export default {
     if (quest) {
       res.status(400).json({
         ok: false,
-        message: '이미 등록된 캐릭터입니다.',
+        errorMessage: '이미 등록된 캐릭터입니다.',
       });
       return;
     }
@@ -30,7 +30,8 @@ export default {
       [newCharacter._id]: {
         nickname: newCharacter.nickname,
         owner: newCharacter.owner,
-        quests: newCharacter.quests,
+        quest: newCharacter.quest,
+        monsterPark: newCharacter.monsterPark,
       },
     };
 
