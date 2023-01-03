@@ -35,14 +35,14 @@ const Header = ({ page }) => {
   return (
     <>
       <ThemeProvider theme={theme}>
-        <AppBar sx={{ backgroundColor: 'primary.gray' }}>
+        <AppBar position="static" sx={{ backgroundColor: 'primary.gray' }}>
           <BottomNavigation showLabels sx={{ backgroundColor: 'primary.gray' }}>
             <BottomNavigationAction
-              label="일퀘"
+              label="메할일"
               icon={<CheckBoxIcon fontSize="medium" />}
-              onClick={() => navigate('/quest')}
+              onClick={() => navigate('/todo')}
               sx={{
-                color: page === 'quest' ? 'primary.orange' : 'primary.main',
+                color: page === 'todo' ? 'primary.orange' : 'primary.main',
               }}
             />
             <BottomNavigationAction

@@ -21,7 +21,7 @@ function App() {
       <Routes>
         <Route path="/" element={<RedirectTo />} />
         <Route
-          path="/quest"
+          path="/todo"
           element={
             <RequireAuth redirectTo="/login">
               <Quest />
