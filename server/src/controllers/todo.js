@@ -95,7 +95,7 @@ export default {
     });
   },
 
-  getQuestData: async (req, res) => {
+  getTodoData: async (req, res) => {
     const { id: loginUserId } = req.user;
 
     const quest = await db.Todo.find({ owner: loginUserId });
@@ -103,7 +103,7 @@ export default {
 
     res.status(200).json({
       ok: true,
-      quests: questObj,
+      todos: questObj,
     });
   },
 

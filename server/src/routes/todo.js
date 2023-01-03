@@ -8,7 +8,7 @@ const todoRouter = express.Router();
 todoRouter
   .route('/quest')
   .all(authJWT)
-  .get(asyncHandler(todoCtrl.getQuestData))
+  .get(asyncHandler(todoCtrl.getTodoData))
   .post(asyncHandler(todoCtrl.addCharacter));
 todoRouter
   .route('/quest/done')
