@@ -1,15 +1,26 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { getTodoDatas } from '../async/todo';
+import {
+  addCharacter,
+  deleteCharacter,
+  getTodoDatas,
+  updateCharacter,
+} from '../async/todo';
 
-export const questSlice = createSlice({
-  name: 'quest',
+const todoSlice = createSlice({
+  name: 'todo',
   initialState: {
     isFetching: false,
+    errorMessage: '',
     todoData: {},
   },
-  reducers: {},
+  reducers: {
+    clearTodoErrorMsg: (state, action) => {
+      state.errorMessage = '';
+    },
+  },
   extraReducers: {
+    // Todo 데이터 불러오기
     [getTodoDatas.pending]: (state, action) => {
       state.isFetching = true;
     },
@@ -21,7 +32,53 @@ export const questSlice = createSlice({
     [getTodoDatas.rejected]: (state, action) => {
       state.isFetching = false;
     },
+
+    // 캐릭터 추가
+    [addCharacter.pending]: (state, action) => {
+      state.isFetching = true;
+    },
+    [addCharacter.fulfilled]: (state, action) => {
+      state.isFetching = false;
+      state.todoData = Object.assign(
+        state.todoData,
+        action.payload.newCharacter
+      );
+    },
+    [addCharacter.rejected]: (state, action) => {
+      state.isFetching = false;
+      state.errorMessage = action.payload.errorMessage;
+    },
+
+    // 캐릭터 삭제
+    [deleteCharacter.pending]: (state, action) => {
+      state.isFetching = true;
+    },
+    [deleteCharacter.fulfilled]: (state, action) => {
+      state.isFetching = false;
+      delete state.todoData[action.payload.data.deletedId];
+    },
+    [deleteCharacter.rejected]: (state, action) => {
+      state.isFetching = false;
+    },
+
+    // 닉네임 수정
+    [updateCharacter.pending]: (state, action) => {
+      state.isFetching = true;
+    },
+    [updateCharacter.fulfilled]: (state, action) => {
+      const {
+        payload: {
+          data: { updatedId, newNickname },
+        },
+      } = action;
+
+      state.isFetching = false;
+      state.todoData[updatedId].nickname = newNickname;
+    },
+    [updateCharacter.rejected]: (state, action) => {
+      state.isFetching = false;
+    },
   },
 });
 
-export default questSlice;
+export default todoSlice;

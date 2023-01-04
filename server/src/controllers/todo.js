@@ -15,7 +15,7 @@ export default {
     if (quest) {
       res.status(400).json({
         ok: false,
-        message: '이미 등록된 캐릭터입니다.',
+        errorMessage: '이미 등록된 캐릭터입니다.',
       });
       return;
     }
@@ -30,7 +30,8 @@ export default {
       [newCharacter._id]: {
         nickname: newCharacter.nickname,
         owner: newCharacter.owner,
-        quests: newCharacter.quests,
+        quest: newCharacter.quest,
+        monsterPark: newCharacter.monsterPark,
       },
     };
 
@@ -45,11 +46,11 @@ export default {
     const {
       user: { id: loginUserId },
       body: { newNickname },
-      params: { questId },
+      params: { todoId },
     } = req;
 
     const character = await db.Todo.findOne({
-      _id: questId,
+      _id: todoId,
       owner: loginUserId,
     });
 
@@ -67,17 +68,21 @@ export default {
     res.status(200).json({
       ok: true,
       message: '닉네임 변경 성공',
+      data: {
+        updatedId: todoId,
+        newNickname,
+      },
     });
   },
 
   deleteCharacter: async (req, res) => {
     const {
       user: { id: loginUserId },
-      params: { questId },
+      params: { todoId },
     } = req;
 
     const response = await db.Todo.deleteOne({
-      _id: questId,
+      _id: todoId,
       owner: loginUserId,
     });
 
@@ -92,6 +97,9 @@ export default {
     res.status(200).json({
       ok: true,
       message: '캐릭터 삭제',
+      data: {
+        deletedId: todoId,
+      },
     });
   },
 

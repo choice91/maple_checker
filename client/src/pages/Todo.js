@@ -36,7 +36,7 @@ const Todo = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { todoData } = useSelector((state) => state.todo);
+  const { todoData, errorMessage } = useSelector((state) => state.todo);
   const { isAddModalOpen, isUpdateModalOpen, isDelModalOpen, nickname } =
     useSelector((state) => state.modal);
 
@@ -63,7 +63,11 @@ const Todo = () => {
         </TableContainer>
       </TableWrapper>
 
-      <AddModal page="todo" isAddModalOpen={isAddModalOpen} />
+      <AddModal
+        page="todo"
+        isAddModalOpen={isAddModalOpen}
+        errorMessage={errorMessage}
+      />
       <DelConfirmModal page="todo" isDelModalOpen={isDelModalOpen} />
       <UpdateModal page="todo" isUpdateModalOpen={isUpdateModalOpen} />
     </>
