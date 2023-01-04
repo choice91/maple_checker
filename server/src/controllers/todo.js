@@ -74,11 +74,11 @@ export default {
   deleteCharacter: async (req, res) => {
     const {
       user: { id: loginUserId },
-      params: { questId },
+      params: { todoId },
     } = req;
 
     const response = await db.Todo.deleteOne({
-      _id: questId,
+      _id: todoId,
       owner: loginUserId,
     });
 
@@ -93,6 +93,9 @@ export default {
     res.status(200).json({
       ok: true,
       message: '캐릭터 삭제',
+      data: {
+        deletedId: todoId,
+      },
     });
   },
 

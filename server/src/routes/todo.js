@@ -6,20 +6,20 @@ import todoCtrl from '../controllers/todo';
 const todoRouter = express.Router();
 
 todoRouter
-  .route('/quest')
+  .route('/')
   .all(authJWT)
   .get(asyncHandler(todoCtrl.getTodoData))
   .post(asyncHandler(todoCtrl.addCharacter));
 todoRouter
-  .route('/quest/done')
+  .route('/done')
   .all(authJWT)
   .post(asyncHandler(todoCtrl.questComplete));
 todoRouter
-  .route('/quest/reset')
+  .route('/reset')
   .all(authJWT)
   .post(asyncHandler(todoCtrl.resetQuestData));
 todoRouter
-  .route('/quest/:questId')
+  .route('/:todoId')
   .all(authJWT)
   .put(asyncHandler(todoCtrl.updateNickname))
   .delete(asyncHandler(todoCtrl.deleteCharacter));
