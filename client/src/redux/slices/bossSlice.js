@@ -5,6 +5,7 @@ import {
   getBossData,
   bossCheckToServer,
   delCharacterToBoss,
+  updateCharacterToBoss,
   resetBossData,
 } from '../async/boss';
 
@@ -12,121 +13,61 @@ const bossSlice = createSlice({
   name: 'boss',
   initialState: {
     isFetching: false,
-    isAddModalOpen: false,
-    isUpdateModalOpen: false,
-    isDelModalOpen: false,
-    nickname: null,
-    bossId: null,
     bossData: {},
     errorMessage: '',
   },
   reducers: {
-    bossCheckReducer: (state, action) => {
-      const {
-        payload: { bossId, bossType },
-      } = action;
-
-      state.bossData[bossId].boss[bossType] =
-        !state.bossData[bossId].boss[bossType];
-    },
-    bossErrorMessageClear: (state, action) => {
+    clearBossErrorMsg: (state, action) => {
       state.errorMessage = '';
-    },
-
-    // 캐릭터 추가 모달
-    openBossAddModal: (state, action) => {
-      state.isAddModalOpen = true;
-    },
-    closeBossAddModal: (state, action) => {
-      state.isAddModalOpen = false;
-      state.errorMessage = '';
-    },
-
-    // 캐릭터 닉네임 수정 모달
-    openBossUpdateModal: (state, action) => {
-      const {
-        payload: { nickname, id: bossId },
-      } = action;
-
-      state.isUpdateModalOpen = true;
-      state.nickname = nickname;
-      state.bossId = bossId;
-    },
-    closeBossUpdateModal: (state, action) => {
-      state.isUpdateModalOpen = false;
-      state.errorMessage = '';
-      state.nickname = null;
-      state.bossId = null;
-    },
-
-    // 캐릭터 삭제 모달
-    openBossDelModal: (state, action) => {
-      const {
-        payload: { nickname, id: bossId },
-      } = action;
-
-      state.isDelModalOpen = true;
-      state.nickname = nickname;
-      state.bossId = bossId;
-    },
-    closeBossDelModal: (state, action) => {
-      state.isDelModalOpen = false;
-      state.nickname = null;
-      state.bossId = null;
-    },
-
-    // 캐릭터 닉네임 수정
-    updateNicknameInTable: (state, action) => {
-      const {
-        payload: { bossId, nickname },
-      } = action;
-
-      state.bossData[bossId].nickname = nickname;
-      state.isUpdateModalOpen = false;
-      state.errorMessage = false;
-      state.nickname = null;
-      state.bossId = null;
-    },
-
-    // 캐릭터 삭제
-    delCharacterInTable: (state, action) => {
-      const {
-        payload: { bossId },
-      } = action;
-
-      delete state.bossData[bossId];
-      state.isDelModalOpen = false;
-      state.nickname = null;
-      state.bossId = null;
     },
   },
   extraReducers: {
+    // 캐릭터 추가
     [addCharacterToBoss.pending]: (state, action) => {
-      state.errorMessage = '';
+      state.isFetching = true;
     },
     [addCharacterToBoss.fulfilled]: (state, action) => {
-      const {
-        payload: { newCharacter },
-      } = action;
-
-      state.bossData = Object.assign(state.bossData, newCharacter);
+      state.isFetching = false;
+      state.bossData = Object.assign(
+        state.bossData,
+        action.payload.newCharacter
+      );
     },
     [addCharacterToBoss.rejected]: (state, action) => {
-      const {
-        payload: { errorMessage },
-      } = action;
-
-      state.errorMessage = errorMessage;
+      state.isFetching = false;
+      state.errorMessage = action.payload.errorMessage;
     },
 
-    [delCharacterToBoss.pending]: (state, action) => {},
-    [delCharacterToBoss.fulfilled]: (state, action) => {},
+    // 캐릭터 삭제
+    [delCharacterToBoss.pending]: (state, action) => {
+      state.isFetching = true;
+    },
+    [delCharacterToBoss.fulfilled]: (state, action) => {
+      state.isFetching = false;
+      delete state.bossData[action.payload.data.deletedId];
+    },
     [delCharacterToBoss.rejected]: (state, action) => {
+      state.isFetching = false;
+      state.errorMessage = action.payload.errorMessage;
+    },
+
+    // 캐릭터 닉네임 수정
+    [updateCharacterToBoss.pending]: (state, action) => {
+      state.isFetching = true;
+    },
+    [updateCharacterToBoss.fulfilled]: (state, action) => {
       const {
-        payload: { errorMessage },
+        payload: {
+          data: { updatedId, newNickname },
+        },
       } = action;
 
-      state.errorMessage = errorMessage;
+      state.isFetching = false;
+      state.bossData[updatedId].nickname = newNickname;
+    },
+    [updateCharacterToBoss.rejected]: (state, action) => {
+      state.isFetching = false;
+      state.errorMessage = action.payload.errorMessage;
     },
 
     [getBossData.pending]: (state, action) => {

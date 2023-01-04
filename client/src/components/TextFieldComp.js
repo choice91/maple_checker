@@ -70,16 +70,17 @@ const TextFieldComp = (props) => {
           name={name}
           type={type}
           defaultValue={value}
-          margin="dense"
-          variant="outlined"
-          autoComplete="off"
-          fullWidth
-          required
           onChange={onChange}
           onBlur={onBlur}
           onKeyPress={onKeyPress}
           helperText={helperText}
           ok={ok}
+          margin="dense"
+          variant="outlined"
+          autoComplete="off"
+          fullWidth
+          required
+          autoFocus
         />
       </ThemeProvider>
     </>

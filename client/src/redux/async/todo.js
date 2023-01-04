@@ -93,7 +93,7 @@ export const updateCharacter = createAsyncThunk(
   'todo/update',
   async (payload, thunkAPI) => {
     const {
-      data: { todoId, newNickname },
+      data: { id: todoId, newNickname },
       navigate,
     } = payload;
 
@@ -107,6 +107,8 @@ export const updateCharacter = createAsyncThunk(
       return response.data;
     } catch (err) {
       switch (err.response.status) {
+        case 400:
+          return thunkAPI.rejectWithValue(err.response.data);
         case 401:
           if (err.response.data.error.name === 'TokenExpiredError') {
             localStorage.removeItem('user');
@@ -114,6 +116,8 @@ export const updateCharacter = createAsyncThunk(
           }
           return;
         case 404:
+          return thunkAPI.rejectWithValue(err.response.data);
+        case 409:
           return thunkAPI.rejectWithValue(err.response.data);
       }
     }

@@ -16,20 +16,18 @@ export const addCharacterToBoss = createAsyncThunk(
         nickname,
       });
 
-      thunkAPI.dispatch(
-        modalSlice.actions.openAndCloseAddModal({ type: 'boss' })
-      );
+      if (response.data.ok) {
+        thunkAPI.dispatch(modalSlice.actions.closeAddModal());
+      }
 
       return response.data;
     } catch (err) {
-      const { response } = err;
-
-      switch (response.status) {
+      switch (err.response.status) {
         case 400:
-          console.error(response);
-          return thunkAPI.rejectWithValue(response.data);
+          console.error(err.response);
+          return thunkAPI.rejectWithValue(err.response.data);
         case 401:
-          if (response.data.error.name === 'TokenExpiredError') {
+          if (err.response.data.error.name === 'TokenExpiredError') {
             localStorage.removeItem('user');
             navigate('/login');
           }
@@ -94,29 +92,31 @@ export const delCharacterToBoss = createAsyncThunk(
     try {
       const response = await API.delete(`/boss/${bossId}`);
 
+      if (response.data.ok) {
+        thunkAPI.dispatch(modalSlice.actions.closeDelModal());
+      }
+
       return response.data;
     } catch (err) {
-      const { response } = err;
-
-      switch (response.status) {
+      switch (err.response.status) {
         case 401:
-          if (response.data.error.name === 'TokenExpiredError') {
+          if (err.response.data.error.name === 'TokenExpiredError') {
             localStorage.removeItem('user');
             navigate('/login');
           }
           return;
         case 404:
-          return thunkAPI.rejectWithValue(response.data);
+          return thunkAPI.rejectWithValue(err.response.data);
       }
     }
   }
 );
 
-export const updateNicknameInBossTable = createAsyncThunk(
+export const updateCharacterToBoss = createAsyncThunk(
   'boss/update',
   async (payload, thunkAPI) => {
     const {
-      data: { bossId, newNickname },
+      data: { id: bossId, newNickname },
       navigate,
     } = payload;
 
@@ -125,19 +125,21 @@ export const updateNicknameInBossTable = createAsyncThunk(
         newNickname,
       });
 
+      if (response.data.ok) {
+        thunkAPI.dispatch(modalSlice.actions.closeUpdateModal());
+      }
+
       return response.data;
     } catch (err) {
-      const { response } = err;
-
-      switch (response.status) {
+      switch (err.response.status) {
         case 401:
-          if (response.data.error.name === 'TokenExpiredError') {
+          if (err.response.data.error.name === 'TokenExpiredError') {
             localStorage.removeItem('user');
             navigate('/login');
           }
           return;
         case 404:
-          return thunkAPI.rejectWithValue(response.data);
+          return thunkAPI.rejectWithValue(err.response.data);
       }
     }
   }
