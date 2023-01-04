@@ -56,9 +56,14 @@ const bossSlice = createSlice({
       state.isFetching = true;
     },
     [updateCharacterToBoss.fulfilled]: (state, action) => {
+      const {
+        payload: {
+          data: { updatedId, newNickname },
+        },
+      } = action;
+
       state.isFetching = false;
-      state.bossData[action.payload.data.updatedId].nickname =
-        action.payload.data.newNickname;
+      state.bossData[updatedId].nickname = newNickname;
     },
     [updateCharacterToBoss.rejected]: (state, action) => {
       state.isFetching = false;
