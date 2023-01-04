@@ -46,11 +46,11 @@ export default {
     const {
       user: { id: loginUserId },
       body: { newNickname },
-      params: { questId },
+      params: { todoId },
     } = req;
 
     const character = await db.Todo.findOne({
-      _id: questId,
+      _id: todoId,
       owner: loginUserId,
     });
 
@@ -68,6 +68,10 @@ export default {
     res.status(200).json({
       ok: true,
       message: '닉네임 변경 성공',
+      data: {
+        updatedId: todoId,
+        newNickname,
+      },
     });
   },
 
