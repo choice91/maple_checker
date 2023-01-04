@@ -14,84 +14,24 @@ import {
 import CustomButton from '../CustomButton';
 
 import modalSlice from '../../redux/slices/modalSlice';
-import questSlice from '../../redux/slices/questSlice';
-import bossSlice from '../../redux/slices/bossSlice';
-
-import { deleteCharacter } from '../../redux/async/quest';
-import { delCharacterToBoss } from '../../redux/async/boss';
-
-// import '../../css/components/confirmModal.scss';
-// import '../../css/components/commonModal.scss';
+import { deleteCharacter } from '../../redux/async/todo';
 
 const DelConfirmModal = ({ page, isDelModalOpen }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { nickname } = useSelector((state) => state.modal);
+  const { id, nickname } = useSelector((state) => state.modal);
 
   const handleClose = () => {
     dispatch(modalSlice.actions.closeDelModal());
   };
 
-  // const outside = useRef();
-  //
-  // const clickModalOutsideClick = (e) => {
-  //   if (outside.current === e.target) {
-  //     if (type === 'quest') {
-  //       dispatch(questSlice.actions.closeQuestDelModal());
-  //     } else {
-  //       dispatch(bossSlice.actions.closeBossDelModal());
-  //     }
-  //   }
-  // };
-  //
-  // const closeDelModal = () => {
-  //   if (type === 'quest') {
-  //     dispatch(questSlice.actions.closeQuestDelModal());
-  //   } else {
-  //     dispatch(bossSlice.actions.closeBossDelModal());
-  //   }
-  // };
-  //
-  // const delCharacterSubmit = () => {
-  //   if (type === 'quest') {
-  //     const data = { questId: id };
-  //     dispatch(deleteCharacter({ data, navigate }));
-  //     dispatch(questSlice.actions.delCharacterInTable(data));
-  //   } else {
-  //     const data = { bossId: id };
-  //     dispatch(delCharacterToBoss({ data, navigate }));
-  //     dispatch(bossSlice.actions.delCharacterInTable(data));
-  //   }
-  // };
-  //
-  // const handleEscKey = useCallback(
-  //   (e) => {
-  //     if (e.key === 'Escape') {
-  //       closeDelModal();
-  //     }
-  //   },
-  //   [closeDelModal]
-  // );
-  //
-  // const handleEnterKey = useCallback(
-  //   (e) => {
-  //     if (e.key === 'Enter') {
-  //       delCharacterSubmit();
-  //     }
-  //   },
-  //   [delCharacterSubmit]
-  // );
-  //
-  // useEffect(() => {
-  //   document.addEventListener('keyup', handleEscKey, false);
-  //   document.addEventListener('keyup', handleEnterKey, false);
-  //
-  //   return () => {
-  //     document.removeEventListener('keyup', handleEscKey, false);
-  //     document.removeEventListener('keyup', handleEnterKey, false);
-  //   };
-  // }, [handleEscKey, handleEnterKey]);
+  const handleDelete = () => {
+    if (page === 'todo') {
+      const args = { data: { todoId: id }, navigate };
+      dispatch(deleteCharacter(args));
+    }
+  };
 
   return (
     <>
@@ -123,33 +63,10 @@ const DelConfirmModal = ({ page, isDelModalOpen }) => {
           </DialogContent>
           <DialogActions sx={{ textAlign: 'right', mt: 1 }}>
             <CustomButton text="취소" onClick={handleClose} />
-            <CustomButton text="삭제" />
+            <CustomButton text="삭제" onClick={handleDelete} />
           </DialogActions>
         </Box>
       </Dialog>
-      {/*<div*/}
-      {/*  className="modal"*/}
-      {/*  aria-hidden="true"*/}
-      {/*  ref={outside}*/}
-      {/*  onMouseDown={clickModalOutsideClick}*/}
-      {/*>*/}
-      {/*  <div className="modal__container">*/}
-      {/*    <div className="modal__title">*/}
-      {/*      <h2>캐릭터 삭제</h2>*/}
-      {/*    </div>*/}
-      {/*    <div className="modal__del-msg">*/}
-      {/*      정말 <span>{nickname}</span>을 삭제하시겠습니까?*/}
-      {/*    </div>*/}
-      {/*    <div className="modal__btn">*/}
-      {/*      <button className="modal__cancel" onClick={closeDelModal}>*/}
-      {/*        취소*/}
-      {/*      </button>*/}
-      {/*      <button className="modal__submit" onClick={delCharacterSubmit}>*/}
-      {/*        삭제*/}
-      {/*      </button>*/}
-      {/*    </div>*/}
-      {/*  </div>*/}
-      {/*</div>*/}
     </>
   );
 };

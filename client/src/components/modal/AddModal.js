@@ -82,16 +82,16 @@ const AddModal = ({ page, isAddModalOpen, errorMessage }) => {
 
   const handleAddCharacter = () => {
     if (page === 'todo') {
-      const payload = { data: { nickname }, navigate };
-      dispatch(addCharacter(payload));
+      const args = { data: { nickname }, navigate };
+      dispatch(addCharacter(args));
     }
   };
 
   const handleAddCharacterEnter = (e) => {
     if (e.key === 'Enter') {
       if (page === 'todo') {
-        const payload = { data: { nickname }, navigate };
-        dispatch(addCharacter(payload));
+        const args = { data: { nickname }, navigate };
+        dispatch(addCharacter(args));
       }
     }
   };

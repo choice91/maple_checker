@@ -6,6 +6,7 @@ const modalSlice = createSlice({
     isAddModalOpen: false,
     isUpdateModalOpen: false,
     isDelModalOpen: false,
+    id: '',
     nickname: '',
   },
   reducers: {
@@ -20,21 +21,25 @@ const modalSlice = createSlice({
     // 캐릭터 삭제 모달 열기
     openDelModal: (state, action) => {
       state.isDelModalOpen = true;
+      state.id = action.payload.id;
       state.nickname = action.payload.nickname;
     },
     // 캐릭터 삭제 모달 닫기
     closeDelModal: (state, action) => {
       state.isDelModalOpen = false;
+      state.id = '';
       state.nickname = '';
     },
     // 캐릭터 닉네임 수정 모달 열기
     openUpdateModal: (state, action) => {
       state.isUpdateModalOpen = true;
+      state.id = action.payload.id;
       state.nickname = action.payload.nickname;
     },
     // 캐릭터 닉네임 수정 모달 닫기
     closeUpdateModal: (state, action) => {
       state.isUpdateModalOpen = false;
+      state.id = '';
       state.nickname = '';
     },
   },
