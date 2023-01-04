@@ -42,7 +42,7 @@ const Todo = () => {
     <>
       <Header page="todo" />
       <TableWrapper>
-        <TableContainer component={Paper}>
+        <TableContainer component={Paper} sx={{ mb: 10 }}>
           <TableBtn page="todo" />
           <Table
             stickyHeader
