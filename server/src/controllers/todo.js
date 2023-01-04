@@ -49,21 +49,44 @@ export default {
       params: { todoId },
     } = req;
 
-    const character = await db.Todo.findOne({
-      _id: todoId,
-      owner: loginUserId,
-    });
-
-    if (!character) {
-      res.status(404).json({
+    if (!newNickname) {
+      res.status(400).json({
         ok: false,
-        errorMessage: '존재하지 않는 캐릭터',
+        errorMessage: '닉네임을 입력해주세요',
       });
       return;
     }
 
-    character.nickname = newNickname;
-    await character.save();
+    const isExist = await db.Todo.exists({ nickname: newNickname });
+
+    if (isExist) {
+      res.status(409).json({
+        ok: false,
+        errorMessage: '이미 존재하는 닉네임입니다.',
+      });
+      return;
+    }
+
+    const updateResult = await db.Todo.updateOne(
+      { _id: todoId, owner: loginUserId },
+      { nickname: newNickname }
+    );
+
+    if (updateResult.matchedCount === 0) {
+      res.status(404).json({
+        ok: false,
+        errorMessage: '캐릭터를 찾을 수 없습니다.',
+      });
+      return;
+    }
+
+    if (updateResult.modifiedCount === 0) {
+      res.status(400).json({
+        ok: false,
+        errorMessage: '수정 실패',
+      });
+      return;
+    }
 
     res.status(200).json({
       ok: true,
