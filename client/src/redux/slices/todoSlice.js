@@ -1,6 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { addCharacter, deleteCharacter, getTodoDatas } from '../async/todo';
+import {
+  addCharacter,
+  deleteCharacter,
+  getTodoDatas,
+  updateCharacter,
+} from '../async/todo';
 
 const todoSlice = createSlice({
   name: 'todo',
@@ -53,6 +58,24 @@ const todoSlice = createSlice({
       delete state.todoData[action.payload.data.deletedId];
     },
     [deleteCharacter.rejected]: (state, action) => {
+      state.isFetching = false;
+    },
+
+    // 닉네임 수정
+    [updateCharacter.pending]: (state, action) => {
+      state.isFetching = true;
+    },
+    [updateCharacter.fulfilled]: (state, action) => {
+      const {
+        payload: {
+          data: { updatedId, newNickname },
+        },
+      } = action;
+
+      state.isFetching = false;
+      state.todoData[updatedId].nickname = newNickname;
+    },
+    [updateCharacter.rejected]: (state, action) => {
       state.isFetching = false;
     },
   },

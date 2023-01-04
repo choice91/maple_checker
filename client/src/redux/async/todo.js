@@ -88,3 +88,34 @@ export const deleteCharacter = createAsyncThunk(
     }
   }
 );
+
+export const updateCharacter = createAsyncThunk(
+  'todo/update',
+  async (payload, thunkAPI) => {
+    const {
+      data: { todoId, newNickname },
+      navigate,
+    } = payload;
+
+    try {
+      const response = await API.put(`/todo/${todoId}`, { newNickname });
+
+      if (response.data.ok) {
+        thunkAPI.dispatch(modalSlice.actions.closeUpdateModal());
+      }
+
+      return response.data;
+    } catch (err) {
+      switch (err.response.status) {
+        case 401:
+          if (err.response.data.error.name === 'TokenExpiredError') {
+            localStorage.removeItem('user');
+            navigate('/login');
+          }
+          return;
+        case 404:
+          return thunkAPI.rejectWithValue(err.response.data);
+      }
+    }
+  }
+);
