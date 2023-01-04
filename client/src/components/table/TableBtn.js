@@ -30,10 +30,11 @@ const TableBtn = ({ page }) => {
     if (page === 'todo') {
       // dispatch(questSlice.actions.openQuestAddModal());
       // setAddModalOpen(true);
-      dispatch(modalSlice.actions.openAddModal());
+      const args = { page };
+      dispatch(modalSlice.actions.openAddModal(args));
       dispatch(todoSlice.actions.clearTodoErrorMsg());
     } else {
-      dispatch(bossSlice.actions.openBossAddModal());
+      // dispatch(bossSlice.actions.openBossAddModal());
     }
   };
 
@@ -41,7 +42,7 @@ const TableBtn = ({ page }) => {
     if (page === 'todo') {
       dispatch(resetQuestData({ navigate }));
     } else {
-      dispatch(resetBossData({ navigate }));
+      // dispatch(resetBossData({ navigate }));
     }
   };
 

@@ -4,8 +4,6 @@ import { useNavigate } from 'react-router-dom';
 
 import { getTodoDatas } from '../redux/async/todo';
 
-import { makeStyles } from '@mui/styles';
-
 import Header from '../components/Header';
 import TableWrapper from '../components/table/TableWrapper';
 import TableTitle from '../components/table/TableTitle';
@@ -25,20 +23,14 @@ import {
   Paper,
 } from '@mui/material';
 
-const useStyles = makeStyles((theme) => ({
-  table: {
-    backgroundColor: '#222',
-  },
-}));
-
 const Todo = () => {
-  const classes = useStyles();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const { todoData, errorMessage } = useSelector((state) => state.todo);
-  const { isAddModalOpen, isUpdateModalOpen, isDelModalOpen, nickname } =
-    useSelector((state) => state.modal);
+  const { isAddModalOpen, isUpdateModalOpen, isDelModalOpen } = useSelector(
+    (state) => state.modal
+  );
 
   const ids = Object.keys(todoData);
 
@@ -52,7 +44,11 @@ const Todo = () => {
       <TableWrapper>
         <TableContainer component={Paper}>
           <TableBtn page="todo" />
-          <Table stickyHeader aria-label="todo table" className={classes.table}>
+          <Table
+            stickyHeader
+            aria-label="todo table"
+            sx={{ backgroundColor: '#222' }}
+          >
             <TableHead>
               <TableTitle ids={ids} data={todoData} page="todo" />
             </TableHead>

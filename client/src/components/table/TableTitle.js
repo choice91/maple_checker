@@ -30,7 +30,7 @@ const TableTitle = ({ ids, data, page }) => {
             align="center"
           >
             <Box component="span">{data[id].nickname}</Box>
-            <TableMoreBtn id={id} nickname={data[id].nickname} />
+            <TableMoreBtn id={id} nickname={data[id].nickname} page={page} />
           </CustomTableCell>
         ))}
       </TableRow>

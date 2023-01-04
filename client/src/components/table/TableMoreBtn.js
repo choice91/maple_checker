@@ -16,7 +16,7 @@ const style = {
   },
 };
 
-const TableMoreBtn = ({ id, nickname }) => {
+const TableMoreBtn = ({ id, nickname, page }) => {
   const dispatch = useDispatch();
 
   const [anchorEl, setAnchorEl] = useState(null);
@@ -26,12 +26,12 @@ const TableMoreBtn = ({ id, nickname }) => {
   const handleClose = () => setAnchorEl(null);
 
   const handleOpenUpdateModal = () => {
-    const args = { id, nickname };
+    const args = { id, nickname, page };
     dispatch(modalSlice.actions.openUpdateModal(args));
   };
 
   const handleOpenDelModal = () => {
-    const args = { id, nickname };
+    const args = { id, nickname, page };
     dispatch(modalSlice.actions.openDelModal(args));
   };
 
