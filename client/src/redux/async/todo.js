@@ -9,7 +9,7 @@ export const getTodoDatas = createAsyncThunk(
     const { navigate } = payload;
 
     try {
-      const response = await API.get('/todo/quest');
+      const response = await API.get('/todo');
 
       return response.data;
     } catch (err) {
@@ -36,10 +36,41 @@ export const addCharacter = createAsyncThunk(
     } = payload;
 
     try {
-      const response = await API.post('/todo/quest', { nickname });
+      const response = await API.post('/todo', { nickname });
 
       if (response.data.ok) {
         thunkAPI.dispatch(modalSlice.actions.closeAddModal());
+      }
+
+      return response.data;
+    } catch (err) {
+      switch (err.response.status) {
+        case 400:
+          return thunkAPI.rejectWithValue(err.response.data);
+        case 401:
+          if (err.response.data.error.name === 'TokenExpiredError') {
+            localStorage.removeItem('user');
+            navigate('/login');
+          }
+          return;
+      }
+    }
+  }
+);
+
+export const deleteCharacter = createAsyncThunk(
+  'todo/delete',
+  async (payload, thunkAPI) => {
+    const {
+      data: { todoId },
+      navigate,
+    } = payload;
+
+    try {
+      const response = await API.delete(`/todo/${todoId}`);
+
+      if (response.data.ok) {
+        thunkAPI.dispatch(modalSlice.actions.closeDelModal());
       }
 
       return response.data;
