@@ -48,7 +48,7 @@ const Boss = () => {
             sx={{ backgroundColor: '#222' }}
           >
             <TableHead>
-              <TableTitle ids={ids} data={bossData} type="boss" />
+              <TableTitle ids={ids} data={bossData} page="boss" />
             </TableHead>
             <TableBody>
               <BossTable ids={ids} data={bossData} />
@@ -62,8 +62,8 @@ const Boss = () => {
         isAddModalOpen={isAddModalOpen}
         errorMessage={errorMessage}
       />
-      <DelConfirmModal page="todo" isDelModalOpen={isDelModalOpen} />
-      <UpdateModal page="todo" isUpdateModalOpen={isUpdateModalOpen} />
+      <DelConfirmModal page="boss" isDelModalOpen={isDelModalOpen} />
+      <UpdateModal page="boss" isUpdateModalOpen={isUpdateModalOpen} />
     </>
   );
 };

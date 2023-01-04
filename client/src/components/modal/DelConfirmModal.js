@@ -15,6 +15,7 @@ import CustomButton from '../CustomButton';
 
 import modalSlice from '../../redux/slices/modalSlice';
 import { deleteCharacter } from '../../redux/async/todo';
+import { delCharacterToBoss } from '../../redux/async/boss';
 
 const DelConfirmModal = ({ page, isDelModalOpen }) => {
   const dispatch = useDispatch();
@@ -30,6 +31,9 @@ const DelConfirmModal = ({ page, isDelModalOpen }) => {
     if (page === 'todo') {
       const args = { data: { todoId: id }, navigate };
       dispatch(deleteCharacter(args));
+    } else if (page === 'boss') {
+      const args = { data: { bossId: id }, navigate };
+      dispatch(delCharacterToBoss(args));
     }
   };
 

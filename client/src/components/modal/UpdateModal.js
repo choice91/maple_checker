@@ -15,6 +15,7 @@ import CustomButton from '../CustomButton';
 
 import modalSlice from '../../redux/slices/modalSlice';
 import { updateCharacter } from '../../redux/async/todo';
+import { updateCharacterToBoss } from '../../redux/async/boss';
 
 const UpdateModal = ({ page, isUpdateModalOpen }) => {
   const dispatch = useDispatch();
@@ -33,15 +34,15 @@ const UpdateModal = ({ page, isUpdateModalOpen }) => {
     if (page === 'todo') {
       const args = { data: { todoId: id, newNickname: nickname }, navigate };
       dispatch(updateCharacter(args));
+    } else if (page === 'boss') {
+      const args = { data: { bossId: id, newNickname: nickname }, navigate };
+      dispatch(updateCharacterToBoss(args));
     }
   };
 
   const handleUpdateEnter = (e) => {
     if (e.key === 'Enter') {
-      if (page === 'todo') {
-        const args = { data: { todoId: id, newNickname: nickname }, navigate };
-        dispatch(updateCharacter(args));
-      }
+      handleUpdate();
     }
   };
 

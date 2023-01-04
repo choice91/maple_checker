@@ -61,6 +61,10 @@ export default {
     res.status(200).json({
       ok: true,
       message: '삭제완료',
+      data: {
+        updatedId: bossId,
+        newNickname,
+      },
     });
   },
 
@@ -86,6 +90,9 @@ export default {
     res.status(200).json({
       ok: true,
       message: '삭제완료',
+      data: {
+        deletedId: bossId,
+      },
     });
   },
 
