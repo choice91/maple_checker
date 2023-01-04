@@ -20,19 +20,15 @@ import UpdateModal from '../components/modal/UpdateModal';
 import DelConfirmModal from '../components/modal/DelConfirmModal';
 import NoContents from '../components/table/NoContents';
 import Spinner from '../components/Spinner';
+import TableBtn from '../components/table/TableBtn';
 
 const Boss = () => {
   const dispatch = useDispatch();
 
-  const {
-    isFetching,
-    bossData,
-    isAddModalOpen,
-    isUpdateModalOpen,
-    isDelModalOpen,
-    nickname,
-    bossId,
-  } = useSelector((state) => state.boss);
+  const { bossData, errorMessage } = useSelector((state) => state.boss);
+  const { isAddModalOpen, isUpdateModalOpen, isDelModalOpen } = useSelector(
+    (state) => state.modal
+  );
 
   const ids = Object.keys(bossData);
 
@@ -45,7 +41,12 @@ const Boss = () => {
       <Header page="boss" />
       <TableWrapper>
         <TableContainer component={Paper}>
-          <Table stickyHeader sx={{ maxHeight: 1200 }} aria-label="boss table">
+          <TableBtn page="boss" />
+          <Table
+            stickyHeader
+            aria-label="boss table"
+            sx={{ backgroundColor: '#222' }}
+          >
             <TableHead>
               <TableTitle ids={ids} data={bossData} type="boss" />
             </TableHead>
@@ -55,6 +56,14 @@ const Boss = () => {
           </Table>
         </TableContainer>
       </TableWrapper>
+
+      <AddModal
+        page="boss"
+        isAddModalOpen={isAddModalOpen}
+        errorMessage={errorMessage}
+      />
+      <DelConfirmModal page="todo" isDelModalOpen={isDelModalOpen} />
+      <UpdateModal page="todo" isUpdateModalOpen={isUpdateModalOpen} />
     </>
   );
 };

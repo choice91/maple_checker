@@ -27,22 +27,23 @@ const TableBtn = ({ page }) => {
   const navigate = useNavigate();
 
   const openAddModal = () => {
+    const args = { page };
+    dispatch(modalSlice.actions.openAddModal(args));
+
     if (page === 'todo') {
-      // dispatch(questSlice.actions.openQuestAddModal());
-      // setAddModalOpen(true);
-      const args = { page };
-      dispatch(modalSlice.actions.openAddModal(args));
       dispatch(todoSlice.actions.clearTodoErrorMsg());
     } else {
-      // dispatch(bossSlice.actions.openBossAddModal());
+      dispatch(bossSlice.actions.clearBossErrorMsg());
     }
   };
 
   const resetData = () => {
+    const args = { navigate };
+
     if (page === 'todo') {
-      dispatch(resetQuestData({ navigate }));
+      dispatch(resetQuestData(args));
     } else {
-      // dispatch(resetBossData({ navigate }));
+      dispatch(resetBossData(args));
     }
   };
 
@@ -60,16 +61,6 @@ const TableBtn = ({ page }) => {
           </ButtonGroup>
         </Box>
       </ThemeProvider>
-      {/*<div className="table-btn">*/}
-      {/*  <button onClick={openAddModal}>*/}
-      {/*    <PersonAddAltIcon />*/}
-      {/*    <span>캐릭터 추가</span>*/}
-      {/*  </button>*/}
-      {/*  <button onClick={resetData}>*/}
-      {/*    <RestartAltIcon />*/}
-      {/*    <span>리셋</span>*/}
-      {/*  </button>*/}
-      {/*</div>*/}
     </>
   );
 };

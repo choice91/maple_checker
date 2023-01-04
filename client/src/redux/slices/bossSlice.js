@@ -21,6 +21,10 @@ const bossSlice = createSlice({
     errorMessage: '',
   },
   reducers: {
+    clearBossErrorMsg: (state, action) => {
+      state.errorMessage = '';
+    },
+
     bossCheckReducer: (state, action) => {
       const {
         payload: { bossId, bossType },
