@@ -7,6 +7,7 @@ export const arrayToObjectFn = (array) => {
         owner: cur.owner,
         monsterPark: cur.monsterPark,
         quest: cur.quest,
+        weakly: cur.weakly,
       },
     }),
     {}

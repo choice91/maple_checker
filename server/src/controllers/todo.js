@@ -31,6 +31,7 @@ export default {
         nickname: newCharacter.nickname,
         owner: newCharacter.owner,
         quest: newCharacter.quest,
+        weakly: newCharacter.weakly,
         monsterPark: newCharacter.monsterPark,
       },
     };

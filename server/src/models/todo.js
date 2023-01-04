@@ -32,6 +32,14 @@ const questSchema = new mongoose.Schema(
       arcs: { type: Boolean, default: false },
       odium: { type: Boolean, default: false },
     },
+    weakly: {
+      yeoro: { type: Boolean, default: false },
+      chuchu: { type: Boolean, default: false },
+      lachelein: { type: Boolean, default: false },
+      arcana: { type: Boolean, default: false },
+      morass: { type: Boolean, default: false },
+      esfera: { type: Boolean, default: false },
+    },
   },
   {
     versionKey: false,
