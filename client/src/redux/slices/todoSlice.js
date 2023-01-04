@@ -77,6 +77,7 @@ const todoSlice = createSlice({
     },
     [updateCharacter.rejected]: (state, action) => {
       state.isFetching = false;
+      state.errorMessage = action.payload.errorMessage;
     },
   },
 });

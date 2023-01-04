@@ -116,7 +116,7 @@ export const updateCharacterToBoss = createAsyncThunk(
   'boss/update',
   async (payload, thunkAPI) => {
     const {
-      data: { bossId, newNickname },
+      data: { id: bossId, newNickname },
       navigate,
     } = payload;
 

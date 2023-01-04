@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
@@ -14,6 +14,7 @@ import TextFieldComp from '../TextFieldComp';
 import CustomButton from '../CustomButton';
 
 import modalSlice from '../../redux/slices/modalSlice';
+import todoSlice from '../../redux/slices/todoSlice';
 import { updateCharacter } from '../../redux/async/todo';
 import { updateCharacterToBoss } from '../../redux/async/boss';
 
@@ -21,21 +22,27 @@ const UpdateModal = ({ page, isUpdateModalOpen }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { id, nickname: nicknameToUpdate } = useSelector(
-    (state) => state.modal
-  );
-  const [nickname, setNickname] = useState(nicknameToUpdate);
+  const { id, nickname: currentNickname } = useSelector((state) => state.modal);
+  const { errorMessage: todoErrorMessage } = useSelector((state) => state.todo);
+
+  const [replaceNickname, setReplaceNickname] = useState(undefined);
+  const [errorMessage, setErrorMessage] = useState(undefined);
 
   const handleClose = () => {
-    dispatch(modalSlice.actions.closeUpdateModal({ nickname }));
+    const args = { replaceNickname };
+    dispatch(modalSlice.actions.closeUpdateModal(args));
+
+    if (page === 'todo') {
+      dispatch(todoSlice.actions.clearTodoErrorMsg());
+    }
   };
 
   const handleUpdate = () => {
+    const args = { data: { id, newNickname: replaceNickname }, navigate };
+
     if (page === 'todo') {
-      const args = { data: { todoId: id, newNickname: nickname }, navigate };
       dispatch(updateCharacter(args));
     } else if (page === 'boss') {
-      const args = { data: { bossId: id, newNickname: nickname }, navigate };
       dispatch(updateCharacterToBoss(args));
     }
   };
@@ -51,8 +58,16 @@ const UpdateModal = ({ page, isUpdateModalOpen }) => {
       target: { value },
     } = e;
 
-    setNickname(value);
+    setReplaceNickname(value);
   };
+
+  useEffect(() => {
+    setReplaceNickname(currentNickname);
+  }, [currentNickname]);
+
+  useEffect(() => {
+    setErrorMessage(todoErrorMessage);
+  }, [todoErrorMessage]);
 
   return (
     <>
@@ -74,10 +89,11 @@ const UpdateModal = ({ page, isUpdateModalOpen }) => {
           >
             <TextFieldComp
               label="닉네임"
-              value={nicknameToUpdate}
+              value={currentNickname}
               onChange={onChangeNickname}
               onKeyPress={handleUpdateEnter}
-              ok={true}
+              ok={errorMessage ? false : true}
+              helperText={errorMessage}
             />
           </DialogContent>
           <DialogActions sx={{ textAlign: 'right', mt: 1 }}>
