@@ -1,12 +1,13 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import modalSlice from '../../redux/slices/modalSlice';
-import questSlice from '../../redux/slices/questSlice';
-import bossSlice from '../../redux/slices/bossSlice';
-import { addCharacter } from '../../redux/async/quest';
-import { addCharacterToBoss } from '../../redux/async/boss';
+import { addCharacter } from '../../redux/async/todo';
+// import questSlice from '../../redux/slices/questSlice';
+// import bossSlice from '../../redux/slices/bossSlice';
+// import { addCharacter } from '../../redux/async/quest';
+// import { addCharacterToBoss } from '../../redux/async/boss';
 
 import {
   Box,
@@ -22,10 +23,9 @@ import CustomButton from '../CustomButton';
 // import '../../css/components/commonModal.scss';
 // import '../../css/components/inputModal.scss';
 
-const AddModal = ({ page, isAddModalOpen }) => {
+const AddModal = ({ page, isAddModalOpen, errorMessage }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  // const { errorMessage } = useSelector((state) => state.boss);
   //
   // const outside = useRef();
   // const inputRef = useRef();
@@ -57,27 +57,43 @@ const AddModal = ({ page, isAddModalOpen }) => {
 
     setNickname(value);
   };
-  //
-  const addCharacterSubmit = () => {
-    if (page === 'todo') {
-      dispatch(addCharacter({ data: { nickname }, navigate }));
-    } else {
-      dispatch(addCharacterToBoss({ data: { nickname }, navigate }));
-    }
-  };
 
-  const addCharacterSubmitEnter = (e) => {
-    if (e.key === 'Enter') {
-      if (page === 'todo') {
-        dispatch(addCharacter({ data: { nickname }, navigate }));
-      } else {
-        dispatch(addCharacterToBoss({ data: { nickname }, navigate }));
-      }
-    }
-  };
+  // const addCharacterSubmit = () => {
+  //   if (page === 'todo') {
+  //     dispatch(addCharacter({ data: { nickname }, navigate }));
+  //   } else {
+  //     dispatch(addCharacterToBoss({ data: { nickname }, navigate }));
+  //   }
+  // };
+  //
+  // const addCharacterSubmitEnter = (e) => {
+  //   if (e.key === 'Enter') {
+  //     if (page === 'todo') {
+  //       dispatch(addCharacter({ data: { nickname }, navigate }));
+  //     } else {
+  //       dispatch(addCharacterToBoss({ data: { nickname }, navigate }));
+  //     }
+  //   }
+  // };
 
   const handleClose = () => {
     dispatch(modalSlice.actions.closeAddModal());
+  };
+
+  const handleAddCharacter = () => {
+    if (page === 'todo') {
+      const payload = { data: { nickname }, navigate };
+      dispatch(addCharacter(payload));
+    }
+  };
+
+  const handleAddCharacterEnter = (e) => {
+    if (e.key === 'Enter') {
+      if (page === 'todo') {
+        const payload = { data: { nickname }, navigate };
+        dispatch(addCharacter(payload));
+      }
+    }
   };
   //
   // useEffect(() => {
@@ -107,16 +123,14 @@ const AddModal = ({ page, isAddModalOpen }) => {
             <TextFieldComp
               label="닉네임"
               onChange={onChangeNickname}
-              ok={true}
+              onKeyPress={handleAddCharacterEnter}
+              ok={errorMessage ? false : true}
+              helperText={errorMessage}
             />
           </DialogContent>
           <DialogActions sx={{ textAlign: 'right', mt: 1 }}>
             <CustomButton text="취소" onClick={handleClose} />
-            <CustomButton
-              text="추가"
-              onClick={addCharacterSubmit}
-              onKeyPress={addCharacterSubmitEnter}
-            />
+            <CustomButton text="추가" onClick={handleAddCharacter} />
           </DialogActions>
         </Box>
       </Dialog>

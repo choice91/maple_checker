@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import questSlice from '../../redux/slices/questSlice';
+import todoSlice from '../../redux/slices/todoSlice';
 import bossSlice from '../../redux/slices/bossSlice';
 import modalSlice from '../../redux/slices/modalSlice';
 import { resetQuestData } from '../../redux/async/quest';
@@ -31,6 +31,7 @@ const TableBtn = ({ page }) => {
       // dispatch(questSlice.actions.openQuestAddModal());
       // setAddModalOpen(true);
       dispatch(modalSlice.actions.openAddModal());
+      dispatch(todoSlice.actions.clearTodoErrorMsg());
     } else {
       dispatch(bossSlice.actions.openBossAddModal());
     }
