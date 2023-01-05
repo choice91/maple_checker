@@ -161,7 +161,6 @@ export default {
     res.status(200).json({
       ok: true,
       message: todo[category][todoType] ? '체크' : '체크해제',
-      data: { todoId, category, todoType, isCheck: todo[category][todoType] },
     });
   },
 
