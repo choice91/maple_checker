@@ -62,6 +62,7 @@ const TodoTable = ({ ids, data }) => {
           dataName={questArray[key]}
           data={data}
           category="quest"
+          page="todo"
         />
       ))}
 
@@ -88,6 +89,7 @@ const TodoTable = ({ ids, data }) => {
           dataName={weaklyArray[key]}
           data={data}
           category="weakly"
+          page="todo"
         />
       ))}
       {parkKeys.map((key, index) => (
@@ -98,6 +100,7 @@ const TodoTable = ({ ids, data }) => {
           dataName={monsterParkArray[key]}
           data={data}
           category="monsterPark"
+          page="todo"
         />
       ))}
     </>

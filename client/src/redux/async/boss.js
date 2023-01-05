@@ -50,7 +50,7 @@ export const getBossData = createAsyncThunk(
   }
 );
 
-export const bossCheckToServer = createAsyncThunk(
+export const bossCheck = createAsyncThunk(
   'boss/check',
   async (payload, thunkAPI) => {
     const {
@@ -59,24 +59,22 @@ export const bossCheckToServer = createAsyncThunk(
     } = payload;
 
     try {
-      const response = await API.post('/boss/done', {
+      const response = await API.post('/boss/check', {
         bossId,
         bossType,
       });
-
       return response.data;
     } catch (err) {
-      const { response } = err;
-
-      if (
-        response.data.error.name === 'TokenExpiredError' &&
-        response.status === 401
-      ) {
-        localStorage.removeItem('user');
-        navigate('/login');
+      switch (err.response.status) {
+        case 401:
+          if (err.response.data.error.name === 'TokenExpiredError') {
+            localStorage.removeItem('user');
+            navigate('/login');
+          }
+          return;
+        case 404:
+          return thunkAPI.rejectWithValue(err.response.data);
       }
-
-      return thunkAPI.rejectWithValue(response.data);
     }
   }
 );

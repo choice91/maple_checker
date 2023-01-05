@@ -10,10 +10,7 @@ todoRouter
   .all(authJWT)
   .get(asyncHandler(todoCtrl.getTodoData))
   .post(asyncHandler(todoCtrl.addCharacter));
-todoRouter
-  .route('/done')
-  .all(authJWT)
-  .post(asyncHandler(todoCtrl.questComplete));
+todoRouter.route('/check').all(authJWT).post(asyncHandler(todoCtrl.todoCheck));
 todoRouter
   .route('/reset')
   .all(authJWT)

@@ -10,10 +10,7 @@ bossRouter
   .all(authJWT)
   .get(asyncHandler(bossCtrl.getBossData))
   .post(asyncHandler(bossCtrl.addCharacter));
-bossRouter
-  .route('/done')
-  .all(authJWT)
-  .post(asyncHandler(bossCtrl.checkBossData));
+bossRouter.route('/check').all(authJWT).post(asyncHandler(bossCtrl.bossCheck));
 bossRouter
   .route('/reset')
   .all(authJWT)

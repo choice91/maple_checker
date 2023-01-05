@@ -40,7 +40,7 @@ const Boss = () => {
     <>
       <Header page="boss" />
       <TableWrapper>
-        <TableContainer component={Paper}>
+        <TableContainer component={Paper} sx={{ mb: 10 }}>
           <TableBtn page="boss" />
           <Table
             stickyHeader

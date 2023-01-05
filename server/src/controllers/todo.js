@@ -139,28 +139,28 @@ export default {
     });
   },
 
-  questComplete: async (req, res) => {
+  todoCheck: async (req, res) => {
     const {
       user: { id: loginUserId },
-      body: { questId, questType },
+      body: { todoId, category, todoType },
     } = req;
 
-    const quest = await db.Todo.findOne({ _id: questId, owner: loginUserId });
+    const todo = await db.Todo.findOne({ _id: todoId, owner: loginUserId });
 
-    if (!quest) {
+    if (!todo) {
       res.status(404).json({
         ok: false,
-        message: '존재하지 않는 캐릭터입니다.',
+        errorMessage: '존재하지 않는 캐릭터입니다.',
       });
       return;
     }
 
-    quest.quest[questType] = !quest.quest[questType];
-    await quest.save();
+    todo[category][todoType] = !todo[category][todoType];
+    await todo.save();
 
     res.status(200).json({
       ok: true,
-      message: quest.quest[questType] ? '완료' : '취소',
+      message: todo[category][todoType] ? '체크' : '체크해제',
     });
   },
 

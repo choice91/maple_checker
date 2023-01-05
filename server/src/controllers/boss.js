@@ -134,7 +134,7 @@ export default {
     });
   },
 
-  checkBossData: async (req, res) => {
+  bossCheck: async (req, res) => {
     const {
       user: { id: loginUserId },
       body: { bossId, bossType },
