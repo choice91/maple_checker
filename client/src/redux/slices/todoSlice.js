@@ -1,10 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 import {
+  getTodoDatas,
   addCharacter,
   deleteCharacter,
-  getTodoDatas,
   updateCharacter,
+  todoCheck,
 } from '../async/todo';
 
 const todoSlice = createSlice({
@@ -17,6 +18,14 @@ const todoSlice = createSlice({
   reducers: {
     clearTodoErrorMsg: (state, action) => {
       state.errorMessage = '';
+    },
+    todoCheckReducer: (state, action) => {
+      const {
+        payload: { todoId, category, todoType },
+      } = action;
+
+      state.todoData[todoId][category][todoType] =
+        !state.todoData[todoId][category][todoType];
     },
   },
   extraReducers: {
@@ -78,6 +87,17 @@ const todoSlice = createSlice({
     [updateCharacter.rejected]: (state, action) => {
       state.isFetching = false;
       state.errorMessage = action.payload.errorMessage;
+    },
+
+    // 체크
+    [todoCheck.pending]: (state, action) => {
+      state.isFetching = true;
+    },
+    [todoCheck.fulfilled]: (state, action) => {
+      state.isFetching = false;
+    },
+    [todoCheck.rejected]: (state, action) => {
+      state.isFetching = false;
     },
   },
 });

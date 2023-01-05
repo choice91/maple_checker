@@ -5,7 +5,9 @@ import { TableRow } from '@mui/material';
 import CustomTableCell from './CustomTableCell';
 import TableCheckbox from './TableCheckbox';
 
-const TableCheckboxCell = ({ ids, dataType, dataName, data, category }) => {
+const TableCheckboxCell = (props) => {
+  const { ids, dataType, dataName, data, category, page } = props;
+
   return (
     <>
       <TableRow>
@@ -20,6 +22,7 @@ const TableCheckboxCell = ({ ids, dataType, dataName, data, category }) => {
             dataType={dataType}
             data={data[id]}
             category={category}
+            page={page}
           />
         ))}
       </TableRow>

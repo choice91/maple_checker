@@ -123,3 +123,33 @@ export const updateCharacter = createAsyncThunk(
     }
   }
 );
+
+export const todoCheck = createAsyncThunk(
+  'todo/check',
+  async (payload, thunkAPI) => {
+    const {
+      data: { todoId, category, todoType },
+      navigate,
+    } = payload;
+
+    try {
+      const response = await API.post('/todo/check', {
+        todoId,
+        category,
+        todoType,
+      });
+      return response.data;
+    } catch (err) {
+      switch (err.response.status) {
+        case 401:
+          if (err.response.data.error.name === 'TokenExpiredError') {
+            localStorage.removeItem('user');
+            navigate('/login');
+          }
+          return;
+        case 404:
+          return thunkAPI.rejectWithValue(err.response.data);
+      }
+    }
+  }
+);
