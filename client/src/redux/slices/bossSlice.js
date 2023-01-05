@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import {
   addCharacterToBoss,
   getBossData,
-  bossCheckToServer,
+  bossCheck,
   delCharacterToBoss,
   updateCharacterToBoss,
   resetBossData,
@@ -19,6 +19,14 @@ const bossSlice = createSlice({
   reducers: {
     clearBossErrorMsg: (state, action) => {
       state.errorMessage = '';
+    },
+    bossCheckReducer: (state, action) => {
+      const {
+        payload: { bossId, bossType },
+      } = action;
+
+      state.bossData[bossId].boss[bossType] =
+        !state.bossData[bossId].boss[bossType];
     },
   },
   extraReducers: {
@@ -74,20 +82,23 @@ const bossSlice = createSlice({
       state.isFetching = true;
     },
     [getBossData.fulfilled]: (state, action) => {
-      const {
-        payload: { bossData },
-      } = action;
-
-      state.bossData = bossData;
+      state.bossData = { ...action.payload.bossData };
       state.isFetching = false;
     },
     [getBossData.rejected]: (state, action) => {
       state.isFetching = false;
     },
 
-    [bossCheckToServer.pending]: (state, action) => {},
-    [bossCheckToServer.fulfilled]: (state, action) => {},
-    [bossCheckToServer.rejected]: (state, action) => {},
+    // 체크
+    [bossCheck.pending]: (state, action) => {
+      state.isFetching = true;
+    },
+    [bossCheck.fulfilled]: (state, action) => {
+      state.isFetching = false;
+    },
+    [bossCheck.rejected]: (state, action) => {
+      state.isFetching = false;
+    },
 
     // 퀘스트 데이터 초기화
     [resetBossData.pending]: (state, action) => {

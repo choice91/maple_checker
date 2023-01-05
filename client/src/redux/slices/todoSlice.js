@@ -34,7 +34,6 @@ const todoSlice = createSlice({
       state.isFetching = true;
     },
     [getTodoDatas.fulfilled]: (state, action) => {
-      console.log(action);
       state.isFetching = false;
       state.todoData = { ...action.payload.todos };
     },
