@@ -22,7 +22,7 @@ const CustomTableContainer = ({ page, children }) => {
           component={Paper}
           sx={{
             mb: 10,
-            height: 650,
+            maxHeight: 650,
             '&::-webkit-scrollbar': {
               width: 10,
             },

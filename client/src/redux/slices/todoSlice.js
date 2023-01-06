@@ -13,6 +13,7 @@ const todoSlice = createSlice({
   initialState: {
     isFetching: false,
     errorMessage: '',
+    category: 'daily',
     todoData: {},
   },
   reducers: {
@@ -26,6 +27,9 @@ const todoSlice = createSlice({
 
       state.todoData[todoId][category][todoType] =
         !state.todoData[todoId][category][todoType];
+    },
+    switchCategory: (state, action) => {
+      state.category = action.payload.category;
     },
   },
   extraReducers: {

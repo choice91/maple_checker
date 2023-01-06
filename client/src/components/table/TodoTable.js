@@ -1,11 +1,9 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 
-import { TableRow, TableCell } from '@mui/material';
-
-import CustomTableCell from './CustomTableCell';
 import TableCheckboxCell from './TableCheckboxCell';
 
-const questArray = {
+const dailyArray = {
   yeoro: '여로',
   chuchu: '츄츄',
   lachelein: '레헬른',
@@ -18,7 +16,7 @@ const questArray = {
   odium: '오디움',
 };
 
-const weaklyArray = {
+const weeklyArray = {
   yeoro: '여로',
   chuchu: '츄츄',
   lachelein: '레헬른',
@@ -27,82 +25,37 @@ const weaklyArray = {
   esfera: '에스페라',
 };
 
-const monsterParkArray = {
-  normal: '몬스터파크',
-  extreme: '익스트림 몬스터파크',
-};
-
 const TodoTable = ({ ids, data }) => {
-  const questKeys = Object.keys(questArray);
-  const weaklyKeys = Object.keys(weaklyArray);
-  const parkKeys = Object.keys(monsterParkArray);
+  const dailyKey = Object.keys(dailyArray);
+  const weeklyKeys = Object.keys(weeklyArray);
+
+  const { category } = useSelector((state) => state.todo);
 
   return (
     <>
-      <TableRow>
-        <TableCell
-          align="center"
-          sx={{
-            backgroundColor: '#333',
-            p: 0,
-            color: '#fff',
-            fontWeight: 700,
-            cursor: 'default',
-          }}
-        >
-          일일
-        </TableCell>
-        <CustomTableCell colSpan={ids.length} bgColor="#333"></CustomTableCell>
-      </TableRow>
-      {questKeys.map((key, index) => (
-        <TableCheckboxCell
-          key={index}
-          ids={ids}
-          dataType={key}
-          dataName={questArray[key]}
-          data={data}
-          category="quest"
-          page="todo"
-        />
-      ))}
-
-      <TableRow>
-        <TableCell
-          align="center"
-          sx={{
-            backgroundColor: '#333',
-            p: 0,
-            color: '#fff',
-            fontWeight: 700,
-            cursor: 'default',
-          }}
-        >
-          주간
-        </TableCell>
-        <CustomTableCell colSpan={ids.length} bgColor="#333"></CustomTableCell>
-      </TableRow>
-      {weaklyKeys.map((key, index) => (
-        <TableCheckboxCell
-          key={index}
-          ids={ids}
-          dataType={key}
-          dataName={weaklyArray[key]}
-          data={data}
-          category="weakly"
-          page="todo"
-        />
-      ))}
-      {parkKeys.map((key, index) => (
-        <TableCheckboxCell
-          key={index}
-          ids={ids}
-          dataType={key}
-          dataName={monsterParkArray[key]}
-          data={data}
-          category="monsterPark"
-          page="todo"
-        />
-      ))}
+      {category === 'daily'
+        ? dailyKey.map((key, index) => (
+            <TableCheckboxCell
+              key={index}
+              ids={ids}
+              dataType={key}
+              dataName={dailyArray[key]}
+              data={data}
+              category="daily"
+              page="todo"
+            />
+          ))
+        : weeklyKeys.map((key, index) => (
+            <TableCheckboxCell
+              key={index}
+              ids={ids}
+              dataType={key}
+              dataName={weeklyArray[key]}
+              data={data}
+              category="weekly"
+              page="todo"
+            />
+          ))}
     </>
   );
 };

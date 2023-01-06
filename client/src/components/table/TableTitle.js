@@ -4,6 +4,7 @@ import { Box, TableRow } from '@mui/material';
 
 import CustomTableCell from './CustomTableCell';
 import TableMoreBtn from './TableMoreBtn';
+import SelectComp from './SelectComp';
 
 const TableTitle = ({ ids, data, page }) => {
   return (
@@ -17,7 +18,7 @@ const TableTitle = ({ ids, data, page }) => {
           fontWeight={700}
           align="center"
         >
-          &nbsp;
+          {page === 'todo' ? <SelectComp /> : ''}
         </CustomTableCell>
         {ids.map((id, index) => (
           <CustomTableCell
