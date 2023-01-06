@@ -5,9 +5,8 @@ export const arrayToObjectFn = (array) => {
       [cur._id]: {
         nickname: cur.nickname,
         owner: cur.owner,
-        monsterPark: cur.monsterPark,
-        quest: cur.quest,
-        weakly: cur.weakly,
+        daily: cur.daily,
+        weekly: cur.weekly,
       },
     }),
     {}

@@ -30,9 +30,8 @@ export default {
       [newCharacter._id]: {
         nickname: newCharacter.nickname,
         owner: newCharacter.owner,
-        quest: newCharacter.quest,
-        weakly: newCharacter.weakly,
-        monsterPark: newCharacter.monsterPark,
+        daily: newCharacter.daily,
+        weekly: newCharacter.weekly,
       },
     };
 

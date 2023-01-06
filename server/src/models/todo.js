@@ -16,11 +16,7 @@ const questSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    monsterPark: {
-      normal: { type: Boolean, default: false },
-      extreme: { type: Boolean, default: false },
-    },
-    quest: {
+    daily: {
       yeoro: { type: Boolean, default: false },
       chuchu: { type: Boolean, default: false },
       lachelein: { type: Boolean, default: false },
@@ -32,7 +28,7 @@ const questSchema = new mongoose.Schema(
       arcs: { type: Boolean, default: false },
       odium: { type: Boolean, default: false },
     },
-    weakly: {
+    weekly: {
       yeoro: { type: Boolean, default: false },
       chuchu: { type: Boolean, default: false },
       lachelein: { type: Boolean, default: false },
