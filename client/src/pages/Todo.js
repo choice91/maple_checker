@@ -8,7 +8,6 @@ import Header from '../components/Header';
 import CustomTableContainer from '../components/table/CustomTableContainer';
 import TableTitle from '../components/table/TableTitle';
 import TodoTable from '../components/table/TodoTable';
-import TableBtn from '../components/table/TableBtn';
 import AddModal from '../components/modal/AddModal';
 import DelConfirmModal from '../components/modal/DelConfirmModal';
 import UpdateModal from '../components/modal/UpdateModal';
@@ -47,12 +46,18 @@ const Todo = () => {
           aria-label="todo table"
           sx={{ backgroundColor: '#222' }}
         >
-          <TableHead>
-            <TableTitle ids={ids} data={todoData} page="todo" />
-          </TableHead>
-          <TableBody>
-            <TodoTable ids={ids} data={todoData} />
-          </TableBody>
+          {ids.length ? (
+            <>
+              <TableHead>
+                <TableTitle ids={ids} data={todoData} page="todo" />
+              </TableHead>
+              <TableBody>
+                <TodoTable ids={ids} data={todoData} />
+              </TableBody>
+            </>
+          ) : (
+            <NoContents />
+          )}
         </Table>
       </CustomTableContainer>
 

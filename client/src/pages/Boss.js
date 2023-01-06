@@ -20,7 +20,6 @@ import UpdateModal from '../components/modal/UpdateModal';
 import DelConfirmModal from '../components/modal/DelConfirmModal';
 import NoContents from '../components/table/NoContents';
 import Spinner from '../components/Spinner';
-import TableBtn from '../components/table/TableBtn';
 
 const Boss = () => {
   const dispatch = useDispatch();
@@ -45,12 +44,18 @@ const Boss = () => {
           aria-label="boss table"
           sx={{ backgroundColor: '#222' }}
         >
-          <TableHead>
-            <TableTitle ids={ids} data={bossData} page="boss" />
-          </TableHead>
-          <TableBody>
-            <BossTable ids={ids} data={bossData} />
-          </TableBody>
+          {ids.length ? (
+            <>
+              <TableHead>
+                <TableTitle ids={ids} data={bossData} page="boss" />
+              </TableHead>
+              <TableBody>
+                <BossTable ids={ids} data={bossData} />
+              </TableBody>
+            </>
+          ) : (
+            <NoContents />
+          )}
         </Table>
       </CustomTableContainer>
 
