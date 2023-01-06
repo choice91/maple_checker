@@ -8,7 +8,7 @@ import {
   TableHead,
   Paper,
 } from '@mui/material';
-import TableWrapper from '../components/table/TableWrapper';
+import CustomTableContainer from '../components/table/CustomTableContainer';
 
 import { getBossData } from '../redux/async/boss';
 
@@ -39,23 +39,20 @@ const Boss = () => {
   return (
     <>
       <Header page="boss" />
-      <TableWrapper>
-        <TableContainer component={Paper} sx={{ mb: 10 }}>
-          <TableBtn page="boss" />
-          <Table
-            stickyHeader
-            aria-label="boss table"
-            sx={{ backgroundColor: '#222' }}
-          >
-            <TableHead>
-              <TableTitle ids={ids} data={bossData} page="boss" />
-            </TableHead>
-            <TableBody>
-              <BossTable ids={ids} data={bossData} />
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </TableWrapper>
+      <CustomTableContainer page="boss">
+        <Table
+          stickyHeader
+          aria-label="boss table"
+          sx={{ backgroundColor: '#222' }}
+        >
+          <TableHead>
+            <TableTitle ids={ids} data={bossData} page="boss" />
+          </TableHead>
+          <TableBody>
+            <BossTable ids={ids} data={bossData} />
+          </TableBody>
+        </Table>
+      </CustomTableContainer>
 
       <AddModal
         page="boss"

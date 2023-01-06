@@ -50,7 +50,15 @@ const TableBtn = ({ page }) => {
   return (
     <>
       <ThemeProvider theme={theme}>
-        <Box sx={{ backgroundColor: 'primary.gray' }}>
+        <Box
+          sx={{
+            backgroundColor: 'primary.gray',
+            display: 'flex',
+            justifyContent: 'flex-start',
+            alignItems: 'center',
+            width: '100%',
+          }}
+        >
           <ButtonGroup>
             <Button startIcon={<PersonAddAltIcon />} onClick={openAddModal}>
               캐릭터 추가

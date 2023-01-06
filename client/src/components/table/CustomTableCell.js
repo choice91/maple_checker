@@ -30,6 +30,10 @@ const CustomTableCell = (props) => {
           fontWeight: fontWeight,
           fontSize: fontSize,
           cursor: cursor ? cursor : 'default',
+          transition: 'all 0.2s ease-in-out',
+          '&:hover': {
+            backgroundColor: '#3f3f3f',
+          },
         }}
         onClick={onClick}
       >

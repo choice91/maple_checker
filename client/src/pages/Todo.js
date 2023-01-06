@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { getTodoDatas } from '../redux/async/todo';
 
 import Header from '../components/Header';
-import TableWrapper from '../components/table/TableWrapper';
+import CustomTableContainer from '../components/table/CustomTableContainer';
 import TableTitle from '../components/table/TableTitle';
 import TodoTable from '../components/table/TodoTable';
 import TableBtn from '../components/table/TableBtn';
@@ -41,23 +41,20 @@ const Todo = () => {
   return (
     <>
       <Header page="todo" />
-      <TableWrapper>
-        <TableContainer component={Paper} sx={{ mb: 10 }}>
-          <TableBtn page="todo" />
-          <Table
-            stickyHeader
-            aria-label="todo table"
-            sx={{ backgroundColor: '#222' }}
-          >
-            <TableHead>
-              <TableTitle ids={ids} data={todoData} page="todo" />
-            </TableHead>
-            <TableBody>
-              <TodoTable ids={ids} data={todoData} />
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </TableWrapper>
+      <CustomTableContainer page="todo">
+        <Table
+          stickyHeader
+          aria-label="todo table"
+          sx={{ backgroundColor: '#222' }}
+        >
+          <TableHead>
+            <TableTitle ids={ids} data={todoData} page="todo" />
+          </TableHead>
+          <TableBody>
+            <TodoTable ids={ids} data={todoData} />
+          </TableBody>
+        </Table>
+      </CustomTableContainer>
 
       <AddModal
         page="todo"
