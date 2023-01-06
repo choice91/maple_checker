@@ -1,13 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import {
-  Table,
-  TableBody,
-  TableContainer,
-  TableHead,
-  Paper,
-} from '@mui/material';
+import { Table, TableBody, TableHead } from '@mui/material';
 import CustomTableContainer from '../components/table/CustomTableContainer';
 
 import { getBossData } from '../redux/async/boss';

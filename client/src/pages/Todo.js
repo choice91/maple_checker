@@ -14,13 +14,7 @@ import UpdateModal from '../components/modal/UpdateModal';
 import NoContents from '../components/table/NoContents';
 import Spinner from '../components/Spinner';
 
-import {
-  Table,
-  TableBody,
-  TableContainer,
-  TableHead,
-  Paper,
-} from '@mui/material';
+import { Table, TableBody, TableHead } from '@mui/material';
 
 const Todo = () => {
   const dispatch = useDispatch();
