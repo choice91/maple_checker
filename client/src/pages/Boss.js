@@ -18,7 +18,9 @@ import Spinner from '../components/Spinner';
 const Boss = () => {
   const dispatch = useDispatch();
 
-  const { bossData, errorMessage } = useSelector((state) => state.boss);
+  const { isFetching, bossData, errorMessage } = useSelector(
+    (state) => state.boss
+  );
   const { isAddModalOpen, isUpdateModalOpen, isDelModalOpen } = useSelector(
     (state) => state.modal
   );
@@ -38,7 +40,9 @@ const Boss = () => {
           aria-label="boss table"
           sx={{ backgroundColor: '#222' }}
         >
-          {ids.length ? (
+          {isFetching ? (
+            <Spinner />
+          ) : ids.length ? (
             <>
               <TableHead>
                 <TableTitle ids={ids} data={bossData} page="boss" />

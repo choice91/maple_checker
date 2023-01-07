@@ -1,14 +1,19 @@
 import React from 'react';
-import MoonLoader from 'react-spinners/MoonLoader';
-
-import '../css/components/spinner.scss';
+import { Box, CircularProgress } from '@mui/material';
 
 const Spinner = () => {
   return (
     <>
-      <div className="spinner">
-        <MoonLoader color="#e74c3c" size={100} />
-      </div>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: 300,
+        }}
+      >
+        <CircularProgress />
+      </Box>
     </>
   );
 };

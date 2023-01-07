@@ -20,7 +20,9 @@ const Todo = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { todoData, errorMessage } = useSelector((state) => state.todo);
+  const { isFetching, todoData, errorMessage } = useSelector(
+    (state) => state.todo
+  );
   const { isAddModalOpen, isUpdateModalOpen, isDelModalOpen } = useSelector(
     (state) => state.modal
   );
@@ -40,7 +42,9 @@ const Todo = () => {
           aria-label="todo table"
           sx={{ backgroundColor: '#222' }}
         >
-          {ids.length ? (
+          {isFetching ? (
+            <Spinner />
+          ) : ids.length ? (
             <>
               <TableHead>
                 <TableTitle ids={ids} data={todoData} page="todo" />
