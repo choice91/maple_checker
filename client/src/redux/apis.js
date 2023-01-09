@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { getCookie } from '../utils/Cookies';
 
 const { REACT_APP_BASE_URL } = process.env;
 
@@ -7,20 +8,22 @@ const API = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
+  withCredentials: true,
 });
 
 API.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('token');
+    // const token = localStorage.getItem('token');
+    const accessToken = getCookie('access');
 
-    if (!token) {
-      config.headers['accessToken'] = null;
-      config.headers['refreshToken'] = null;
+    if (!accessToken) {
+      config.headers['Authorization'] = null;
+      config.headers['Refresh-Token'] = null;
       return config;
     }
 
-    if (config.headers && token) {
-      const { accessToken } = JSON.parse(token);
+    if (config.headers && accessToken) {
+      // const { accessToken } = JSON.parse(token);
       config.headers['Authorization'] = `Bearer ${accessToken}`;
       return config;
     }
@@ -37,10 +40,12 @@ export const setupInterceptor = (navigate) => {
     },
     async (error) => {
       const originalConfig = error.config;
-      const token = localStorage.getItem('token');
+      // const token = localStorage.getItem('token');
 
       if (error.response && error.response.status === 401) {
-        const { accessToken, refreshToken } = JSON.parse(token);
+        // const { accessToken, refreshToken } = JSON.parse(token);
+        const accessToken = getCookie('access');
+        const refreshToken = getCookie('refresh');
 
         try {
           const response = await axios({
