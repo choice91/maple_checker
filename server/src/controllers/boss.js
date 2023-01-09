@@ -25,7 +25,8 @@ export default {
       [newCharacter._id]: {
         nickname: newCharacter.nickname,
         owner: newCharacter.owner,
-        boss: newCharacter.boss,
+        weekly: newCharacter.weekly,
+        monthly: newCharacter.monthly,
       },
     };
 
@@ -137,7 +138,7 @@ export default {
   bossCheck: async (req, res) => {
     const {
       user: { id: loginUserId },
-      body: { bossId, bossType },
+      body: { bossId, category, bossType },
     } = req;
 
     const bossData = await db.Boss.findOne({ _id: bossId, owner: loginUserId });
@@ -150,12 +151,12 @@ export default {
       return;
     }
 
-    bossData.boss[`${bossType}`] = !bossData.boss[`${bossType}`];
+    bossData[category][bossType] = !bossData[category][bossType];
     await bossData.save();
 
     res.status(200).json({
       ok: true,
-      message: '완료',
+      message: bossData[category][bossType] ? '체크' : '체크해제',
     });
   },
 
