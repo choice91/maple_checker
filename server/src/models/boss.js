@@ -11,7 +11,7 @@ const bossSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    boss: {
+    weekly: {
       zaqqum: { type: Boolean, default: false },
       magnus: { type: Boolean, default: false },
       hilla: { type: Boolean, default: false },
@@ -32,6 +32,9 @@ const bossSchema = new mongoose.Schema(
       darknell: { type: Boolean, default: false },
       seren: { type: Boolean, default: false },
       kalos: { type: Boolean, default: false },
+    },
+    monthly: {
+      blackMagician: { type: Boolean, default: false },
     },
   },
   { versionKey: false }
