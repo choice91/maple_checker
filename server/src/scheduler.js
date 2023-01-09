@@ -1,12 +1,12 @@
 import cron from 'node-cron';
 import db from './models';
 
-export const questResetScheduler = cron.schedule(
+export const dailyResetScheduler = cron.schedule(
   '0 0 0 * * * *',
   async () => {
-    console.log('스케줄러 실행됨', new Date().toString());
+    console.log('일퀘 데이터 초기화', new Date().toString());
 
-    const questDefaults = {
+    const dailyQuestDefault = {
       yeoro: false,
       chuchu: false,
       lachelein: false,
@@ -19,19 +19,19 @@ export const questResetScheduler = cron.schedule(
       odium: false,
     };
 
-    await db.Quest.updateMany({}, { $set: { quests: questDefaults } });
+    await db.Todo.updateMany({}, { $set: { daily: dailyQuestDefault } });
   },
   {
     scheduled: false,
   }
 );
 
-export const bossResetScheduler = cron.schedule(
+export const weeklyResetScheduler = cron.schedule(
   '0 0 0 * * * 3',
   async () => {
     console.log('보스 데이터 초기화', new Date().toString());
 
-    const bossDefaults = {
+    const weeklyBossDefault = {
       zaqqum: false,
       magnus: false,
       hilla: false,
@@ -53,7 +53,35 @@ export const bossResetScheduler = cron.schedule(
       kalos: false,
     };
 
-    await db.Boss.updateMany({}, { $set: { boss: bossDefaults } });
+    const weeklyQuestDefault = {
+      yeoro: false,
+      chuchu: false,
+      lachelein: false,
+      arcana: false,
+      morass: false,
+      esfera: false,
+      cernium: false,
+      burningCernium: false,
+      arcs: false,
+      odium: false,
+    };
+
+    await db.Boss.updateMany({}, { $set: { weekly: weeklyBossDefault } });
+    await db.Todo.updateMany({}, { $set: { weekly: weeklyQuestDefault } });
+  },
+  {
+    scheduled: false,
+  }
+);
+
+export const monthlyResetScheduler = cron.schedule(
+  '0 0 0 1 * * *',
+  async () => {
+    console.log('월간 데이터 초기화', new Date().toString());
+
+    const monthlyBossDefault = { blackMagician: false };
+
+    await db.Todo.updateMany({}, { $set: { monthly: monthlyBossDefault } });
   },
   {
     scheduled: false,
