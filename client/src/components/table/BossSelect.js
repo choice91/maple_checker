@@ -2,23 +2,22 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Select, FormControl, InputLabel, MenuItem } from '@mui/material';
+import bossSlice from '../../redux/slices/bossSlice';
 
-import todoSlice from '../../redux/slices/todoSlice';
-
-const SelectComp = () => {
+const BossSelect = () => {
   const dispatch = useDispatch();
 
-  const [dailyCategory, setDailyCategory] = useState('');
+  const [bossCategory, setBossCategory] = useState('');
 
-  const { category } = useSelector((state) => state.todo);
+  const { category } = useSelector((state) => state.boss);
 
   const handleCategoryChange = (e) => {
-    setDailyCategory(e.target.value);
-    dispatch(todoSlice.actions.switchCategory({ category: e.target.value }));
+    setBossCategory(e.target.value);
+    dispatch(bossSlice.actions.switchCategory({ category: e.target.value }));
   };
 
   useEffect(() => {
-    setDailyCategory(category);
+    setBossCategory(category);
   }, [category]);
 
   return (
@@ -69,12 +68,12 @@ const SelectComp = () => {
             },
           }}
         >
-          <MenuItem value="daily">일일</MenuItem>
           <MenuItem value="weekly">주간</MenuItem>
+          <MenuItem value="monthly">월간</MenuItem>
         </Select>
       </FormControl>
     </>
   );
 };
 
-export default SelectComp;
+export default BossSelect;

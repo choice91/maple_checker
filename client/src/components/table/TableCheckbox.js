@@ -23,7 +23,7 @@ const TableCheckbox = ({ id, dataType, data, category, page }) => {
       dispatch(todoCheck(args));
       dispatch(todoSlice.actions.todoCheckReducer(data));
     } else if (page === 'boss') {
-      const data = { bossId: id, bossType: dataType };
+      const data = { bossId: id, category, bossType: dataType };
       const args = { data, navigate };
       dispatch(bossCheck(args));
       dispatch(bossSlice.actions.bossCheckReducer(data));

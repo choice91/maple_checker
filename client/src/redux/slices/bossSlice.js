@@ -13,6 +13,7 @@ const bossSlice = createSlice({
   name: 'boss',
   initialState: {
     isFetching: false,
+    category: 'weekly',
     bossData: {},
     errorMessage: '',
   },
@@ -22,47 +23,40 @@ const bossSlice = createSlice({
     },
     bossCheckReducer: (state, action) => {
       const {
-        payload: { bossId, bossType },
+        payload: { bossId, category, bossType },
       } = action;
 
-      state.bossData[bossId].boss[bossType] =
-        !state.bossData[bossId].boss[bossType];
+      state.bossData[bossId][category][bossType] =
+        !state.bossData[bossId][category][bossType];
+    },
+    switchCategory: (state, action) => {
+      state.category = action.payload.category;
     },
   },
   extraReducers: {
     // 캐릭터 추가
-    [addCharacterToBoss.pending]: (state, action) => {
-      state.isFetching = true;
-    },
+    [addCharacterToBoss.pending]: (state, action) => {},
     [addCharacterToBoss.fulfilled]: (state, action) => {
-      state.isFetching = false;
       state.bossData = Object.assign(
         state.bossData,
         action.payload.newCharacter
       );
     },
     [addCharacterToBoss.rejected]: (state, action) => {
-      state.isFetching = false;
       state.errorMessage = action.payload.errorMessage;
     },
 
     // 캐릭터 삭제
-    [delCharacterToBoss.pending]: (state, action) => {
-      state.isFetching = true;
-    },
+    [delCharacterToBoss.pending]: (state, action) => {},
     [delCharacterToBoss.fulfilled]: (state, action) => {
-      state.isFetching = false;
       delete state.bossData[action.payload.data.deletedId];
     },
     [delCharacterToBoss.rejected]: (state, action) => {
-      state.isFetching = false;
       state.errorMessage = action.payload.errorMessage;
     },
 
     // 캐릭터 닉네임 수정
-    [updateCharacterToBoss.pending]: (state, action) => {
-      state.isFetching = true;
-    },
+    [updateCharacterToBoss.pending]: (state, action) => {},
     [updateCharacterToBoss.fulfilled]: (state, action) => {
       const {
         payload: {
@@ -70,11 +64,9 @@ const bossSlice = createSlice({
         },
       } = action;
 
-      state.isFetching = false;
       state.bossData[updatedId].nickname = newNickname;
     },
     [updateCharacterToBoss.rejected]: (state, action) => {
-      state.isFetching = false;
       state.errorMessage = action.payload.errorMessage;
     },
 
@@ -90,15 +82,9 @@ const bossSlice = createSlice({
     },
 
     // 체크
-    [bossCheck.pending]: (state, action) => {
-      state.isFetching = true;
-    },
-    [bossCheck.fulfilled]: (state, action) => {
-      state.isFetching = false;
-    },
-    [bossCheck.rejected]: (state, action) => {
-      state.isFetching = false;
-    },
+    [bossCheck.pending]: (state, action) => {},
+    [bossCheck.fulfilled]: (state, action) => {},
+    [bossCheck.rejected]: (state, action) => {},
 
     // 퀘스트 데이터 초기화
     [resetBossData.pending]: (state, action) => {
