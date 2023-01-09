@@ -22,7 +22,8 @@ export const bossArrayToObjectFn = (array) => {
       [cur._id]: {
         nickname: cur.nickname,
         owner: cur.owner,
-        boss: cur.boss,
+        weekly: cur.weekly,
+        monthly: cur.monthly,
       },
     }),
     {}

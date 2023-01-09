@@ -46,37 +46,26 @@ const todoSlice = createSlice({
     },
 
     // 캐릭터 추가
-    [addCharacter.pending]: (state, action) => {
-      state.isFetching = true;
-    },
+    [addCharacter.pending]: (state, action) => {},
     [addCharacter.fulfilled]: (state, action) => {
-      state.isFetching = false;
       state.todoData = Object.assign(
         state.todoData,
         action.payload.newCharacter
       );
     },
     [addCharacter.rejected]: (state, action) => {
-      state.isFetching = false;
       state.errorMessage = action.payload.errorMessage;
     },
 
     // 캐릭터 삭제
-    [deleteCharacter.pending]: (state, action) => {
-      state.isFetching = true;
-    },
+    [deleteCharacter.pending]: (state, action) => {},
     [deleteCharacter.fulfilled]: (state, action) => {
-      state.isFetching = false;
       delete state.todoData[action.payload.data.deletedId];
     },
-    [deleteCharacter.rejected]: (state, action) => {
-      state.isFetching = false;
-    },
+    [deleteCharacter.rejected]: (state, action) => {},
 
     // 닉네임 수정
-    [updateCharacter.pending]: (state, action) => {
-      state.isFetching = true;
-    },
+    [updateCharacter.pending]: (state, action) => {},
     [updateCharacter.fulfilled]: (state, action) => {
       const {
         payload: {
@@ -84,24 +73,16 @@ const todoSlice = createSlice({
         },
       } = action;
 
-      state.isFetching = false;
       state.todoData[updatedId].nickname = newNickname;
     },
     [updateCharacter.rejected]: (state, action) => {
-      state.isFetching = false;
       state.errorMessage = action.payload.errorMessage;
     },
 
     // 체크
-    [todoCheck.pending]: (state, action) => {
-      state.isFetching = true;
-    },
-    [todoCheck.fulfilled]: (state, action) => {
-      state.isFetching = false;
-    },
-    [todoCheck.rejected]: (state, action) => {
-      state.isFetching = false;
-    },
+    [todoCheck.pending]: (state, action) => {},
+    [todoCheck.fulfilled]: (state, action) => {},
+    [todoCheck.rejected]: (state, action) => {},
   },
 });
 

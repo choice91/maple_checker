@@ -59,6 +59,7 @@ const TextFieldComp = (props) => {
     onKeyPress,
     helperText,
     ok,
+    autoFocus,
   } = props;
 
   return (
@@ -75,12 +76,12 @@ const TextFieldComp = (props) => {
           onKeyPress={onKeyPress}
           helperText={helperText}
           ok={ok}
+          autoFocus={autoFocus}
           margin="dense"
           variant="outlined"
           autoComplete="off"
           fullWidth
           required
-          autoFocus
         />
       </ThemeProvider>
     </>

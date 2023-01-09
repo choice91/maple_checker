@@ -94,6 +94,7 @@ const UpdateModal = ({ page, isUpdateModalOpen }) => {
               onKeyPress={handleUpdateEnter}
               ok={errorMessage ? false : true}
               helperText={errorMessage}
+              autoFocus={true}
             />
           </DialogContent>
           <DialogActions sx={{ textAlign: 'right', mt: 1 }}>

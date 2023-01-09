@@ -13,6 +13,7 @@ import PaidIcon from '@mui/icons-material/Paid';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import LogoutIcon from '@mui/icons-material/Logout';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import { removeCookie } from '../utils/Cookies';
 
 const theme = createTheme({
   palette: {
@@ -27,8 +28,10 @@ const theme = createTheme({
 const Header = ({ page }) => {
   const navigate = useNavigate();
 
-  const logout = () => {
-    localStorage.removeItem('token');
+  const handleLogout = () => {
+    // localStorage.removeItem('token');
+    removeCookie('access');
+    removeCookie('refresh');
     navigate('/login', { replace: true });
   };
 
@@ -64,7 +67,7 @@ const Header = ({ page }) => {
             <BottomNavigationAction
               label="로그아웃"
               icon={<LogoutIcon fontSize="medium" />}
-              onClick={logout}
+              onClick={handleLogout}
               sx={{ color: 'primary.main' }}
             />
           </BottomNavigation>

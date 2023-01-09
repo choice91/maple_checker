@@ -1,8 +1,9 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 
 import TableCheckboxCell from './TableCheckboxCell';
 
-const bossArray = {
+const weeklyArray = {
   zaqqum: '자쿰',
   magnus: '매그너스',
   hilla: '힐라',
@@ -25,22 +26,41 @@ const bossArray = {
   kalos: '칼로스',
 };
 
+const monthlyArray = {
+  blackMagician: '검은마법사',
+};
+
 const BossTable = ({ ids, data }) => {
-  const bossKeys = Object.keys(bossArray);
+  const weeklyKeys = Object.keys(weeklyArray);
+  const monthlyKeys = Object.keys(monthlyArray);
+
+  const { category } = useSelector((state) => state.boss);
 
   return (
     <>
-      {bossKeys.map((key, index) => (
-        <TableCheckboxCell
-          key={index}
-          ids={ids}
-          dataType={key}
-          dataName={bossArray[key]}
-          data={data}
-          category="boss"
-          page="boss"
-        />
-      ))}
+      {category === 'weekly'
+        ? weeklyKeys.map((key, index) => (
+            <TableCheckboxCell
+              key={index}
+              ids={ids}
+              dataType={key}
+              dataName={weeklyArray[key]}
+              data={data}
+              category="weekly"
+              page="boss"
+            />
+          ))
+        : monthlyKeys.map((key, index) => (
+            <TableCheckboxCell
+              key={index}
+              ids={ids}
+              dataType={key}
+              dataName={monthlyArray[key]}
+              data={data}
+              category="monthly"
+              page="boss"
+            />
+          ))}
     </>
   );
 };

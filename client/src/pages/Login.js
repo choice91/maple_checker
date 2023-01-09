@@ -75,6 +75,7 @@ const Login = () => {
               type="text"
               ok={true}
               onChange={onChange}
+              autoFocus={true}
             />
             <TextFieldComp
               id="password"

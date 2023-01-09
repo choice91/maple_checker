@@ -8,26 +8,21 @@ import Header from '../components/Header';
 import CustomTableContainer from '../components/table/CustomTableContainer';
 import TableTitle from '../components/table/TableTitle';
 import TodoTable from '../components/table/TodoTable';
-import TableBtn from '../components/table/TableBtn';
 import AddModal from '../components/modal/AddModal';
 import DelConfirmModal from '../components/modal/DelConfirmModal';
 import UpdateModal from '../components/modal/UpdateModal';
 import NoContents from '../components/table/NoContents';
 import Spinner from '../components/Spinner';
 
-import {
-  Table,
-  TableBody,
-  TableContainer,
-  TableHead,
-  Paper,
-} from '@mui/material';
+import { Table, TableBody, TableHead } from '@mui/material';
 
 const Todo = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { todoData, errorMessage } = useSelector((state) => state.todo);
+  const { isFetching, todoData, errorMessage } = useSelector(
+    (state) => state.todo
+  );
   const { isAddModalOpen, isUpdateModalOpen, isDelModalOpen } = useSelector(
     (state) => state.modal
   );
@@ -47,12 +42,20 @@ const Todo = () => {
           aria-label="todo table"
           sx={{ backgroundColor: '#222' }}
         >
-          <TableHead>
-            <TableTitle ids={ids} data={todoData} page="todo" />
-          </TableHead>
-          <TableBody>
-            <TodoTable ids={ids} data={todoData} />
-          </TableBody>
+          {isFetching ? (
+            <Spinner />
+          ) : ids.length ? (
+            <>
+              <TableHead>
+                <TableTitle ids={ids} data={todoData} page="todo" />
+              </TableHead>
+              <TableBody>
+                <TodoTable ids={ids} data={todoData} />
+              </TableBody>
+            </>
+          ) : (
+            <NoContents />
+          )}
         </Table>
       </CustomTableContainer>
 

@@ -1,5 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
+
 import API from '../apis';
+import { setCookie } from '../../utils/Cookies';
 
 export const login = createAsyncThunk(
   'user/login',
@@ -17,10 +19,22 @@ export const login = createAsyncThunk(
 
       const { accessToken, refreshToken } = response.data.token;
 
-      localStorage.setItem(
-        'token',
-        JSON.stringify({ accessToken, refreshToken })
-      );
+      const now = new Date();
+      const accessExpires = new Date();
+      const refreshExpires = new Date();
+      accessExpires.setHours(now.getHours() + 1);
+      refreshExpires.setDate(now.getDate() + 14);
+
+      setCookie('access', accessToken, { path: '/', expires: accessExpires });
+      setCookie('refresh', refreshToken, {
+        path: '/',
+        expires: refreshExpires,
+      });
+
+      // localStorage.setItem(
+      //   'token',
+      //   JSON.stringify({ accessToken, refreshToken })
+      // );
 
       navigate('/todo', { replace: true });
 
