@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { getCookie } from '../utils/Cookies';
+import { getLocalStorage } from '../utils/LocalStorage';
 
 const { REACT_APP_BASE_URL } = process.env;
 
@@ -13,8 +14,7 @@ const API = axios.create({
 
 API.interceptors.request.use(
   (config) => {
-    // const token = localStorage.getItem('token');
-    const accessToken = getCookie('access');
+    const accessToken = getLocalStorage('token');
 
     if (!accessToken) {
       config.headers['Authorization'] = null;
@@ -40,11 +40,9 @@ export const setupInterceptor = (navigate) => {
     },
     async (error) => {
       const originalConfig = error.config;
-      // const token = localStorage.getItem('token');
 
       if (error.response && error.response.status === 401) {
-        // const { accessToken, refreshToken } = JSON.parse(token);
-        const accessToken = getCookie('access');
+        const accessToken = getLocalStorage('token');
         const refreshToken = getCookie('refresh');
 
         try {
