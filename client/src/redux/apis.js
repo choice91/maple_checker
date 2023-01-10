@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { getCookie } from '../utils/Cookies';
-import { getLocalStorage } from '../utils/LocalStorage';
+import { getCookie, setCookie } from '../utils/Cookies';
+import { getLocalStorage, setLocalStorage } from '../utils/LocalStorage';
 
 const { REACT_APP_BASE_URL } = process.env;
 
@@ -23,7 +23,6 @@ API.interceptors.request.use(
     }
 
     if (config.headers && accessToken) {
-      // const { accessToken } = JSON.parse(token);
       config.headers['Authorization'] = `Bearer ${accessToken}`;
       return config;
     }
@@ -66,13 +65,8 @@ export const setupInterceptor = (navigate) => {
               },
             } = response;
 
-            localStorage.setItem(
-              'token',
-              JSON.stringify({
-                accessToken: newAccessToken,
-                refreshToken: newRefreshToken,
-              })
-            );
+            setLocalStorage('token', newAccessToken);
+            setCookie('refresh', newRefreshToken);
 
             return await API.request(originalConfig);
           }
