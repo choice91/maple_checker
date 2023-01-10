@@ -8,6 +8,7 @@ import {
   updateCharacterToBoss,
   resetBossData,
 } from '../async/boss';
+import { getLocalStorage, setLocalStorage } from '../../utils/LocalStorage';
 
 const bossSlice = createSlice({
   name: 'boss',
@@ -31,6 +32,7 @@ const bossSlice = createSlice({
     },
     switchCategory: (state, action) => {
       state.category = action.payload.category;
+      setLocalStorage('bossCategory', action.payload.category);
     },
   },
   extraReducers: {
@@ -70,12 +72,21 @@ const bossSlice = createSlice({
       state.errorMessage = action.payload.errorMessage;
     },
 
+    // 데이터 불러오기
     [getBossData.pending]: (state, action) => {
       state.isFetching = true;
     },
     [getBossData.fulfilled]: (state, action) => {
       state.bossData = { ...action.payload.bossData };
       state.isFetching = false;
+
+      const bossCategory = getLocalStorage('bossCategory');
+
+      if (!bossCategory) {
+        setLocalStorage('bossCategory', 'weekly');
+      } else {
+        state.category = bossCategory;
+      }
     },
     [getBossData.rejected]: (state, action) => {
       state.isFetching = false;

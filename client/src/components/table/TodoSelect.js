@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Select, FormControl, InputLabel, MenuItem } from '@mui/material';
 
@@ -7,21 +7,11 @@ import todoSlice from '../../redux/slices/todoSlice';
 const TodoSelect = () => {
   const dispatch = useDispatch();
 
-  const [dailyCategory, setDailyCategory] = useState('');
-
   const { category } = useSelector((state) => state.todo);
 
-  const categoryStorage = localStorage.getItem('daily');
-  console.log(categoryStorage);
-
   const handleCategoryChange = (e) => {
-    setDailyCategory(e.target.value);
     dispatch(todoSlice.actions.switchCategory({ category: e.target.value }));
   };
-
-  useEffect(() => {
-    setDailyCategory(category);
-  }, [category]);
 
   return (
     <>
@@ -52,7 +42,7 @@ const TodoSelect = () => {
         <Select
           labelId="todo-category"
           id="todo-select"
-          value={dailyCategory}
+          value={category}
           onChange={handleCategoryChange}
           MenuProps={{
             PaperProps: {
