@@ -7,6 +7,7 @@ import {
   updateCharacter,
   todoCheck,
 } from '../async/todo';
+import { getLocalStorage, setLocalStorage } from '../../utils/LocalStorage';
 
 const todoSlice = createSlice({
   name: 'todo',
@@ -30,6 +31,7 @@ const todoSlice = createSlice({
     },
     switchCategory: (state, action) => {
       state.category = action.payload.category;
+      setLocalStorage('todoCategory', action.payload.category);
     },
   },
   extraReducers: {
@@ -40,6 +42,14 @@ const todoSlice = createSlice({
     [getTodoDatas.fulfilled]: (state, action) => {
       state.isFetching = false;
       state.todoData = { ...action.payload.todos };
+
+      const todoCategory = getLocalStorage('todoCategory');
+
+      if (!todoCategory) {
+        setLocalStorage('todoCategory', 'daily');
+      } else {
+        state.category = todoCategory;
+      }
     },
     [getTodoDatas.rejected]: (state, action) => {
       state.isFetching = false;
