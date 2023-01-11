@@ -39,6 +39,7 @@ const TableCheckbox = ({ id, dataType, category, isChecked }) => {
         fontColor="#fff"
         cursor="pointer"
         onClick={handleCheck}
+        hover={true}
       >
         {isChecked ? (
           <CheckBoxIcon style={{ color: '#3498db' }} />
