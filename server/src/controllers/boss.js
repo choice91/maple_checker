@@ -119,6 +119,11 @@ export default {
       return;
     }
 
+    await db.User.updateOne(
+      { _id: loginUserId },
+      { $pull: { bossSeq: bossId } }
+    );
+
     res.status(200).json({
       ok: true,
       message: '삭제완료',

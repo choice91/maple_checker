@@ -124,6 +124,11 @@ export default {
       return;
     }
 
+    await db.User.updateOne(
+      { _id: loginUserId },
+      { $pull: { todoSeq: todoId } }
+    );
+
     res.status(200).json({
       ok: true,
       message: '캐릭터 삭제',
