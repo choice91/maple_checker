@@ -53,7 +53,14 @@ const bossSlice = createSlice({
     // 캐릭터 삭제
     [delCharacterToBoss.pending]: (state, action) => {},
     [delCharacterToBoss.fulfilled]: (state, action) => {
-      delete state.bossData[action.payload.data.deletedId];
+      const {
+        payload: {
+          data: { deletedId },
+        },
+      } = action;
+
+      delete state.bossData[deletedId];
+      state.bossSeq = state.bossSeq.filter((id) => id !== deletedId);
     },
     [delCharacterToBoss.rejected]: (state, action) => {
       state.errorMessage = action.payload.errorMessage;
