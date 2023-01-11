@@ -5,7 +5,7 @@ import {
   addCharacter,
   deleteCharacter,
   updateCharacter,
-  todoCheck,
+  resetTodo,
 } from '../async/todo';
 import { getLocalStorage, setLocalStorage } from '../../utils/LocalStorage';
 
@@ -89,10 +89,37 @@ const todoSlice = createSlice({
       state.errorMessage = action.payload.errorMessage;
     },
 
-    // 체크
-    [todoCheck.pending]: (state, action) => {},
-    [todoCheck.fulfilled]: (state, action) => {},
-    [todoCheck.rejected]: (state, action) => {},
+    // 초기화
+    [resetTodo.pending]: (state, action) => {},
+    [resetTodo.fulfilled]: (state, action) => {
+      const dailyDefaults = {
+        yeoro: false,
+        chuchu: false,
+        lachelein: false,
+        arcana: false,
+        morass: false,
+        esfera: false,
+        cernium: false,
+        burningCernium: false,
+        arcs: false,
+        odium: false,
+      };
+
+      const weeklyDefaults = {
+        yeoro: false,
+        chuchu: false,
+        lachelein: false,
+        arcana: false,
+        morass: false,
+        esfera: false,
+      };
+
+      for (let key of Object.keys(state.todoData)) {
+        state.todoData[key].daily = dailyDefaults;
+        state.todoData[key].weekly = weeklyDefaults;
+      }
+    },
+    [resetTodo.rejected]: (state, action) => {},
   },
 });
 
