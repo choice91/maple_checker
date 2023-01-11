@@ -138,7 +138,7 @@ export default {
     });
   },
 
-  todoCheck: async (req, res) => {
+  checkTodo: async (req, res) => {
     const {
       user: { id: loginUserId },
       body: { todoId, category, todoType },
@@ -163,12 +163,12 @@ export default {
     });
   },
 
-  resetQuestData: async (req, res) => {
+  resetTodo: async (req, res) => {
     const {
       user: { id: loginUserId },
     } = req;
 
-    const questDefaultValues = {
+    const dailyDefaults = {
       yeoro: false,
       chuchu: false,
       lachelein: false,
@@ -181,9 +181,18 @@ export default {
       odium: false,
     };
 
+    const weeklyDefaults = {
+      yeoro: false,
+      chuchu: false,
+      lachelein: false,
+      arcana: false,
+      morass: false,
+      esfera: false,
+    };
+
     const updateResponse = await db.Todo.updateMany(
       { owner: loginUserId },
-      { $set: { quests: questDefaultValues } }
+      { $set: { daily: dailyDefaults, weekly: weeklyDefaults } }
     );
 
     if (updateResponse.modifiedCount === 0) {
@@ -196,7 +205,7 @@ export default {
 
     res.status(200).json({
       ok: true,
-      message: '퀘스트 데이터 초기화',
+      message: '퀘스트 데이터 초기화 성공',
     });
   },
 };
