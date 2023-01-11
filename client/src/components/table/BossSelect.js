@@ -1,24 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
 import { Select, FormControl, InputLabel, MenuItem } from '@mui/material';
+
 import bossSlice from '../../redux/slices/bossSlice';
 
 const BossSelect = () => {
   const dispatch = useDispatch();
 
-  const [bossCategory, setBossCategory] = useState('');
-
   const { category } = useSelector((state) => state.boss);
 
   const handleCategoryChange = (e) => {
-    setBossCategory(e.target.value);
     dispatch(bossSlice.actions.switchCategory({ category: e.target.value }));
   };
-
-  useEffect(() => {
-    setBossCategory(category);
-  }, [category]);
 
   return (
     <>

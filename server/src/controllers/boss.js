@@ -21,6 +21,11 @@ export default {
 
     const newCharacter = await db.Boss.create({ owner: loginUserId, nickname });
 
+    await db.User.updateOne(
+      { _id: loginUserId },
+      { $push: { bossSeq: newCharacter._id } }
+    );
+
     const newCharObj = {
       [newCharacter._id]: {
         nickname: newCharacter.nickname,
@@ -32,7 +37,10 @@ export default {
 
     res.status(200).json({
       ok: true,
-      newCharacter: newCharObj,
+      data: {
+        newCharacter: newCharObj,
+        newCharacterId: newCharacter._id,
+      },
     });
   },
 
@@ -125,13 +133,17 @@ export default {
       user: { id: loginUserId },
     } = req;
 
-    const boss = await db.Boss.find({ owner: loginUserId });
-
+    const boss = await db.Boss.find({ owner: loginUserId }).lean();
     const bossObj = bossArrayToObjectFn(boss);
+
+    const user = await db.User.findOne({ _id: loginUserId }).lean();
 
     res.status(200).json({
       ok: true,
-      bossData: bossObj,
+      data: {
+        bossData: bossObj,
+        bossSeq: user.bossSeq,
+      },
     });
   },
 

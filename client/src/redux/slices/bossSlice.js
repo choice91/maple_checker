@@ -8,6 +8,7 @@ import {
   updateCharacterToBoss,
   resetBossData,
 } from '../async/boss';
+import { getLocalStorage, setLocalStorage } from '../../utils/LocalStorage';
 
 const bossSlice = createSlice({
   name: 'boss',
@@ -15,6 +16,7 @@ const bossSlice = createSlice({
     isFetching: false,
     category: 'weekly',
     bossData: {},
+    bossSeq: [],
     errorMessage: '',
   },
   reducers: {
@@ -31,6 +33,7 @@ const bossSlice = createSlice({
     },
     switchCategory: (state, action) => {
       state.category = action.payload.category;
+      setLocalStorage('bossCategory', action.payload.category);
     },
   },
   extraReducers: {
@@ -39,8 +42,9 @@ const bossSlice = createSlice({
     [addCharacterToBoss.fulfilled]: (state, action) => {
       state.bossData = Object.assign(
         state.bossData,
-        action.payload.newCharacter
+        action.payload.data.newCharacter
       );
+      state.bossSeq = [...state.bossSeq, action.payload.data.newCharacterId];
     },
     [addCharacterToBoss.rejected]: (state, action) => {
       state.errorMessage = action.payload.errorMessage;
@@ -70,12 +74,22 @@ const bossSlice = createSlice({
       state.errorMessage = action.payload.errorMessage;
     },
 
+    // 데이터 불러오기
     [getBossData.pending]: (state, action) => {
       state.isFetching = true;
     },
     [getBossData.fulfilled]: (state, action) => {
-      state.bossData = { ...action.payload.bossData };
+      state.bossData = { ...action.payload.data.bossData };
+      state.bossSeq = [...action.payload.data.bossSeq];
       state.isFetching = false;
+
+      const bossCategory = getLocalStorage('bossCategory');
+
+      if (!bossCategory) {
+        setLocalStorage('bossCategory', 'weekly');
+      } else {
+        state.category = bossCategory;
+      }
     },
     [getBossData.rejected]: (state, action) => {
       state.isFetching = false;

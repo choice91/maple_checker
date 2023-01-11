@@ -5,8 +5,9 @@ import {
   addCharacter,
   deleteCharacter,
   updateCharacter,
-  todoCheck,
+  resetTodo,
 } from '../async/todo';
+import { getLocalStorage, setLocalStorage } from '../../utils/LocalStorage';
 
 const todoSlice = createSlice({
   name: 'todo',
@@ -15,6 +16,7 @@ const todoSlice = createSlice({
     errorMessage: '',
     category: 'daily',
     todoData: {},
+    todoSeq: [],
   },
   reducers: {
     clearTodoErrorMsg: (state, action) => {
@@ -30,6 +32,7 @@ const todoSlice = createSlice({
     },
     switchCategory: (state, action) => {
       state.category = action.payload.category;
+      setLocalStorage('todoCategory', action.payload.category);
     },
   },
   extraReducers: {
@@ -39,7 +42,16 @@ const todoSlice = createSlice({
     },
     [getTodoDatas.fulfilled]: (state, action) => {
       state.isFetching = false;
-      state.todoData = { ...action.payload.todos };
+      state.todoData = { ...action.payload.data.todos };
+      state.todoSeq = [...action.payload.data.todoSeq];
+
+      const todoCategory = getLocalStorage('todoCategory');
+
+      if (!todoCategory) {
+        setLocalStorage('todoCategory', 'daily');
+      } else {
+        state.category = todoCategory;
+      }
     },
     [getTodoDatas.rejected]: (state, action) => {
       state.isFetching = false;
@@ -50,8 +62,9 @@ const todoSlice = createSlice({
     [addCharacter.fulfilled]: (state, action) => {
       state.todoData = Object.assign(
         state.todoData,
-        action.payload.newCharacter
+        action.payload.data.newCharacter
       );
+      state.todoSeq = [...state.todoSeq, action.payload.data.newCharacterId];
     },
     [addCharacter.rejected]: (state, action) => {
       state.errorMessage = action.payload.errorMessage;
@@ -79,10 +92,37 @@ const todoSlice = createSlice({
       state.errorMessage = action.payload.errorMessage;
     },
 
-    // 체크
-    [todoCheck.pending]: (state, action) => {},
-    [todoCheck.fulfilled]: (state, action) => {},
-    [todoCheck.rejected]: (state, action) => {},
+    // 초기화
+    [resetTodo.pending]: (state, action) => {},
+    [resetTodo.fulfilled]: (state, action) => {
+      const dailyDefaults = {
+        yeoro: false,
+        chuchu: false,
+        lachelein: false,
+        arcana: false,
+        morass: false,
+        esfera: false,
+        cernium: false,
+        burningCernium: false,
+        arcs: false,
+        odium: false,
+      };
+
+      const weeklyDefaults = {
+        yeoro: false,
+        chuchu: false,
+        lachelein: false,
+        arcana: false,
+        morass: false,
+        esfera: false,
+      };
+
+      for (let key of Object.keys(state.todoData)) {
+        state.todoData[key].daily = dailyDefaults;
+        state.todoData[key].weekly = weeklyDefaults;
+      }
+    },
+    [resetTodo.rejected]: (state, action) => {},
   },
 });
 

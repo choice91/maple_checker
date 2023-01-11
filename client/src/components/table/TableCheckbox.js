@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
@@ -12,17 +12,18 @@ import bossSlice from '../../redux/slices/bossSlice';
 
 import CustomTableCell from './CustomTableCell';
 
-const TableCheckbox = ({ id, dataType, data, category, page }) => {
+const TableCheckbox = ({ id, dataType, category, isChecked }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleCheck = () => {
-    if (page === 'todo') {
+    if (location.pathname === '/todo') {
       const data = { todoId: id, category, todoType: dataType };
       const args = { data, navigate };
       dispatch(todoCheck(args));
       dispatch(todoSlice.actions.todoCheckReducer(data));
-    } else if (page === 'boss') {
+    } else if (location.pathname === '/boss') {
       const data = { bossId: id, category, bossType: dataType };
       const args = { data, navigate };
       dispatch(bossCheck(args));
@@ -39,7 +40,7 @@ const TableCheckbox = ({ id, dataType, data, category, page }) => {
         cursor="pointer"
         onClick={handleCheck}
       >
-        {data[category][dataType] ? (
+        {isChecked ? (
           <CheckBoxIcon style={{ color: '#3498db' }} />
         ) : (
           <CheckBoxOutlineBlankIcon style={{ color: '#fff' }} />
