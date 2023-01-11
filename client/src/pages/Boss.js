@@ -85,11 +85,12 @@ const Boss = () => {
                   >
                     <BossSelect />
                   </CustomTableCell>
-                  {bossSeq.map((seq, index) => (
+                  {bossSeq.map((bossId, index) => (
                     <TableTitle
                       key={index}
-                      id={seq}
-                      data={bossData[seq]}
+                      index={index}
+                      id={bossId}
+                      nickname={bossData[bossId].nickname}
                       page="boss"
                     />
                   ))}
