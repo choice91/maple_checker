@@ -9,10 +9,10 @@ export default {
       body: { nickname },
     } = req;
 
-    const quest = await db.Todo.findOne({ owner: loginUserId, nickname });
+    const todo = await db.Todo.findOne({ owner: loginUserId, nickname });
 
     // 이미 캐릭터가 등록되어 있는 경우
-    if (quest) {
+    if (todo) {
       res.status(400).json({
         ok: false,
         errorMessage: '이미 등록된 캐릭터입니다.',
@@ -20,11 +20,15 @@ export default {
       return;
     }
 
-    // 캐릭터 등록
     const newCharacter = await db.Todo.create({
       owner: loginUserId,
       nickname,
     });
+
+    await db.User.updateOne(
+      { _id: loginUserId },
+      { $push: { todoSeq: newCharacter._id } }
+    );
 
     const result = {
       [newCharacter._id]: {
@@ -38,7 +42,10 @@ export default {
     res.status(200).json({
       ok: true,
       message: '캐릭터 추가 완료',
-      newCharacter: result,
+      data: {
+        newCharacter: result,
+        newCharacterId: newCharacter._id,
+      },
     });
   },
 
@@ -129,12 +136,17 @@ export default {
   getTodoData: async (req, res) => {
     const { id: loginUserId } = req.user;
 
-    const quest = await db.Todo.find({ owner: loginUserId });
-    const questObj = arrayToObjectFn(quest);
+    const todos = await db.Todo.find({ owner: loginUserId }).lean();
+    const todoObj = arrayToObjectFn(todos);
+
+    const user = await db.User.findOne({ _id: loginUserId }).lean();
 
     res.status(200).json({
       ok: true,
-      todos: questObj,
+      data: {
+        todos: todoObj,
+        todoSeq: user.todoSeq,
+      },
     });
   },
 
