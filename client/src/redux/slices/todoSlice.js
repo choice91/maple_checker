@@ -16,6 +16,7 @@ const todoSlice = createSlice({
     errorMessage: '',
     category: 'daily',
     todoData: {},
+    todoSeq: [],
   },
   reducers: {
     clearTodoErrorMsg: (state, action) => {
@@ -41,7 +42,8 @@ const todoSlice = createSlice({
     },
     [getTodoDatas.fulfilled]: (state, action) => {
       state.isFetching = false;
-      state.todoData = { ...action.payload.todos };
+      state.todoData = { ...action.payload.data.todos };
+      state.todoSeq = [...action.payload.data.todoSeq];
 
       const todoCategory = getLocalStorage('todoCategory');
 
@@ -60,8 +62,9 @@ const todoSlice = createSlice({
     [addCharacter.fulfilled]: (state, action) => {
       state.todoData = Object.assign(
         state.todoData,
-        action.payload.newCharacter
+        action.payload.data.newCharacter
       );
+      state.todoSeq = [...state.todoSeq, action.payload.data.newCharacterId];
     },
     [addCharacter.rejected]: (state, action) => {
       state.errorMessage = action.payload.errorMessage;

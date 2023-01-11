@@ -1,41 +1,24 @@
 import React from 'react';
 
-import { Box, TableRow } from '@mui/material';
+import { Box } from '@mui/material';
 
 import CustomTableCell from './CustomTableCell';
 import TableMoreBtn from './TableMoreBtn';
-import TodoSelect from './TodoSelect';
-import BossSelect from './BossSelect';
 
-const TableTitle = ({ ids, data, page }) => {
+const TableTitle = ({ id, data, page }) => {
   return (
     <>
-      <TableRow>
-        <CustomTableCell
-          bgColor="#212121"
-          fontColor="#fff"
-          width={90}
-          minWidth={90}
-          fontWeight={700}
-          align="center"
-        >
-          {page === 'todo' ? <TodoSelect /> : <BossSelect />}
-        </CustomTableCell>
-        {ids.map((id, index) => (
-          <CustomTableCell
-            key={index}
-            bgColor="#212121"
-            fontColor="#fff"
-            fontSize={16}
-            minWidth={115}
-            fontWeight={700}
-            align="center"
-          >
-            <Box component="span">{data[id].nickname}</Box>
-            <TableMoreBtn id={id} nickname={data[id].nickname} page={page} />
-          </CustomTableCell>
-        ))}
-      </TableRow>
+      <CustomTableCell
+        bgColor="#212121"
+        fontColor="#fff"
+        fontSize={16}
+        minWidth={115}
+        fontWeight={700}
+        align="center"
+      >
+        <Box component="span">{data.nickname}</Box>
+        <TableMoreBtn id={id} nickname={data.nickname} page={page} />
+      </CustomTableCell>
     </>
   );
 };

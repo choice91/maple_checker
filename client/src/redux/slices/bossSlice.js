@@ -16,6 +16,7 @@ const bossSlice = createSlice({
     isFetching: false,
     category: 'weekly',
     bossData: {},
+    bossSeq: [],
     errorMessage: '',
   },
   reducers: {
@@ -41,8 +42,9 @@ const bossSlice = createSlice({
     [addCharacterToBoss.fulfilled]: (state, action) => {
       state.bossData = Object.assign(
         state.bossData,
-        action.payload.newCharacter
+        action.payload.data.newCharacter
       );
+      state.bossSeq = [...state.bossSeq, action.payload.data.newCharacterId];
     },
     [addCharacterToBoss.rejected]: (state, action) => {
       state.errorMessage = action.payload.errorMessage;
@@ -77,7 +79,8 @@ const bossSlice = createSlice({
       state.isFetching = true;
     },
     [getBossData.fulfilled]: (state, action) => {
-      state.bossData = { ...action.payload.bossData };
+      state.bossData = { ...action.payload.data.bossData };
+      state.bossSeq = [...action.payload.data.bossSeq];
       state.isFetching = false;
 
       const bossCategory = getLocalStorage('bossCategory');
