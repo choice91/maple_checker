@@ -2,11 +2,17 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { Box, Button, Menu, MenuItem, IconButton } from '@mui/material';
+import {
+  Box,
+  Button,
+  Menu,
+  MenuItem,
+  IconButton,
+  TableCell,
+} from '@mui/material';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 
-import CustomTableCell from './CustomTableCell';
 import modalSlice from '../../redux/slices/modalSlice';
 import todoSlice from '../../redux/slices/todoSlice';
 import { swapTodo } from '../../redux/async/todo';
@@ -81,13 +87,16 @@ const TableTitle = ({ index, id, nickname, page, maxLength }) => {
 
   return (
     <>
-      <CustomTableCell
-        bgColor="#212121"
-        fontColor="#fff"
-        fontSize={16}
-        minWidth={190}
-        fontWeight={700}
+      <TableCell
         align="center"
+        sx={{
+          backgroundColor: '#212121',
+          color: '#fff',
+          fontSize: 16,
+          minWidth: 170,
+          fontWeight: 700,
+          p: 0,
+        }}
       >
         <Box
           sx={{
@@ -98,7 +107,7 @@ const TableTitle = ({ index, id, nickname, page, maxLength }) => {
         >
           <IconButton
             sx={{
-              color: '#e74c3c',
+              color: '#ff6f61',
               '&:hover': {
                 backgroundColor: 'rgba(231, 76, 60, 0.1)',
               },
@@ -115,7 +124,8 @@ const TableTitle = ({ index, id, nickname, page, maxLength }) => {
             sx={{
               fontWeight: 700,
               fontSize: 14,
-              color: '#e74c3c',
+              color: '#ff6f61',
+              p: 0,
               '&:hover': {
                 backgroundColor: 'rgba(231, 76, 60, 0.1)',
               },
@@ -126,12 +136,12 @@ const TableTitle = ({ index, id, nickname, page, maxLength }) => {
           </Button>
           <IconButton
             sx={{
-              color: '#e74c3c',
+              color: '#ff6f61',
               '&:hover': {
                 backgroundColor: 'rgba(231, 76, 60, 0.1)',
               },
               '&:hover .MuiSvgIcon-root': {
-                color: '#e74c3c',
+                color: '#ff6f61',
               },
             }}
             disabled={index === maxLength - 1 ? true : false}
@@ -158,7 +168,7 @@ const TableTitle = ({ index, id, nickname, page, maxLength }) => {
             삭제
           </MenuItem>
         </Menu>
-      </CustomTableCell>
+      </TableCell>
     </>
   );
 };
