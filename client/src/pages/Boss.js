@@ -15,6 +15,7 @@ import Spinner from '../components/Spinner';
 import CustomTableCell from '../components/table/CustomTableCell';
 import BossSelect from '../components/table/BossSelect';
 import CustomTableContainer from '../components/table/CustomTableContainer';
+import StickyTableCell from '../components/table/StickyTableCell';
 import TableCheckbox from '../components/table/TableCheckbox';
 
 const weeklyArray = {
@@ -82,6 +83,8 @@ const Boss = () => {
                     minWidth={90}
                     fontWeight={700}
                     align="center"
+                    left={0}
+                    zIndex={99}
                   >
                     <BossSelect />
                   </CustomTableCell>
@@ -101,13 +104,13 @@ const Boss = () => {
                 {category === 'weekly'
                   ? Object.keys(weeklyArray).map((key, index) => (
                       <TableRow key={index}>
-                        <CustomTableCell
+                        <StickyTableCell
                           align="center"
                           bgColor="#222"
                           fontColor="#fff"
                         >
                           {weeklyArray[key]}
-                        </CustomTableCell>
+                        </StickyTableCell>
                         {bossSeq.map((seq, index) => (
                           <TableCheckbox
                             key={index}

@@ -1,8 +1,7 @@
 import React from 'react';
-
 import { TableCell } from '@mui/material';
 
-const CustomTableCell = (props) => {
+const StickyTableCell = (props) => {
   const {
     bgColor,
     fontColor,
@@ -14,8 +13,6 @@ const CustomTableCell = (props) => {
     fontSize,
     cursor,
     hover,
-    left,
-    zIndex,
     onClick,
     children,
   } = props;
@@ -34,8 +31,10 @@ const CustomTableCell = (props) => {
           fontSize: fontSize,
           cursor: cursor ? cursor : 'default',
           transition: 'all 0.2s ease-in-out',
-          left: left,
-          zIndex: zIndex,
+          position: 'sticky',
+          left: 0,
+          zIndex: 10,
+          p: 0,
           '&:hover': {
             backgroundColor: hover ? '#3f3f3f' : '',
           },
@@ -48,4 +47,4 @@ const CustomTableCell = (props) => {
   );
 };
 
-export default CustomTableCell;
+export default StickyTableCell;

@@ -15,6 +15,7 @@ import NoContents from '../components/table/NoContents';
 import Spinner from '../components/Spinner';
 import TodoSelect from '../components/table/TodoSelect';
 import CustomTableCell from '../components/table/CustomTableCell';
+import StickyTableCell from '../components/table/StickyTableCell';
 import TableCheckbox from '../components/table/TableCheckbox';
 
 const dailyArray = {
@@ -76,6 +77,8 @@ const Todo = () => {
                     minWidth={90}
                     fontWeight={700}
                     align="center"
+                    left={0}
+                    zIndex={99}
                   >
                     <TodoSelect />
                   </CustomTableCell>
@@ -95,13 +98,13 @@ const Todo = () => {
                 {category === 'daily'
                   ? Object.keys(dailyArray).map((key, index) => (
                       <TableRow key={index}>
-                        <CustomTableCell
+                        <StickyTableCell
                           align="center"
                           bgColor="#222"
                           fontColor="#fff"
                         >
                           {dailyArray[key]}
-                        </CustomTableCell>
+                        </StickyTableCell>
                         {todoSeq.map((seq, index) => (
                           <TableCheckbox
                             key={index}
@@ -115,13 +118,13 @@ const Todo = () => {
                     ))
                   : Object.keys(weeklyArray).map((key, index) => (
                       <TableRow key={index}>
-                        <CustomTableCell
+                        <StickyTableCell
                           align="center"
                           bgColor="#222"
                           fontColor="#fff"
                         >
                           {weeklyArray[key]}
-                        </CustomTableCell>
+                        </StickyTableCell>
                         {todoSeq.map((seq, index) => (
                           <TableCheckbox
                             key={index}
