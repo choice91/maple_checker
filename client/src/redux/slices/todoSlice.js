@@ -34,6 +34,23 @@ const todoSlice = createSlice({
       state.category = action.payload.category;
       setLocalStorage('todoCategory', action.payload.category);
     },
+    swapTodo: (state, action) => {
+      const {
+        payload: { index, direction },
+      } = action;
+
+      if (direction === 'left') {
+        [state.todoSeq[index - 1], state.todoSeq[index]] = [
+          state.todoSeq[index],
+          state.todoSeq[index - 1],
+        ];
+      } else if (direction === 'right') {
+        [state.todoSeq[index], state.todoSeq[index + 1]] = [
+          state.todoSeq[index + 1],
+          state.todoSeq[index],
+        ];
+      }
+    },
   },
   extraReducers: {
     // Todo 데이터 불러오기

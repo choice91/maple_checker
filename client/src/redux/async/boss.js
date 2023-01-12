@@ -169,3 +169,27 @@ export const resetBossData = createAsyncThunk(
     }
   }
 );
+
+export const swapBoss = createAsyncThunk(
+  'boss/swap',
+  async (payload, thunkAPI) => {
+    const {
+      data: { index, direction },
+      navigate,
+    } = payload;
+
+    try {
+      const response = await API.put('/boss/swap', { index, direction });
+      return response.data;
+    } catch (err) {
+      switch (err.response.status) {
+        case 401:
+          if (err.response.data.error.name === 'TokenExpiredError') {
+            localStorage.removeItem('user');
+            navigate('/login');
+          }
+          return;
+      }
+    }
+  }
+);
