@@ -15,6 +15,7 @@ import Spinner from '../components/Spinner';
 import CustomTableCell from '../components/table/CustomTableCell';
 import BossSelect from '../components/table/BossSelect';
 import CustomTableContainer from '../components/table/CustomTableContainer';
+import StickyTableCell from '../components/table/StickyTableCell';
 import TableCheckbox from '../components/table/TableCheckbox';
 
 const weeklyArray = {
@@ -75,7 +76,7 @@ const Boss = () => {
             <>
               <TableHead>
                 <TableRow>
-                  <CustomTableCell
+                  <StickyTableCell
                     bgColor="#212121"
                     fontColor="#fff"
                     width={90}
@@ -84,7 +85,7 @@ const Boss = () => {
                     align="center"
                   >
                     <BossSelect />
-                  </CustomTableCell>
+                  </StickyTableCell>
                   {bossSeq.map((bossId, index) => (
                     <TableTitle
                       key={index}
@@ -101,13 +102,13 @@ const Boss = () => {
                 {category === 'weekly'
                   ? Object.keys(weeklyArray).map((key, index) => (
                       <TableRow key={index}>
-                        <CustomTableCell
+                        <StickyTableCell
                           align="center"
                           bgColor="#222"
                           fontColor="#fff"
                         >
                           {weeklyArray[key]}
-                        </CustomTableCell>
+                        </StickyTableCell>
                         {bossSeq.map((seq, index) => (
                           <TableCheckbox
                             key={index}
@@ -121,13 +122,13 @@ const Boss = () => {
                     ))
                   : Object.keys(monthlyArray).map((key, index) => (
                       <TableRow key={index}>
-                        <CustomTableCell
+                        <StickyTableCell
                           align="center"
                           bgColor="#222"
                           fontColor="#fff"
                         >
                           {monthlyArray[key]}
-                        </CustomTableCell>
+                        </StickyTableCell>
                         {bossSeq.map((seq, index) => (
                           <TableCheckbox
                             key={index}
