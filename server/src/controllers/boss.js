@@ -222,4 +222,30 @@ export default {
       message: '보스 데이터 초기화',
     });
   },
+
+  changeSequence: async (req, res) => {
+    const {
+      user: { id: loginUserId },
+      body: { index, direction },
+    } = req;
+
+    const user = await db.User.findById(loginUserId, { bossSeq: 1 });
+
+    if (direction === 'left') {
+      [user.bossSeq[index - 1], user.bossSeq[index]] = [
+        user.bossSeq[index],
+        user.bossSeq[index - 1],
+      ];
+    } else if (direction === 'right') {
+      [user.bossSeq[index], user.bossSeq[index + 1]] = [
+        user.bossSeq[index + 1],
+        user.bossSeq[index],
+      ];
+    }
+    await user.save();
+
+    res.status(200).json({
+      ok: true,
+    });
+  },
 };
