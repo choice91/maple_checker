@@ -21,7 +21,7 @@ const theme = createTheme({
     primary: {
       main: '#fff',
       gray: '#191919',
-      orange: '#e74c3c',
+      orange: '#ff6f61',
     },
   },
 });
