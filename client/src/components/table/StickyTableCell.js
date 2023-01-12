@@ -34,6 +34,7 @@ const StickyTableCell = (props) => {
           position: 'sticky',
           left: 0,
           zIndex: 10,
+          p: 0,
           '&:hover': {
             backgroundColor: hover ? '#3f3f3f' : '',
           },
