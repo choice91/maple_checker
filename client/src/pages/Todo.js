@@ -70,16 +70,18 @@ const Todo = () => {
             <>
               <TableHead>
                 <TableRow>
-                  <StickyTableCell
+                  <CustomTableCell
                     bgColor="#212121"
                     fontColor="#fff"
                     width={90}
                     minWidth={90}
                     fontWeight={700}
                     align="center"
+                    left={0}
+                    zIndex={99}
                   >
                     <TodoSelect />
-                  </StickyTableCell>
+                  </CustomTableCell>
                   {todoSeq.map((todoId, index) => (
                     <TableTitle
                       key={index}

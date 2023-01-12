@@ -14,6 +14,8 @@ const CustomTableCell = (props) => {
     fontSize,
     cursor,
     hover,
+    left,
+    zIndex,
     onClick,
     children,
   } = props;
@@ -32,6 +34,8 @@ const CustomTableCell = (props) => {
           fontSize: fontSize,
           cursor: cursor ? cursor : 'default',
           transition: 'all 0.2s ease-in-out',
+          left: left,
+          zIndex: zIndex,
           '&:hover': {
             backgroundColor: hover ? '#3f3f3f' : '',
           },

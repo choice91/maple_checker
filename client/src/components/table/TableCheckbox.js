@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
-
+import { Button } from '@mui/material';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 
@@ -41,11 +41,13 @@ const TableCheckbox = ({ id, dataType, category, isChecked }) => {
         onClick={handleCheck}
         hover={true}
       >
-        {isChecked ? (
-          <CheckBoxIcon style={{ color: '#3498db' }} />
-        ) : (
-          <CheckBoxOutlineBlankIcon style={{ color: '#fff' }} />
-        )}
+        <Button>
+          {isChecked ? (
+            <CheckBoxIcon style={{ color: '#3498db' }} />
+          ) : (
+            <CheckBoxOutlineBlankIcon style={{ color: '#fff' }} />
+          )}
+        </Button>
       </CustomTableCell>
     </>
   );

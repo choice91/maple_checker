@@ -76,16 +76,18 @@ const Boss = () => {
             <>
               <TableHead>
                 <TableRow>
-                  <StickyTableCell
+                  <CustomTableCell
                     bgColor="#212121"
                     fontColor="#fff"
                     width={90}
                     minWidth={90}
                     fontWeight={700}
                     align="center"
+                    left={0}
+                    zIndex={99}
                   >
                     <BossSelect />
-                  </StickyTableCell>
+                  </CustomTableCell>
                   {bossSeq.map((bossId, index) => (
                     <TableTitle
                       key={index}
@@ -122,13 +124,13 @@ const Boss = () => {
                     ))
                   : Object.keys(monthlyArray).map((key, index) => (
                       <TableRow key={index}>
-                        <StickyTableCell
+                        <CustomTableCell
                           align="center"
                           bgColor="#222"
                           fontColor="#fff"
                         >
                           {monthlyArray[key]}
-                        </StickyTableCell>
+                        </CustomTableCell>
                         {bossSeq.map((seq, index) => (
                           <TableCheckbox
                             key={index}

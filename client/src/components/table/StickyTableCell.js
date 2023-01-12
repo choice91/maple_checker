@@ -33,7 +33,7 @@ const StickyTableCell = (props) => {
           transition: 'all 0.2s ease-in-out',
           position: 'sticky',
           left: 0,
-          zIndex: 99,
+          zIndex: 10,
           '&:hover': {
             backgroundColor: hover ? '#3f3f3f' : '',
           },
