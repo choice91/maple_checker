@@ -85,6 +85,7 @@ const Todo = () => {
                       index={index}
                       id={todoId}
                       nickname={todoData[todoId].nickname}
+                      maxLength={todoSeq.length}
                       page="todo"
                     />
                   ))}

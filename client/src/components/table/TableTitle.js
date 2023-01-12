@@ -1,10 +1,17 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
-import { Button, Menu, MenuItem } from '@mui/material';
+import { Box, Button, Menu, MenuItem, IconButton } from '@mui/material';
+import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
+import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 
 import CustomTableCell from './CustomTableCell';
 import modalSlice from '../../redux/slices/modalSlice';
+import todoSlice from '../../redux/slices/todoSlice';
+import { swapTodo } from '../../redux/async/todo';
+import { swapBoss } from '../../redux/async/boss';
+import bossSlice from '../../redux/slices/bossSlice';
 
 const style = {
   menuItem: {
@@ -16,8 +23,9 @@ const style = {
   },
 };
 
-const TableTitle = ({ index, id, nickname, page }) => {
+const TableTitle = ({ index, id, nickname, page, maxLength }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -41,29 +49,98 @@ const TableTitle = ({ index, id, nickname, page }) => {
     dispatch(modalSlice.actions.openDelModal(args));
   };
 
+  const handleMoveLeft = () => {
+    if (index > 0) {
+      const data = { index, direction: 'left' };
+      const args = { data, navigate };
+
+      if (page === 'todo') {
+        dispatch(swapTodo(args));
+        dispatch(todoSlice.actions.swapTodo(data));
+      } else if (page === 'boss') {
+        dispatch(swapBoss(args));
+        dispatch(bossSlice.actions.swapBoss(data));
+      }
+    }
+  };
+
+  const handleMoveRight = () => {
+    if (index < maxLength - 1) {
+      const data = { index, direction: 'right' };
+      const args = { data, navigate };
+
+      if (page === 'todo') {
+        dispatch(swapTodo(args));
+        dispatch(todoSlice.actions.swapTodo(data));
+      } else if (page === 'boss') {
+        dispatch(swapBoss(args));
+        dispatch(bossSlice.actions.swapBoss(data));
+      }
+    }
+  };
+
   return (
     <>
       <CustomTableCell
         bgColor="#212121"
         fontColor="#fff"
         fontSize={16}
-        minWidth={130}
+        minWidth={190}
         fontWeight={700}
         align="center"
       >
-        <Button
+        <Box
           sx={{
-            fontWeight: 700,
-            fontSize: 14,
-            color: '#fff',
-            '&:hover': {
-              backgroundColor: '#3f3f3f',
-            },
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
           }}
-          onClick={handleClick}
         >
-          {nickname}
-        </Button>
+          <IconButton
+            sx={{
+              color: '#e74c3c',
+              '&:hover': {
+                backgroundColor: 'rgba(231, 76, 60, 0.1)',
+              },
+              '&:hover .MuiSvgIcon-root': {
+                color: '#e74c3c',
+              },
+            }}
+            disabled={index === 0 ? true : false}
+            onClick={handleMoveLeft}
+          >
+            <ArrowLeftIcon sx={{ color: '#3f3f3f' }} />
+          </IconButton>
+          <Button
+            sx={{
+              fontWeight: 700,
+              fontSize: 14,
+              color: '#e74c3c',
+              '&:hover': {
+                backgroundColor: 'rgba(231, 76, 60, 0.1)',
+              },
+            }}
+            onClick={handleClick}
+          >
+            {nickname}
+          </Button>
+          <IconButton
+            sx={{
+              color: '#e74c3c',
+              '&:hover': {
+                backgroundColor: 'rgba(231, 76, 60, 0.1)',
+              },
+              '&:hover .MuiSvgIcon-root': {
+                color: '#e74c3c',
+              },
+            }}
+            disabled={index === maxLength - 1 ? true : false}
+            onClick={handleMoveRight}
+          >
+            <ArrowRightIcon sx={{ color: '#3f3f3f' }} />
+          </IconButton>
+        </Box>
+
         <Menu
           anchorEl={anchorEl}
           open={open}

@@ -91,11 +91,11 @@ const Boss = () => {
                       index={index}
                       id={bossId}
                       nickname={bossData[bossId].nickname}
+                      maxLength={bossSeq.length}
                       page="boss"
                     />
                   ))}
                 </TableRow>
-                {/*<TableTitle ids={ids} data={bossData} page="boss" />*/}
               </TableHead>
               <TableBody>
                 {category === 'weekly'
@@ -139,7 +139,6 @@ const Boss = () => {
                         ))}
                       </TableRow>
                     ))}
-                {/*<BossTable ids={ids} data={bossData} />*/}
               </TableBody>
             </>
           ) : (
