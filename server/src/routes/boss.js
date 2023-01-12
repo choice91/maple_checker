@@ -16,6 +16,10 @@ bossRouter
   .all(authJWT)
   .post(asyncHandler(bossCtrl.resetBossData));
 bossRouter
+  .route('/swap')
+  .all(authJWT)
+  .put(asyncHandler(bossCtrl.changeSequence));
+bossRouter
   .route('/:bossId')
   .all(authJWT)
   .put(asyncHandler(bossCtrl.updateNickname))

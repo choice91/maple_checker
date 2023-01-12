@@ -124,6 +124,11 @@ export default {
       return;
     }
 
+    await db.User.updateOne(
+      { _id: loginUserId },
+      { $pull: { todoSeq: todoId } }
+    );
+
     res.status(200).json({
       ok: true,
       message: '캐릭터 삭제',
@@ -218,6 +223,32 @@ export default {
     res.status(200).json({
       ok: true,
       message: '퀘스트 데이터 초기화 성공',
+    });
+  },
+
+  changeSequence: async (req, res) => {
+    const {
+      user: { id: loginUserId },
+      body: { index, direction },
+    } = req;
+
+    const user = await db.User.findById(loginUserId, { todoSeq: 1 });
+
+    if (direction === 'left') {
+      [user.todoSeq[index - 1], user.todoSeq[index]] = [
+        user.todoSeq[index],
+        user.todoSeq[index - 1],
+      ];
+    } else if (direction === 'right') {
+      [user.todoSeq[index], user.todoSeq[index + 1]] = [
+        user.todoSeq[index + 1],
+        user.todoSeq[index],
+      ];
+    }
+    await user.save();
+
+    res.status(200).json({
+      ok: true,
     });
   },
 };

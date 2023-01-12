@@ -34,6 +34,23 @@ const todoSlice = createSlice({
       state.category = action.payload.category;
       setLocalStorage('todoCategory', action.payload.category);
     },
+    swapTodo: (state, action) => {
+      const {
+        payload: { index, direction },
+      } = action;
+
+      if (direction === 'left') {
+        [state.todoSeq[index - 1], state.todoSeq[index]] = [
+          state.todoSeq[index],
+          state.todoSeq[index - 1],
+        ];
+      } else if (direction === 'right') {
+        [state.todoSeq[index], state.todoSeq[index + 1]] = [
+          state.todoSeq[index + 1],
+          state.todoSeq[index],
+        ];
+      }
+    },
   },
   extraReducers: {
     // Todo 데이터 불러오기
@@ -60,11 +77,14 @@ const todoSlice = createSlice({
     // 캐릭터 추가
     [addCharacter.pending]: (state, action) => {},
     [addCharacter.fulfilled]: (state, action) => {
-      state.todoData = Object.assign(
-        state.todoData,
-        action.payload.data.newCharacter
-      );
-      state.todoSeq = [...state.todoSeq, action.payload.data.newCharacterId];
+      const {
+        payload: {
+          data: { newCharacter, newCharacterId },
+        },
+      } = action;
+
+      state.todoData = Object.assign(state.todoData, newCharacter);
+      state.todoSeq = [...state.todoSeq, newCharacterId];
     },
     [addCharacter.rejected]: (state, action) => {
       state.errorMessage = action.payload.errorMessage;
@@ -73,7 +93,14 @@ const todoSlice = createSlice({
     // 캐릭터 삭제
     [deleteCharacter.pending]: (state, action) => {},
     [deleteCharacter.fulfilled]: (state, action) => {
-      delete state.todoData[action.payload.data.deletedId];
+      const {
+        payload: {
+          data: { deletedId },
+        },
+      } = action;
+
+      delete state.todoData[deletedId];
+      state.todoSeq = state.todoSeq.filter((id) => id !== deletedId);
     },
     [deleteCharacter.rejected]: (state, action) => {},
 

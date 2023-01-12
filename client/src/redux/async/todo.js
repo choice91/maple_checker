@@ -176,3 +176,27 @@ export const resetTodo = createAsyncThunk(
     }
   }
 );
+
+export const swapTodo = createAsyncThunk(
+  'todo/swap',
+  async (payload, thunkAPI) => {
+    const {
+      data: { index, direction },
+      navigate,
+    } = payload;
+
+    try {
+      const response = await API.put('/todo/swap', { index, direction });
+      return response.data;
+    } catch (err) {
+      switch (err.response.status) {
+        case 401:
+          if (err.response.data.error.name === 'TokenExpiredError') {
+            localStorage.removeItem('user');
+            navigate('/login');
+          }
+          return;
+      }
+    }
+  }
+);

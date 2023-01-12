@@ -35,6 +35,23 @@ const bossSlice = createSlice({
       state.category = action.payload.category;
       setLocalStorage('bossCategory', action.payload.category);
     },
+    swapBoss: (state, action) => {
+      const {
+        payload: { index, direction },
+      } = action;
+
+      if (direction === 'left') {
+        [state.bossSeq[index - 1], state.bossSeq[index]] = [
+          state.bossSeq[index],
+          state.bossSeq[index - 1],
+        ];
+      } else if (direction === 'right') {
+        [state.bossSeq[index], state.bossSeq[index + 1]] = [
+          state.bossSeq[index + 1],
+          state.bossSeq[index],
+        ];
+      }
+    },
   },
   extraReducers: {
     // 캐릭터 추가
@@ -53,7 +70,14 @@ const bossSlice = createSlice({
     // 캐릭터 삭제
     [delCharacterToBoss.pending]: (state, action) => {},
     [delCharacterToBoss.fulfilled]: (state, action) => {
-      delete state.bossData[action.payload.data.deletedId];
+      const {
+        payload: {
+          data: { deletedId },
+        },
+      } = action;
+
+      delete state.bossData[deletedId];
+      state.bossSeq = state.bossSeq.filter((id) => id !== deletedId);
     },
     [delCharacterToBoss.rejected]: (state, action) => {
       state.errorMessage = action.payload.errorMessage;

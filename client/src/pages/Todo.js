@@ -79,11 +79,13 @@ const Todo = () => {
                   >
                     <TodoSelect />
                   </CustomTableCell>
-                  {todoSeq.map((seq, index) => (
+                  {todoSeq.map((todoId, index) => (
                     <TableTitle
                       key={index}
-                      id={seq}
-                      data={todoData[seq]}
+                      index={index}
+                      id={todoId}
+                      nickname={todoData[todoId].nickname}
+                      maxLength={todoSeq.length}
                       page="todo"
                     />
                   ))}

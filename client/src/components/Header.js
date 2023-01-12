@@ -14,6 +14,7 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import LogoutIcon from '@mui/icons-material/Logout';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import { removeCookie } from '../utils/Cookies';
+import { removeLocalStorage } from '../utils/LocalStorage';
 
 const theme = createTheme({
   palette: {
@@ -29,8 +30,7 @@ const Header = ({ page }) => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    // localStorage.removeItem('token');
-    removeCookie('access');
+    removeLocalStorage('token');
     removeCookie('refresh');
     navigate('/login', { replace: true });
   };

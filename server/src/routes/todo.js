@@ -13,6 +13,10 @@ todoRouter
 todoRouter.route('/check').all(authJWT).post(asyncHandler(todoCtrl.checkTodo));
 todoRouter.route('/reset').all(authJWT).post(asyncHandler(todoCtrl.resetTodo));
 todoRouter
+  .route('/swap')
+  .all(authJWT)
+  .put(asyncHandler(todoCtrl.changeSequence));
+todoRouter
   .route('/:todoId')
   .all(authJWT)
   .put(asyncHandler(todoCtrl.updateNickname))
