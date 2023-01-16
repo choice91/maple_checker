@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   Box,
-  Button,
   Card,
   CardActions,
   CardContent,
@@ -11,6 +10,10 @@ import {
   Typography,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import { styled } from '@mui/material/styles';
 import { makeStyles } from '@mui/styles';
 
@@ -33,14 +36,27 @@ const useStyles = makeStyles({
     backgroundColor: '#333',
     color: '#fff',
   },
+  nickname: {
+    fontWeight: '700',
+    fontSize: 20,
+    marginRight: '0.5rem',
+  },
   expandMoreIcon: {
     color: '#fff',
+  },
+  cardTitle: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   cardContent: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'column',
+  },
+  icon: {
+    color: '#fff',
   },
 });
 
@@ -57,12 +73,26 @@ const GridItem = (props) => {
   return (
     <>
       <Grid item xs={12}>
-        <Card className={classes.card} onClick={handleExpandClick}>
-          <CardContent>
-            <Typography>{nickname}</Typography>
+        <Card className={classes.card}>
+          <CardContent className={classes.cardTitle}>
+            <Typography className={classes.nickname}>{nickname}</Typography>
+            <Box>
+              <IconButton className={classes.icon}>
+                <ArrowUpwardIcon fontSize="small" />
+              </IconButton>
+              <IconButton className={classes.icon}>
+                <ArrowDownwardIcon fontSize="small" />
+              </IconButton>
+              <IconButton className={classes.icon}>
+                <DeleteIcon fontSize="small" />
+              </IconButton>
+              <IconButton className={classes.icon}>
+                <EditIcon fontSize="small" />
+              </IconButton>
+            </Box>
           </CardContent>
           <CardActions>
-            <ExpandMore expand={expanded}>
+            <ExpandMore expand={expanded} onClick={handleExpandClick}>
               <ExpandMoreIcon className={classes.expandMoreIcon} />
             </ExpandMore>
           </CardActions>
