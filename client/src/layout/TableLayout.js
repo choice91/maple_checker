@@ -1,9 +1,9 @@
 import React from 'react';
 import { Container, Paper, TableContainer } from '@mui/material';
 
-import TableBtn from './TableBtn';
+import TableBtn from '../components/table/TableBtn';
 
-const CustomTableContainer = ({ page, children }) => {
+const TableLayout = ({ page, children }) => {
   return (
     <>
       <Container
@@ -32,4 +32,4 @@ const CustomTableContainer = ({ page, children }) => {
   );
 };
 
-export default CustomTableContainer;
+export default TableLayout;

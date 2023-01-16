@@ -7,7 +7,7 @@ import userSlice from '../redux/slices/userSlice';
 
 import { Avatar, Box, Button, Typography } from '@mui/material';
 
-import SignContainer from '../components/SignContainer';
+import SignLayout from '../layout/SignLayout';
 import TextFieldComp from '../components/TextFieldComp';
 
 import SensorOccupiedIcon from '@mui/icons-material/SensorOccupied';
@@ -105,7 +105,7 @@ const SignUp = () => {
 
   return (
     <>
-      <SignContainer>
+      <SignLayout>
         <Box
           sx={{
             display: 'flex',
@@ -176,7 +176,7 @@ const SignUp = () => {
             <Link to="/login">로그인 하러가기 &rarr;</Link>
           </Box>
         </Box>
-      </SignContainer>
+      </SignLayout>
     </>
   );
 };

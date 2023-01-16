@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Container } from '@mui/material';
 
-const SignContainer = ({ children }) => {
+const SignLayout = ({ children }) => {
   return (
     <>
       <Container
@@ -21,4 +21,4 @@ const SignContainer = ({ children }) => {
   );
 };
 
-export default SignContainer;
+export default SignLayout;

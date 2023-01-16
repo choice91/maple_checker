@@ -14,7 +14,7 @@ import NoContents from '../components/table/NoContents';
 import Spinner from '../components/Spinner';
 import CustomTableCell from '../components/table/CustomTableCell';
 import BossSelect from '../components/table/BossSelect';
-import CustomTableContainer from '../components/table/CustomTableContainer';
+import TableLayout from '../layout/TableLayout';
 import StickyTableCell from '../components/table/StickyTableCell';
 import TableCheckbox from '../components/table/TableCheckbox';
 
@@ -64,7 +64,7 @@ const Boss = () => {
   return (
     <>
       <Header page="boss" />
-      <CustomTableContainer page="boss">
+      <TableLayout page="boss">
         <Table
           stickyHeader
           aria-label="boss table"
@@ -148,7 +148,7 @@ const Boss = () => {
             <NoContents />
           )}
         </Table>
-      </CustomTableContainer>
+      </TableLayout>
 
       <AddModal
         page="boss"
