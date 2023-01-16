@@ -1,22 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { Table, TableBody, TableHead, TableRow } from '@mui/material';
+import { useMediaQuery } from '@mui/material';
 
 import { getTodoDatas } from '../redux/async/todo';
 
 import Header from '../components/Header';
-import CustomTableContainer from '../components/table/CustomTableContainer';
-import TableTitle from '../components/table/TableTitle';
 import AddModal from '../components/modal/AddModal';
 import DelConfirmModal from '../components/modal/DelConfirmModal';
 import UpdateModal from '../components/modal/UpdateModal';
-import NoContents from '../components/table/NoContents';
-import Spinner from '../components/Spinner';
-import TodoSelect from '../components/table/TodoSelect';
-import CustomTableCell from '../components/table/CustomTableCell';
-import StickyTableCell from '../components/table/StickyTableCell';
-import TableCheckbox from '../components/table/TableCheckbox';
+import TodoDesktop from '../components/desktop/TodoDesktop';
+import TodoMobile from '../components/mobile/TodoMobile';
 
 const dailyArray = {
   yeoro: '여로',
@@ -44,105 +38,26 @@ const Todo = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { isFetching, todoData, todoSeq, errorMessage, category } = useSelector(
-    (state) => state.todo
-  );
+  const { errorMessage } = useSelector((state) => state.todo);
   const { isAddModalOpen, isUpdateModalOpen, isDelModalOpen } = useSelector(
     (state) => state.modal
   );
 
-  useEffect(() => {
+  const isMobile = useMediaQuery('(max-width: 760px)');
+
+  React.useEffect(() => {
     dispatch(getTodoDatas({ navigate }));
   }, []);
 
   return (
     <>
       <Header page="todo" />
-      <CustomTableContainer page="todo">
-        <Table
-          stickyHeader
-          aria-label="todo table"
-          sx={{ backgroundColor: '#222' }}
-        >
-          {isFetching ? (
-            <Spinner />
-          ) : todoSeq.length ? (
-            <>
-              <TableHead>
-                <TableRow>
-                  <CustomTableCell
-                    bgColor="#212121"
-                    fontColor="#fff"
-                    width={90}
-                    minWidth={90}
-                    fontWeight={700}
-                    align="center"
-                    left={0}
-                    zIndex={99}
-                  >
-                    <TodoSelect />
-                  </CustomTableCell>
-                  {todoSeq.map((todoId, index) => (
-                    <TableTitle
-                      key={index}
-                      index={index}
-                      id={todoId}
-                      nickname={todoData[todoId].nickname}
-                      maxLength={todoSeq.length}
-                      page="todo"
-                    />
-                  ))}
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {category === 'daily'
-                  ? Object.keys(dailyArray).map((key, index) => (
-                      <TableRow key={index}>
-                        <StickyTableCell
-                          align="center"
-                          bgColor="#222"
-                          fontColor="#fff"
-                        >
-                          {dailyArray[key]}
-                        </StickyTableCell>
-                        {todoSeq.map((seq, index) => (
-                          <TableCheckbox
-                            key={index}
-                            id={seq}
-                            category={category}
-                            dataType={key}
-                            isChecked={todoData[seq][category][key]}
-                          />
-                        ))}
-                      </TableRow>
-                    ))
-                  : Object.keys(weeklyArray).map((key, index) => (
-                      <TableRow key={index}>
-                        <StickyTableCell
-                          align="center"
-                          bgColor="#222"
-                          fontColor="#fff"
-                        >
-                          {weeklyArray[key]}
-                        </StickyTableCell>
-                        {todoSeq.map((seq, index) => (
-                          <TableCheckbox
-                            key={index}
-                            id={seq}
-                            category={category}
-                            dataType={key}
-                            isChecked={todoData[seq][category][key]}
-                          />
-                        ))}
-                      </TableRow>
-                    ))}
-              </TableBody>
-            </>
-          ) : (
-            <NoContents />
-          )}
-        </Table>
-      </CustomTableContainer>
+
+      {isMobile ? (
+        <TodoMobile dailyArray={dailyArray} weeklyArray={weeklyArray} />
+      ) : (
+        <TodoDesktop dailyArray={dailyArray} weeklyArray={weeklyArray} />
+      )}
 
       <AddModal
         page="todo"
