@@ -1,4 +1,6 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
+import { useLocation, useNavigate } from 'react-router-dom';
 import {
   Box,
   Card,
@@ -18,6 +20,12 @@ import { styled } from '@mui/material/styles';
 import { makeStyles } from '@mui/styles';
 
 import Item from './Item';
+
+import { swapTodo } from '../../redux/async/todo';
+import { swapBoss } from '../../redux/async/boss';
+import modalSlice from '../../redux/slices/modalSlice';
+import todoSlice from '../../redux/slices/todoSlice';
+import bossSlice from '../../redux/slices/bossSlice';
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -54,6 +62,8 @@ const useStyles = makeStyles({
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'column',
+    border: '1px solid #fff',
+    borderRadius: '5px',
   },
   icon: {
     color: '#fff',
@@ -61,13 +71,65 @@ const useStyles = makeStyles({
 });
 
 const GridItem = (props) => {
-  const { id, nickname, dailyArray, weeklyArray, category, data } = props;
+  const {
+    id,
+    nickname,
+    dailyArray,
+    weeklyArray,
+    category,
+    data,
+    index,
+    maxLength,
+  } = props;
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const [expanded, setExpanded] = React.useState(false);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
+  };
+
+  const handleOpenUpdateModal = () => {
+    const args = { id, nickname, page: location.pathname.split('/')[1] };
+    dispatch(modalSlice.actions.openUpdateModal(args));
+  };
+
+  const handleOpenDelModal = () => {
+    const args = { id, nickname, page: location.pathname.split('/')[1] };
+    dispatch(modalSlice.actions.openDelModal(args));
+  };
+
+  const handleUp = () => {
+    if (index > 0) {
+      const data = { index, direction: 'left' };
+      const args = { data, navigate };
+
+      if (location.pathname === '/todo') {
+        dispatch(swapTodo(args));
+        dispatch(todoSlice.actions.swapTodo(data));
+      } else if (location.pathname === '/boss') {
+        dispatch(swapBoss(args));
+        dispatch(bossSlice.actions.swapBoss(data));
+      }
+    }
+  };
+
+  const handleDown = () => {
+    if (index < maxLength - 1) {
+      const data = { index, direction: 'right' };
+      const args = { data, navigate };
+
+      if (location.pathname === '/todo') {
+        dispatch(swapTodo(args));
+        dispatch(todoSlice.actions.swapTodo(data));
+      } else if (location.pathname === '/boss') {
+        dispatch(swapBoss(args));
+        dispatch(bossSlice.actions.swapBoss(data));
+      }
+    }
   };
 
   return (
@@ -77,16 +139,19 @@ const GridItem = (props) => {
           <CardContent className={classes.cardTitle}>
             <Typography className={classes.nickname}>{nickname}</Typography>
             <Box>
-              <IconButton className={classes.icon}>
+              <IconButton className={classes.icon} onClick={handleUp}>
                 <ArrowUpwardIcon fontSize="small" />
               </IconButton>
-              <IconButton className={classes.icon}>
+              <IconButton className={classes.icon} onClick={handleDown}>
                 <ArrowDownwardIcon fontSize="small" />
               </IconButton>
-              <IconButton className={classes.icon}>
+              <IconButton className={classes.icon} onClick={handleOpenDelModal}>
                 <DeleteIcon fontSize="small" />
               </IconButton>
-              <IconButton className={classes.icon}>
+              <IconButton
+                className={classes.icon}
+                onClick={handleOpenUpdateModal}
+              >
                 <EditIcon fontSize="small" />
               </IconButton>
             </Box>
