@@ -8,7 +8,7 @@ import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import modalSlice from '../../redux/slices/modalSlice';
 import todoSlice from '../../redux/slices/todoSlice';
 
-import GridItem from './GridItem';
+import TodoCard from './TodoCard';
 import TodoSelect from '../table/TodoSelect';
 
 const useStyles = makeStyles({
@@ -65,7 +65,7 @@ const TodoMobile = ({ dailyArray, weeklyArray }) => {
           <TodoSelect />
         </Box>
         {todoSeq.map((seq, index) => (
-          <GridItem
+          <TodoCard
             key={index}
             id={seq}
             index={index}

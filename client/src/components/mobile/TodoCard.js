@@ -22,10 +22,8 @@ import { makeStyles } from '@mui/styles';
 import Item from './Item';
 
 import { swapTodo } from '../../redux/async/todo';
-import { swapBoss } from '../../redux/async/boss';
 import modalSlice from '../../redux/slices/modalSlice';
 import todoSlice from '../../redux/slices/todoSlice';
-import bossSlice from '../../redux/slices/bossSlice';
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -70,7 +68,7 @@ const useStyles = makeStyles({
   },
 });
 
-const GridItem = (props) => {
+const TodoCard = (props) => {
   const {
     id,
     nickname,
@@ -81,6 +79,7 @@ const GridItem = (props) => {
     index,
     maxLength,
   } = props;
+
   const classes = useStyles();
   const dispatch = useDispatch();
   const location = useLocation();
@@ -106,14 +105,8 @@ const GridItem = (props) => {
     if (index > 0) {
       const data = { index, direction: 'left' };
       const args = { data, navigate };
-
-      if (location.pathname === '/todo') {
-        dispatch(swapTodo(args));
-        dispatch(todoSlice.actions.swapTodo(data));
-      } else if (location.pathname === '/boss') {
-        dispatch(swapBoss(args));
-        dispatch(bossSlice.actions.swapBoss(data));
-      }
+      dispatch(swapTodo(args));
+      dispatch(todoSlice.actions.swapTodo(data));
     }
   };
 
@@ -121,14 +114,8 @@ const GridItem = (props) => {
     if (index < maxLength - 1) {
       const data = { index, direction: 'right' };
       const args = { data, navigate };
-
-      if (location.pathname === '/todo') {
-        dispatch(swapTodo(args));
-        dispatch(todoSlice.actions.swapTodo(data));
-      } else if (location.pathname === '/boss') {
-        dispatch(swapBoss(args));
-        dispatch(bossSlice.actions.swapBoss(data));
-      }
+      dispatch(swapTodo(args));
+      dispatch(todoSlice.actions.swapTodo(data));
     }
   };
 
@@ -192,4 +179,4 @@ const GridItem = (props) => {
   );
 };
 
-export default GridItem;
+export default TodoCard;
