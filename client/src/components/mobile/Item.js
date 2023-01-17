@@ -17,6 +17,7 @@ const useStyles = makeStyles({
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
+    borderBottom: '1px solid #333',
   },
   title: {
     width: '100%',
@@ -24,6 +25,7 @@ const useStyles = makeStyles({
   },
   checkButton: {
     color: '#808080',
+    width: '30%',
   },
   checkIcon: {
     color: '#ff6f61',
