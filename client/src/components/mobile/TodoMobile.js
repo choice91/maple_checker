@@ -68,6 +68,8 @@ const TodoMobile = ({ dailyArray, weeklyArray }) => {
           <GridItem
             key={index}
             id={seq}
+            index={index}
+            maxLength={todoSeq.length}
             nickname={todoData[seq].nickname}
             dailyArray={dailyArray}
             weeklyArray={weeklyArray}
