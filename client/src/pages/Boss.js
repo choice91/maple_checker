@@ -1,22 +1,15 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
-import { Table, TableBody, TableHead, TableRow } from '@mui/material';
+import { useMediaQuery } from '@mui/material';
 
 import { getBossData } from '../redux/async/boss';
 
 import Header from '../components/Header';
-import TableTitle from '../components/table/TableTitle';
 import AddModal from '../components/modal/AddModal';
 import UpdateModal from '../components/modal/UpdateModal';
 import DelConfirmModal from '../components/modal/DelConfirmModal';
-import NoContents from '../components/table/NoContents';
-import Spinner from '../components/Spinner';
-import CustomTableCell from '../components/table/CustomTableCell';
-import BossSelect from '../components/table/BossSelect';
-import CustomTableContainer from '../components/table/CustomTableContainer';
-import StickyTableCell from '../components/table/StickyTableCell';
-import TableCheckbox from '../components/table/TableCheckbox';
+import BossDesktop from '../components/desktop/BossDesktop';
+import BossMobile from '../components/mobile/BossMobile';
 
 const weeklyArray = {
   zaqqum: '자쿰',
@@ -48,107 +41,26 @@ const monthlyArray = {
 const Boss = () => {
   const dispatch = useDispatch();
 
-  const { isFetching, bossData, bossSeq, errorMessage, category } = useSelector(
-    (state) => state.boss
-  );
+  const { errorMessage } = useSelector((state) => state.boss);
   const { isAddModalOpen, isUpdateModalOpen, isDelModalOpen } = useSelector(
     (state) => state.modal
   );
 
-  const ids = Object.keys(bossData);
+  const isMobile = useMediaQuery('(max-width: 760px)');
 
-  useEffect(() => {
+  React.useEffect(() => {
     dispatch(getBossData());
   }, []);
 
   return (
     <>
       <Header page="boss" />
-      <CustomTableContainer page="boss">
-        <Table
-          stickyHeader
-          aria-label="boss table"
-          sx={{ backgroundColor: '#222' }}
-        >
-          {isFetching ? (
-            <Spinner />
-          ) : bossSeq.length ? (
-            <>
-              <TableHead>
-                <TableRow>
-                  <CustomTableCell
-                    bgColor="#212121"
-                    fontColor="#fff"
-                    width={90}
-                    minWidth={90}
-                    fontWeight={700}
-                    align="center"
-                    left={0}
-                    zIndex={99}
-                  >
-                    <BossSelect />
-                  </CustomTableCell>
-                  {bossSeq.map((bossId, index) => (
-                    <TableTitle
-                      key={index}
-                      index={index}
-                      id={bossId}
-                      nickname={bossData[bossId].nickname}
-                      maxLength={bossSeq.length}
-                      page="boss"
-                    />
-                  ))}
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {category === 'weekly'
-                  ? Object.keys(weeklyArray).map((key, index) => (
-                      <TableRow key={index}>
-                        <StickyTableCell
-                          align="center"
-                          bgColor="#222"
-                          fontColor="#fff"
-                        >
-                          {weeklyArray[key]}
-                        </StickyTableCell>
-                        {bossSeq.map((seq, index) => (
-                          <TableCheckbox
-                            key={index}
-                            id={seq}
-                            category={category}
-                            dataType={key}
-                            isChecked={bossData[seq][category][key]}
-                          />
-                        ))}
-                      </TableRow>
-                    ))
-                  : Object.keys(monthlyArray).map((key, index) => (
-                      <TableRow key={index}>
-                        <CustomTableCell
-                          align="center"
-                          bgColor="#222"
-                          fontColor="#fff"
-                        >
-                          {monthlyArray[key]}
-                        </CustomTableCell>
-                        {bossSeq.map((seq, index) => (
-                          <TableCheckbox
-                            key={index}
-                            id={seq}
-                            category={category}
-                            dataType={key}
-                            isChecked={bossData[seq][category][key]}
-                          />
-                        ))}
-                      </TableRow>
-                    ))}
-              </TableBody>
-            </>
-          ) : (
-            <NoContents />
-          )}
-        </Table>
-      </CustomTableContainer>
+
+      {isMobile ? (
+        <BossMobile weeklyArray={weeklyArray} monthlyArray={monthlyArray} />
+      ) : (
+        <BossDesktop weeklyArray={weeklyArray} monthlyArray={monthlyArray} />
+      )}
 
       <AddModal
         page="boss"

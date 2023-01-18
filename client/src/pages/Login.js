@@ -8,7 +8,7 @@ import userSlice from '../redux/slices/userSlice';
 import { Avatar, Box, Button, Typography } from '@mui/material';
 import LoginIcon from '@mui/icons-material/Login';
 
-import SignContainer from '../components/SignContainer';
+import SignLayout from '../layout/SignLayout';
 import TextFieldComp from '../components/TextFieldComp';
 
 import '../css/pages/login.scss';
@@ -51,7 +51,7 @@ const Login = () => {
 
   return (
     <>
-      <SignContainer>
+      <SignLayout>
         <Box
           onKeyPress={onEnterPress}
           sx={{
@@ -104,7 +104,7 @@ const Login = () => {
             <Link to="/sign-up">회원가입 하러가기 &rarr;</Link>
           </Box>
         </Box>
-      </SignContainer>
+      </SignLayout>
     </>
   );
 };
