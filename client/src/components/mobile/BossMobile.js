@@ -5,8 +5,9 @@ import { Grid } from '@mui/material';
 
 import modalSlice from '../../redux/slices/modalSlice';
 import todoSlice from '../../redux/slices/todoSlice';
-import BossCard from './BossCard';
+
 import CardTitle from './common/CardTitle';
+import GridCard from './common/GridCard';
 
 const useStyles = makeStyles({
   gridContainer: {
@@ -48,14 +49,12 @@ const BossMobile = ({ weeklyArray, monthlyArray }) => {
       <Grid container spacing={1} className={classes.gridContainer}>
         <CardTitle openAddModalFn={openAddModal} />
         {bossSeq.map((seq, index) => (
-          <BossCard
-            kye={index}
+          <GridCard
             id={seq}
             index={index}
             maxLength={bossSeq.length}
             nickname={bossData[seq].nickname}
-            weeklyArray={weeklyArray}
-            monthlyArray={monthlyArray}
+            array={category === 'weekly' ? weeklyArray : monthlyArray}
             category={category}
             data={bossData[seq]}
           />

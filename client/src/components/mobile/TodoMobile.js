@@ -6,8 +6,8 @@ import { Grid } from '@mui/material';
 import modalSlice from '../../redux/slices/modalSlice';
 import todoSlice from '../../redux/slices/todoSlice';
 
-import TodoCard from './TodoCard';
 import CardTitle from './common/CardTitle';
+import GridCard from './common/GridCard';
 
 const useStyles = makeStyles({
   gridContainer: {
@@ -49,14 +49,12 @@ const TodoMobile = ({ dailyArray, weeklyArray }) => {
       <Grid container spacing={1} className={classes.gridContainer}>
         <CardTitle openAddModalFn={openAddModal} />
         {todoSeq.map((seq, index) => (
-          <TodoCard
-            key={index}
+          <GridCard
             id={seq}
             index={index}
             maxLength={todoSeq.length}
             nickname={todoData[seq].nickname}
-            dailyArray={dailyArray}
-            weeklyArray={weeklyArray}
+            array={category === 'daily' ? dailyArray : weeklyArray}
             category={category}
             data={todoData[seq]}
           />

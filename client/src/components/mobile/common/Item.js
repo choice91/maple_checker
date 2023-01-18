@@ -6,10 +6,10 @@ import { makeStyles } from '@mui/styles';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 
-import { todoCheck } from '../../redux/async/todo';
-import { bossCheck } from '../../redux/async/boss';
-import todoSlice from '../../redux/slices/todoSlice';
-import bossSlice from '../../redux/slices/bossSlice';
+import { todoCheck } from '../../../redux/async/todo';
+import { bossCheck } from '../../../redux/async/boss';
+import todoSlice from '../../../redux/slices/todoSlice';
+import bossSlice from '../../../redux/slices/bossSlice';
 
 const useStyles = makeStyles({
   box: {

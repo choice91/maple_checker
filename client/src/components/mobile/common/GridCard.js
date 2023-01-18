@@ -1,6 +1,8 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { styled } from '@mui/material/styles';
+import { makeStyles } from '@mui/styles';
 import {
   Box,
   Card,
@@ -16,14 +18,12 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
-import { styled } from '@mui/material/styles';
-import { makeStyles } from '@mui/styles';
+
+import modalSlice from '../../../redux/slices/modalSlice';
+import todoSlice from '../../../redux/slices/todoSlice';
+import { swapTodo } from '../../../redux/async/todo';
 
 import Item from './Item';
-
-import { swapTodo } from '../../redux/async/todo';
-import modalSlice from '../../redux/slices/modalSlice';
-import todoSlice from '../../redux/slices/todoSlice';
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -68,17 +68,8 @@ const useStyles = makeStyles({
   },
 });
 
-const TodoCard = (props) => {
-  const {
-    id,
-    nickname,
-    dailyArray,
-    weeklyArray,
-    category,
-    data,
-    index,
-    maxLength,
-  } = props;
+const GridCard = (props) => {
+  const { id, index, maxLength, nickname, array, category, data } = props;
 
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -151,27 +142,16 @@ const TodoCard = (props) => {
         </Card>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <CardContent className={classes.cardContent}>
-            {category === 'daily'
-              ? Object.keys(dailyArray).map((name, index) => (
-                  <Item
-                    key={index}
-                    id={id}
-                    name={dailyArray[name]}
-                    dataType={name}
-                    category={category}
-                    isChecked={data.daily[name]}
-                  />
-                ))
-              : Object.keys(weeklyArray).map((name, index) => (
-                  <Item
-                    key={index}
-                    id={id}
-                    name={weeklyArray[name]}
-                    dataType={name}
-                    category={category}
-                    isChecked={data.weekly[name]}
-                  />
-                ))}
+            {Object.keys(array).map((name, index) => (
+              <Item
+                key={index}
+                id={id}
+                name={array[name]}
+                dataType={name}
+                category={category}
+                isChecked={data[category][name]}
+              />
+            ))}
           </CardContent>
         </Collapse>
       </Grid>
@@ -179,4 +159,4 @@ const TodoCard = (props) => {
   );
 };
 
-export default TodoCard;
+export default GridCard;
