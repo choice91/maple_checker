@@ -157,10 +157,13 @@ export const todoCheck = createAsyncThunk(
 export const resetTodo = createAsyncThunk(
   'todo/reset',
   async (payload, thunkAPI) => {
-    const { navigate } = payload;
+    const {
+      data: { category },
+      navigate,
+    } = payload;
 
     try {
-      const response = await API.post('/todo/reset');
+      const response = await API.post('/todo/reset', { category });
       return response.data;
     } catch (err) {
       switch (err.response.status) {

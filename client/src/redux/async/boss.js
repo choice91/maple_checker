@@ -144,13 +144,16 @@ export const updateCharacterToBoss = createAsyncThunk(
   }
 );
 
-export const resetBossData = createAsyncThunk(
+export const resetBoss = createAsyncThunk(
   'boss/reset',
   async (payload, thunkAPI) => {
-    const { navigate } = payload;
+    const {
+      data: { category },
+      navigate,
+    } = payload;
 
     try {
-      const response = await API.post('/boss/reset');
+      const response = await API.post('/boss/reset', { category });
 
       return response.data;
     } catch (err) {

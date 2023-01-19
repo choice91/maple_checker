@@ -18,7 +18,7 @@ const TodoDesktop = ({ dailyArray, weeklyArray }) => {
 
   return (
     <>
-      <TableLayout page="todo">
+      <TableLayout page="todo" category={category}>
         <Table
           stickyHeader
           aria-label="todo table"
