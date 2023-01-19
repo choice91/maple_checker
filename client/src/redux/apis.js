@@ -5,7 +5,7 @@ import { getLocalStorage, setLocalStorage } from '../utils/LocalStorage';
 const { REACT_APP_BASE_URL } = process.env;
 
 const API = axios.create({
-  baseURL: REACT_APP_BASE_URL,
+  baseURL: `${REACT_APP_BASE_URL}/api`,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -46,7 +46,7 @@ export const setupInterceptor = (navigate) => {
 
         try {
           const response = await axios({
-            url: `${REACT_APP_BASE_URL}/refresh`,
+            url: `${REACT_APP_BASE_URL}/api/refresh`,
             method: 'GET',
             headers: {
               Authorization: `Bearer ${accessToken}`,
