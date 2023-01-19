@@ -11,6 +11,7 @@ const whitelist = [
   'http://localhost:3000',
   'http://localhost:3001',
   'http://localhost:8080',
+  process.env.SERVER_URL,
 ];
 const corsOptions = {
   origin(origin, callback) {
