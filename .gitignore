@@ -21,6 +21,8 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+# client
+client/.env
 
 # server
 server/.env
@@ -28,3 +30,4 @@ server/.env
 server/node_modules
 /assets
 /build
+/server/build
