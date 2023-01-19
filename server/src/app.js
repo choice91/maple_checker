@@ -7,7 +7,11 @@ import routes from './routes';
 
 const app = express();
 
-const whitelist = ['http://localhost:3000', 'http://localhost:3001'];
+const whitelist = [
+  'http://localhost:3000',
+  'http://localhost:3001',
+  'http://localhost:8080',
+];
 const corsOptions = {
   origin(origin, callback) {
     if (whitelist.indexOf(origin) >= 0 || !origin) {
@@ -25,9 +29,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '../../client/build')));
 
-app.use('/', routes);
+app.use('/api', routes);
 
-app.use('*', (req, res) => {
+app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../../client/build/index.html'));
 });
 
