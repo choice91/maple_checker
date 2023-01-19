@@ -180,46 +180,67 @@ export default {
   resetBossData: async (req, res) => {
     const {
       user: { id: loginUserId },
+      body: { category },
     } = req;
 
-    const bossDefaultValues = {
-      zaqqum: false,
-      magnus: false,
-      hilla: false,
-      papulatus: false,
-      pierre: false,
-      banban: false,
-      bloodyQueen: false,
-      vellum: false,
-      pinkBean: false,
-      lotus: false,
-      damian: false,
-      guardianAngelSlime: false,
-      lucid: false,
-      will: false,
-      dusk: false,
-      jinHilla: false,
-      darknell: false,
-      seren: false,
-      kalos: false,
-    };
+    if (category === 'weekly') {
+      const weeklyDefaults = {
+        zaqqum: false,
+        magnus: false,
+        hilla: false,
+        papulatus: false,
+        pierre: false,
+        banban: false,
+        bloodyQueen: false,
+        vellum: false,
+        pinkBean: false,
+        lotus: false,
+        damian: false,
+        guardianAngelSlime: false,
+        lucid: false,
+        will: false,
+        dusk: false,
+        jinHilla: false,
+        darknell: false,
+        seren: false,
+        kalos: false,
+      };
 
-    const bossResetResponse = await db.Boss.updateMany(
-      { owner: loginUserId },
-      { $set: { boss: bossDefaultValues } }
-    );
+      const weeklyResetResult = await db.Boss.updateMany(
+        { owner: loginUserId },
+        { $set: { weekly: weeklyDefaults } }
+      );
 
-    if (bossResetResponse.modifiedCount === 0) {
-      res.status(400).json({
-        ok: false,
-        errorMessage: '보스 데이터 초기화 에러',
-      });
-      return;
+      if (weeklyResetResult.modifiedCount === 0) {
+        res.status(400).json({
+          ok: false,
+          errorMessage: '보스 데이터 초기화 에러',
+        });
+        return;
+      }
+    } else if (category === 'monthly') {
+      const monthlyDefaults = { blackMagician: false };
+
+      const monthlyResetResult = await db.Boss.updateMany(
+        { owner: loginUserId },
+        { monthly: monthlyDefaults }
+      );
+
+      if (monthlyResetResult.modifiedCount === 0) {
+        res.status(400).json({
+          ok: false,
+          errorMessage: '보스 데이터 초기화 에러',
+        });
+        return;
+      }
     }
 
     res.status(200).json({
       ok: true,
       message: '보스 데이터 초기화',
+      data: {
+        category,
+      },
     });
   },
 
