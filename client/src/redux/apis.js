@@ -2,10 +2,14 @@ import axios from 'axios';
 import { getCookie, setCookie } from '../utils/Cookies';
 import { getLocalStorage, setLocalStorage } from '../utils/LocalStorage';
 
-const { REACT_APP_BASE_URL } = process.env;
+const { NODE_ENV, REACT_APP_DEV_URL, REACT_APP_PROD_URL } = process.env;
+
+const returnBaseUrl = () => {
+  return NODE_ENV === 'development' ? REACT_APP_DEV_URL : REACT_APP_PROD_URL;
+};
 
 const API = axios.create({
-  baseURL: `${REACT_APP_BASE_URL}/api`,
+  baseURL: `${returnBaseUrl()}/api`,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -46,7 +50,7 @@ export const setupInterceptor = (navigate) => {
 
         try {
           const response = await axios({
-            url: `${REACT_APP_BASE_URL}/api/refresh`,
+            url: `${returnBaseUrl()}/api/refresh`,
             method: 'GET',
             headers: {
               Authorization: `Bearer ${accessToken}`,
