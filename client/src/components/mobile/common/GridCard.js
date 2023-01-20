@@ -21,7 +21,9 @@ import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 
 import modalSlice from '../../../redux/slices/modalSlice';
 import todoSlice from '../../../redux/slices/todoSlice';
+import bossSlice from '../../../redux/slices/bossSlice';
 import { swapTodo } from '../../../redux/async/todo';
+import { swapBoss } from '../../../redux/async/boss';
 
 import Item from './Item';
 
@@ -92,12 +94,26 @@ const GridCard = (props) => {
     dispatch(modalSlice.actions.openDelModal(args));
   };
 
+  const handleSwapTodo = (args, data) => {
+    dispatch(swapTodo(args));
+    dispatch(todoSlice.actions.swapTodo(data));
+  };
+
+  const handleSwapBoss = (args, data) => {
+    dispatch(swapBoss(args));
+    dispatch(bossSlice.actions.swapBoss(data));
+  };
+
   const handleUp = () => {
     if (index > 0) {
       const data = { index, direction: 'left' };
       const args = { data, navigate };
-      dispatch(swapTodo(args));
-      dispatch(todoSlice.actions.swapTodo(data));
+
+      if (location.pathname === '/todo') {
+        handleSwapTodo(args, data);
+      } else if (location.pathname === '/boss') {
+        handleSwapBoss(args, data);
+      }
     }
   };
 
@@ -105,8 +121,12 @@ const GridCard = (props) => {
     if (index < maxLength - 1) {
       const data = { index, direction: 'right' };
       const args = { data, navigate };
-      dispatch(swapTodo(args));
-      dispatch(todoSlice.actions.swapTodo(data));
+
+      if (location.pathname === '/todo') {
+        handleSwapTodo(args, data);
+      } else if (location.pathname === '/boss') {
+        handleSwapBoss(args, data);
+      }
     }
   };
 
