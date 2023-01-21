@@ -18,14 +18,22 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import CheckIcon from '@mui/icons-material/Check';
+import CloseIcon from '@mui/icons-material/Close';
+import {
+  SwipeableList,
+  SwipeableListItem,
+  SwipeAction,
+  TrailingActions,
+  Type as ListType,
+} from 'react-swipeable-list';
+import 'react-swipeable-list/dist/styles.css';
 
 import modalSlice from '../../../redux/slices/modalSlice';
 import todoSlice from '../../../redux/slices/todoSlice';
 import bossSlice from '../../../redux/slices/bossSlice';
-import { swapTodo } from '../../../redux/async/todo';
-import { swapBoss } from '../../../redux/async/boss';
-
-import Item from './Item';
+import { swapTodo, todoCheck } from '../../../redux/async/todo';
+import { bossCheck, swapBoss } from '../../../redux/async/boss';
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -60,7 +68,7 @@ const useStyles = makeStyles({
   cardContent: {
     display: 'flex',
     justifyContent: 'center',
-    alignItems: 'center',
+    // alignItems: 'center',
     flexDirection: 'column',
     border: '1px solid #fff',
     borderRadius: '5px',
@@ -68,17 +76,38 @@ const useStyles = makeStyles({
   icon: {
     color: '#fff',
   },
+  swipeItem: {
+    width: '100%',
+    height: '50px',
+    borderRadius: '5px',
+    display: 'flex',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    paddingLeft: '16px',
+    margin: '1px 0',
+  },
+  swipeCheckButton: {
+    padding: '8px',
+  },
+  swipeBlock: {
+    width: '100%',
+    height: '100%',
+    display: 'flex',
+    justifyContent: (props) =>
+      props.swipeProgress < 30 ? 'center' : 'flex-start',
+  },
 });
 
 const GridCard = (props) => {
   const { id, index, maxLength, nickname, array, category, data } = props;
 
-  const classes = useStyles();
+  const [expanded, setExpanded] = React.useState(false);
+  const [swipeProgress, setSwipeProgress] = React.useState(0);
+
+  const classes = useStyles({ swipeProgress });
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
-
-  const [expanded, setExpanded] = React.useState(false);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -130,6 +159,38 @@ const GridCard = (props) => {
     }
   };
 
+  const handleCheck = (id, category, dataType) => {
+    if (location.pathname === '/todo') {
+      const data = { todoId: id, category, todoType: dataType };
+      const args = { data, navigate };
+      dispatch(todoCheck(args));
+      dispatch(todoSlice.actions.todoCheckReducer(data));
+    } else if (location.pathname == '/boss') {
+      const data = { bossId: id, category, bossType: dataType };
+      const args = { data, navigate };
+      dispatch(bossCheck(args));
+      dispatch(bossSlice.actions.bossCheckReducer(data));
+    }
+  };
+
+  const trailingActions = ({ id, dataType, category, isChecked }) => (
+    <TrailingActions>
+      <SwipeAction
+        destructive={false}
+        onClick={() => handleCheck(id, category, dataType)}
+      >
+        <Box className={classes.swipeBlock}>
+          <IconButton
+            className={classes.swipeCheckButton}
+            sx={{ color: isChecked ? '#ff0000' : '#19ce60' }}
+          >
+            {isChecked ? <CloseIcon /> : <CheckIcon />}
+          </IconButton>
+        </Box>
+      </SwipeAction>
+    </TrailingActions>
+  );
+
   return (
     <>
       <Grid item xs={12}>
@@ -162,16 +223,36 @@ const GridCard = (props) => {
         </Card>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <CardContent className={classes.cardContent}>
-            {Object.keys(array).map((name, index) => (
-              <Item
-                key={index}
-                id={id}
-                name={array[name]}
-                dataType={name}
-                category={category}
-                isChecked={data[category][name]}
-              />
-            ))}
+            <SwipeableList fullSwipe={true} threshold={0.3} type={ListType.IOS}>
+              {Object.keys(array).map((name, index) => (
+                <SwipeableListItem
+                  key={index}
+                  trailingActions={trailingActions({
+                    id,
+                    dataType: name,
+                    category,
+                    isChecked: data[category][name],
+                  })}
+                  onSwipeProgress={setSwipeProgress}
+                >
+                  <Box
+                    className={classes.swipeItem}
+                    sx={{
+                      border: '1px solid #ff6f61',
+                      fontWeight: data[category][name] ? 400 : 700,
+                      backgroundColor: data[category][name]
+                        ? 'inherit'
+                        : '#ff6f61',
+                      textDecoration: data[category][name]
+                        ? 'line-through'
+                        : 'none',
+                    }}
+                  >
+                    {array[name]}
+                  </Box>
+                </SwipeableListItem>
+              ))}
+            </SwipeableList>
           </CardContent>
         </Collapse>
       </Grid>
