@@ -48,6 +48,7 @@ const TodoDesktop = ({ dailyArray, weeklyArray }) => {
                       index={index}
                       id={todoId}
                       nickname={todoData[todoId].nickname}
+                      job={todoData[todoId].job}
                       maxLength={todoSeq.length}
                       page="todo"
                     />

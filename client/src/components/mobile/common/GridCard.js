@@ -57,6 +57,10 @@ const useStyles = makeStyles({
     fontSize: 20,
     marginRight: '0.5rem',
   },
+  jobName: {
+    fontWeight: '500',
+    fontSize: 14,
+  },
   expandMoreIcon: {
     color: '#fff',
   },
@@ -99,7 +103,7 @@ const useStyles = makeStyles({
 });
 
 const GridCard = (props) => {
-  const { id, index, maxLength, nickname, array, category, data } = props;
+  const { id, index, maxLength, nickname, job, array, category, data } = props;
 
   const [expanded, setExpanded] = React.useState(false);
   const [swipeProgress, setSwipeProgress] = React.useState(0);
@@ -196,7 +200,10 @@ const GridCard = (props) => {
       <Grid item xs={12}>
         <Card className={classes.card}>
           <CardContent className={classes.cardTitle}>
-            <Typography className={classes.nickname}>{nickname}</Typography>
+            <Box>
+              <Typography className={classes.nickname}>{nickname}</Typography>
+              <Typography className={classes.jobName}>({job})</Typography>
+            </Box>
             <Box>
               <IconButton className={classes.icon} onClick={handleUp}>
                 <ArrowUpwardIcon fontSize="small" />

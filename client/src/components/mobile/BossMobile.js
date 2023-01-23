@@ -54,6 +54,7 @@ const BossMobile = ({ weeklyArray, monthlyArray }) => {
             index={index}
             maxLength={bossSeq.length}
             nickname={bossData[seq].nickname}
+            job={bossData[seq].job}
             array={category === 'weekly' ? weeklyArray : monthlyArray}
             category={category}
             data={bossData[seq]}

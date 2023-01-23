@@ -54,6 +54,7 @@ const TodoMobile = ({ dailyArray, weeklyArray }) => {
             index={index}
             maxLength={todoSeq.length}
             nickname={todoData[seq].nickname}
+            job={todoData[seq].job}
             array={category === 'daily' ? dailyArray : weeklyArray}
             category={category}
             data={todoData[seq]}
