@@ -7,14 +7,12 @@ export const addCharacterToBoss = createAsyncThunk(
   'boss/add',
   async (payload, thunkAPI) => {
     const {
-      data: { nickname },
+      data: { nickname, job },
       navigate,
     } = payload;
 
     try {
-      const response = await API.post('/boss', {
-        nickname,
-      });
+      const response = await API.post('/boss', { nickname, job });
 
       if (response.data.ok) {
         thunkAPI.dispatch(modalSlice.actions.closeAddModal());
@@ -115,13 +113,14 @@ export const updateCharacterToBoss = createAsyncThunk(
   'boss/update',
   async (payload, thunkAPI) => {
     const {
-      data: { id: bossId, newNickname },
+      data: { id: bossId, newNickname, newJob },
       navigate,
     } = payload;
 
     try {
       const response = await API.put(`/boss/${bossId}`, {
         newNickname,
+        newJob,
       });
 
       if (response.data.ok) {

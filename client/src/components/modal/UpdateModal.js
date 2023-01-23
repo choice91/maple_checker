@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
@@ -12,6 +12,7 @@ import {
 
 import TextFieldComp from '../TextFieldComp';
 import CustomButton from '../CustomButton';
+import JobSelect from './common/JobSelect';
 
 import modalSlice from '../../redux/slices/modalSlice';
 import todoSlice from '../../redux/slices/todoSlice';
@@ -22,11 +23,16 @@ const UpdateModal = ({ page, isUpdateModalOpen }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { id, nickname: currentNickname } = useSelector((state) => state.modal);
+  const {
+    id,
+    nickname: currentNickname,
+    job: currentJob,
+  } = useSelector((state) => state.modal);
   const { errorMessage: todoErrorMessage } = useSelector((state) => state.todo);
 
-  const [replaceNickname, setReplaceNickname] = useState(undefined);
-  const [errorMessage, setErrorMessage] = useState(undefined);
+  const [replaceNickname, setReplaceNickname] = React.useState(undefined);
+  const [errorMessage, setErrorMessage] = React.useState(undefined);
+  const [job, setJob] = React.useState('');
 
   const handleClose = () => {
     const args = { replaceNickname };
@@ -38,7 +44,10 @@ const UpdateModal = ({ page, isUpdateModalOpen }) => {
   };
 
   const handleUpdate = () => {
-    const args = { data: { id, newNickname: replaceNickname }, navigate };
+    const args = {
+      data: { id, newNickname: replaceNickname, newJob: job },
+      navigate,
+    };
 
     if (page === 'todo') {
       dispatch(updateCharacter(args));
@@ -61,13 +70,17 @@ const UpdateModal = ({ page, isUpdateModalOpen }) => {
     setReplaceNickname(value);
   };
 
-  useEffect(() => {
+  React.useEffect(() => {
     setReplaceNickname(currentNickname);
   }, [currentNickname]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     setErrorMessage(todoErrorMessage);
   }, [todoErrorMessage]);
+
+  React.useEffect(() => {
+    setJob(currentJob);
+  }, [currentJob]);
 
   return (
     <>
@@ -96,6 +109,7 @@ const UpdateModal = ({ page, isUpdateModalOpen }) => {
               helperText={errorMessage}
               autoFocus={true}
             />
+            <JobSelect job={job} setJob={setJob} />
           </DialogContent>
           <DialogActions sx={{ textAlign: 'right', mt: 1 }}>
             <CustomButton text="취소" onClick={handleClose} />

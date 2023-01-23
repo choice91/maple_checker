@@ -31,12 +31,12 @@ export const addCharacter = createAsyncThunk(
   'todo/add',
   async (payload, thunkAPI) => {
     const {
-      data: { nickname },
+      data: { nickname, job },
       navigate,
     } = payload;
 
     try {
-      const response = await API.post('/todo', { nickname });
+      const response = await API.post('/todo', { nickname, job });
 
       if (response.data.ok) {
         thunkAPI.dispatch(modalSlice.actions.closeAddModal());
@@ -93,12 +93,15 @@ export const updateCharacter = createAsyncThunk(
   'todo/update',
   async (payload, thunkAPI) => {
     const {
-      data: { id: todoId, newNickname },
+      data: { id: todoId, newNickname, newJob },
       navigate,
     } = payload;
 
     try {
-      const response = await API.put(`/todo/${todoId}`, { newNickname });
+      const response = await API.put(`/todo/${todoId}`, {
+        newNickname,
+        newJob,
+      });
 
       if (response.data.ok) {
         thunkAPI.dispatch(modalSlice.actions.closeUpdateModal());

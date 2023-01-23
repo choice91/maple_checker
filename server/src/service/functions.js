@@ -5,6 +5,7 @@ export const arrayToObjectFn = (array) => {
       [cur._id]: {
         nickname: cur.nickname,
         owner: cur.owner,
+        job: cur.job,
         daily: cur.daily,
         weekly: cur.weekly,
       },
@@ -22,6 +23,7 @@ export const bossArrayToObjectFn = (array) => {
       [cur._id]: {
         nickname: cur.nickname,
         owner: cur.owner,
+        job: cur.job,
         weekly: cur.weekly,
         monthly: cur.monthly,
       },

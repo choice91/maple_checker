@@ -8,6 +8,7 @@ const modalSlice = createSlice({
     isDelModalOpen: false,
     id: '',
     nickname: '',
+    job: '',
     page: '',
   },
   reducers: {
@@ -40,6 +41,7 @@ const modalSlice = createSlice({
       state.isUpdateModalOpen = true;
       state.id = action.payload.id;
       state.nickname = action.payload.nickname;
+      state.job = action.payload.job;
       state.page = action.payload.page;
     },
     // 캐릭터 닉네임 수정 모달 닫기
@@ -47,6 +49,7 @@ const modalSlice = createSlice({
       state.isUpdateModalOpen = false;
       state.id = '';
       state.nickname = '';
+      state.job = '';
       state.page = '';
     },
   },

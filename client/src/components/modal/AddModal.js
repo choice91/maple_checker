@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
@@ -16,39 +16,45 @@ import {
 
 import TextFieldComp from '../TextFieldComp';
 import CustomButton from '../CustomButton';
+import JobSelect from './common/JobSelect';
 
 const AddModal = ({ page, isAddModalOpen, errorMessage }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [nickname, setNickname] = useState('');
+  const [nickname, setNickname] = React.useState('');
+  const [job, setJob] = React.useState('');
 
   const onChangeNickname = (e) => {
-    const {
-      target: { value },
-    } = e;
-
-    setNickname(value);
+    setNickname(e.target.value);
   };
 
   const handleClose = () => {
     dispatch(modalSlice.actions.closeAddModal());
+    setJob('');
   };
 
   const handleAddCharacter = () => {
+    const args = { data: { nickname, job }, navigate };
+
     if (page === 'todo') {
-      const args = { data: { nickname }, navigate };
       dispatch(addCharacter(args));
     } else if (page === 'boss') {
-      const args = { data: { nickname }, navigate };
       dispatch(addCharacterToBoss(args));
     }
+
+    setJob('');
   };
 
   const handleAddCharacterEnter = (e) => {
     if (e.key === 'Enter') {
       handleAddCharacter();
+      setJob('');
     }
+  };
+
+  const handleChangeJob = (e) => {
+    setJob(e.target.value);
   };
 
   return (
@@ -77,6 +83,7 @@ const AddModal = ({ page, isAddModalOpen, errorMessage }) => {
               helperText={errorMessage}
               autoFocus={true}
             />
+            <JobSelect job={job} onChange={handleChangeJob} />
           </DialogContent>
           <DialogActions sx={{ textAlign: 'right', mt: 1 }}>
             <CustomButton text="취소" onClick={handleClose} />

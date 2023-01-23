@@ -48,6 +48,7 @@ const BossDesktop = ({ weeklyArray, monthlyArray }) => {
                       index={index}
                       id={bossId}
                       nickname={bossData[bossId].nickname}
+                      job={bossData[bossId].job}
                       maxLength={bossSeq.length}
                       page="boss"
                     />
