@@ -16,6 +16,10 @@ const questSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    job: {
+      type: String,
+      required: true,
+    },
     daily: {
       yeoro: { type: Boolean, default: false },
       chuchu: { type: Boolean, default: false },

@@ -11,6 +11,10 @@ const bossSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    job: {
+      type: String,
+      required: true,
+    },
     weekly: {
       zaqqum: { type: Boolean, default: false },
       magnus: { type: Boolean, default: false },
