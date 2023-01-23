@@ -6,7 +6,7 @@ export default {
   addCharacter: async (req, res) => {
     const {
       user: { id: loginUserId },
-      body: { nickname },
+      body: { nickname, job },
     } = req;
 
     const todo = await db.Todo.findOne({ owner: loginUserId, nickname });
@@ -23,6 +23,7 @@ export default {
     const newCharacter = await db.Todo.create({
       owner: loginUserId,
       nickname,
+      job,
     });
 
     await db.User.updateOne(
@@ -34,6 +35,7 @@ export default {
       [newCharacter._id]: {
         nickname: newCharacter.nickname,
         owner: newCharacter.owner,
+        job: newCharacter.job,
         daily: newCharacter.daily,
         weekly: newCharacter.weekly,
       },
@@ -52,7 +54,7 @@ export default {
   updateNickname: async (req, res) => {
     const {
       user: { id: loginUserId },
-      body: { newNickname },
+      body: { newNickname, newJob },
       params: { todoId },
     } = req;
 
@@ -76,7 +78,7 @@ export default {
 
     const updateResult = await db.Todo.updateOne(
       { _id: todoId, owner: loginUserId },
-      { nickname: newNickname }
+      { nickname: newNickname, job: newJob }
     );
 
     if (updateResult.matchedCount === 0) {
@@ -97,10 +99,11 @@ export default {
 
     res.status(200).json({
       ok: true,
-      message: '닉네임 변경 성공',
+      message: '변경 성공',
       data: {
         updatedId: todoId,
         newNickname,
+        newJob,
       },
     });
   },

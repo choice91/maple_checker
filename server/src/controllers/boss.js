@@ -6,7 +6,7 @@ export default {
   addCharacter: async (req, res) => {
     const {
       user: { id: loginUserId },
-      body: { nickname },
+      body: { nickname, job },
     } = req;
 
     const character = await db.Boss.findOne({ owner: loginUserId, nickname });
@@ -19,7 +19,11 @@ export default {
       return;
     }
 
-    const newCharacter = await db.Boss.create({ owner: loginUserId, nickname });
+    const newCharacter = await db.Boss.create({
+      owner: loginUserId,
+      nickname,
+      job,
+    });
 
     await db.User.updateOne(
       { _id: loginUserId },
@@ -30,6 +34,7 @@ export default {
       [newCharacter._id]: {
         nickname: newCharacter.nickname,
         owner: newCharacter.owner,
+        job: newCharacter.job,
         weekly: newCharacter.weekly,
         monthly: newCharacter.monthly,
       },
@@ -47,7 +52,7 @@ export default {
   updateNickname: async (req, res) => {
     const {
       user: { id: loginUserId },
-      body: { newNickname },
+      body: { newNickname, newJob },
       params: { bossId },
     } = req;
 
@@ -71,7 +76,7 @@ export default {
 
     const updateResult = await db.Todo.updateOne(
       { _id: bossId, owner: loginUserId },
-      { nickname: newNickname }
+      { nickname: newNickname, job: newJob }
     );
 
     if (updateResult.matchedCount === 0) {
