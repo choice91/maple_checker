@@ -21,12 +21,13 @@
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.4.5",
     "react-scripts": "5.0.1",
+    "react-swipeable-list": "^1.7.1",
     "redux-logger": "^3.0.6",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && rm build/static/**/*.map",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

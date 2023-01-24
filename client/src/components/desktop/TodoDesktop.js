@@ -18,7 +18,7 @@ const TodoDesktop = ({ dailyArray, weeklyArray }) => {
 
   return (
     <>
-      <TableLayout page="todo">
+      <TableLayout page="todo" category={category}>
         <Table
           stickyHeader
           aria-label="todo table"
@@ -48,6 +48,7 @@ const TodoDesktop = ({ dailyArray, weeklyArray }) => {
                       index={index}
                       id={todoId}
                       nickname={todoData[todoId].nickname}
+                      job={todoData[todoId].job}
                       maxLength={todoSeq.length}
                       page="todo"
                     />

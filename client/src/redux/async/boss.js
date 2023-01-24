@@ -7,14 +7,12 @@ export const addCharacterToBoss = createAsyncThunk(
   'boss/add',
   async (payload, thunkAPI) => {
     const {
-      data: { nickname },
+      data: { nickname, job },
       navigate,
     } = payload;
 
     try {
-      const response = await API.post('/boss', {
-        nickname,
-      });
+      const response = await API.post('/boss', { nickname, job });
 
       if (response.data.ok) {
         thunkAPI.dispatch(modalSlice.actions.closeAddModal());
@@ -115,13 +113,14 @@ export const updateCharacterToBoss = createAsyncThunk(
   'boss/update',
   async (payload, thunkAPI) => {
     const {
-      data: { id: bossId, newNickname },
+      data: { id: bossId, newNickname, newJob },
       navigate,
     } = payload;
 
     try {
       const response = await API.put(`/boss/${bossId}`, {
         newNickname,
+        newJob,
       });
 
       if (response.data.ok) {
@@ -131,6 +130,8 @@ export const updateCharacterToBoss = createAsyncThunk(
       return response.data;
     } catch (err) {
       switch (err.response.status) {
+        case 400:
+          return thunkAPI.rejectWithValue(err.response.data);
         case 401:
           if (err.response.data.error.name === 'TokenExpiredError') {
             localStorage.removeItem('user');
@@ -144,13 +145,16 @@ export const updateCharacterToBoss = createAsyncThunk(
   }
 );
 
-export const resetBossData = createAsyncThunk(
+export const resetBoss = createAsyncThunk(
   'boss/reset',
   async (payload, thunkAPI) => {
-    const { navigate } = payload;
+    const {
+      data: { category },
+      navigate,
+    } = payload;
 
     try {
-      const response = await API.post('/boss/reset');
+      const response = await API.post('/boss/reset', { category });
 
       return response.data;
     } catch (err) {

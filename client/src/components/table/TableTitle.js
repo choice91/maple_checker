@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-
 import {
   Box,
   Button,
@@ -9,6 +8,7 @@ import {
   MenuItem,
   IconButton,
   TableCell,
+  Typography,
 } from '@mui/material';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
@@ -29,7 +29,7 @@ const style = {
   },
 };
 
-const TableTitle = ({ index, id, nickname, page, maxLength }) => {
+const TableTitle = ({ index, id, nickname, job, page, maxLength }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -46,7 +46,7 @@ const TableTitle = ({ index, id, nickname, page, maxLength }) => {
   };
 
   const handleOpenUpdateModal = () => {
-    const args = { id, nickname, page };
+    const args = { id, nickname, job, page };
     dispatch(modalSlice.actions.openUpdateModal(args));
   };
 
@@ -126,13 +126,17 @@ const TableTitle = ({ index, id, nickname, page, maxLength }) => {
               fontSize: 14,
               color: '#ff6f61',
               p: 0,
+              display: 'flex',
+              justifyContent: 'center',
+              flexDirection: 'column',
               '&:hover': {
                 backgroundColor: 'rgba(231, 76, 60, 0.1)',
               },
             }}
             onClick={handleClick}
           >
-            {nickname}
+            <Typography>{nickname}</Typography>
+            <Typography sx={{ fontSize: 12 }}>({job})</Typography>
           </Button>
           <IconButton
             sx={{

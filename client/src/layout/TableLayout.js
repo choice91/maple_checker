@@ -3,7 +3,7 @@ import { Container, Paper, TableContainer } from '@mui/material';
 
 import TableBtn from '../components/table/TableBtn';
 
-const TableLayout = ({ page, children }) => {
+const TableLayout = ({ page, category, children }) => {
   return (
     <>
       <Container
@@ -17,7 +17,7 @@ const TableLayout = ({ page, children }) => {
           mt: 10,
         }}
       >
-        <TableBtn page={page} />
+        <TableBtn page={page} category={category} />
         <TableContainer
           component={Paper}
           sx={{

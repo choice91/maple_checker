@@ -22,7 +22,7 @@ bossRouter
 bossRouter
   .route('/:bossId')
   .all(authJWT)
-  .put(asyncHandler(bossCtrl.updateNickname))
+  .put(asyncHandler(bossCtrl.updateCharacterInfo))
   .delete(asyncHandler(bossCtrl.deleteCharacter));
 
 export default bossRouter;

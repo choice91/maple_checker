@@ -6,7 +6,7 @@ import {
   bossCheck,
   delCharacterToBoss,
   updateCharacterToBoss,
-  resetBossData,
+  resetBoss,
 } from '../async/boss';
 import { getLocalStorage, setLocalStorage } from '../../utils/LocalStorage';
 
@@ -125,41 +125,49 @@ const bossSlice = createSlice({
     [bossCheck.rejected]: (state, action) => {},
 
     // 퀘스트 데이터 초기화
-    [resetBossData.pending]: (state, action) => {
-      state.isFetching = true;
-    },
-    [resetBossData.fulfilled]: (state, action) => {
-      const bossDefaultValues = {
-        zaqqum: false,
-        magnus: false,
-        hilla: false,
-        papulatus: false,
-        pierre: false,
-        banban: false,
-        bloodyQueen: false,
-        vellum: false,
-        pinkBean: false,
-        lotus: false,
-        damian: false,
-        guardianAngelSlime: false,
-        lucid: false,
-        will: false,
-        dusk: false,
-        jinHilla: false,
-        darknell: false,
-        seren: false,
-        kalos: false,
-      };
+    [resetBoss.pending]: (state, action) => {},
+    [resetBoss.fulfilled]: (state, action) => {
+      const {
+        payload: {
+          data: { category },
+        },
+      } = action;
 
-      for (let [key, _] of Object.entries(state.bossData)) {
-        state.bossData[key].boss = bossDefaultValues;
+      if (category === 'weekly') {
+        const bossDefaultValues = {
+          zaqqum: false,
+          magnus: false,
+          hilla: false,
+          papulatus: false,
+          pierre: false,
+          banban: false,
+          bloodyQueen: false,
+          vellum: false,
+          pinkBean: false,
+          lotus: false,
+          damian: false,
+          guardianAngelSlime: false,
+          lucid: false,
+          will: false,
+          dusk: false,
+          jinHilla: false,
+          darknell: false,
+          seren: false,
+          kalos: false,
+        };
+
+        Object.keys(state.bossData).forEach((key) => {
+          state.bossData[key].weekly = bossDefaultValues;
+        });
+      } else if (category === 'monthly') {
+        const monthlyDefaults = { blackMagician: false };
+
+        Object.keys(state.bossData).forEach((key) => {
+          state.bossData[key].monthly = monthlyDefaults;
+        });
       }
-
-      state.isFetching = false;
     },
-    [resetBossData.rejected]: (state, action) => {
-      state.isFetching = false;
-    },
+    [resetBoss.rejected]: (state, action) => {},
   },
 });
 

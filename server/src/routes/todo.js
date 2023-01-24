@@ -15,11 +15,11 @@ todoRouter.route('/reset').all(authJWT).post(asyncHandler(todoCtrl.resetTodo));
 todoRouter
   .route('/swap')
   .all(authJWT)
-  .put(asyncHandler(todoCtrl.changeSequence));
+  .put(asyncHandler(todoCtrl.changeTodoSequence));
 todoRouter
   .route('/:todoId')
   .all(authJWT)
-  .put(asyncHandler(todoCtrl.updateNickname))
+  .put(asyncHandler(todoCtrl.updateCharacterInfo))
   .delete(asyncHandler(todoCtrl.deleteCharacter));
 
 export default todoRouter;

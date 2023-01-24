@@ -6,7 +6,7 @@ export default {
   addCharacter: async (req, res) => {
     const {
       user: { id: loginUserId },
-      body: { nickname },
+      body: { nickname, job },
     } = req;
 
     const todo = await db.Todo.findOne({ owner: loginUserId, nickname });
@@ -23,6 +23,7 @@ export default {
     const newCharacter = await db.Todo.create({
       owner: loginUserId,
       nickname,
+      job,
     });
 
     await db.User.updateOne(
@@ -34,6 +35,7 @@ export default {
       [newCharacter._id]: {
         nickname: newCharacter.nickname,
         owner: newCharacter.owner,
+        job: newCharacter.job,
         daily: newCharacter.daily,
         weekly: newCharacter.weekly,
       },
@@ -49,58 +51,48 @@ export default {
     });
   },
 
-  updateNickname: async (req, res) => {
+  updateCharacterInfo: async (req, res) => {
     const {
       user: { id: loginUserId },
-      body: { newNickname },
+      body: { newNickname, newJob },
       params: { todoId },
     } = req;
 
-    if (!newNickname) {
+    if (!newNickname || !newJob) {
       res.status(400).json({
         ok: false,
-        errorMessage: '닉네임을 입력해주세요',
+        errorMessage: '닉네임 혹은 직업을 입력해주세요',
       });
       return;
     }
 
-    const isExist = await db.Todo.exists({ nickname: newNickname });
+    const todos = await db.Todo.find(
+      { owner: loginUserId, _id: { $ne: todoId } },
+      { nickname: 1 }
+    ).lean();
 
-    if (isExist) {
-      res.status(409).json({
+    const index = todos.findIndex((obj) => obj.nickname === newNickname);
+
+    if (index > -1) {
+      res.status(400).json({
         ok: false,
-        errorMessage: '이미 존재하는 닉네임입니다.',
+        errorMessage: '이미 등록된 닉네임입니다.',
       });
       return;
     }
 
-    const updateResult = await db.Todo.updateOne(
+    await db.Todo.updateOne(
       { _id: todoId, owner: loginUserId },
-      { nickname: newNickname }
+      { nickname: newNickname, job: newJob }
     );
-
-    if (updateResult.matchedCount === 0) {
-      res.status(404).json({
-        ok: false,
-        errorMessage: '캐릭터를 찾을 수 없습니다.',
-      });
-      return;
-    }
-
-    if (updateResult.modifiedCount === 0) {
-      res.status(400).json({
-        ok: false,
-        errorMessage: '수정 실패',
-      });
-      return;
-    }
 
     res.status(200).json({
       ok: true,
-      message: '닉네임 변경 성공',
+      message: '변경 성공',
       data: {
         updatedId: todoId,
         newNickname,
+        newJob,
       },
     });
   },
@@ -183,50 +175,67 @@ export default {
   resetTodo: async (req, res) => {
     const {
       user: { id: loginUserId },
+      body: { category },
     } = req;
 
-    const dailyDefaults = {
-      yeoro: false,
-      chuchu: false,
-      lachelein: false,
-      arcana: false,
-      morass: false,
-      esfera: false,
-      cernium: false,
-      burningCernium: false,
-      arcs: false,
-      odium: false,
-    };
+    if (category === 'daily') {
+      const dailyDefaults = {
+        yeoro: false,
+        chuchu: false,
+        lachelein: false,
+        arcana: false,
+        morass: false,
+        esfera: false,
+        cernium: false,
+        burningCernium: false,
+        arcs: false,
+        odium: false,
+      };
 
-    const weeklyDefaults = {
-      yeoro: false,
-      chuchu: false,
-      lachelein: false,
-      arcana: false,
-      morass: false,
-      esfera: false,
-    };
+      const updateResult = await db.Todo.updateMany(
+        { owner: loginUserId },
+        { daily: dailyDefaults }
+      );
 
-    const updateResponse = await db.Todo.updateMany(
-      { owner: loginUserId },
-      { $set: { daily: dailyDefaults, weekly: weeklyDefaults } }
-    );
+      if (updateResult.modifiedCount === 0) {
+        res.status(400).json({
+          ok: false,
+          errorMessage: '초기화 에러',
+        });
+      }
+    } else if (category === 'weekly') {
+      const weeklyDefaults = {
+        yeoro: false,
+        chuchu: false,
+        lachelein: false,
+        arcana: false,
+        morass: false,
+        esfera: false,
+      };
 
-    if (updateResponse.modifiedCount === 0) {
-      res.status(400).json({
-        ok: false,
-        errorMessage: '초기화 에러',
-      });
-      return;
+      const updateResult = await db.Todo.updateMany(
+        { owner: loginUserId },
+        { weekly: weeklyDefaults }
+      );
+
+      if (updateResult.modifiedCount === 0) {
+        res.status(400).json({
+          ok: false,
+          errorMessage: '초기화 에러',
+        });
+      }
     }
 
     res.status(200).json({
       ok: true,
       message: '퀘스트 데이터 초기화 성공',
+      data: {
+        category,
+      },
     });
   },
 
-  changeSequence: async (req, res) => {
+  changeTodoSequence: async (req, res) => {
     const {
       user: { id: loginUserId },
       body: { index, direction },

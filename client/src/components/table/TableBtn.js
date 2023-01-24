@@ -1,17 +1,16 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { Box, ButtonGroup, Button } from '@mui/material';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
+import RestartAltIcon from '@mui/icons-material/RestartAlt';
 
 import todoSlice from '../../redux/slices/todoSlice';
 import bossSlice from '../../redux/slices/bossSlice';
 import modalSlice from '../../redux/slices/modalSlice';
 import { resetTodo } from '../../redux/async/todo';
-import { resetBossData } from '../../redux/async/boss';
-
-import { Box, ButtonGroup, Button } from '@mui/material';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
-import RestartAltIcon from '@mui/icons-material/RestartAlt';
+import { resetBoss } from '../../redux/async/boss';
 
 const theme = createTheme({
   palette: {
@@ -22,7 +21,7 @@ const theme = createTheme({
   },
 });
 
-const TableBtn = ({ page }) => {
+const TableBtn = ({ page, category }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -38,12 +37,12 @@ const TableBtn = ({ page }) => {
   };
 
   const resetData = () => {
-    const args = { navigate };
+    const args = { data: { category }, navigate };
 
     if (page === 'todo') {
       dispatch(resetTodo(args));
     } else {
-      dispatch(resetBossData(args));
+      dispatch(resetBoss(args));
     }
   };
 

@@ -38,7 +38,7 @@ const TodoMobile = ({ dailyArray, weeklyArray }) => {
 
   const { todoData, todoSeq, category } = useSelector((state) => state.todo);
 
-  const openAddModal = () => {
+  const handleOpenAddModal = () => {
     const args = { page: 'todo' };
     dispatch(modalSlice.actions.openAddModal(args));
     dispatch(todoSlice.actions.clearTodoErrorMsg());
@@ -47,13 +47,14 @@ const TodoMobile = ({ dailyArray, weeklyArray }) => {
   return (
     <>
       <Grid container spacing={1} className={classes.gridContainer}>
-        <CardTitle openAddModalFn={openAddModal} />
+        <CardTitle openAddModalFn={handleOpenAddModal} category={category} />
         {todoSeq.map((seq, index) => (
           <GridCard
             id={seq}
             index={index}
             maxLength={todoSeq.length}
             nickname={todoData[seq].nickname}
+            job={todoData[seq].job}
             array={category === 'daily' ? dailyArray : weeklyArray}
             category={category}
             data={todoData[seq]}

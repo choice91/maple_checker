@@ -18,7 +18,7 @@ const BossDesktop = ({ weeklyArray, monthlyArray }) => {
 
   return (
     <>
-      <TableLayout page="boss">
+      <TableLayout page="boss" category={category}>
         <Table
           stickyHeader
           aria-label="boss table"
@@ -48,6 +48,7 @@ const BossDesktop = ({ weeklyArray, monthlyArray }) => {
                       index={index}
                       id={bossId}
                       nickname={bossData[bossId].nickname}
+                      job={bossData[bossId].job}
                       maxLength={bossSeq.length}
                       page="boss"
                     />

@@ -6,7 +6,7 @@ export default {
   addCharacter: async (req, res) => {
     const {
       user: { id: loginUserId },
-      body: { nickname },
+      body: { nickname, job },
     } = req;
 
     const character = await db.Boss.findOne({ owner: loginUserId, nickname });
@@ -19,7 +19,11 @@ export default {
       return;
     }
 
-    const newCharacter = await db.Boss.create({ owner: loginUserId, nickname });
+    const newCharacter = await db.Boss.create({
+      owner: loginUserId,
+      nickname,
+      job,
+    });
 
     await db.User.updateOne(
       { _id: loginUserId },
@@ -30,6 +34,7 @@ export default {
       [newCharacter._id]: {
         nickname: newCharacter.nickname,
         owner: newCharacter.owner,
+        job: newCharacter.job,
         weekly: newCharacter.weekly,
         monthly: newCharacter.monthly,
       },
@@ -44,51 +49,43 @@ export default {
     });
   },
 
-  updateNickname: async (req, res) => {
+  updateCharacterInfo: async (req, res) => {
     const {
       user: { id: loginUserId },
-      body: { newNickname },
+      body: { newNickname, newJob },
       params: { bossId },
     } = req;
 
-    if (!newNickname) {
+    if (!newNickname || !newJob) {
       res.status(400).json({
         ok: false,
-        errorMessage: '닉네임을 입력해주세요',
+        errorMessage: '닉네임 혹은 직업을 입력해주세요',
       });
       return;
     }
 
-    const isExist = await db.Todo.exists({ nickname: newNickname });
+    const bosses = await db.Boss.find(
+      {
+        owner: loginUserId,
+        _id: { $ne: bossId },
+      },
+      { nickname: 1 }
+    ).lean();
 
-    if (isExist) {
-      res.status(409).json({
+    const index = bosses.findIndex((obj) => obj.nickname === newNickname);
+
+    if (index > -1) {
+      res.status(400).json({
         ok: false,
-        errorMessage: '이미 존재하는 닉네임입니다.',
+        errorMessage: '이미 등록된 닉네임입니다.',
       });
       return;
     }
 
-    const updateResult = await db.Todo.updateOne(
+    await db.Boss.updateOne(
       { _id: bossId, owner: loginUserId },
-      { nickname: newNickname }
+      { $set: { nickname: newNickname, job: newJob } }
     );
-
-    if (updateResult.matchedCount === 0) {
-      res.status(404).json({
-        ok: false,
-        errorMessage: '캐릭터를 찾을 수 없습니다.',
-      });
-      return;
-    }
-
-    if (updateResult.modifiedCount === 0) {
-      res.status(400).json({
-        ok: false,
-        errorMessage: '수정 실패',
-      });
-      return;
-    }
 
     res.status(200).json({
       ok: true,
@@ -180,46 +177,67 @@ export default {
   resetBossData: async (req, res) => {
     const {
       user: { id: loginUserId },
+      body: { category },
     } = req;
 
-    const bossDefaultValues = {
-      zaqqum: false,
-      magnus: false,
-      hilla: false,
-      papulatus: false,
-      pierre: false,
-      banban: false,
-      bloodyQueen: false,
-      vellum: false,
-      pinkBean: false,
-      lotus: false,
-      damian: false,
-      guardianAngelSlime: false,
-      lucid: false,
-      will: false,
-      dusk: false,
-      jinHilla: false,
-      darknell: false,
-      seren: false,
-      kalos: false,
-    };
+    if (category === 'weekly') {
+      const weeklyDefaults = {
+        zaqqum: false,
+        magnus: false,
+        hilla: false,
+        papulatus: false,
+        pierre: false,
+        banban: false,
+        bloodyQueen: false,
+        vellum: false,
+        pinkBean: false,
+        lotus: false,
+        damian: false,
+        guardianAngelSlime: false,
+        lucid: false,
+        will: false,
+        dusk: false,
+        jinHilla: false,
+        darknell: false,
+        seren: false,
+        kalos: false,
+      };
 
-    const bossResetResponse = await db.Boss.updateMany(
-      { owner: loginUserId },
-      { $set: { boss: bossDefaultValues } }
-    );
+      const weeklyResetResult = await db.Boss.updateMany(
+        { owner: loginUserId },
+        { $set: { weekly: weeklyDefaults } }
+      );
 
-    if (bossResetResponse.modifiedCount === 0) {
-      res.status(400).json({
-        ok: false,
-        errorMessage: '보스 데이터 초기화 에러',
-      });
-      return;
+      if (weeklyResetResult.modifiedCount === 0) {
+        res.status(400).json({
+          ok: false,
+          errorMessage: '보스 데이터 초기화 에러',
+        });
+        return;
+      }
+    } else if (category === 'monthly') {
+      const monthlyDefaults = { blackMagician: false };
+
+      const monthlyResetResult = await db.Boss.updateMany(
+        { owner: loginUserId },
+        { monthly: monthlyDefaults }
+      );
+
+      if (monthlyResetResult.modifiedCount === 0) {
+        res.status(400).json({
+          ok: false,
+          errorMessage: '보스 데이터 초기화 에러',
+        });
+        return;
+      }
     }
 
     res.status(200).json({
       ok: true,
       message: '보스 데이터 초기화',
+      data: {
+        category,
+      },
     });
   },
 
