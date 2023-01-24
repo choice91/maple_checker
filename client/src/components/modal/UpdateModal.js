@@ -16,6 +16,7 @@ import JobSelect from './common/JobSelect';
 
 import modalSlice from '../../redux/slices/modalSlice';
 import todoSlice from '../../redux/slices/todoSlice';
+import bossSlice from '../../redux/slices/bossSlice';
 import { updateCharacter } from '../../redux/async/todo';
 import { updateCharacterToBoss } from '../../redux/async/boss';
 
@@ -29,9 +30,9 @@ const UpdateModal = ({ page, isUpdateModalOpen }) => {
     job: currentJob,
   } = useSelector((state) => state.modal);
   const { errorMessage: todoErrorMessage } = useSelector((state) => state.todo);
+  const { errorMessage: bossErrorMessage } = useSelector((state) => state.boss);
 
   const [replaceNickname, setReplaceNickname] = React.useState(undefined);
-  const [errorMessage, setErrorMessage] = React.useState(undefined);
   const [job, setJob] = React.useState('');
 
   const handleClose = () => {
@@ -40,6 +41,8 @@ const UpdateModal = ({ page, isUpdateModalOpen }) => {
 
     if (page === 'todo') {
       dispatch(todoSlice.actions.clearTodoErrorMsg());
+    } else if (page === 'boss') {
+      dispatch(bossSlice.actions.clearBossErrorMsg());
     }
   };
 
@@ -70,13 +73,17 @@ const UpdateModal = ({ page, isUpdateModalOpen }) => {
     setReplaceNickname(value);
   };
 
+  const isErrMsgExist = () => {
+    if (page === 'todo') {
+      return todoErrorMessage ? false : true;
+    } else if (page === 'boss') {
+      return bossErrorMessage ? false : true;
+    }
+  };
+
   React.useEffect(() => {
     setReplaceNickname(currentNickname);
   }, [currentNickname]);
-
-  React.useEffect(() => {
-    setErrorMessage(todoErrorMessage);
-  }, [todoErrorMessage]);
 
   React.useEffect(() => {
     setJob(currentJob);
@@ -105,8 +112,8 @@ const UpdateModal = ({ page, isUpdateModalOpen }) => {
               value={currentNickname}
               onChange={onChangeNickname}
               onKeyPress={handleUpdateEnter}
-              ok={errorMessage ? false : true}
-              helperText={errorMessage}
+              ok={isErrMsgExist()}
+              helperText={page === 'todo' ? todoErrorMessage : bossErrorMessage}
               autoFocus={true}
             />
             <JobSelect job={job} setJob={setJob} />

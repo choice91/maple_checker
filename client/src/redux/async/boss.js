@@ -130,6 +130,8 @@ export const updateCharacterToBoss = createAsyncThunk(
       return response.data;
     } catch (err) {
       switch (err.response.status) {
+        case 400:
+          return thunkAPI.rejectWithValue(err.response.data);
         case 401:
           if (err.response.data.error.name === 'TokenExpiredError') {
             localStorage.removeItem('user');
