@@ -19,7 +19,7 @@ todoRouter
 todoRouter
   .route('/:todoId')
   .all(authJWT)
-  .put(asyncHandler(todoCtrl.updateNickname))
+  .put(asyncHandler(todoCtrl.updateCharacterInfo))
   .delete(asyncHandler(todoCtrl.deleteCharacter));
 
 export default todoRouter;

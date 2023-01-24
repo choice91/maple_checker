@@ -49,52 +49,43 @@ export default {
     });
   },
 
-  updateNickname: async (req, res) => {
+  updateCharacterInfo: async (req, res) => {
     const {
       user: { id: loginUserId },
       body: { newNickname, newJob },
       params: { bossId },
     } = req;
 
-    if (!newNickname) {
+    if (!newNickname || !newJob) {
       res.status(400).json({
         ok: false,
-        errorMessage: '닉네임을 입력해주세요',
+        errorMessage: '닉네임 혹은 직업을 입력해주세요',
       });
       return;
     }
 
-    const isExist = await db.Todo.exists({ nickname: newNickname });
+    const bosses = await db.Boss.find(
+      {
+        owner: loginUserId,
+        _id: { $ne: bossId },
+      },
+      { nickname: 1 }
+    ).lean();
 
-    if (isExist) {
-      res.status(409).json({
+    const index = bosses.findIndex((obj) => obj.nickname === newNickname);
+
+    if (index > -1) {
+      res.status(400).json({
         ok: false,
-        errorMessage: '이미 존재하는 닉네임입니다.',
+        errorMessage: '이미 등록된 닉네임입니다.',
       });
       return;
     }
 
-    const updateResult = await db.Todo.updateOne(
+    await db.Todo.updateOne(
       { _id: bossId, owner: loginUserId },
       { nickname: newNickname, job: newJob }
     );
-
-    if (updateResult.matchedCount === 0) {
-      res.status(404).json({
-        ok: false,
-        errorMessage: '캐릭터를 찾을 수 없습니다.',
-      });
-      return;
-    }
-
-    if (updateResult.modifiedCount === 0) {
-      res.status(400).json({
-        ok: false,
-        errorMessage: '수정 실패',
-      });
-      return;
-    }
-
     res.status(200).json({
       ok: true,
       message: '삭제완료',
