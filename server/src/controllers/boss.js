@@ -82,10 +82,11 @@ export default {
       return;
     }
 
-    await db.Todo.updateOne(
+    await db.Boss.updateOne(
       { _id: bossId, owner: loginUserId },
-      { nickname: newNickname, job: newJob }
+      { $set: { nickname: newNickname, job: newJob } }
     );
+
     res.status(200).json({
       ok: true,
       message: '삭제완료',
