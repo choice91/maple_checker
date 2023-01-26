@@ -2,7 +2,6 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
-import { makeStyles } from '@mui/styles';
 import {
   Box,
   Card,
@@ -12,6 +11,7 @@ import {
   Grid,
   IconButton,
   Typography,
+  ThemeProvider,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import EditIcon from '@mui/icons-material/Edit';
@@ -35,6 +35,8 @@ import bossSlice from '../../../redux/slices/bossSlice';
 import { swapTodo, todoCheck } from '../../../redux/async/todo';
 import { bossCheck, swapBoss } from '../../../redux/async/boss';
 
+import theme from '../../Theme';
+
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
   return <IconButton {...other} />;
@@ -46,69 +48,12 @@ const ExpandMore = styled((props) => {
   }),
 }));
 
-const useStyles = makeStyles({
-  card: {
-    width: '100%',
-    backgroundColor: '#333',
-    color: '#fff',
-  },
-  nickname: {
-    fontWeight: '700',
-    fontSize: 20,
-    marginRight: '0.5rem',
-  },
-  jobName: {
-    fontWeight: '500',
-    fontSize: 14,
-  },
-  expandMoreIcon: {
-    color: '#fff',
-  },
-  cardTitle: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  cardContent: {
-    display: 'flex',
-    justifyContent: 'center',
-    // alignItems: 'center',
-    flexDirection: 'column',
-    border: '1px solid #fff',
-    borderRadius: '5px',
-  },
-  icon: {
-    color: '#fff',
-  },
-  swipeItem: {
-    width: '100%',
-    height: '50px',
-    borderRadius: '5px',
-    display: 'flex',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    paddingLeft: '16px',
-    margin: '1px 0',
-  },
-  swipeCheckButton: {
-    padding: '8px',
-  },
-  swipeBlock: {
-    width: '100%',
-    height: '100%',
-    display: 'flex',
-    justifyContent: (props) =>
-      props.swipeProgress < 30 ? 'center' : 'flex-start',
-  },
-});
-
 const GridCard = (props) => {
   const { id, index, maxLength, nickname, job, array, category, data } = props;
 
   const [expanded, setExpanded] = React.useState(false);
   const [swipeProgress, setSwipeProgress] = React.useState(0);
 
-  const classes = useStyles({ swipeProgress });
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
@@ -183,10 +128,21 @@ const GridCard = (props) => {
         destructive={false}
         onClick={() => handleCheck(id, category, dataType)}
       >
-        <Box className={classes.swipeBlock}>
+        <Box
+          sx={{
+            width: '100%',
+            height: '100%',
+            display: 'flex',
+            justifyContent: swipeProgress < 30 ? 'center' : 'flex-start',
+          }}
+        >
           <IconButton
-            className={classes.swipeCheckButton}
-            sx={{ color: isChecked ? '#ff0000' : '#19ce60' }}
+            sx={{
+              p: 1,
+              color: isChecked
+                ? theme.palette.error.main
+                : theme.palette.info.main,
+            }}
           >
             {isChecked ? <CloseIcon /> : <CheckIcon />}
           </IconButton>
@@ -197,72 +153,111 @@ const GridCard = (props) => {
 
   return (
     <>
-      <Grid item xs={12}>
-        <Card className={classes.card}>
-          <CardContent className={classes.cardTitle}>
-            <Box>
-              <Typography className={classes.nickname}>{nickname}</Typography>
-              <Typography className={classes.jobName}>({job})</Typography>
-            </Box>
-            <Box>
-              <IconButton className={classes.icon} onClick={handleUp}>
-                <ArrowUpwardIcon fontSize="small" />
-              </IconButton>
-              <IconButton className={classes.icon} onClick={handleDown}>
-                <ArrowDownwardIcon fontSize="small" />
-              </IconButton>
-              <IconButton className={classes.icon} onClick={handleOpenDelModal}>
-                <DeleteIcon fontSize="small" />
-              </IconButton>
-              <IconButton
-                className={classes.icon}
-                onClick={handleOpenUpdateModal}
-              >
-                <EditIcon fontSize="small" />
-              </IconButton>
-            </Box>
-          </CardContent>
-          <CardActions>
-            <ExpandMore expand={expanded} onClick={handleExpandClick}>
-              <ExpandMoreIcon className={classes.expandMoreIcon} />
-            </ExpandMore>
-          </CardActions>
-        </Card>
-        <Collapse in={expanded} timeout="auto" unmountOnExit>
-          <CardContent className={classes.cardContent}>
-            <SwipeableList fullSwipe={true} threshold={0.3} type={ListType.IOS}>
-              {Object.keys(array).map((name, index) => (
-                <SwipeableListItem
-                  key={index}
-                  trailingActions={trailingActions({
-                    id,
-                    dataType: name,
-                    category,
-                    isChecked: data[category][name],
-                  })}
-                  onSwipeProgress={setSwipeProgress}
+      <ThemeProvider theme={theme}>
+        <Grid item xs={12}>
+          <Card sx={{ backgroundColor: theme.palette.grey['900'] }}>
+            <CardContent
+              sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+              }}
+            >
+              <Box>
+                <Typography
+                  sx={{
+                    fontWeight: '700',
+                    fontSize: 20,
+                    marginRight: '0.5rem',
+                  }}
                 >
-                  <Box
-                    className={classes.swipeItem}
-                    sx={{
-                      border: '1px solid #ff6f61',
-                      fontWeight: data[category][name] ? 400 : 700,
-                      backgroundColor: data[category][name]
-                        ? 'inherit'
-                        : '#ff6f61',
-                      textDecoration: data[category][name]
-                        ? 'line-through'
-                        : 'none',
-                    }}
+                  {nickname}
+                </Typography>
+                <Typography
+                  sx={{
+                    fontWeight: '500',
+                    fontSize: 14,
+                  }}
+                >
+                  ({job})
+                </Typography>
+              </Box>
+              <Box>
+                <IconButton color="primary" onClick={handleUp}>
+                  <ArrowUpwardIcon fontSize="small" />
+                </IconButton>
+                <IconButton color="primary" onClick={handleDown}>
+                  <ArrowDownwardIcon fontSize="small" />
+                </IconButton>
+                <IconButton color="primary" onClick={handleOpenDelModal}>
+                  <DeleteIcon fontSize="small" />
+                </IconButton>
+                <IconButton color="primary" onClick={handleOpenUpdateModal}>
+                  <EditIcon fontSize="small" />
+                </IconButton>
+              </Box>
+            </CardContent>
+            <CardActions>
+              <ExpandMore expand={expanded} onClick={handleExpandClick}>
+                <ExpandMoreIcon color="primary" />
+              </ExpandMore>
+            </CardActions>
+          </Card>
+          <Collapse in={expanded} timeout="auto" unmountOnExit>
+            <CardContent
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                flexDirection: 'column',
+                border: '1px solid #fff',
+                borderRadius: '5px',
+              }}
+            >
+              <SwipeableList
+                fullSwipe={true}
+                threshold={0.3}
+                type={ListType.IOS}
+              >
+                {Object.keys(array).map((name, index) => (
+                  <SwipeableListItem
+                    key={index}
+                    trailingActions={trailingActions({
+                      id,
+                      dataType: name,
+                      category,
+                      isChecked: data[category][name],
+                    })}
+                    onSwipeProgress={setSwipeProgress}
                   >
-                    {array[name]}
-                  </Box>
-                </SwipeableListItem>
-              ))}
-            </SwipeableList>
-          </CardContent>
-        </Collapse>
-      </Grid>
+                    <Box
+                      sx={{
+                        width: '100%',
+                        height: '50px',
+                        borderRadius: '5px',
+                        display: 'flex',
+                        justifyContent: 'flex-start',
+                        alignItems: 'center',
+                        paddingLeft: '16px',
+                        margin: '1px 0',
+                        border: '1px solid #ff6f61',
+                        fontWeight: data[category][name] ? 400 : 700,
+                        backgroundColor: data[category][name]
+                          ? 'inherit'
+                          : '#ff6f61',
+                        textDecoration: data[category][name]
+                          ? 'line-through'
+                          : 'none',
+                      }}
+                    >
+                      {array[name]}
+                    </Box>
+                  </SwipeableListItem>
+                ))}
+              </SwipeableList>
+            </CardContent>
+          </Collapse>
+        </Grid>
+      </ThemeProvider>
     </>
   );
 };
