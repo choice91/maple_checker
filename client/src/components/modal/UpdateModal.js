@@ -1,18 +1,14 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-
 import {
   Box,
   Dialog,
   DialogTitle,
   DialogContent,
   DialogActions,
+  ThemeProvider,
 } from '@mui/material';
-
-import TextFieldComp from '../TextFieldComp';
-import CustomButton from '../CustomButton';
-import JobSelect from './common/JobSelect';
 
 import modalSlice from '../../redux/slices/modalSlice';
 import todoSlice from '../../redux/slices/todoSlice';
@@ -20,7 +16,13 @@ import bossSlice from '../../redux/slices/bossSlice';
 import { updateCharacter } from '../../redux/async/todo';
 import { updateCharacterToBoss } from '../../redux/async/boss';
 
-const UpdateModal = ({ page, isUpdateModalOpen }) => {
+import TextFieldComp from '../TextFieldComp';
+import CustomButton from '../CustomButton';
+import JobSelect from './element/JobSelect';
+
+import theme from '../Theme';
+
+const UpdateModal = ({ page, isUpdateModalOpen, errorMessage }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -29,8 +31,6 @@ const UpdateModal = ({ page, isUpdateModalOpen }) => {
     nickname: currentNickname,
     job: currentJob,
   } = useSelector((state) => state.modal);
-  const { errorMessage: todoErrorMessage } = useSelector((state) => state.todo);
-  const { errorMessage: bossErrorMessage } = useSelector((state) => state.boss);
 
   const [replaceNickname, setReplaceNickname] = React.useState(undefined);
   const [job, setJob] = React.useState('');
@@ -73,14 +73,6 @@ const UpdateModal = ({ page, isUpdateModalOpen }) => {
     setReplaceNickname(value);
   };
 
-  const isErrMsgExist = () => {
-    if (page === 'todo') {
-      return todoErrorMessage ? false : true;
-    } else if (page === 'boss') {
-      return bossErrorMessage ? false : true;
-    }
-  };
-
   React.useEffect(() => {
     setReplaceNickname(currentNickname);
   }, [currentNickname]);
@@ -91,39 +83,33 @@ const UpdateModal = ({ page, isUpdateModalOpen }) => {
 
   return (
     <>
-      <Dialog
-        open={isUpdateModalOpen}
-        onClose={handleClose}
-        sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
-        aria-labelledby="character add modal"
-      >
-        <Box sx={{ maxWidth: 400, backgroundColor: '#424242', p: 1 }}>
-          <DialogTitle sx={{ color: '#fff' }}>닉네임 수정</DialogTitle>
-          <DialogContent
-            dividers={true}
-            sx={{
-              p: 2,
-              borderTop: '1px solid #b2b2b2',
-              borderBottom: '1px solid #b2b2b2',
-            }}
-          >
-            <TextFieldComp
-              label="닉네임"
-              value={currentNickname}
-              onChange={onChangeNickname}
-              onKeyPress={handleUpdateEnter}
-              ok={isErrMsgExist()}
-              helperText={page === 'todo' ? todoErrorMessage : bossErrorMessage}
-              autoFocus={true}
-            />
-            <JobSelect job={job} setJob={setJob} />
-          </DialogContent>
-          <DialogActions sx={{ textAlign: 'right', mt: 1 }}>
-            <CustomButton text="취소" onClick={handleClose} />
-            <CustomButton text="수정" onClick={handleUpdate} />
-          </DialogActions>
-        </Box>
-      </Dialog>
+      <ThemeProvider theme={theme}>
+        <Dialog
+          open={isUpdateModalOpen}
+          onClose={handleClose}
+          aria-labelledby="character add modal"
+        >
+          <Box>
+            <DialogTitle>닉네임 수정</DialogTitle>
+            <DialogContent dividers={true}>
+              <TextFieldComp
+                label="닉네임"
+                value={currentNickname}
+                onChange={onChangeNickname}
+                onKeyPress={handleUpdateEnter}
+                ok={errorMessage ? true : false}
+                helperText={errorMessage}
+                autoFocus={true}
+              />
+              <JobSelect job={job} setJob={setJob} />
+            </DialogContent>
+            <DialogActions>
+              <CustomButton text="취소" onClick={handleClose} />
+              <CustomButton text="수정" onClick={handleUpdate} />
+            </DialogActions>
+          </Box>
+        </Dialog>
+      </ThemeProvider>
     </>
   );
 };

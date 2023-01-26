@@ -68,7 +68,11 @@ const Boss = () => {
         errorMessage={errorMessage}
       />
       <DelConfirmModal page="boss" isDelModalOpen={isDelModalOpen} />
-      <UpdateModal page="boss" isUpdateModalOpen={isUpdateModalOpen} />
+      <UpdateModal
+        page="boss"
+        isUpdateModalOpen={isUpdateModalOpen}
+        errorMessage={errorMessage}
+      />
     </>
   );
 };

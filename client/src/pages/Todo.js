@@ -65,7 +65,11 @@ const Todo = () => {
         errorMessage={errorMessage}
       />
       <DelConfirmModal page="todo" isDelModalOpen={isDelModalOpen} />
-      <UpdateModal page="todo" isUpdateModalOpen={isUpdateModalOpen} />
+      <UpdateModal
+        page="todo"
+        isUpdateModalOpen={isUpdateModalOpen}
+        errorMessage={errorMessage}
+      />
     </>
   );
 };
