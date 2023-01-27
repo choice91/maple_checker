@@ -108,7 +108,7 @@ const TableTitle = ({ index, id, nickname, job, page, maxLength }) => {
                 color="success"
                 disabled={index === 0 ? true : false}
                 sx={{
-                  color: theme.palette.grey['800'],
+                  color: theme.palette.grey['500'],
                   '&:hover': {
                     color: theme.palette.success.main,
                   },
@@ -121,7 +121,7 @@ const TableTitle = ({ index, id, nickname, job, page, maxLength }) => {
                 size="small"
                 color="info"
                 sx={{
-                  color: theme.palette.grey['800'],
+                  color: theme.palette.grey['500'],
                   '&:hover': {
                     color: theme.palette.info.main,
                   },
@@ -134,7 +134,7 @@ const TableTitle = ({ index, id, nickname, job, page, maxLength }) => {
                 size="small"
                 color="error"
                 sx={{
-                  color: theme.palette.grey['800'],
+                  color: theme.palette.grey['500'],
                   '&:hover': {
                     color: theme.palette.error.main,
                   },
@@ -148,7 +148,7 @@ const TableTitle = ({ index, id, nickname, job, page, maxLength }) => {
                 color="success"
                 disabled={index === maxLength - 1 ? true : false}
                 sx={{
-                  color: theme.palette.grey['800'],
+                  color: theme.palette.grey['500'],
                   '&:hover': {
                     color: theme.palette.success.main,
                   },
