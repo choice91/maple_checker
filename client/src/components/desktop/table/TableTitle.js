@@ -1,18 +1,18 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { ThemeProvider } from '@mui/material/styles';
 import {
   Box,
-  Button,
-  Menu,
-  MenuItem,
+  ButtonGroup,
   IconButton,
   TableCell,
   Typography,
 } from '@mui/material';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
+import DeleteIcon from '@mui/icons-material/Delete';
+import CreateIcon from '@mui/icons-material/Create';
 
 import theme from '../../Theme';
 
@@ -25,18 +25,6 @@ import bossSlice from '../../../redux/slices/bossSlice';
 const TableTitle = ({ index, id, nickname, job, page, maxLength }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const [anchorEl, setAnchorEl] = useState(null);
-
-  const open = Boolean(anchorEl);
-
-  const handleClick = (e) => {
-    setAnchorEl(e.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
 
   const handleOpenUpdateModal = () => {
     const args = { id, nickname, job, page };
@@ -96,16 +84,10 @@ const TableTitle = ({ index, id, nickname, job, page, maxLength }) => {
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
+              flexDirection: 'column',
             }}
           >
-            <IconButton
-              color="secondary"
-              disabled={index === 0 ? true : false}
-              onClick={handleMoveLeft}
-            >
-              <ArrowLeftIcon />
-            </IconButton>
-            <Button
+            <Box
               sx={{
                 display: 'flex',
                 justifyContent: 'center',
@@ -113,27 +95,70 @@ const TableTitle = ({ index, id, nickname, job, page, maxLength }) => {
                 fontWeight: 700,
                 fontSize: 14,
                 color: '#ff6f61',
-                p: 1,
+                pt: 1,
                 minWidth: 120,
               }}
-              onClick={handleClick}
             >
               <Typography>{nickname}</Typography>
               <Typography sx={{ fontSize: 12 }}>({job})</Typography>
-            </Button>
-            <IconButton
-              color="secondary"
-              disabled={index === maxLength - 1 ? true : false}
-              onClick={handleMoveRight}
-            >
-              <ArrowRightIcon />
-            </IconButton>
+            </Box>
+            <ButtonGroup>
+              <IconButton
+                size="small"
+                color="success"
+                disabled={index === 0 ? true : false}
+                sx={{
+                  color: theme.palette.grey['800'],
+                  '&:hover': {
+                    color: theme.palette.success.main,
+                  },
+                }}
+                onClick={handleMoveLeft}
+              >
+                <ArrowLeftIcon />
+              </IconButton>
+              <IconButton
+                size="small"
+                color="info"
+                sx={{
+                  color: theme.palette.grey['800'],
+                  '&:hover': {
+                    color: theme.palette.info.main,
+                  },
+                }}
+                onClick={handleOpenUpdateModal}
+              >
+                <CreateIcon fontSize="small" />
+              </IconButton>
+              <IconButton
+                size="small"
+                color="error"
+                sx={{
+                  color: theme.palette.grey['800'],
+                  '&:hover': {
+                    color: theme.palette.error.main,
+                  },
+                }}
+                onClick={handleOpenDelModal}
+              >
+                <DeleteIcon fontSize="small" />
+              </IconButton>
+              <IconButton
+                size="small"
+                color="success"
+                disabled={index === maxLength - 1 ? true : false}
+                sx={{
+                  color: theme.palette.grey['800'],
+                  '&:hover': {
+                    color: theme.palette.success.main,
+                  },
+                }}
+                onClick={handleMoveRight}
+              >
+                <ArrowRightIcon />
+              </IconButton>
+            </ButtonGroup>
           </Box>
-
-          <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
-            <MenuItem onClick={handleOpenUpdateModal}>수정</MenuItem>
-            <MenuItem onClick={handleOpenDelModal}>삭제</MenuItem>
-          </Menu>
         </TableCell>
       </ThemeProvider>
     </>
