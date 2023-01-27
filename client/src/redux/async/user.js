@@ -30,7 +30,7 @@ export const login = createAsyncThunk(
         expires: refreshExpires,
       });
 
-      navigate('/todo', { replace: true });
+      navigate('/boss', { replace: true });
 
       return;
     } catch (err) {
