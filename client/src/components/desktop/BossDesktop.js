@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import {
   Table,
   TableBody,
+  TableCell,
   TableHead,
   TableRow,
   ThemeProvider,
@@ -10,10 +11,8 @@ import {
 
 import TableLayout from '../../layout/TableLayout';
 import Spinner from '../Spinner';
-import CustomTableCell from './table/CustomTableCell';
 import BossSelect from './table/BossSelect';
 import TableTitle from './table/TableTitle';
-import StickyTableCell from './table/StickyTableCell';
 import TableCheckbox from './table/TableCheckbox';
 import NoContents from './table/NoContents';
 
@@ -39,18 +38,19 @@ const BossDesktop = ({ weeklyArray, monthlyArray }) => {
               <>
                 <TableHead>
                   <TableRow>
-                    <CustomTableCell
-                      bgColor="#212121"
-                      fontColor="#fff"
-                      width={90}
-                      minWidth={90}
-                      fontWeight={700}
+                    <TableCell
                       align="center"
-                      left={0}
-                      zIndex={99}
+                      sx={{
+                        backgroundColor: theme.palette.grey['900'],
+                        minWidth: 90,
+                        fontWeight: 700,
+                        fontSize: 16,
+                        left: 0,
+                        zIndex: 99,
+                      }}
                     >
                       <BossSelect />
-                    </CustomTableCell>
+                    </TableCell>
                     {bossSeq.map((bossId, index) => (
                       <TableTitle
                         key={index}
@@ -68,13 +68,18 @@ const BossDesktop = ({ weeklyArray, monthlyArray }) => {
                   {category === 'weekly'
                     ? Object.keys(weeklyArray).map((key, index) => (
                         <TableRow key={index}>
-                          <StickyTableCell
+                          <TableCell
                             align="center"
-                            bgColor="#222"
-                            fontColor="#fff"
+                            sx={{
+                              backgroundColor: theme.palette.grey['900'],
+                              left: 0,
+                              zIndex: 10,
+                              position: 'sticky',
+                              cursor: 'default',
+                            }}
                           >
                             {weeklyArray[key]}
-                          </StickyTableCell>
+                          </TableCell>
                           {bossSeq.map((seq, index) => (
                             <TableCheckbox
                               key={index}
@@ -88,13 +93,18 @@ const BossDesktop = ({ weeklyArray, monthlyArray }) => {
                       ))
                     : Object.keys(monthlyArray).map((key, index) => (
                         <TableRow key={index}>
-                          <CustomTableCell
+                          <TableCell
                             align="center"
-                            bgColor="#222"
-                            fontColor="#fff"
+                            sx={{
+                              backgroundColor: theme.palette.grey['900'],
+                              left: 0,
+                              zIndex: 99,
+                              position: 'sticky',
+                              cursor: 'default',
+                            }}
                           >
                             {monthlyArray[key]}
-                          </CustomTableCell>
+                          </TableCell>
                           {bossSeq.map((seq, index) => (
                             <TableCheckbox
                               key={index}

@@ -3,16 +3,14 @@ import { useSelector } from 'react-redux';
 import {
   Table,
   TableBody,
+  TableCell,
   TableHead,
   TableRow,
   ThemeProvider,
 } from '@mui/material';
 
 import Spinner from '../Spinner';
-import CustomTableCell from './table/CustomTableCell';
-import TodoSelect from './table/TodoSelect';
 import TableTitle from './table/TableTitle';
-import StickyTableCell from './table/StickyTableCell';
 import TableCheckbox from './table/TableCheckbox';
 import NoContents from './table/NoContents';
 import TableLayout from '../../layout/TableLayout';
@@ -39,18 +37,22 @@ const TodoDesktop = ({ dailyArray, weeklyArray }) => {
               <>
                 <TableHead>
                   <TableRow>
-                    <CustomTableCell
-                      bgColor="#212121"
-                      fontColor="#fff"
-                      width={90}
-                      minWidth={90}
-                      fontWeight={700}
+                    <TableCell
                       align="center"
-                      left={0}
-                      zIndex={99}
+                      sx={{
+                        backgroundColor: theme.palette.grey['900'],
+                        minWidth: 90,
+                        fontWeight: 700,
+                        fontSize: 16,
+                        left: 0,
+                        zIndex: 99,
+                        cursor: 'default',
+                      }}
                     >
-                      <TodoSelect />
-                    </CustomTableCell>
+                      아케인
+                      <br />
+                      주간퀘
+                    </TableCell>
                     {todoSeq.map((todoId, index) => (
                       <TableTitle
                         key={index}
@@ -65,47 +67,31 @@ const TodoDesktop = ({ dailyArray, weeklyArray }) => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {category === 'daily'
-                    ? Object.keys(dailyArray).map((key, index) => (
-                        <TableRow key={index}>
-                          <StickyTableCell
-                            align="center"
-                            bgColor="#222"
-                            fontColor="#fff"
-                          >
-                            {dailyArray[key]}
-                          </StickyTableCell>
-                          {todoSeq.map((seq, index) => (
-                            <TableCheckbox
-                              key={index}
-                              id={seq}
-                              category={category}
-                              dataType={key}
-                              isChecked={todoData[seq][category][key]}
-                            />
-                          ))}
-                        </TableRow>
-                      ))
-                    : Object.keys(weeklyArray).map((key, index) => (
-                        <TableRow key={index}>
-                          <StickyTableCell
-                            align="center"
-                            bgColor="#222"
-                            fontColor="#fff"
-                          >
-                            {weeklyArray[key]}
-                          </StickyTableCell>
-                          {todoSeq.map((seq, index) => (
-                            <TableCheckbox
-                              key={index}
-                              id={seq}
-                              category={category}
-                              dataType={key}
-                              isChecked={todoData[seq][category][key]}
-                            />
-                          ))}
-                        </TableRow>
+                  {Object.keys(weeklyArray).map((key, index) => (
+                    <TableRow key={index}>
+                      <TableCell
+                        align="center"
+                        sx={{
+                          backgroundColor: theme.palette.grey['900'],
+                          left: 0,
+                          zIndex: 99,
+                          position: 'sticky',
+                          cursor: 'default',
+                        }}
+                      >
+                        {weeklyArray[key]}
+                      </TableCell>
+                      {todoSeq.map((seq, index) => (
+                        <TableCheckbox
+                          key={index}
+                          id={seq}
+                          category={category}
+                          dataType={key}
+                          isChecked={todoData[seq][category][key]}
+                        />
                       ))}
+                    </TableRow>
+                  ))}
                 </TableBody>
               </>
             ) : (

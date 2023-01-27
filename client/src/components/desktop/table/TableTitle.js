@@ -87,7 +87,6 @@ const TableTitle = ({ index, id, nickname, job, page, maxLength }) => {
             backgroundColor: theme.palette.grey['900'],
             color: '#fff',
             fontSize: 16,
-            minWidth: 170,
             fontWeight: 700,
             p: 0,
           }}
@@ -108,13 +107,14 @@ const TableTitle = ({ index, id, nickname, job, page, maxLength }) => {
             </IconButton>
             <Button
               sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                flexDirection: 'column',
                 fontWeight: 700,
                 fontSize: 14,
                 color: '#ff6f61',
                 p: 1,
-                display: 'flex',
-                justifyContent: 'center',
-                flexDirection: 'column',
+                minWidth: 120,
               }}
               onClick={handleClick}
             >
