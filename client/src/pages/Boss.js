@@ -11,32 +11,7 @@ import DelConfirmModal from '../components/modal/DelConfirmModal';
 import BossDesktop from '../components/desktop/BossDesktop';
 import BossMobile from '../components/mobile/BossMobile';
 
-const weeklyArray = {
-  zaqqum: '자쿰',
-  magnus: '매그너스',
-  hilla: '힐라',
-  papulatus: '파풀라투스',
-  pierre: '피에르',
-  banban: '반반',
-  bloodyQueen: '블러디 퀸',
-  vellum: '벨룸',
-  pinkBean: '핑크빈',
-  cygnus: '시그너스',
-  lotus: '스우',
-  damian: '데미안',
-  guardianAngelSlime: '가디언 엔젤 슬라임',
-  lucid: '루시드',
-  will: '윌',
-  dusk: '더스크',
-  jinHilla: '진힐라',
-  darknell: '듄켈',
-  seren: '세렌',
-  kalos: '칼로스',
-};
-
-const monthlyArray = {
-  blackMagician: '검은마법사',
-};
+import { bossWeekly, bossMonthly } from '../shared/datas';
 
 const Boss = () => {
   const dispatch = useDispatch();
@@ -57,9 +32,9 @@ const Boss = () => {
       <Header page="boss" />
 
       {isMobile ? (
-        <BossMobile weeklyArray={weeklyArray} monthlyArray={monthlyArray} />
+        <BossMobile weeklyArray={bossWeekly} monthlyArray={bossMonthly} />
       ) : (
-        <BossDesktop weeklyArray={weeklyArray} monthlyArray={monthlyArray} />
+        <BossDesktop weeklyArray={bossWeekly} monthlyArray={bossMonthly} />
       )}
 
       <AddModal
@@ -68,7 +43,11 @@ const Boss = () => {
         errorMessage={errorMessage}
       />
       <DelConfirmModal page="boss" isDelModalOpen={isDelModalOpen} />
-      <UpdateModal page="boss" isUpdateModalOpen={isUpdateModalOpen} />
+      <UpdateModal
+        page="boss"
+        isUpdateModalOpen={isUpdateModalOpen}
+        errorMessage={errorMessage}
+      />
     </>
   );
 };

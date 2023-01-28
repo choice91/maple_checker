@@ -16,15 +16,17 @@ import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import { removeCookie } from '../utils/Cookies';
 import { removeLocalStorage } from '../utils/LocalStorage';
 
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#fff',
-      gray: '#191919',
-      orange: '#ff6f61',
-    },
-  },
-});
+import theme from './Theme';
+
+// const theme = createTheme({
+//   palette: {
+//     primary: {
+//       main: '#fff',
+//       gray: '#191919',
+//       orange: '#ff6f61',
+//     },
+//   },
+// });
 
 const Header = ({ page }) => {
   const navigate = useNavigate();
@@ -38,14 +40,20 @@ const Header = ({ page }) => {
   return (
     <>
       <ThemeProvider theme={theme}>
-        <AppBar position="static" sx={{ backgroundColor: 'primary.gray' }}>
-          <BottomNavigation showLabels sx={{ backgroundColor: 'primary.gray' }}>
+        <AppBar position="static">
+          <BottomNavigation
+            showLabels
+            sx={{ backgroundColor: theme.palette.grey['900'] }}
+          >
             <BottomNavigationAction
               label="메할일"
               icon={<CheckBoxIcon fontSize="medium" />}
               onClick={() => navigate('/todo')}
               sx={{
-                color: page === 'todo' ? 'primary.orange' : 'primary.main',
+                color:
+                  page === 'todo'
+                    ? theme.palette.secondary.main
+                    : theme.palette.primary.main,
               }}
             />
             <BottomNavigationAction
@@ -53,7 +61,10 @@ const Header = ({ page }) => {
               icon={<PaidIcon fontSize="medium" />}
               onClick={() => navigate('/boss')}
               sx={{
-                color: page === 'boss' ? 'primary.orange' : 'primary.main',
+                color:
+                  page === 'boss'
+                    ? theme.palette.secondary.main
+                    : theme.palette.primary.main,
               }}
             />
             <BottomNavigationAction
@@ -61,14 +72,17 @@ const Header = ({ page }) => {
               icon={<CalendarMonthIcon fontSize="medium" />}
               onClick={() => navigate('/event')}
               sx={{
-                color: page === 'event' ? 'primary.orange' : 'primary.main',
+                color:
+                  page === 'event'
+                    ? theme.palette.secondary.main
+                    : theme.palette.primary.main,
               }}
             />
             <BottomNavigationAction
               label="로그아웃"
               icon={<LogoutIcon fontSize="medium" />}
               onClick={handleLogout}
-              sx={{ color: 'primary.main' }}
+              sx={{ color: theme.palette.primary.main }}
             />
           </BottomNavigation>
         </AppBar>

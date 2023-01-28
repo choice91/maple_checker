@@ -6,34 +6,10 @@ import { Grid } from '@mui/material';
 import modalSlice from '../../redux/slices/modalSlice';
 import todoSlice from '../../redux/slices/todoSlice';
 
-import CardTitle from './common/CardTitle';
-import GridCard from './common/GridCard';
+import CardTitle from './element/CardTitle';
+import GridCard from './element/GridCard';
 
-const useStyles = makeStyles({
-  gridContainer: {
-    marginTop: '1.5rem',
-    paddingLeft: '0.5rem',
-    paddingRight: '0.5rem',
-  },
-  box: {
-    paddingLeft: '0.5rem',
-    paddingRight: '0.5rem',
-    width: '100%',
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  button: {
-    color: '#fff',
-    border: '1px solid rgba(255, 255, 255, 0.5)',
-    '&:hover': {
-      border: '1px solid rgba(255, 255, 255, 1)',
-    },
-  },
-});
-
-const TodoMobile = ({ dailyArray, weeklyArray }) => {
-  const classes = useStyles();
+const TodoMobile = ({ weeklyArray }) => {
   const dispatch = useDispatch();
 
   const { todoData, todoSeq, category } = useSelector((state) => state.todo);
@@ -46,7 +22,15 @@ const TodoMobile = ({ dailyArray, weeklyArray }) => {
 
   return (
     <>
-      <Grid container spacing={1} className={classes.gridContainer}>
+      <Grid
+        container
+        spacing={1}
+        sx={{
+          mt: 2,
+          pl: 1,
+          pr: 1,
+        }}
+      >
         <CardTitle openAddModalFn={handleOpenAddModal} category={category} />
         {todoSeq.map((seq, index) => (
           <GridCard
@@ -55,7 +39,7 @@ const TodoMobile = ({ dailyArray, weeklyArray }) => {
             maxLength={todoSeq.length}
             nickname={todoData[seq].nickname}
             job={todoData[seq].job}
-            array={category === 'daily' ? dailyArray : weeklyArray}
+            array={weeklyArray}
             category={category}
             data={todoData[seq]}
           />

@@ -14,7 +14,6 @@ const todoSlice = createSlice({
   initialState: {
     isFetching: false,
     errorMessage: '',
-    category: 'daily',
     todoData: {},
     todoSeq: [],
   },
@@ -24,15 +23,11 @@ const todoSlice = createSlice({
     },
     todoCheckReducer: (state, action) => {
       const {
-        payload: { todoId, category, todoType },
+        payload: { todoId, todoType },
       } = action;
 
-      state.todoData[todoId][category][todoType] =
-        !state.todoData[todoId][category][todoType];
-    },
-    switchCategory: (state, action) => {
-      state.category = action.payload.category;
-      setLocalStorage('todoCategory', action.payload.category);
+      state.todoData[todoId].weekly[todoType] =
+        !state.todoData[todoId].weekly[todoType];
     },
     swapTodo: (state, action) => {
       const {

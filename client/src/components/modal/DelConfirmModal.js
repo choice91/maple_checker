@@ -1,7 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-
 import {
   Box,
   Dialog,
@@ -9,13 +8,16 @@ import {
   DialogContent,
   DialogContentText,
   DialogActions,
+  ThemeProvider,
 } from '@mui/material';
-
-import CustomButton from '../CustomButton';
 
 import modalSlice from '../../redux/slices/modalSlice';
 import { deleteCharacter } from '../../redux/async/todo';
 import { delCharacterToBoss } from '../../redux/async/boss';
+
+import CustomButton from '../CustomButton';
+
+import theme from '../Theme';
 
 const DelConfirmModal = ({ page, isDelModalOpen }) => {
   const dispatch = useDispatch();
@@ -39,38 +41,35 @@ const DelConfirmModal = ({ page, isDelModalOpen }) => {
 
   return (
     <>
-      <Dialog
-        open={isDelModalOpen}
-        onClose={handleClose}
-        sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
-        aria-labelledby="character del modal"
-      >
-        <Box sx={{ maxWidth: 400, backgroundColor: '#424242', p: 1 }}>
-          <DialogTitle sx={{ color: '#fff' }}>캐릭터 삭제</DialogTitle>
-          <DialogContent
-            dividers={true}
-            sx={{
-              p: 2,
-              borderTop: '1px solid #b2b2b2',
-              borderBottom: '1px solid #b2b2b2',
-            }}
-          >
-            <DialogContentText sx={{ color: '#fff' }}>
-              정말{' '}
-              <Box component="span" sx={{ color: '#3498db', fontWeight: 700 }}>
-                {nickname}
-              </Box>
-              을 삭제하시겠습니까?
-              <br />
-              삭제된 데이터는 되돌릴 수 없습니다.
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions sx={{ textAlign: 'right', mt: 1 }}>
-            <CustomButton text="취소" onClick={handleClose} />
-            <CustomButton text="삭제" onClick={handleDelete} />
-          </DialogActions>
-        </Box>
-      </Dialog>
+      <ThemeProvider theme={theme}>
+        <Dialog
+          open={isDelModalOpen}
+          onClose={handleClose}
+          aria-labelledby="character del modal"
+        >
+          <Box>
+            <DialogTitle>캐릭터 삭제</DialogTitle>
+            <DialogContent dividers={true}>
+              <DialogContentText>
+                정말{' '}
+                <Box
+                  component="span"
+                  sx={{ color: theme.palette.secondary.main, fontWeight: 700 }}
+                >
+                  {nickname}
+                </Box>
+                을 삭제하시겠습니까?
+                <br />
+                삭제된 데이터는 되돌릴 수 없습니다.
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <CustomButton text="취소" onClick={handleClose} />
+              <CustomButton text="삭제" onClick={handleDelete} />
+            </DialogActions>
+          </Box>
+        </Dialog>
+      </ThemeProvider>
     </>
   );
 };

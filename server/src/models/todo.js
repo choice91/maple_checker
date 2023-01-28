@@ -20,18 +20,6 @@ const questSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    daily: {
-      yeoro: { type: Boolean, default: false },
-      chuchu: { type: Boolean, default: false },
-      lachelein: { type: Boolean, default: false },
-      arcana: { type: Boolean, default: false },
-      morass: { type: Boolean, default: false },
-      esfera: { type: Boolean, default: false },
-      cernium: { type: Boolean, default: false },
-      burningCernium: { type: Boolean, default: false },
-      arcs: { type: Boolean, default: false },
-      odium: { type: Boolean, default: false },
-    },
     weekly: {
       yeoro: { type: Boolean, default: false },
       chuchu: { type: Boolean, default: false },

@@ -1,33 +1,8 @@
 import cron from 'node-cron';
 import db from './models';
 
-export const dailyResetScheduler = cron.schedule(
-  '0 0 0 * * * *',
-  async () => {
-    console.log('일퀘 데이터 초기화', new Date().toString());
-
-    const dailyQuestDefault = {
-      yeoro: false,
-      chuchu: false,
-      lachelein: false,
-      arcana: false,
-      morass: false,
-      esfera: false,
-      cernium: false,
-      burningCernium: false,
-      arcs: false,
-      odium: false,
-    };
-
-    await db.Todo.updateMany({}, { $set: { daily: dailyQuestDefault } });
-  },
-  {
-    scheduled: false,
-  }
-);
-
 export const weeklyResetScheduler = cron.schedule(
-  '0 0 0 * * * 3',
+  '0 0 0 * * Thu',
   async () => {
     console.log('보스 데이터 초기화', new Date().toString());
 
@@ -53,7 +28,7 @@ export const weeklyResetScheduler = cron.schedule(
       kalos: false,
     };
 
-    const weeklyQuestDefault = {
+    const weeklyTodoDefault = {
       yeoro: false,
       chuchu: false,
       lachelein: false,
@@ -67,7 +42,7 @@ export const weeklyResetScheduler = cron.schedule(
     };
 
     await db.Boss.updateMany({}, { $set: { weekly: weeklyBossDefault } });
-    await db.Todo.updateMany({}, { $set: { weekly: weeklyQuestDefault } });
+    await db.Todo.updateMany({}, { $set: { weekly: weeklyTodoDefault } });
   },
   {
     scheduled: false,
@@ -75,7 +50,7 @@ export const weeklyResetScheduler = cron.schedule(
 );
 
 export const monthlyResetScheduler = cron.schedule(
-  '0 0 0 1 * * *',
+  '0 0 0 1 * *',
   async () => {
     console.log('월간 데이터 초기화', new Date().toString());
 

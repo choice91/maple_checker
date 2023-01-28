@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container, Paper, TableContainer } from '@mui/material';
 
-import TableBtn from '../components/table/TableBtn';
+import TableBtn from '../components/desktop/table/TableBtn';
 
 const TableLayout = ({ page, category, children }) => {
   return (

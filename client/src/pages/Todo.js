@@ -12,27 +12,7 @@ import UpdateModal from '../components/modal/UpdateModal';
 import TodoDesktop from '../components/desktop/TodoDesktop';
 import TodoMobile from '../components/mobile/TodoMobile';
 
-const dailyArray = {
-  yeoro: '여로',
-  chuchu: '츄츄',
-  lachelein: '레헬른',
-  arcana: '아르카나',
-  morass: '모라스',
-  esfera: '에스페라',
-  cernium: '세르니움(전)',
-  burningCernium: '세르니움(후)',
-  arcs: '아르크스',
-  odium: '오디움',
-};
-
-const weeklyArray = {
-  yeoro: '여로',
-  chuchu: '츄츄',
-  lachelein: '레헬른',
-  arcana: '아르카나',
-  morass: '모라스',
-  esfera: '에스페라',
-};
+import { todoWeekly } from '../shared/datas';
 
 const Todo = () => {
   const dispatch = useDispatch();
@@ -54,9 +34,9 @@ const Todo = () => {
       <Header page="todo" />
 
       {isMobile ? (
-        <TodoMobile dailyArray={dailyArray} weeklyArray={weeklyArray} />
+        <TodoMobile weeklyArray={todoWeekly} />
       ) : (
-        <TodoDesktop dailyArray={dailyArray} weeklyArray={weeklyArray} />
+        <TodoDesktop weeklyArray={todoWeekly} />
       )}
 
       <AddModal
@@ -65,7 +45,11 @@ const Todo = () => {
         errorMessage={errorMessage}
       />
       <DelConfirmModal page="todo" isDelModalOpen={isDelModalOpen} />
-      <UpdateModal page="todo" isUpdateModalOpen={isUpdateModalOpen} />
+      <UpdateModal
+        page="todo"
+        isUpdateModalOpen={isUpdateModalOpen}
+        errorMessage={errorMessage}
+      />
     </>
   );
 };
