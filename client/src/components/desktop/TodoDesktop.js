@@ -17,7 +17,7 @@ import TableLayout from '../../layout/TableLayout';
 
 import theme from '../Theme';
 
-const TodoDesktop = ({ dailyArray, weeklyArray }) => {
+const TodoDesktop = ({ weeklyArray }) => {
   const { isFetching, todoData, todoSeq, category } = useSelector(
     (state) => state.todo
   );
@@ -87,7 +87,7 @@ const TodoDesktop = ({ dailyArray, weeklyArray }) => {
                           id={seq}
                           category={category}
                           dataType={key}
-                          isChecked={todoData[seq][category][key]}
+                          isChecked={todoData[seq].weekly[key]}
                         />
                       ))}
                     </TableRow>

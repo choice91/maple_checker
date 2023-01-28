@@ -9,7 +9,7 @@ import todoSlice from '../../redux/slices/todoSlice';
 import CardTitle from './element/CardTitle';
 import GridCard from './element/GridCard';
 
-const TodoMobile = ({ dailyArray, weeklyArray }) => {
+const TodoMobile = ({ weeklyArray }) => {
   const dispatch = useDispatch();
 
   const { todoData, todoSeq, category } = useSelector((state) => state.todo);
@@ -39,7 +39,7 @@ const TodoMobile = ({ dailyArray, weeklyArray }) => {
             maxLength={todoSeq.length}
             nickname={todoData[seq].nickname}
             job={todoData[seq].job}
-            array={category === 'daily' ? dailyArray : weeklyArray}
+            array={weeklyArray}
             category={category}
             data={todoData[seq]}
           />

@@ -225,7 +225,7 @@ const GridCard = (props) => {
                       id,
                       dataType: name,
                       category,
-                      isChecked: data[category][name],
+                      isChecked: data.weekly[name],
                     })}
                     onSwipeProgress={setSwipeProgress}
                   >
@@ -240,11 +240,11 @@ const GridCard = (props) => {
                         paddingLeft: '16px',
                         margin: '1px 0',
                         border: '1px solid #ff6f61',
-                        fontWeight: data[category][name] ? 400 : 700,
-                        backgroundColor: data[category][name]
+                        fontWeight: data.weekly[name] ? 400 : 700,
+                        backgroundColor: data.weekly[name]
                           ? 'inherit'
                           : '#ff6f61',
-                        textDecoration: data[category][name]
+                        textDecoration: data.weekly[name]
                           ? 'line-through'
                           : 'none',
                       }}
