@@ -20,7 +20,7 @@ const TableCheckbox = ({ id, dataType, category, isChecked }) => {
 
   const handleCheck = () => {
     if (location.pathname === '/todo') {
-      const data = { todoId: id, category, todoType: dataType };
+      const data = { todoId: id, todoType: dataType };
       const args = { data, navigate };
       dispatch(todoCheck(args));
       dispatch(todoSlice.actions.todoCheckReducer(data));

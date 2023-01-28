@@ -131,14 +131,13 @@ export const todoCheck = createAsyncThunk(
   'todo/check',
   async (payload, thunkAPI) => {
     const {
-      data: { todoId, category, todoType },
+      data: { todoId, todoType },
       navigate,
     } = payload;
 
     try {
       const response = await API.post('/todo/check', {
         todoId,
-        category,
         todoType,
       });
       return response.data;

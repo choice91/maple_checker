@@ -18,14 +18,12 @@ import TableLayout from '../../layout/TableLayout';
 import theme from '../Theme';
 
 const TodoDesktop = ({ weeklyArray }) => {
-  const { isFetching, todoData, todoSeq, category } = useSelector(
-    (state) => state.todo
-  );
+  const { isFetching, todoData, todoSeq } = useSelector((state) => state.todo);
 
   return (
     <>
       <ThemeProvider theme={theme}>
-        <TableLayout page="todo" category={category}>
+        <TableLayout page="todo">
           <Table
             stickyHeader
             aria-label="todo table"
@@ -85,7 +83,6 @@ const TodoDesktop = ({ weeklyArray }) => {
                         <TableCheckbox
                           key={index}
                           id={seq}
-                          category={category}
                           dataType={key}
                           isChecked={todoData[seq].weekly[key]}
                         />

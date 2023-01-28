@@ -23,11 +23,11 @@ const todoSlice = createSlice({
     },
     todoCheckReducer: (state, action) => {
       const {
-        payload: { todoId, category, todoType },
+        payload: { todoId, todoType },
       } = action;
 
-      state.todoData[todoId][category][todoType] =
-        !state.todoData[todoId][category][todoType];
+      state.todoData[todoId].weekly[todoType] =
+        !state.todoData[todoId].weekly[todoType];
     },
     swapTodo: (state, action) => {
       const {
