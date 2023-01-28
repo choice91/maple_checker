@@ -12,7 +12,7 @@ import GridCard from './element/GridCard';
 const TodoMobile = ({ weeklyArray }) => {
   const dispatch = useDispatch();
 
-  const { todoData, todoSeq, category } = useSelector((state) => state.todo);
+  const { todoData, todoSeq } = useSelector((state) => state.todo);
 
   const handleOpenAddModal = () => {
     const args = { page: 'todo' };
@@ -31,7 +31,7 @@ const TodoMobile = ({ weeklyArray }) => {
           pr: 1,
         }}
       >
-        <CardTitle openAddModalFn={handleOpenAddModal} category={category} />
+        <CardTitle openAddModalFn={handleOpenAddModal} />
         {todoSeq.map((seq, index) => (
           <GridCard
             id={seq}
@@ -40,7 +40,7 @@ const TodoMobile = ({ weeklyArray }) => {
             nickname={todoData[seq].nickname}
             job={todoData[seq].job}
             array={weeklyArray}
-            category={category}
+            category="weekly"
             data={todoData[seq]}
           />
         ))}

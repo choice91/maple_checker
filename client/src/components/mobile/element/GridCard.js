@@ -20,6 +20,7 @@ import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
+import LinearProgress from '@mui/material/LinearProgress';
 import {
   SwipeableList,
   SwipeableListItem,
@@ -48,15 +49,48 @@ const ExpandMore = styled((props) => {
   }),
 }));
 
+const LinearProgressWithLabel = (props) => {
+  return (
+    <Box sx={{ width: '100%', display: 'flex', alignItems: 'center' }}>
+      <Box sx={{ width: '100%', mr: 1 }}>
+        <LinearProgress
+          variant="determinate"
+          value={props.value}
+          color="secondary"
+        />
+      </Box>
+      <Box>
+        <Typography variant="body2" color="secondary">
+          {props.value}%
+        </Typography>
+      </Box>
+    </Box>
+  );
+};
+
 const GridCard = (props) => {
   const { id, index, maxLength, nickname, job, array, category, data } = props;
 
   const [expanded, setExpanded] = React.useState(false);
   const [swipeProgress, setSwipeProgress] = React.useState(0);
+  const [gauge, setGauge] = React.useState(0);
 
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
+
+  React.useEffect(() => {
+    let count = 0;
+    const values = Object.values(data[category]);
+
+    values.forEach((value) => {
+      if (value) {
+        count += 1;
+      }
+    });
+
+    setGauge(Math.round((count / values.length) * 100));
+  }, [data]);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -110,7 +144,7 @@ const GridCard = (props) => {
 
   const handleCheck = (id, category, dataType) => {
     if (location.pathname === '/todo') {
-      const data = { todoId: id, category, todoType: dataType };
+      const data = { todoId: id, todoType: dataType };
       const args = { data, navigate };
       dispatch(todoCheck(args));
       dispatch(todoSlice.actions.todoCheckReducer(data));
@@ -184,20 +218,33 @@ const GridCard = (props) => {
               </Box>
               <Box>
                 <IconButton color="primary" onClick={handleUp}>
-                  <ArrowUpwardIcon fontSize="small" />
+                  <ArrowUpwardIcon
+                    fontSize="small"
+                    sx={{ color: theme.palette.grey['500'] }}
+                  />
                 </IconButton>
                 <IconButton color="primary" onClick={handleDown}>
-                  <ArrowDownwardIcon fontSize="small" />
+                  <ArrowDownwardIcon
+                    fontSize="small"
+                    sx={{ color: theme.palette.grey['500'] }}
+                  />
                 </IconButton>
                 <IconButton color="primary" onClick={handleOpenDelModal}>
-                  <DeleteIcon fontSize="small" />
+                  <DeleteIcon
+                    fontSize="small"
+                    sx={{ color: theme.palette.grey['500'] }}
+                  />
                 </IconButton>
                 <IconButton color="primary" onClick={handleOpenUpdateModal}>
-                  <EditIcon fontSize="small" />
+                  <EditIcon
+                    fontSize="small"
+                    sx={{ color: theme.palette.grey['500'] }}
+                  />
                 </IconButton>
               </Box>
             </CardContent>
             <CardActions>
+              <LinearProgressWithLabel value={gauge} />
               <ExpandMore expand={expanded} onClick={handleExpandClick}>
                 <ExpandMoreIcon color="primary" />
               </ExpandMore>
