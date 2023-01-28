@@ -150,7 +150,7 @@ export default {
   checkTodo: async (req, res) => {
     const {
       user: { id: loginUserId },
-      body: { todoId, category, todoType },
+      body: { todoId, todoType },
     } = req;
 
     const todo = await db.Todo.findOne({ _id: todoId, owner: loginUserId });
@@ -163,12 +163,12 @@ export default {
       return;
     }
 
-    todo[category][todoType] = !todo[category][todoType];
+    todo.weekly[todoType] = !todo.weekly[todoType];
     await todo.save();
 
     res.status(200).json({
       ok: true,
-      message: todo[category][todoType] ? '체크' : '체크해제',
+      message: todo.weekly[todoType] ? '체크' : '체크해제',
     });
   },
 
