@@ -102,4 +102,25 @@ export default {
       },
     });
   },
+
+  getUserProfile: async (req, res) => {
+    const {
+      user: { id: loginUserId },
+    } = req;
+
+    const user = await db.User.findById(loginUserId, { name: 1 });
+
+    if (!user) {
+      res.status(404).json({
+        ok: false,
+        errorMessage: '존재하지 않는 유저',
+      });
+      return;
+    }
+
+    res.status(200).json({
+      ok: true,
+      user,
+    });
+  },
 };
