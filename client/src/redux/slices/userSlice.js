@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { login, signUp, idCheck } from '../async/user';
+import { login, signUp, idCheck, getProfile } from '../async/user';
 
 export const userSlice = createSlice({
   name: 'user',
@@ -85,6 +85,13 @@ export const userSlice = createSlice({
       state.idDupMsg = errorMessage;
       state.isIdOk = false;
     },
+
+    // 회원정보 불러오기
+    [getProfile.pending]: (state, action) => {},
+    [getProfile.fulfilled]: (state, action) => {
+      state.username = action.payload.user.name;
+    },
+    [getProfile.rejected]: (state, action) => {},
   },
 });
 

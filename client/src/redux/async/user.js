@@ -59,7 +59,6 @@ export const signUp = createAsyncThunk(
 
       return response.data;
     } catch (err) {
-      console.error(err.response);
       return thunkAPI.rejectWithValue(err.response.data);
     }
   }
@@ -74,8 +73,30 @@ export const idCheck = createAsyncThunk(
       const response = await API.post('id-check', { id });
       return response.data;
     } catch (err) {
-      console.error(err.response);
       return thunkAPI.rejectWithValue(err.response.data);
+    }
+  }
+);
+
+export const getProfile = createAsyncThunk(
+  'user/profile',
+  async (payload, thunkAPI) => {
+    const { navigate } = payload;
+
+    try {
+      const response = await API.get('/user/profile');
+      return response.data;
+    } catch (err) {
+      switch (err.response.status) {
+        case 404:
+          return thunkAPI.rejectWithValue(err.response.data);
+        case 401:
+          if (err.response.data.error.name === 'TokenExpiredError') {
+            localStorage.removeItem('user');
+            navigate('/login');
+          }
+          return;
+      }
     }
   }
 );
