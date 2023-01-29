@@ -5,7 +5,7 @@ import Login from './pages/Login';
 import SignUp from './pages/SignUp';
 import Todo from './pages/Todo';
 import Boss from './pages/Boss';
-import Event from './pages/Event';
+import User from './pages/User';
 import RequireAuth from './utils/RequireAuth';
 import RedirectTo from './utils/RedirectTo';
 
@@ -37,10 +37,10 @@ function App() {
           }
         />
         <Route
-          path="/event"
+          path="/user"
           element={
             <RequireAuth redirectTo="/login">
-              <Event />
+              <User />
             </RequireAuth>
           }
         />

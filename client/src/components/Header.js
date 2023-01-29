@@ -6,27 +6,17 @@ import {
   BottomNavigation,
   BottomNavigationAction,
 } from '@mui/material';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { ThemeProvider } from '@mui/material/styles';
 
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import PaidIcon from '@mui/icons-material/Paid';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import LogoutIcon from '@mui/icons-material/Logout';
-import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { removeCookie } from '../utils/Cookies';
 import { removeLocalStorage } from '../utils/LocalStorage';
 
 import theme from './Theme';
-
-// const theme = createTheme({
-//   palette: {
-//     primary: {
-//       main: '#fff',
-//       gray: '#191919',
-//       orange: '#ff6f61',
-//     },
-//   },
-// });
 
 const Header = ({ page }) => {
   const navigate = useNavigate();
@@ -68,12 +58,12 @@ const Header = ({ page }) => {
               }}
             />
             <BottomNavigationAction
-              label="이벤트"
-              icon={<CalendarMonthIcon fontSize="medium" />}
-              onClick={() => navigate('/event')}
+              label="내정보"
+              icon={<AccountCircleIcon fontSize="medium" />}
+              onClick={() => navigate('/user')}
               sx={{
                 color:
-                  page === 'event'
+                  page === 'user'
                     ? theme.palette.secondary.main
                     : theme.palette.primary.main,
               }}
