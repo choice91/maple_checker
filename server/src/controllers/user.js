@@ -131,6 +131,7 @@ export default {
     if (newPw !== verifyPw) {
       res.status(400).json({
         ok: false,
+        errorType: "password does not match",
         errorMessage: "변경할 비밀번호가 일치하지 않음",
       });
       return;
@@ -151,7 +152,8 @@ export default {
     if (!pwCompare) {
       res.status(400).json({
         ok: false,
-        errorMessage: "현재 비밀번호가 일치하지 않음",
+        errorType: "password incorrect",
+        errorMessage: "틀린 비밀번호",
       });
       return;
     }
