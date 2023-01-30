@@ -126,7 +126,6 @@ export const updateProfile = createAsyncThunk(
     } catch (err) {
       switch (err.response.status) {
         case 400:
-          window.alert(err.response.data.errorMessage);
           return thunkAPI.rejectWithValue(err.response.data);
         case 401:
           if (err.response.data.error.name === "TokenExpiredError") {
