@@ -70,7 +70,7 @@ export default {
     if (!user) {
       res.status(404).json({
         ok: false,
-        errorMessage: "존재하지 않는 유저입니다.",
+        errorMessage: "아이디/비밀번호를 확인해주세요.",
       });
       return;
     }
@@ -80,7 +80,7 @@ export default {
     if (!pwCompare) {
       res.status(400).json({
         ok: false,
-        errorMessage: "다시 시도해주세요",
+        errorMessage: "비밀번호가 틀렸습니다.",
       });
       return;
     }
