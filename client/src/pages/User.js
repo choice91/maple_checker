@@ -1,23 +1,23 @@
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { Box, Button, TextField, ThemeProvider } from '@mui/material';
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { Box, Button, TextField, ThemeProvider } from "@mui/material";
 
-import { getProfile } from '../redux/async/user';
+import { getProfile, updateProfile } from "../redux/async/user";
 
-import Header from '../components/Header';
+import Header from "../components/Header";
 
-import theme from '../components/Theme';
+import theme from "../components/Theme";
 
 const User = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { username } = useSelector((state) => state.user);
 
-  const [name, setName] = React.useState('');
-  const [curPw, setCurPw] = React.useState('');
-  const [newPw, setNewPw] = React.useState('');
-  const [verifyPw, setVerifyPw] = React.useState('');
+  const [name, setName] = React.useState("");
+  const [curPw, setCurPw] = React.useState("");
+  const [newPw, setNewPw] = React.useState("");
+  const [verifyPw, setVerifyPw] = React.useState("");
 
   const handleChangeName = (e) => {
     setName(e.target.value);
@@ -38,12 +38,21 @@ const User = () => {
   const handleSubmit = () => {
     console.log(name, curPw, newPw, verifyPw);
 
-    if (!name || !curPw || !newPw || !verifyPw) {
-      alert('빈 칸을 모두 채워주세요.');
+    if (!name) {
+      alert("이름을 입력해주세요.");
+    } else if (!curPw || !newPw || !verifyPw) {
+      alert("비밀번호를 입력해주세요.");
     }
 
-    if (newPw !== verifyPw) {
-      alert('비밀번호가 일치하지 않습니다.');
+    if (curPw === newPw) {
+      alert(
+        "현재 비밀번호와 변경할 비밀번호가 일치합니다. 다른 비밀번호를 입력해주세요."
+      );
+    } else if (newPw !== verifyPw) {
+      alert("변경할 비밀번호가 서로 일치하지 않습니다.");
+    } else {
+      const args = { data: { name, curPw, newPw, verifyPw }, navigate };
+      dispatch(updateProfile(args));
     }
   };
 
@@ -52,36 +61,40 @@ const User = () => {
     dispatch(getProfile(args));
   }, []);
 
+  React.useEffect(() => {
+    setName(username);
+  }, [username]);
+
   return (
     <>
       <Header page="user" />
       <ThemeProvider theme={theme}>
         <Box
           sx={{
-            width: '100%',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
             mt: 15,
           }}
         >
           <Box
             sx={{
-              border: '1px solid #fff',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              flexDirection: 'column',
+              border: "1px solid #fff",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              flexDirection: "column",
               p: 3,
             }}
           >
-            <Box sx={{ mb: 2 }}>{username}</Box>
             <TextField
               label="이름"
+              defaultValue={username}
               value={username}
               color="success"
               onChange={handleChangeName}
-              sx={{ mb: 2 }}
+              sx={{ mt: 2, mb: 2 }}
             />
             <TextField
               label="현재 비밀번호"
