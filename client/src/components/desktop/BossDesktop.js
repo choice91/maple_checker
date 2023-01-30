@@ -1,5 +1,5 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React from "react";
+import { useSelector } from "react-redux";
 import {
   Table,
   TableBody,
@@ -7,16 +7,16 @@ import {
   TableHead,
   TableRow,
   ThemeProvider,
-} from '@mui/material';
+} from "@mui/material";
 
-import TableLayout from '../../layout/TableLayout';
-import Spinner from '../Spinner';
-import BossSelect from './table/BossSelect';
-import TableTitle from './table/TableTitle';
-import TableCheckbox from './table/TableCheckbox';
-import NoContents from './table/NoContents';
+import TableLayout from "../../layout/TableLayout";
+import Spinner from "../Spinner";
+import BossSelect from "./table/BossSelect";
+import TableTitle from "./table/TableTitle";
+import TableCheckbox from "./table/TableCheckbox";
+import NoContents from "./table/NoContents";
 
-import theme from '../Theme';
+import theme from "../Theme";
 
 const BossDesktop = ({ weeklyArray, monthlyArray }) => {
   const { isFetching, bossData, bossSeq, category } = useSelector(
@@ -30,7 +30,7 @@ const BossDesktop = ({ weeklyArray, monthlyArray }) => {
           <Table
             stickyHeader
             aria-label="boss table"
-            sx={{ backgroundColor: theme.palette.grey['900'] }}
+            sx={{ backgroundColor: theme.palette.grey["900"] }}
           >
             {isFetching ? (
               <Spinner />
@@ -41,8 +41,9 @@ const BossDesktop = ({ weeklyArray, monthlyArray }) => {
                     <TableCell
                       align="center"
                       sx={{
-                        backgroundColor: theme.palette.grey['900'],
-                        minWidth: 90,
+                        backgroundColor: theme.palette.grey["900"],
+                        width: 130,
+                        minWidth: 130,
                         fontWeight: 700,
                         fontSize: 16,
                         left: 0,
@@ -65,17 +66,18 @@ const BossDesktop = ({ weeklyArray, monthlyArray }) => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {category === 'weekly'
+                  {category === "weekly"
                     ? Object.keys(weeklyArray).map((key, index) => (
                         <TableRow key={index}>
                           <TableCell
                             align="center"
                             sx={{
-                              backgroundColor: theme.palette.grey['900'],
+                              backgroundColor: theme.palette.grey["900"],
                               left: 0,
                               zIndex: 10,
-                              position: 'sticky',
-                              cursor: 'default',
+                              position: "sticky",
+                              cursor: "default",
+                              fontWeight: 700,
                             }}
                           >
                             {weeklyArray[key]}
@@ -96,11 +98,11 @@ const BossDesktop = ({ weeklyArray, monthlyArray }) => {
                           <TableCell
                             align="center"
                             sx={{
-                              backgroundColor: theme.palette.grey['900'],
+                              backgroundColor: theme.palette.grey["900"],
                               left: 0,
                               zIndex: 99,
-                              position: 'sticky',
-                              cursor: 'default',
+                              position: "sticky",
+                              cursor: "default",
                             }}
                           >
                             {monthlyArray[key]}
