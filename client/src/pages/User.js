@@ -12,12 +12,22 @@ import theme from "../components/Theme";
 const User = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { username } = useSelector((state) => state.user);
+  const { username, profile } = useSelector((state) => state.user);
 
   const [name, setName] = React.useState("");
   const [curPw, setCurPw] = React.useState("");
   const [newPw, setNewPw] = React.useState("");
   const [verifyPw, setVerifyPw] = React.useState("");
+  const [profileError, setProfileError] = React.useState({
+    password: { isError: false, errorMessage: "" },
+    newPassword: { isError: false, errorMessage: "" },
+    verifyPassword: { isError: false, errorMessage: "" },
+  });
+  const profileErrorDefault = {
+    password: { isError: false, errorMessage: "" },
+    newPassword: { isError: false, errorMessage: "" },
+    verifyPassword: { isError: false, errorMessage: "" },
+  };
 
   const handleChangeName = (e) => {
     setName(e.target.value);
@@ -36,23 +46,47 @@ const User = () => {
   };
 
   const handleSubmit = () => {
-    console.log(name, curPw, newPw, verifyPw);
-
-    if (!name) {
-      alert("이름을 입력해주세요.");
-    } else if (!curPw || !newPw || !verifyPw) {
-      alert("비밀번호를 입력해주세요.");
-    }
-
     if (curPw === newPw) {
-      alert(
-        "현재 비밀번호와 변경할 비밀번호가 일치합니다. 다른 비밀번호를 입력해주세요."
-      );
+      setProfileError({
+        ...profileErrorDefault,
+        password: {
+          isError: true,
+          errorMessage: "현재 비밀번호와 변경할 비밀번호가 일치합니다.",
+        },
+        newPassword: {
+          isError: true,
+          errorMessage: "현재 비밀번호와 변경할 비밀번호가 일치합니다.",
+        },
+      });
     } else if (newPw !== verifyPw) {
-      alert("변경할 비밀번호가 서로 일치하지 않습니다.");
+      setProfileError({
+        ...profileErrorDefault,
+        newPassword: {
+          isError: true,
+          errorMessage: "비밀번호가 서로 일치하지 않습니다.",
+        },
+        verifyPassword: {
+          isError: true,
+          errorMessage: "비밀번호가 서로 일치하지 않습니다.",
+        },
+      });
     } else {
       const args = { data: { name, curPw, newPw, verifyPw }, navigate };
       dispatch(updateProfile(args));
+    }
+  };
+
+  const handlePwErrorMessage = () => {
+    if (!curPw) {
+      setProfileError({
+        ...profileErrorDefault,
+        password: { isError: true, errorMessage: "비밀번호를 입력해주세요." },
+      });
+    } else {
+      setProfileError({
+        ...profileErrorDefault,
+        password: { isError: false, errorMessage: "" },
+      });
     }
   };
 
@@ -64,6 +98,27 @@ const User = () => {
   React.useEffect(() => {
     setName(username);
   }, [username]);
+
+  React.useEffect(() => {
+    if (profile.errorType === "password incorrect") {
+      setProfileError({
+        ...profileErrorDefault,
+        password: { isError: true, errorMessage: "비밀번호가 틀렸습니다." },
+      });
+    } else if (profile.errorType === "password does not match") {
+      setProfileError({
+        ...profileErrorDefault,
+        newPassword: {
+          isError: true,
+          errorMessage: "비밀번호가 서로 일치하지 않습니다.",
+        },
+        verifyPassword: {
+          isError: true,
+          errorMessage: "비밀번호가 서로 일치하지 않습니다.",
+        },
+      });
+    }
+  }, [dispatch, profile]);
 
   return (
     <>
@@ -90,36 +145,63 @@ const User = () => {
           >
             <TextField
               label="이름"
-              defaultValue={username}
-              value={username}
+              type="text"
+              value={name}
               color="success"
+              error={!name ? true : false}
+              helperText={!name ? "이름을 입력해주세요." : ""}
+              required={true}
+              autoComplete="off"
               onChange={handleChangeName}
-              sx={{ mt: 2, mb: 2 }}
+              fullWidth
+              sx={{ mt: 2, mb: 2, width: 300 }}
             />
             <TextField
               label="현재 비밀번호"
               color="success"
               type="password"
+              error={profileError.password.isError}
+              helperText={profileError.password.errorMessage}
+              onBlur={handlePwErrorMessage}
+              required={true}
               onChange={handleChangeCurPw}
-              sx={{ mb: 2 }}
               autoFocus={true}
+              fullWidth
+              sx={{ mb: 2 }}
             />
             <TextField
               label="새 비밀번호"
               color="success"
               type="password"
+              error={profileError.newPassword.isError}
+              helperText={profileError.newPassword.errorMessage}
+              required={true}
               onChange={handleChangeNewPw}
+              fullWidth
               sx={{ mb: 2 }}
             />
             <TextField
               label="새 비밀번호 확인"
               color="success"
               type="password"
+              error={profileError.verifyPassword.isError}
+              helperText={profileError.verifyPassword.errorMessage}
+              required={true}
               onChange={handleChangeVerifyPw}
+              fullWidth
               sx={{ mb: 2 }}
             />
-            <Button variant="contained" color="success" onClick={handleSubmit}>
-              변경하기
+            <Button
+              variant="contained"
+              color="success"
+              disabled={
+                !name || !curPw || !newPw || !verifyPw || profile.isFetching
+                  ? true
+                  : false
+              }
+              onClick={handleSubmit}
+            >
+              {profile.isFetching ? "요청중..." : "변경하기"}
             </Button>
           </Box>
         </Box>

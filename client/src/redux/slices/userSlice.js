@@ -1,8 +1,14 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { login, signUp, idCheck, getProfile } from '../async/user';
+import { createSlice } from "@reduxjs/toolkit";
+import {
+  login,
+  signUp,
+  idCheck,
+  getProfile,
+  updateProfile,
+} from "../async/user";
 
 export const userSlice = createSlice({
-  name: 'user',
+  name: "user",
   initialState: {
     id: null,
     username: null,
@@ -10,18 +16,22 @@ export const userSlice = createSlice({
     isSignUpFetching: false,
     isIdDupFetching: false,
     isLoggedIn: false,
-    idDupMsg: '',
+    idDupMsg: "",
     isIdOk: true,
-    errorMessage: '',
-    loginErrorMessage: '',
+    errorMessage: "",
+    loginErrorMessage: "",
+    profile: {
+      isFetching: false,
+      errorType: "",
+    },
   },
   reducers: {
     initIdCheckMsg: (state, action) => {
-      state.idDupMsg = '';
+      state.idDupMsg = "";
       state.isIdOk = true;
     },
     initLoginErrorMsg: (state, action) => {
-      state.loginErrorMessage = '';
+      state.loginErrorMessage = "";
     },
   },
   extraReducers: {
@@ -56,10 +66,10 @@ export const userSlice = createSlice({
 
       state.isSignUpFetching = false;
 
-      if (type === 'exist id') {
-        state.errorMessage = 'PW를 확인해주세요';
-      } else if (type === 'password incorrect') {
-        state.errorMessage = 'ID 중복확인을 해주세요.';
+      if (type === "exist id") {
+        state.errorMessage = "PW를 확인해주세요";
+      } else if (type === "password incorrect") {
+        state.errorMessage = "ID 중복확인을 해주세요.";
       }
     },
 
@@ -92,6 +102,20 @@ export const userSlice = createSlice({
       state.username = action.payload.user.name;
     },
     [getProfile.rejected]: (state, action) => {},
+
+    // 프로필 업데이트
+    [updateProfile.pending]: (state, action) => {
+      state.profile.isFetching = true;
+      state.profile.errorType = "";
+    },
+    [updateProfile.fulfilled]: (state, action) => {
+      state.profile.isFetching = false;
+      state.profile.errorType = "";
+    },
+    [updateProfile.rejected]: (state, action) => {
+      state.profile.isFetching = false;
+      state.profile.errorType = action.payload.errorType;
+    },
   },
 });
 
