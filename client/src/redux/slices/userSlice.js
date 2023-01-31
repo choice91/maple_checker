@@ -20,7 +20,7 @@ export const userSlice = createSlice({
     },
     profile: {
       isFetching: false,
-      errorType: "",
+      message: "",
     },
   },
   reducers: {
@@ -35,18 +35,10 @@ export const userSlice = createSlice({
     },
     [login.fulfilled]: (state, action) => {
       state.loginState.isFetching = false;
-      // state.isLoginFetching = false;
-      // state.isLoggedIn = true;
     },
     [login.rejected]: (state, action) => {
       state.loginState.isFetching = false;
       state.loginState.message = action.payload.errorMessage;
-      // const {
-      //   payload: { errorMessage },
-      // } = action;
-      //
-      // state.isLoginFetching = false;
-      // state.loginErrorMessage = errorMessage;
     },
 
     // 회원가입
@@ -80,15 +72,14 @@ export const userSlice = createSlice({
     // 프로필 업데이트
     [updateProfile.pending]: (state, action) => {
       state.profile.isFetching = true;
-      state.profile.errorType = "";
+      state.profile.message = "";
     },
     [updateProfile.fulfilled]: (state, action) => {
       state.profile.isFetching = false;
-      state.profile.errorType = "";
     },
     [updateProfile.rejected]: (state, action) => {
       state.profile.isFetching = false;
-      state.profile.errorType = action.payload.errorType;
+      state.profile.message = action.payload.errorMessage;
     },
   },
 });

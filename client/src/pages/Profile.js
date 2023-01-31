@@ -100,12 +100,12 @@ const Profile = () => {
   }, [username]);
 
   React.useEffect(() => {
-    if (profile.errorType === "password incorrect") {
+    if (profile.message === "password incorrect") {
       setProfileError({
         ...profileErrorDefault,
         password: { isError: true, errorMessage: "비밀번호가 틀렸습니다." },
       });
-    } else if (profile.errorType === "password does not match") {
+    } else if (profile.message === "password does not match") {
       setProfileError({
         ...profileErrorDefault,
         newPassword: {
@@ -117,6 +117,9 @@ const Profile = () => {
           errorMessage: "비밀번호가 서로 일치하지 않습니다.",
         },
       });
+    } else if (profile.message === "user not found") {
+      alert("인증에 문제가 있습니다. 다시 로그인해주세요");
+      navigate("/login");
     }
   }, [dispatch, profile]);
 
