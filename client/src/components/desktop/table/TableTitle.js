@@ -29,7 +29,12 @@ const TableTitle = ({ index, id, nickname, job, page, maxLength }) => {
   const handleOpenUpdateModal = () => {
     const args = { id, nickname, job, page };
     dispatch(modalSlice.actions.openUpdateModal(args));
-    dispatch(todoSlice.actions.initUpdateState());
+
+    if (page === "todo") {
+      dispatch(todoSlice.actions.initUpdateState());
+    } else if (page === "boss") {
+      dispatch(bossSlice.actions.initUpdateState());
+    }
   };
 
   const handleOpenDelModal = () => {

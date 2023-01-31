@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 import {
   addCharacterToBoss,
@@ -7,21 +7,35 @@ import {
   delCharacterToBoss,
   updateCharacterToBoss,
   resetBoss,
-} from '../async/boss';
-import { getLocalStorage, setLocalStorage } from '../../utils/LocalStorage';
+} from "../async/boss";
+import { getLocalStorage, setLocalStorage } from "../../utils/LocalStorage";
 
 const bossSlice = createSlice({
-  name: 'boss',
+  name: "boss",
   initialState: {
     isFetching: false,
-    category: 'weekly',
+    errorMessage: "",
+    category: "weekly",
     bossData: {},
     bossSeq: [],
-    errorMessage: '',
+    addState: {
+      isFetching: false,
+      isNicknameValid: true,
+      isJobValid: true,
+      nicknameResultMessage: "",
+      jobResultMessage: "",
+    },
+    updateState: {
+      isFetching: false,
+      isNicknameValid: true,
+      isJobValid: true,
+      nicknameResultMessage: "",
+      jobResultMessage: "",
+    },
   },
   reducers: {
     clearBossErrorMsg: (state, action) => {
-      state.errorMessage = '';
+      state.errorMessage = "";
     },
     bossCheckReducer: (state, action) => {
       const {
@@ -33,29 +47,55 @@ const bossSlice = createSlice({
     },
     switchCategory: (state, action) => {
       state.category = action.payload.category;
-      setLocalStorage('bossCategory', action.payload.category);
+      setLocalStorage("bossCategory", action.payload.category);
     },
     swapBoss: (state, action) => {
       const {
         payload: { index, direction },
       } = action;
 
-      if (direction === 'left') {
+      if (direction === "left") {
         [state.bossSeq[index - 1], state.bossSeq[index]] = [
           state.bossSeq[index],
           state.bossSeq[index - 1],
         ];
-      } else if (direction === 'right') {
+      } else if (direction === "right") {
         [state.bossSeq[index], state.bossSeq[index + 1]] = [
           state.bossSeq[index + 1],
           state.bossSeq[index],
         ];
       }
     },
+    initAddState: (state, action) => {
+      state.addState = {
+        isFetching: false,
+        isNicknameValid: true,
+        isJobValid: true,
+        nicknameResultMessage: "",
+        jobResultMessage: "",
+      };
+    },
+    initUpdateState: (state, action) => {
+      state.updateState = {
+        isFetching: false,
+        isNicknameValid: true,
+        isJobValid: true,
+        nicknameResultMessage: "",
+        jobResultMessage: "",
+      };
+    },
   },
   extraReducers: {
     // 캐릭터 추가
-    [addCharacterToBoss.pending]: (state, action) => {},
+    [addCharacterToBoss.pending]: (state, action) => {
+      state.addState = {
+        isFetching: true,
+        isNicknameValid: true,
+        isJobValid: true,
+        nicknameResultMessage: "",
+        jobResultMessage: "",
+      };
+    },
     [addCharacterToBoss.fulfilled]: (state, action) => {
       state.bossData = Object.assign(
         state.bossData,
@@ -64,7 +104,32 @@ const bossSlice = createSlice({
       state.bossSeq = [...state.bossSeq, action.payload.data.newCharacterId];
     },
     [addCharacterToBoss.rejected]: (state, action) => {
-      state.errorMessage = action.payload.errorMessage;
+      state.addState.isFetching = false;
+
+      switch (action.payload.errorMessage) {
+        case "nickname and job is required": {
+          state.addState.isNicknameValid = false;
+          state.addState.nicknameResultMessage = "닉네임을 입력하세요";
+          state.addState.isJobValid = false;
+          state.addState.jobResultMessage = "직업을 선택하세요";
+          break;
+        }
+        case "nickname is required": {
+          state.addState.isNicknameValid = false;
+          state.addState.nicknameResultMessage = "닉네임을 입력하세요";
+          break;
+        }
+        case "job is required": {
+          state.addState.isJobValid = false;
+          state.addState.jobResultMessage = "직업을 선택하세요";
+          break;
+        }
+        case "already registered character": {
+          state.addState.isNicknameValid = false;
+          state.addState.nicknameResultMessage = "이미 등록된 닉네임입니다";
+          break;
+        }
+      }
     },
 
     // 캐릭터 삭제
@@ -95,7 +160,30 @@ const bossSlice = createSlice({
       state.bossData[updatedId].nickname = newNickname;
     },
     [updateCharacterToBoss.rejected]: (state, action) => {
-      state.errorMessage = action.payload.errorMessage;
+      switch (action.payload.errorMessage) {
+        case "nickname and job is required": {
+          state.updateState.isNicknameValid = false;
+          state.updateState.nicknameResultMessage = "닉네임을 입력하세요";
+          state.updateState.isJobValid = false;
+          state.updateState.jobResultMessage = "직업을 선택하세요";
+          break;
+        }
+        case "nickname is required": {
+          state.updateState.isNicknameValid = false;
+          state.updateState.nicknameResultMessage = "닉네임을 입력하세요";
+          break;
+        }
+        case "job is required": {
+          state.updateState.isJobValid = false;
+          state.updateState.jobResultMessage = "직업을 선택하세요";
+          break;
+        }
+        case "already registered character": {
+          state.updateState.isNicknameValid = false;
+          state.updateState.nicknameResultMessage = "이미 등록된 닉네임입니다";
+          break;
+        }
+      }
     },
 
     // 데이터 불러오기
@@ -107,10 +195,10 @@ const bossSlice = createSlice({
       state.bossSeq = [...action.payload.data.bossSeq];
       state.isFetching = false;
 
-      const bossCategory = getLocalStorage('bossCategory');
+      const bossCategory = getLocalStorage("bossCategory");
 
       if (!bossCategory) {
-        setLocalStorage('bossCategory', 'weekly');
+        setLocalStorage("bossCategory", "weekly");
       } else {
         state.category = bossCategory;
       }
@@ -133,7 +221,7 @@ const bossSlice = createSlice({
         },
       } = action;
 
-      if (category === 'weekly') {
+      if (category === "weekly") {
         const bossDefaultValues = {
           zaqqum: false,
           magnus: false,
@@ -159,7 +247,7 @@ const bossSlice = createSlice({
         Object.keys(state.bossData).forEach((key) => {
           state.bossData[key].weekly = bossDefaultValues;
         });
-      } else if (category === 'monthly') {
+      } else if (category === "monthly") {
         const monthlyDefaults = { blackMagician: false };
 
         Object.keys(state.bossData).forEach((key) => {
