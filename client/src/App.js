@@ -1,16 +1,16 @@
-import React from 'react';
-import { Routes, Route, useNavigate } from 'react-router-dom';
+import React from "react";
+import { Routes, Route, useNavigate } from "react-router-dom";
 
-import Login from './pages/Login';
-import SignUp from './pages/SignUp';
-import Todo from './pages/Todo';
-import Boss from './pages/Boss';
-import User from './pages/User';
-import RequireAuth from './utils/RequireAuth';
-import RedirectTo from './utils/RedirectTo';
+import Login from "./pages/Login";
+import SignUp from "./pages/SignUp";
+import Todo from "./pages/Todo";
+import Boss from "./pages/Boss";
+import Profile from "./pages/Profile";
+import RequireAuth from "./utils/RequireAuth";
+import RedirectTo from "./utils/RedirectTo";
 
-import './css/default.scss';
-import { setupInterceptor } from './redux/apis';
+import "./css/default.scss";
+import { setupInterceptor } from "./redux/apis";
 
 function App() {
   const navigate = useNavigate();
@@ -40,7 +40,7 @@ function App() {
           path="/user"
           element={
             <RequireAuth redirectTo="/login">
-              <User />
+              <Profile />
             </RequireAuth>
           }
         />
