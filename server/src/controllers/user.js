@@ -123,8 +123,7 @@ export default {
     if (newPw !== verifyPw) {
       res.status(400).json({
         ok: false,
-        errorType: "password does not match",
-        errorMessage: "변경할 비밀번호가 일치하지 않음",
+        errorMessage: "password does not match",
       });
       return;
     }
@@ -134,7 +133,7 @@ export default {
     if (!user) {
       res.status(404).json({
         ok: false,
-        errorMessage: "존재하지 않는 유저",
+        errorMessage: "user not found",
       });
       return;
     }
@@ -144,8 +143,7 @@ export default {
     if (!pwCompare) {
       res.status(400).json({
         ok: false,
-        errorType: "password incorrect",
-        errorMessage: "틀린 비밀번호",
+        errorMessage: "incorrect password",
       });
       return;
     }
@@ -158,7 +156,7 @@ export default {
 
     res.status(200).json({
       ok: true,
-      message: "변경완료",
+      message: "success",
     });
   },
 };
