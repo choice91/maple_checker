@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 import {
   getTodoDatas,
@@ -6,20 +6,20 @@ import {
   deleteCharacter,
   updateCharacter,
   resetTodo,
-} from '../async/todo';
-import { getLocalStorage, setLocalStorage } from '../../utils/LocalStorage';
+} from "../async/todo";
+import { getLocalStorage, setLocalStorage } from "../../utils/LocalStorage";
 
 const todoSlice = createSlice({
-  name: 'todo',
+  name: "todo",
   initialState: {
     isFetching: false,
-    errorMessage: '',
+    errorMessage: "",
     todoData: {},
     todoSeq: [],
   },
   reducers: {
     clearTodoErrorMsg: (state, action) => {
-      state.errorMessage = '';
+      state.errorMessage = "";
     },
     todoCheckReducer: (state, action) => {
       const {
@@ -34,12 +34,12 @@ const todoSlice = createSlice({
         payload: { index, direction },
       } = action;
 
-      if (direction === 'left') {
+      if (direction === "left") {
         [state.todoSeq[index - 1], state.todoSeq[index]] = [
           state.todoSeq[index],
           state.todoSeq[index - 1],
         ];
-      } else if (direction === 'right') {
+      } else if (direction === "right") {
         [state.todoSeq[index], state.todoSeq[index + 1]] = [
           state.todoSeq[index + 1],
           state.todoSeq[index],
@@ -56,14 +56,6 @@ const todoSlice = createSlice({
       state.isFetching = false;
       state.todoData = { ...action.payload.data.todos };
       state.todoSeq = [...action.payload.data.todoSeq];
-
-      const todoCategory = getLocalStorage('todoCategory');
-
-      if (!todoCategory) {
-        setLocalStorage('todoCategory', 'daily');
-      } else {
-        state.category = todoCategory;
-      }
     },
     [getTodoDatas.rejected]: (state, action) => {
       state.isFetching = false;
@@ -123,7 +115,7 @@ const todoSlice = createSlice({
         },
       } = action;
 
-      if (category === 'daily') {
+      if (category === "daily") {
         const dailyDefaults = {
           yeoro: false,
           chuchu: false,
@@ -140,7 +132,7 @@ const todoSlice = createSlice({
         Object.keys(state.todoData).forEach((key) => {
           state.todoData[key].daily = dailyDefaults;
         });
-      } else if (category === 'weekly') {
+      } else if (category === "weekly") {
         const weeklyDefaults = {
           yeoro: false,
           chuchu: false,
