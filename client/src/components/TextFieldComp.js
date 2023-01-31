@@ -1,8 +1,8 @@
-import React from 'react';
-import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
-import { TextField } from '@mui/material';
+import React from "react";
+import { styled, createTheme, ThemeProvider } from "@mui/material/styles";
+import { TextField } from "@mui/material";
 
-import theme from './Theme';
+import theme from "../shared/Theme";
 
 // const theme = createTheme({
 //   palette: {
@@ -84,23 +84,23 @@ const TextFieldComp = (props) => {
           fullWidth
           required
           sx={{
-            '& label': {
+            "& label": {
               color: ok ? theme.palette.primary.main : theme.palette.error.main,
             },
-            '& label.Mui-focused': {
+            "& label.Mui-focused": {
               color: theme.palette.success.main,
             },
-            '& .MuiOutlinedInput-root': {
-              '& fieldset': {
+            "& .MuiOutlinedInput-root": {
+              "& fieldset": {
                 borderColor: ok
                   ? theme.palette.primary.main
                   : theme.palette.error.main,
               },
-              '&.Mui-focused fieldset': {
+              "&.Mui-focused fieldset": {
                 borderColor: theme.palette.success.main,
               },
             },
-            '& .MuiFormHelperText-root': {
+            "& .MuiFormHelperText-root": {
               color: ok ? theme.palette.primary.main : theme.palette.error.main,
             },
           }}

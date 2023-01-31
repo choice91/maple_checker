@@ -1,16 +1,16 @@
-import React from 'react';
-import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { ButtonGroup, Button } from '@mui/material';
-import { ThemeProvider } from '@mui/material/styles';
-import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
-import RestartAltIcon from '@mui/icons-material/RestartAlt';
+import React from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { ButtonGroup, Button } from "@mui/material";
+import { ThemeProvider } from "@mui/material/styles";
+import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
+import RestartAltIcon from "@mui/icons-material/RestartAlt";
 
-import modalSlice from '../../../redux/slices/modalSlice';
-import { resetTodo } from '../../../redux/async/todo';
-import { resetBoss } from '../../../redux/async/boss';
+import modalSlice from "../../../redux/slices/modalSlice";
+import { resetTodo } from "../../../redux/async/todo";
+import { resetBoss } from "../../../redux/async/boss";
 
-import theme from '../../Theme';
+import theme from "../../../shared/Theme";
 
 const TableBtn = ({ page, category }) => {
   const dispatch = useDispatch();
@@ -24,7 +24,7 @@ const TableBtn = ({ page, category }) => {
   const resetData = () => {
     const args = { data: { category }, navigate };
 
-    if (page === 'todo') {
+    if (page === "todo") {
       dispatch(resetTodo(args));
     } else {
       dispatch(resetBoss(args));
@@ -36,10 +36,10 @@ const TableBtn = ({ page, category }) => {
       <ThemeProvider theme={theme}>
         <ButtonGroup
           sx={{
-            display: 'flex',
-            justifyContent: 'flex-start',
-            alignItems: 'center',
-            width: '100%',
+            display: "flex",
+            justifyContent: "flex-start",
+            alignItems: "center",
+            width: "100%",
           }}
         >
           <Button startIcon={<PersonAddAltIcon />} onClick={openAddModal}>

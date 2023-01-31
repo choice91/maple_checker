@@ -1,26 +1,26 @@
-import React from 'react';
-import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { ThemeProvider } from '@mui/material/styles';
+import React from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { ThemeProvider } from "@mui/material/styles";
 import {
   Box,
   ButtonGroup,
   IconButton,
   TableCell,
   Typography,
-} from '@mui/material';
-import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
-import ArrowRightIcon from '@mui/icons-material/ArrowRight';
-import DeleteIcon from '@mui/icons-material/Delete';
-import CreateIcon from '@mui/icons-material/Create';
+} from "@mui/material";
+import ArrowLeftIcon from "@mui/icons-material/ArrowLeft";
+import ArrowRightIcon from "@mui/icons-material/ArrowRight";
+import DeleteIcon from "@mui/icons-material/Delete";
+import CreateIcon from "@mui/icons-material/Create";
 
-import theme from '../../Theme';
+import theme from "../../../shared/Theme";
 
-import modalSlice from '../../../redux/slices/modalSlice';
-import todoSlice from '../../../redux/slices/todoSlice';
-import { swapTodo } from '../../../redux/async/todo';
-import { swapBoss } from '../../../redux/async/boss';
-import bossSlice from '../../../redux/slices/bossSlice';
+import modalSlice from "../../../redux/slices/modalSlice";
+import todoSlice from "../../../redux/slices/todoSlice";
+import { swapTodo } from "../../../redux/async/todo";
+import { swapBoss } from "../../../redux/async/boss";
+import bossSlice from "../../../redux/slices/bossSlice";
 
 const TableTitle = ({ index, id, nickname, job, page, maxLength }) => {
   const dispatch = useDispatch();
@@ -38,13 +38,13 @@ const TableTitle = ({ index, id, nickname, job, page, maxLength }) => {
 
   const handleMoveLeft = () => {
     if (index > 0) {
-      const data = { index, direction: 'left' };
+      const data = { index, direction: "left" };
       const args = { data, navigate };
 
-      if (page === 'todo') {
+      if (page === "todo") {
         dispatch(swapTodo(args));
         dispatch(todoSlice.actions.swapTodo(data));
-      } else if (page === 'boss') {
+      } else if (page === "boss") {
         dispatch(swapBoss(args));
         dispatch(bossSlice.actions.swapBoss(data));
       }
@@ -53,13 +53,13 @@ const TableTitle = ({ index, id, nickname, job, page, maxLength }) => {
 
   const handleMoveRight = () => {
     if (index < maxLength - 1) {
-      const data = { index, direction: 'right' };
+      const data = { index, direction: "right" };
       const args = { data, navigate };
 
-      if (page === 'todo') {
+      if (page === "todo") {
         dispatch(swapTodo(args));
         dispatch(todoSlice.actions.swapTodo(data));
-      } else if (page === 'boss') {
+      } else if (page === "boss") {
         dispatch(swapBoss(args));
         dispatch(bossSlice.actions.swapBoss(data));
       }
@@ -72,8 +72,8 @@ const TableTitle = ({ index, id, nickname, job, page, maxLength }) => {
         <TableCell
           align="center"
           sx={{
-            backgroundColor: theme.palette.grey['900'],
-            color: '#fff',
+            backgroundColor: theme.palette.grey["900"],
+            color: "#fff",
             fontSize: 16,
             fontWeight: 700,
             p: 0,
@@ -81,20 +81,20 @@ const TableTitle = ({ index, id, nickname, job, page, maxLength }) => {
         >
           <Box
             sx={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              flexDirection: 'column',
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              flexDirection: "column",
             }}
           >
             <Box
               sx={{
-                display: 'flex',
-                justifyContent: 'center',
-                flexDirection: 'column',
+                display: "flex",
+                justifyContent: "center",
+                flexDirection: "column",
                 fontWeight: 700,
                 fontSize: 14,
-                color: '#ff6f61',
+                color: "#ff6f61",
                 pt: 1,
                 minWidth: 120,
               }}
@@ -108,8 +108,8 @@ const TableTitle = ({ index, id, nickname, job, page, maxLength }) => {
                 color="success"
                 disabled={index === 0 ? true : false}
                 sx={{
-                  color: theme.palette.grey['500'],
-                  '&:hover': {
+                  color: theme.palette.grey["500"],
+                  "&:hover": {
                     color: theme.palette.success.main,
                   },
                 }}
@@ -121,8 +121,8 @@ const TableTitle = ({ index, id, nickname, job, page, maxLength }) => {
                 size="small"
                 color="info"
                 sx={{
-                  color: theme.palette.grey['500'],
-                  '&:hover': {
+                  color: theme.palette.grey["500"],
+                  "&:hover": {
                     color: theme.palette.info.main,
                   },
                 }}
@@ -134,8 +134,8 @@ const TableTitle = ({ index, id, nickname, job, page, maxLength }) => {
                 size="small"
                 color="error"
                 sx={{
-                  color: theme.palette.grey['500'],
-                  '&:hover': {
+                  color: theme.palette.grey["500"],
+                  "&:hover": {
                     color: theme.palette.error.main,
                   },
                 }}
@@ -148,8 +148,8 @@ const TableTitle = ({ index, id, nickname, job, page, maxLength }) => {
                 color="success"
                 disabled={index === maxLength - 1 ? true : false}
                 sx={{
-                  color: theme.palette.grey['500'],
-                  '&:hover': {
+                  color: theme.palette.grey["500"],
+                  "&:hover": {
                     color: theme.palette.success.main,
                   },
                 }}

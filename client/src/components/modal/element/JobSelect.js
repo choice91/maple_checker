@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Box,
   FormControl,
@@ -6,11 +6,11 @@ import {
   MenuItem,
   Select,
   ThemeProvider,
-} from '@mui/material';
+} from "@mui/material";
 
-import { jobs } from '../../../shared/datas';
+import { jobs } from "../../../shared/datas";
 
-import theme from '../../Theme';
+import theme from "../../../shared/Theme";
 
 const JobSelect = ({ job, onChange }) => {
   return (

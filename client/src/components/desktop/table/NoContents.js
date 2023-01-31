@@ -1,11 +1,11 @@
-import React from 'react';
-import { useDispatch } from 'react-redux';
-import { Box, Button, ThemeProvider } from '@mui/material';
-import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
+import React from "react";
+import { useDispatch } from "react-redux";
+import { Box, Button, ThemeProvider } from "@mui/material";
+import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 
-import modalSlice from '../../../redux/slices/modalSlice';
+import modalSlice from "../../../redux/slices/modalSlice";
 
-import theme from '../../Theme';
+import theme from "../../../shared/Theme";
 
 const NoContents = ({ page }) => {
   const dispatch = useDispatch();
@@ -20,11 +20,11 @@ const NoContents = ({ page }) => {
       <ThemeProvider theme={theme}>
         <Box
           sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            flexDirection: 'column',
-            padding: '80px',
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "column",
+            padding: "80px",
           }}
         >
           <Box component="span" sx={{ color: theme.palette.primary.main }}>

@@ -1,6 +1,6 @@
-import React from 'react';
-import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import React from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import {
   Box,
   Dialog,
@@ -8,26 +8,26 @@ import {
   DialogContent,
   DialogActions,
   ThemeProvider,
-} from '@mui/material';
+} from "@mui/material";
 
-import modalSlice from '../../redux/slices/modalSlice';
-import todoSlice from '../../redux/slices/todoSlice';
-import bossSlice from '../../redux/slices/bossSlice';
-import { addCharacter } from '../../redux/async/todo';
-import { addCharacterToBoss } from '../../redux/async/boss';
+import modalSlice from "../../redux/slices/modalSlice";
+import todoSlice from "../../redux/slices/todoSlice";
+import bossSlice from "../../redux/slices/bossSlice";
+import { addCharacter } from "../../redux/async/todo";
+import { addCharacterToBoss } from "../../redux/async/boss";
 
-import TextFieldComp from '../TextFieldComp';
-import CustomButton from '../CustomButton';
-import JobSelect from './element/JobSelect';
+import TextFieldComp from "../TextFieldComp";
+import CustomButton from "../CustomButton";
+import JobSelect from "./element/JobSelect";
 
-import theme from '../Theme';
+import theme from "../../shared/Theme";
 
 const AddModal = ({ page, isAddModalOpen, errorMessage }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [nickname, setNickname] = React.useState('');
-  const [job, setJob] = React.useState('');
+  const [nickname, setNickname] = React.useState("");
+  const [job, setJob] = React.useState("");
 
   const onChangeNickname = (e) => {
     setNickname(e.target.value);
@@ -35,11 +35,11 @@ const AddModal = ({ page, isAddModalOpen, errorMessage }) => {
 
   const handleClose = () => {
     dispatch(modalSlice.actions.closeAddModal());
-    setJob('');
+    setJob("");
 
-    if (page === 'todo') {
+    if (page === "todo") {
       dispatch(todoSlice.actions.clearTodoErrorMsg());
-    } else if (page === 'boss') {
+    } else if (page === "boss") {
       dispatch(bossSlice.actions.clearBossErrorMsg());
     }
   };
@@ -47,19 +47,19 @@ const AddModal = ({ page, isAddModalOpen, errorMessage }) => {
   const handleAddCharacter = () => {
     const args = { data: { nickname, job }, navigate };
 
-    if (page === 'todo') {
+    if (page === "todo") {
       dispatch(addCharacter(args));
-    } else if (page === 'boss') {
+    } else if (page === "boss") {
       dispatch(addCharacterToBoss(args));
     }
 
-    setJob('');
+    setJob("");
   };
 
   const handleAddCharacterEnter = (e) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       handleAddCharacter();
-      setJob('');
+      setJob("");
     }
   };
 

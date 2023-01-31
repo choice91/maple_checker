@@ -1,40 +1,30 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React from "react";
+import { useNavigate } from "react-router-dom";
 
 import {
   AppBar,
   BottomNavigation,
   BottomNavigationAction,
-} from '@mui/material';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+} from "@mui/material";
+import { ThemeProvider } from "@mui/material/styles";
 
-import CheckBoxIcon from '@mui/icons-material/CheckBox';
-import PaidIcon from '@mui/icons-material/Paid';
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import LogoutIcon from '@mui/icons-material/Logout';
-import AccountBoxIcon from '@mui/icons-material/AccountBox';
-import { removeCookie } from '../utils/Cookies';
-import { removeLocalStorage } from '../utils/LocalStorage';
+import CheckBoxIcon from "@mui/icons-material/CheckBox";
+import PaidIcon from "@mui/icons-material/Paid";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import LogoutIcon from "@mui/icons-material/Logout";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import { removeCookie } from "../utils/Cookies";
+import { removeLocalStorage } from "../utils/LocalStorage";
 
-import theme from './Theme';
-
-// const theme = createTheme({
-//   palette: {
-//     primary: {
-//       main: '#fff',
-//       gray: '#191919',
-//       orange: '#ff6f61',
-//     },
-//   },
-// });
+import theme from "../shared/Theme";
 
 const Header = ({ page }) => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    removeLocalStorage('token');
-    removeCookie('refresh');
-    navigate('/login', { replace: true });
+    removeLocalStorage("token");
+    removeCookie("refresh");
+    navigate("/login", { replace: true });
   };
 
   return (
@@ -43,15 +33,15 @@ const Header = ({ page }) => {
         <AppBar position="static">
           <BottomNavigation
             showLabels
-            sx={{ backgroundColor: theme.palette.grey['900'] }}
+            sx={{ backgroundColor: theme.palette.grey["900"] }}
           >
             <BottomNavigationAction
               label="메할일"
               icon={<CheckBoxIcon fontSize="medium" />}
-              onClick={() => navigate('/todo')}
+              onClick={() => navigate("/todo")}
               sx={{
                 color:
-                  page === 'todo'
+                  page === "todo"
                     ? theme.palette.secondary.main
                     : theme.palette.primary.main,
               }}
@@ -59,21 +49,21 @@ const Header = ({ page }) => {
             <BottomNavigationAction
               label="보스"
               icon={<PaidIcon fontSize="medium" />}
-              onClick={() => navigate('/boss')}
+              onClick={() => navigate("/boss")}
               sx={{
                 color:
-                  page === 'boss'
+                  page === "boss"
                     ? theme.palette.secondary.main
                     : theme.palette.primary.main,
               }}
             />
             <BottomNavigationAction
-              label="이벤트"
-              icon={<CalendarMonthIcon fontSize="medium" />}
-              onClick={() => navigate('/event')}
+              label="내정보"
+              icon={<AccountCircleIcon fontSize="medium" />}
+              onClick={() => navigate("/user")}
               sx={{
                 color:
-                  page === 'event'
+                  page === "user"
                     ? theme.palette.secondary.main
                     : theme.palette.primary.main,
               }}

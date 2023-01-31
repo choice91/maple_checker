@@ -1,5 +1,5 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React from "react";
+import { useSelector } from "react-redux";
 import {
   Table,
   TableBody,
@@ -7,15 +7,15 @@ import {
   TableHead,
   TableRow,
   ThemeProvider,
-} from '@mui/material';
+} from "@mui/material";
 
-import Spinner from '../Spinner';
-import TableTitle from './table/TableTitle';
-import TableCheckbox from './table/TableCheckbox';
-import NoContents from './table/NoContents';
-import TableLayout from '../../layout/TableLayout';
+import Spinner from "../Spinner";
+import TableTitle from "./table/TableTitle";
+import TableCheckbox from "./table/TableCheckbox";
+import NoContents from "./table/NoContents";
+import TableLayout from "../../layout/TableLayout";
 
-import theme from '../Theme';
+import theme from "../../shared/Theme";
 
 const TodoDesktop = ({ weeklyArray }) => {
   const { isFetching, todoData, todoSeq } = useSelector((state) => state.todo);
@@ -27,7 +27,7 @@ const TodoDesktop = ({ weeklyArray }) => {
           <Table
             stickyHeader
             aria-label="todo table"
-            sx={{ backgroundColor: theme.palette.grey['900'] }}
+            sx={{ backgroundColor: theme.palette.grey["900"] }}
           >
             {isFetching ? (
               <Spinner />
@@ -38,13 +38,14 @@ const TodoDesktop = ({ weeklyArray }) => {
                     <TableCell
                       align="center"
                       sx={{
-                        backgroundColor: theme.palette.grey['900'],
-                        minWidth: 90,
+                        backgroundColor: theme.palette.grey["900"],
+                        width: 100,
+                        minWidth: 100,
                         fontWeight: 700,
                         fontSize: 16,
                         left: 0,
                         zIndex: 99,
-                        cursor: 'default',
+                        cursor: "default",
                       }}
                     >
                       아케인
@@ -70,11 +71,12 @@ const TodoDesktop = ({ weeklyArray }) => {
                       <TableCell
                         align="center"
                         sx={{
-                          backgroundColor: theme.palette.grey['900'],
+                          backgroundColor: theme.palette.grey["900"],
                           left: 0,
                           zIndex: 99,
-                          position: 'sticky',
-                          cursor: 'default',
+                          position: "sticky",
+                          cursor: "default",
+                          fontWeight: 700,
                         }}
                       >
                         {weeklyArray[key]}
