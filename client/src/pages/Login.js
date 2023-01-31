@@ -16,7 +16,7 @@ import userSlice from "../redux/slices/userSlice";
 
 import SignLayout from "../layout/SignLayout";
 
-import theme from "../components/Theme";
+import theme from "../shared/Theme";
 
 const Login = () => {
   const dispatch = useDispatch();

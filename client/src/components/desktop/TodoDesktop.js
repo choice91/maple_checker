@@ -15,7 +15,7 @@ import TableCheckbox from "./table/TableCheckbox";
 import NoContents from "./table/NoContents";
 import TableLayout from "../../layout/TableLayout";
 
-import theme from "../Theme";
+import theme from "../../shared/Theme";
 
 const TodoDesktop = ({ weeklyArray }) => {
   const { isFetching, todoData, todoSeq } = useSelector((state) => state.todo);

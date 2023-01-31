@@ -1,6 +1,6 @@
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import {
   Box,
   Dialog,
@@ -9,15 +9,15 @@ import {
   DialogContentText,
   DialogActions,
   ThemeProvider,
-} from '@mui/material';
+} from "@mui/material";
 
-import modalSlice from '../../redux/slices/modalSlice';
-import { deleteCharacter } from '../../redux/async/todo';
-import { delCharacterToBoss } from '../../redux/async/boss';
+import modalSlice from "../../redux/slices/modalSlice";
+import { deleteCharacter } from "../../redux/async/todo";
+import { delCharacterToBoss } from "../../redux/async/boss";
 
-import CustomButton from '../CustomButton';
+import CustomButton from "../CustomButton";
 
-import theme from '../Theme';
+import theme from "../../shared/Theme";
 
 const DelConfirmModal = ({ page, isDelModalOpen }) => {
   const dispatch = useDispatch();
@@ -30,10 +30,10 @@ const DelConfirmModal = ({ page, isDelModalOpen }) => {
   };
 
   const handleDelete = () => {
-    if (page === 'todo') {
+    if (page === "todo") {
       const args = { data: { todoId: id }, navigate };
       dispatch(deleteCharacter(args));
-    } else if (page === 'boss') {
+    } else if (page === "boss") {
       const args = { data: { bossId: id }, navigate };
       dispatch(delCharacterToBoss(args));
     }
@@ -51,7 +51,7 @@ const DelConfirmModal = ({ page, isDelModalOpen }) => {
             <DialogTitle>캐릭터 삭제</DialogTitle>
             <DialogContent dividers={true}>
               <DialogContentText>
-                정말{' '}
+                정말{" "}
                 <Box
                   component="span"
                   sx={{ color: theme.palette.secondary.main, fontWeight: 700 }}

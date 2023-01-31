@@ -1,6 +1,6 @@
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import {
   Box,
   Dialog,
@@ -8,19 +8,19 @@ import {
   DialogContent,
   DialogActions,
   ThemeProvider,
-} from '@mui/material';
+} from "@mui/material";
 
-import modalSlice from '../../redux/slices/modalSlice';
-import todoSlice from '../../redux/slices/todoSlice';
-import bossSlice from '../../redux/slices/bossSlice';
-import { updateCharacter } from '../../redux/async/todo';
-import { updateCharacterToBoss } from '../../redux/async/boss';
+import modalSlice from "../../redux/slices/modalSlice";
+import todoSlice from "../../redux/slices/todoSlice";
+import bossSlice from "../../redux/slices/bossSlice";
+import { updateCharacter } from "../../redux/async/todo";
+import { updateCharacterToBoss } from "../../redux/async/boss";
 
-import TextFieldComp from '../TextFieldComp';
-import CustomButton from '../CustomButton';
-import JobSelect from './element/JobSelect';
+import TextFieldComp from "../TextFieldComp";
+import CustomButton from "../CustomButton";
+import JobSelect from "./element/JobSelect";
 
-import theme from '../Theme';
+import theme from "../../shared/Theme";
 
 const UpdateModal = ({ page, isUpdateModalOpen, errorMessage }) => {
   const dispatch = useDispatch();
@@ -33,15 +33,15 @@ const UpdateModal = ({ page, isUpdateModalOpen, errorMessage }) => {
   } = useSelector((state) => state.modal);
 
   const [replaceNickname, setReplaceNickname] = React.useState(undefined);
-  const [job, setJob] = React.useState('');
+  const [job, setJob] = React.useState("");
 
   const handleClose = () => {
     const args = { replaceNickname };
     dispatch(modalSlice.actions.closeUpdateModal(args));
 
-    if (page === 'todo') {
+    if (page === "todo") {
       dispatch(todoSlice.actions.clearTodoErrorMsg());
-    } else if (page === 'boss') {
+    } else if (page === "boss") {
       dispatch(bossSlice.actions.clearBossErrorMsg());
     }
   };
@@ -52,15 +52,15 @@ const UpdateModal = ({ page, isUpdateModalOpen, errorMessage }) => {
       navigate,
     };
 
-    if (page === 'todo') {
+    if (page === "todo") {
       dispatch(updateCharacter(args));
-    } else if (page === 'boss') {
+    } else if (page === "boss") {
       dispatch(updateCharacterToBoss(args));
     }
   };
 
   const handleUpdateEnter = (e) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       handleUpdate();
     }
   };

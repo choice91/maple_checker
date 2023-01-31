@@ -7,7 +7,7 @@ import { getProfile, updateProfile } from "../redux/async/user";
 
 import Header from "../components/Header";
 
-import theme from "../components/Theme";
+import theme from "../shared/Theme";
 
 const User = () => {
   const dispatch = useDispatch();

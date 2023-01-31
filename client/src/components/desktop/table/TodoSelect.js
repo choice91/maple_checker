@@ -1,16 +1,16 @@
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Select,
   FormControl,
   InputLabel,
   MenuItem,
   ThemeProvider,
-} from '@mui/material';
+} from "@mui/material";
 
-import todoSlice from '../../../redux/slices/todoSlice';
+import todoSlice from "../../../redux/slices/todoSlice";
 
-import theme from '../../Theme';
+import theme from "../../../shared/Theme";
 
 const TodoSelect = () => {
   const dispatch = useDispatch();

@@ -11,7 +11,7 @@ import { bossCheck } from "../../../redux/async/boss";
 import todoSlice from "../../../redux/slices/todoSlice";
 import bossSlice from "../../../redux/slices/bossSlice";
 
-import theme from "../../Theme";
+import theme from "../../../shared/Theme";
 
 const TableCheckbox = ({ id, dataType, category, isChecked }) => {
   const dispatch = useDispatch();

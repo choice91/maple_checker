@@ -16,7 +16,7 @@ import TableTitle from "./table/TableTitle";
 import TableCheckbox from "./table/TableCheckbox";
 import NoContents from "./table/NoContents";
 
-import theme from "../Theme";
+import theme from "../../shared/Theme";
 
 const BossDesktop = ({ weeklyArray, monthlyArray }) => {
   const { isFetching, bossData, bossSeq, category } = useSelector(
