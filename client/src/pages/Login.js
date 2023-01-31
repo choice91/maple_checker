@@ -21,14 +21,14 @@ import theme from "../shared/Theme";
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { loginErrorMessage } = useSelector((state) => state.user);
+  const { loginState } = useSelector((state) => state.user);
 
   const [id, setId] = React.useState("");
   const [pw, setPw] = React.useState("");
-
-  React.useEffect(() => {
-    dispatch(userSlice.actions.initLoginErrorMsg());
-  }, []);
+  const [loginResult, setLoginResult] = React.useState({
+    ok: true,
+    message: "",
+  });
 
   const handleChangeId = (e) => {
     setId(e.target.value);
@@ -48,6 +48,14 @@ const Login = () => {
       handleSubmit();
     }
   };
+
+  React.useEffect(() => {
+    if (loginState.message === "user not found") {
+      setLoginResult({ ok: false, message: "존재하지 않는 사용자입니다." });
+    } else if (loginState.message === "incorrect password") {
+      setLoginResult({ ok: false, message: "비밀번호가 틀렸습니다." });
+    }
+  }, [dispatch, loginState]);
 
   return (
     <>
@@ -84,7 +92,6 @@ const Login = () => {
                 type="password"
                 color="success"
                 onChange={handleChangePw}
-                autoFocus={true}
                 required={true}
                 fullWidth
                 sx={{ mt: 2 }}
@@ -96,16 +103,16 @@ const Login = () => {
                 fullWidth
                 ok={true}
                 onClick={handleSubmit}
-                disabled={!id || !pw}
+                disabled={!id || !pw || loginState.isFetching}
                 sx={{ mt: 3, fontSize: 20, fontWeight: 700 }}
               >
-                로그인
+                {loginState.isFetching ? "로그인중..." : "로그인"}
               </Button>
               <Box
                 component="span"
                 sx={{ fontSize: 12, color: theme.palette.error.main }}
               >
-                {loginErrorMessage}
+                {loginResult.message}
               </Box>
             </Box>
             <Box sx={{ mt: 1, fontSize: 13 }}>

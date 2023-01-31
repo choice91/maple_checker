@@ -34,7 +34,18 @@ export const login = createAsyncThunk(
 
       return;
     } catch (err) {
-      return thunkAPI.rejectWithValue(err.response.data);
+      switch (err.response.status) {
+        case 400:
+          return thunkAPI.rejectWithValue(err.response.data);
+        case 401:
+          if (err.response.data.error.name === "TokenExpiredError") {
+            localStorage.removeItem("user");
+            navigate("/login");
+          }
+          return;
+        case 404:
+          return thunkAPI.rejectWithValue(err.response.data);
+      }
     }
   }
 );

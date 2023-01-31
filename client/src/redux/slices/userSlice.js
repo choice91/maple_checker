@@ -10,12 +10,10 @@ import {
 export const userSlice = createSlice({
   name: "user",
   initialState: {
-    id: null,
-    username: null,
-    isLoginFetching: false,
-    isLoggedIn: false,
-    errorMessage: "",
-    loginErrorMessage: "",
+    loginState: {
+      isFetching: false,
+      message: "",
+    },
     signUpState: {
       isFetching: false,
       message: "",
@@ -33,19 +31,22 @@ export const userSlice = createSlice({
   extraReducers: {
     // 로그인
     [login.pending]: (state, action) => {
-      state.isLoginFetching = true;
+      state.loginState.isFetching = true;
     },
     [login.fulfilled]: (state, action) => {
-      state.isLoginFetching = false;
-      state.isLoggedIn = true;
+      state.loginState.isFetching = false;
+      // state.isLoginFetching = false;
+      // state.isLoggedIn = true;
     },
     [login.rejected]: (state, action) => {
-      const {
-        payload: { errorMessage },
-      } = action;
-
-      state.isLoginFetching = false;
-      state.loginErrorMessage = errorMessage;
+      state.loginState.isFetching = false;
+      state.loginState.message = action.payload.errorMessage;
+      // const {
+      //   payload: { errorMessage },
+      // } = action;
+      //
+      // state.isLoginFetching = false;
+      // state.loginErrorMessage = errorMessage;
     },
 
     // 회원가입
