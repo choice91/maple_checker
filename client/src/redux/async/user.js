@@ -67,13 +67,27 @@ export const signUp = createAsyncThunk(
 export const idCheck = createAsyncThunk(
   "user/idCheck",
   async (payload, thunkAPI) => {
-    const { id } = payload;
+    const {
+      data: { id },
+      navigate,
+    } = payload;
 
     try {
       const response = await API.post("id-check", { id });
       return response.data;
     } catch (err) {
-      return thunkAPI.rejectWithValue(err.response.data);
+      switch (err.response.status) {
+        case 400:
+          return thunkAPI.rejectWithValue(err.response.data);
+        case 401:
+          if (err.response.data.error.name === "TokenExpiredError") {
+            localStorage.removeItem("user");
+            navigate("/login");
+          }
+          return;
+        case 409:
+          return thunkAPI.rejectWithValue(err.response.data);
+      }
     }
   }
 );
