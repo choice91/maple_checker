@@ -10,8 +10,7 @@ export default {
     if (password !== password2) {
       res.status(400).json({
         ok: false,
-        type: "password incorrect",
-        errorMessage: "비밀번호가 일치하지 않습니다.",
+        errorMessage: "password incorrect",
       });
       return;
     }
@@ -21,8 +20,7 @@ export default {
     if (exists) {
       res.status(400).json({
         ok: false,
-        type: "exist id",
-        errorMessage: "이미 존재하는 아이디입니다.",
+        errorMessage: "exist id",
       });
       return;
     }
@@ -35,10 +33,7 @@ export default {
       name,
     });
 
-    res.status(200).json({
-      ok: true,
-      message: "회원가입 성공",
-    });
+    res.status(200).json({ ok: true, message: "signup success" });
   },
 
   idCheck: async (req, res) => {
@@ -51,15 +46,12 @@ export default {
     if (exists) {
       res.status(409).json({
         ok: false,
-        errorMessage: "ID가 중복입니다.",
+        errorMessage: "id duplication",
       });
       return;
     }
 
-    res.status(200).json({
-      ok: true,
-      message: "사용할 수 있는 ID입니다.",
-    });
+    res.status(200).json({ ok: true, message: "valid id" });
   },
 
   login: async (req, res) => {
