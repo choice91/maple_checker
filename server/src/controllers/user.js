@@ -62,7 +62,7 @@ export default {
     if (!user) {
       res.status(404).json({
         ok: false,
-        errorMessage: "아이디/비밀번호를 확인해주세요.",
+        errorMessage: "user not found",
       });
       return;
     }
@@ -72,7 +72,7 @@ export default {
     if (!pwCompare) {
       res.status(400).json({
         ok: false,
-        errorMessage: "비밀번호가 틀렸습니다.",
+        errorMessage: "incorrect password",
       });
       return;
     }
@@ -85,7 +85,7 @@ export default {
 
     res.status(200).json({
       ok: true,
-      message: "로그인 성공",
+      message: "success",
       token: {
         accessToken,
         refreshToken,
