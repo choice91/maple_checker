@@ -8,6 +8,8 @@ import {
   DialogContent,
   DialogActions,
   ThemeProvider,
+  TextField,
+  Button,
 } from "@mui/material";
 
 import modalSlice from "../../redux/slices/modalSlice";
@@ -16,13 +18,11 @@ import bossSlice from "../../redux/slices/bossSlice";
 import { updateCharacter } from "../../redux/async/todo";
 import { updateCharacterToBoss } from "../../redux/async/boss";
 
-import TextFieldComp from "../TextFieldComp";
-import CustomButton from "../CustomButton";
 import JobSelect from "./element/JobSelect";
 
 import theme from "../../shared/Theme";
 
-const UpdateModal = ({ page, isUpdateModalOpen, errorMessage }) => {
+const UpdateModal = ({ page, isUpdateModalOpen, updateState }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -65,12 +65,8 @@ const UpdateModal = ({ page, isUpdateModalOpen, errorMessage }) => {
     }
   };
 
-  const onChangeNickname = (e) => {
-    const {
-      target: { value },
-    } = e;
-
-    setReplaceNickname(value);
+  const handleChangeNickname = (e) => {
+    setReplaceNickname(e.target.value);
   };
 
   React.useEffect(() => {
@@ -92,20 +88,36 @@ const UpdateModal = ({ page, isUpdateModalOpen, errorMessage }) => {
           <Box>
             <DialogTitle>닉네임 수정</DialogTitle>
             <DialogContent dividers={true}>
-              <TextFieldComp
+              <TextField
                 label="닉네임"
-                value={currentNickname}
-                onChange={onChangeNickname}
+                color="success"
+                value={replaceNickname}
+                autoComplete="off"
+                autoFocus
+                required
+                error={!updateState.isNicknameValid}
+                helperText={updateState.nicknameResultMessage}
+                onChange={handleChangeNickname}
                 onKeyPress={handleUpdateEnter}
-                ok={errorMessage ? true : false}
-                helperText={errorMessage}
-                autoFocus={true}
               />
-              <JobSelect job={job} setJob={setJob} />
+              <JobSelect
+                job={job}
+                setJob={setJob}
+                error={!updateState.isJobValid}
+                helperText={updateState.jobResultMessage}
+              />
             </DialogContent>
             <DialogActions>
-              <CustomButton text="취소" onClick={handleClose} />
-              <CustomButton text="수정" onClick={handleUpdate} />
+              <Button color="success" onClick={handleClose}>
+                취소
+              </Button>
+              <Button
+                color="success"
+                disabled={!replaceNickname || !job}
+                onClick={handleUpdate}
+              >
+                수정
+              </Button>
             </DialogActions>
           </Box>
         </Dialog>

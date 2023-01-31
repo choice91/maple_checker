@@ -8,28 +8,28 @@ import {
   DialogContent,
   DialogActions,
   ThemeProvider,
+  TextField,
+  Button,
 } from "@mui/material";
 
 import modalSlice from "../../redux/slices/modalSlice";
 import todoSlice from "../../redux/slices/todoSlice";
 import bossSlice from "../../redux/slices/bossSlice";
-import { addCharacter } from "../../redux/async/todo";
+import { addCharacterToTodo } from "../../redux/async/todo";
 import { addCharacterToBoss } from "../../redux/async/boss";
 
-import TextFieldComp from "../TextFieldComp";
-import CustomButton from "../CustomButton";
 import JobSelect from "./element/JobSelect";
 
 import theme from "../../shared/Theme";
 
-const AddModal = ({ page, isAddModalOpen, errorMessage }) => {
+const AddModal = ({ page, isAddModalOpen, addState }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [nickname, setNickname] = React.useState("");
   const [job, setJob] = React.useState("");
 
-  const onChangeNickname = (e) => {
+  const handleChangeNickname = (e) => {
     setNickname(e.target.value);
   };
 
@@ -48,7 +48,7 @@ const AddModal = ({ page, isAddModalOpen, errorMessage }) => {
     const args = { data: { nickname, job }, navigate };
 
     if (page === "todo") {
-      dispatch(addCharacter(args));
+      dispatch(addCharacterToTodo(args));
     } else if (page === "boss") {
       dispatch(addCharacterToBoss(args));
     }
@@ -78,19 +78,35 @@ const AddModal = ({ page, isAddModalOpen, errorMessage }) => {
           <Box>
             <DialogTitle>캐릭터 추가</DialogTitle>
             <DialogContent dividers={true}>
-              <TextFieldComp
+              <TextField
                 label="닉네임"
-                onChange={onChangeNickname}
+                color="success"
+                error={!addState.isNicknameValid}
+                helperText={addState.nicknameResultMessage}
+                autoFocus
+                required
+                autoComplete="off"
+                onChange={handleChangeNickname}
                 onKeyPress={handleAddCharacterEnter}
-                ok={errorMessage ? false : true}
-                helperText={errorMessage}
-                autoFocus={true}
               />
-              <JobSelect job={job} onChange={handleChangeJob} />
+              <JobSelect
+                job={job}
+                error={!addState.isJobValid}
+                helperText={addState.jobResultMessage}
+                onChange={handleChangeJob}
+              />
             </DialogContent>
             <DialogActions>
-              <CustomButton text="취소" onClick={handleClose} />
-              <CustomButton text="추가" onClick={handleAddCharacter} />
+              <Button color="success" onClick={handleClose}>
+                취소
+              </Button>
+              <Button
+                color="success"
+                disabled={!nickname || !job}
+                onClick={handleAddCharacter}
+              >
+                추가
+              </Button>
             </DialogActions>
           </Box>
         </Dialog>

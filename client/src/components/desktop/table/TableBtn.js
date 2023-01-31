@@ -7,6 +7,7 @@ import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 
 import modalSlice from "../../../redux/slices/modalSlice";
+import todoSlice from "../../../redux/slices/todoSlice";
 import { resetTodo } from "../../../redux/async/todo";
 import { resetBoss } from "../../../redux/async/boss";
 
@@ -19,6 +20,7 @@ const TableBtn = ({ page, category }) => {
   const openAddModal = () => {
     const args = { page };
     dispatch(modalSlice.actions.openAddModal(args));
+    dispatch(todoSlice.actions.initAddState());
   };
 
   const resetData = () => {
