@@ -49,7 +49,6 @@ const Todo = () => {
         page="todo"
         isUpdateModalOpen={isUpdateModalOpen}
         updateState={updateState}
-        // errorMessage={errorMessage}
       />
     </>
   );
