@@ -2,12 +2,11 @@ import { createSlice } from "@reduxjs/toolkit";
 
 import {
   getTodoDatas,
-  addCharacter,
+  addCharacterToTodo,
   deleteCharacter,
   updateCharacter,
   resetTodo,
 } from "../async/todo";
-import { getLocalStorage, setLocalStorage } from "../../utils/LocalStorage";
 
 const todoSlice = createSlice({
   name: "todo",
@@ -16,6 +15,20 @@ const todoSlice = createSlice({
     errorMessage: "",
     todoData: {},
     todoSeq: [],
+    addState: {
+      isFetching: false,
+      isNicknameValid: true,
+      isJobValid: true,
+      nicknameResultMessage: "",
+      jobResultMessage: "",
+    },
+    updateState: {
+      isFetching: false,
+      isNicknameValid: true,
+      isJobValid: true,
+      nicknameResultMessage: "",
+      jobResultMessage: "",
+    },
   },
   reducers: {
     clearTodoErrorMsg: (state, action) => {
@@ -46,6 +59,24 @@ const todoSlice = createSlice({
         ];
       }
     },
+    initAddState: (state, action) => {
+      state.addState = {
+        isFetching: false,
+        isNicknameValid: true,
+        isJobValid: true,
+        nicknameResultMessage: "",
+        jobResultMessage: "",
+      };
+    },
+    initUpdateState: (state, action) => {
+      state.updateState = {
+        isFetching: false,
+        isNicknameValid: true,
+        isJobValid: true,
+        nicknameResultMessage: "",
+        jobResultMessage: "",
+      };
+    },
   },
   extraReducers: {
     // Todo 데이터 불러오기
@@ -62,8 +93,17 @@ const todoSlice = createSlice({
     },
 
     // 캐릭터 추가
-    [addCharacter.pending]: (state, action) => {},
-    [addCharacter.fulfilled]: (state, action) => {
+    [addCharacterToTodo.pending]: (state, action) => {
+      state.addState = {
+        isFetching: true,
+        isNicknameValid: true,
+        isJobValid: true,
+        nicknameResultMessage: "",
+        jobResultMessage: "",
+      };
+    },
+    [addCharacterToTodo.fulfilled]: (state, action) => {
+      state.addState.isFetching = false;
       const {
         payload: {
           data: { newCharacter, newCharacterId },
@@ -73,8 +113,33 @@ const todoSlice = createSlice({
       state.todoData = Object.assign(state.todoData, newCharacter);
       state.todoSeq = [...state.todoSeq, newCharacterId];
     },
-    [addCharacter.rejected]: (state, action) => {
-      state.errorMessage = action.payload.errorMessage;
+    [addCharacterToTodo.rejected]: (state, action) => {
+      state.addState.isFetching = false;
+
+      switch (action.payload.errorMessage) {
+        case "nickname and job is required": {
+          state.addState.isNicknameValid = false;
+          state.addState.nicknameResultMessage = "닉네임을 입력하세요";
+          state.addState.isJobValid = false;
+          state.addState.jobResultMessage = "직업을 선택하세요";
+          break;
+        }
+        case "nickname is required": {
+          state.addState.isNicknameValid = false;
+          state.addState.nicknameResultMessage = "닉네임을 입력하세요";
+          break;
+        }
+        case "job is required": {
+          state.addState.isJobValid = false;
+          state.addState.jobResultMessage = "직업을 선택하세요";
+          break;
+        }
+        case "already registered character": {
+          state.addState.isNicknameValid = false;
+          state.addState.nicknameResultMessage = "이미 등록된 닉네임입니다";
+          break;
+        }
+      }
     },
 
     // 캐릭터 삭제
@@ -91,7 +156,7 @@ const todoSlice = createSlice({
     },
     [deleteCharacter.rejected]: (state, action) => {},
 
-    // 닉네임 수정
+    // 캐릭터 정보 수정
     [updateCharacter.pending]: (state, action) => {},
     [updateCharacter.fulfilled]: (state, action) => {
       const {
@@ -103,7 +168,30 @@ const todoSlice = createSlice({
       state.todoData[updatedId].nickname = newNickname;
     },
     [updateCharacter.rejected]: (state, action) => {
-      state.errorMessage = action.payload.errorMessage;
+      switch (action.payload.errorMessage) {
+        case "nickname and job is required": {
+          state.updateState.isNicknameValid = false;
+          state.updateState.nicknameResultMessage = "닉네임을 입력하세요";
+          state.updateState.isJobValid = false;
+          state.updateState.jobResultMessage = "직업을 선택하세요";
+          break;
+        }
+        case "nickname is required": {
+          state.updateState.isNicknameValid = false;
+          state.updateState.nicknameResultMessage = "닉네임을 입력하세요";
+          break;
+        }
+        case "job is required": {
+          state.updateState.isJobValid = false;
+          state.updateState.jobResultMessage = "직업을 선택하세요";
+          break;
+        }
+        case "already registered character": {
+          state.updateState.isNicknameValid = false;
+          state.updateState.nicknameResultMessage = "이미 등록된 닉네임입니다";
+          break;
+        }
+      }
     },
 
     // 초기화

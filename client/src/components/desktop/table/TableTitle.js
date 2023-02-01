@@ -18,9 +18,9 @@ import theme from "../../../shared/Theme";
 
 import modalSlice from "../../../redux/slices/modalSlice";
 import todoSlice from "../../../redux/slices/todoSlice";
+import bossSlice from "../../../redux/slices/bossSlice";
 import { swapTodo } from "../../../redux/async/todo";
 import { swapBoss } from "../../../redux/async/boss";
-import bossSlice from "../../../redux/slices/bossSlice";
 
 const TableTitle = ({ index, id, nickname, job, page, maxLength }) => {
   const dispatch = useDispatch();
@@ -29,6 +29,12 @@ const TableTitle = ({ index, id, nickname, job, page, maxLength }) => {
   const handleOpenUpdateModal = () => {
     const args = { id, nickname, job, page };
     dispatch(modalSlice.actions.openUpdateModal(args));
+
+    if (page === "todo") {
+      dispatch(todoSlice.actions.initUpdateState());
+    } else if (page === "boss") {
+      dispatch(bossSlice.actions.initUpdateState());
+    }
   };
 
   const handleOpenDelModal = () => {

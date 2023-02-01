@@ -1,10 +1,10 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
-import API from '../apis';
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import API from "../apis";
 
-import modalSlice from '../slices/modalSlice';
+import modalSlice from "../slices/modalSlice";
 
 export const addCharacterToBoss = createAsyncThunk(
-  'boss/add',
+  "boss/add",
   async (payload, thunkAPI) => {
     const {
       data: { nickname, job },
@@ -12,7 +12,10 @@ export const addCharacterToBoss = createAsyncThunk(
     } = payload;
 
     try {
-      const response = await API.post('/boss', { nickname, job });
+      const response = await API.post("/boss", {
+        nickname: nickname.replaceAll(/\s/g, ""),
+        job,
+      });
 
       if (response.data.ok) {
         thunkAPI.dispatch(modalSlice.actions.closeAddModal());
@@ -25,9 +28,9 @@ export const addCharacterToBoss = createAsyncThunk(
           console.error(err.response);
           return thunkAPI.rejectWithValue(err.response.data);
         case 401:
-          if (err.response.data.error.name === 'TokenExpiredError') {
-            localStorage.removeItem('user');
-            navigate('/login');
+          if (err.response.data.error.name === "TokenExpiredError") {
+            localStorage.removeItem("user");
+            navigate("/login");
           }
           return;
       }
@@ -36,10 +39,10 @@ export const addCharacterToBoss = createAsyncThunk(
 );
 
 export const getBossData = createAsyncThunk(
-  'boss/getBoss',
+  "boss/getBoss",
   async (payload, thunkAPI) => {
     try {
-      const response = await API.get('/boss');
+      const response = await API.get("/boss");
 
       return response.data;
     } catch (err) {
@@ -49,7 +52,7 @@ export const getBossData = createAsyncThunk(
 );
 
 export const bossCheck = createAsyncThunk(
-  'boss/check',
+  "boss/check",
   async (payload, thunkAPI) => {
     const {
       data: { bossId, category, bossType },
@@ -57,7 +60,7 @@ export const bossCheck = createAsyncThunk(
     } = payload;
 
     try {
-      const response = await API.post('/boss/check', {
+      const response = await API.post("/boss/check", {
         bossId,
         category,
         bossType,
@@ -66,9 +69,9 @@ export const bossCheck = createAsyncThunk(
     } catch (err) {
       switch (err.response.status) {
         case 401:
-          if (err.response.data.error.name === 'TokenExpiredError') {
-            localStorage.removeItem('user');
-            navigate('/login');
+          if (err.response.data.error.name === "TokenExpiredError") {
+            localStorage.removeItem("user");
+            navigate("/login");
           }
           return;
         case 404:
@@ -79,7 +82,7 @@ export const bossCheck = createAsyncThunk(
 );
 
 export const delCharacterToBoss = createAsyncThunk(
-  'boss/delete',
+  "boss/delete",
   async (payload, thunkAPI) => {
     const {
       data: { bossId },
@@ -97,9 +100,9 @@ export const delCharacterToBoss = createAsyncThunk(
     } catch (err) {
       switch (err.response.status) {
         case 401:
-          if (err.response.data.error.name === 'TokenExpiredError') {
-            localStorage.removeItem('user');
-            navigate('/login');
+          if (err.response.data.error.name === "TokenExpiredError") {
+            localStorage.removeItem("user");
+            navigate("/login");
           }
           return;
         case 404:
@@ -110,7 +113,7 @@ export const delCharacterToBoss = createAsyncThunk(
 );
 
 export const updateCharacterToBoss = createAsyncThunk(
-  'boss/update',
+  "boss/update",
   async (payload, thunkAPI) => {
     const {
       data: { id: bossId, newNickname, newJob },
@@ -119,7 +122,7 @@ export const updateCharacterToBoss = createAsyncThunk(
 
     try {
       const response = await API.put(`/boss/${bossId}`, {
-        newNickname,
+        newNickname: newNickname.replaceAll(/\s/g, ""),
         newJob,
       });
 
@@ -133,9 +136,9 @@ export const updateCharacterToBoss = createAsyncThunk(
         case 400:
           return thunkAPI.rejectWithValue(err.response.data);
         case 401:
-          if (err.response.data.error.name === 'TokenExpiredError') {
-            localStorage.removeItem('user');
-            navigate('/login');
+          if (err.response.data.error.name === "TokenExpiredError") {
+            localStorage.removeItem("user");
+            navigate("/login");
           }
           return;
         case 404:
@@ -146,7 +149,7 @@ export const updateCharacterToBoss = createAsyncThunk(
 );
 
 export const resetBoss = createAsyncThunk(
-  'boss/reset',
+  "boss/reset",
   async (payload, thunkAPI) => {
     const {
       data: { category },
@@ -154,7 +157,7 @@ export const resetBoss = createAsyncThunk(
     } = payload;
 
     try {
-      const response = await API.post('/boss/reset', { category });
+      const response = await API.post("/boss/reset", { category });
 
       return response.data;
     } catch (err) {
@@ -164,9 +167,9 @@ export const resetBoss = createAsyncThunk(
         case 400:
           return thunkAPI.rejectWithValue(response.data);
         case 401:
-          if (response.data.error.name === 'TokenExpiredError') {
-            localStorage.removeItem('user');
-            navigate('/login');
+          if (response.data.error.name === "TokenExpiredError") {
+            localStorage.removeItem("user");
+            navigate("/login");
           }
           return;
       }
@@ -175,7 +178,7 @@ export const resetBoss = createAsyncThunk(
 );
 
 export const swapBoss = createAsyncThunk(
-  'boss/swap',
+  "boss/swap",
   async (payload, thunkAPI) => {
     const {
       data: { index, direction },
@@ -183,14 +186,14 @@ export const swapBoss = createAsyncThunk(
     } = payload;
 
     try {
-      const response = await API.put('/boss/swap', { index, direction });
+      const response = await API.put("/boss/swap", { index, direction });
       return response.data;
     } catch (err) {
       switch (err.response.status) {
         case 401:
-          if (err.response.data.error.name === 'TokenExpiredError') {
-            localStorage.removeItem('user');
-            navigate('/login');
+          if (err.response.data.error.name === "TokenExpiredError") {
+            localStorage.removeItem("user");
+            navigate("/login");
           }
           return;
       }

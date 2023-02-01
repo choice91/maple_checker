@@ -1,6 +1,6 @@
-import db from '../models';
+import db from "../models";
 
-import { bossArrayToObjectFn } from '../service/functions';
+import { bossArrayToObjectFn } from "../service/functions";
 
 export default {
   addCharacter: async (req, res) => {
@@ -9,12 +9,36 @@ export default {
       body: { nickname, job },
     } = req;
 
+    if (!nickname && !job) {
+      res.status(400).json({
+        ok: false,
+        errorMessage: "nickname and job is required",
+      });
+      return;
+    }
+
+    if (!nickname) {
+      res.status(400).json({
+        ok: false,
+        errorMessage: "nickname is required",
+      });
+      return;
+    }
+
+    if (!job) {
+      res.status(400).json({
+        ok: false,
+        errorMessage: "job is required",
+      });
+      return;
+    }
+
     const character = await db.Boss.findOne({ owner: loginUserId, nickname });
 
     if (character) {
       res.status(400).json({
         ok: false,
-        errorMessage: '이미 존재하는 캐릭터입니다.',
+        errorMessage: "already registered character",
       });
       return;
     }
@@ -42,6 +66,7 @@ export default {
 
     res.status(200).json({
       ok: true,
+      message: "success",
       data: {
         newCharacter: newCharObj,
         newCharacterId: newCharacter._id,
@@ -56,28 +81,41 @@ export default {
       params: { bossId },
     } = req;
 
-    if (!newNickname || !newJob) {
+    if (!newNickname && !newJob) {
       res.status(400).json({
         ok: false,
-        errorMessage: '닉네임 혹은 직업을 입력해주세요',
+        errorMessage: "nickname and job is required",
       });
       return;
     }
 
-    const bosses = await db.Boss.find(
-      {
-        owner: loginUserId,
-        _id: { $ne: bossId },
-      },
-      { nickname: 1 }
-    ).lean();
+    if (!newNickname) {
+      res.status(400).json({
+        ok: false,
+        errorMessage: "nickname is required",
+      });
+      return;
+    }
+
+    if (!newJob) {
+      res.status(400).json({
+        ok: false,
+        errorMessage: "job is required",
+      });
+      return;
+    }
+
+    const bosses = await db.Boss.findOne({
+      owner: loginUserId,
+      nickname: newNickname,
+    }).lean();
 
     const index = bosses.findIndex((obj) => obj.nickname === newNickname);
 
     if (index > -1) {
       res.status(400).json({
         ok: false,
-        errorMessage: '이미 등록된 닉네임입니다.',
+        errorMessage: "이미 등록된 닉네임입니다.",
       });
       return;
     }
@@ -89,7 +127,7 @@ export default {
 
     res.status(200).json({
       ok: true,
-      message: '삭제완료',
+      message: "삭제완료",
       data: {
         updatedId: bossId,
         newNickname,
@@ -111,7 +149,7 @@ export default {
     if (bossDeleteResult.deletedCount === 0) {
       res.status(404).json({
         ok: false,
-        errorMessage: '삭제할 캐릭터가 없음',
+        errorMessage: "삭제할 캐릭터가 없음",
       });
       return;
     }
@@ -123,7 +161,7 @@ export default {
 
     res.status(200).json({
       ok: true,
-      message: '삭제완료',
+      message: "삭제완료",
       data: {
         deletedId: bossId,
       },
@@ -160,7 +198,7 @@ export default {
     if (!bossData) {
       res.status(404).json({
         ok: false,
-        errorMessage: '존재하지 않는 캐릭터',
+        errorMessage: "존재하지 않는 캐릭터",
       });
       return;
     }
@@ -170,7 +208,7 @@ export default {
 
     res.status(200).json({
       ok: true,
-      message: bossData[category][bossType] ? '체크' : '체크해제',
+      message: bossData[category][bossType] ? "체크" : "체크해제",
     });
   },
 
@@ -180,7 +218,7 @@ export default {
       body: { category },
     } = req;
 
-    if (category === 'weekly') {
+    if (category === "weekly") {
       const weeklyDefaults = {
         zaqqum: false,
         magnus: false,
@@ -211,11 +249,11 @@ export default {
       if (weeklyResetResult.modifiedCount === 0) {
         res.status(400).json({
           ok: false,
-          errorMessage: '보스 데이터 초기화 에러',
+          errorMessage: "보스 데이터 초기화 에러",
         });
         return;
       }
-    } else if (category === 'monthly') {
+    } else if (category === "monthly") {
       const monthlyDefaults = { blackMagician: false };
 
       const monthlyResetResult = await db.Boss.updateMany(
@@ -226,7 +264,7 @@ export default {
       if (monthlyResetResult.modifiedCount === 0) {
         res.status(400).json({
           ok: false,
-          errorMessage: '보스 데이터 초기화 에러',
+          errorMessage: "보스 데이터 초기화 에러",
         });
         return;
       }
@@ -234,7 +272,7 @@ export default {
 
     res.status(200).json({
       ok: true,
-      message: '보스 데이터 초기화',
+      message: "보스 데이터 초기화",
       data: {
         category,
       },
@@ -249,12 +287,12 @@ export default {
 
     const user = await db.User.findById(loginUserId, { bossSeq: 1 });
 
-    if (direction === 'left') {
+    if (direction === "left") {
       [user.bossSeq[index - 1], user.bossSeq[index]] = [
         user.bossSeq[index],
         user.bossSeq[index - 1],
       ];
-    } else if (direction === 'right') {
+    } else if (direction === "right") {
       [user.bossSeq[index], user.bossSeq[index + 1]] = [
         user.bossSeq[index + 1],
         user.bossSeq[index],

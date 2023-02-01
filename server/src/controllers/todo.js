@@ -1,6 +1,6 @@
-import db from '../models';
+import db from "../models";
 
-import { arrayToObjectFn } from '../service/functions';
+import { arrayToObjectFn } from "../service/functions";
 
 export default {
   addCharacter: async (req, res) => {
@@ -9,13 +9,37 @@ export default {
       body: { nickname, job },
     } = req;
 
+    if (!nickname && !job) {
+      res.status(400).json({
+        ok: false,
+        errorMessage: "nickname and job is required",
+      });
+      return;
+    }
+
+    if (!nickname) {
+      res.status(400).json({
+        ok: false,
+        errorMessage: "nickname is required",
+      });
+      return;
+    }
+
+    if (!job) {
+      res.status(400).json({
+        ok: false,
+        errorMessage: "job is required",
+      });
+      return;
+    }
+
     const todo = await db.Todo.findOne({ owner: loginUserId, nickname });
 
     // 이미 캐릭터가 등록되어 있는 경우
     if (todo) {
       res.status(400).json({
         ok: false,
-        errorMessage: '이미 등록된 캐릭터입니다.',
+        errorMessage: "already registered character",
       });
       return;
     }
@@ -43,7 +67,7 @@ export default {
 
     res.status(200).json({
       ok: true,
-      message: '캐릭터 추가 완료',
+      message: "success",
       data: {
         newCharacter: result,
         newCharacterId: newCharacter._id,
@@ -58,25 +82,40 @@ export default {
       params: { todoId },
     } = req;
 
-    if (!newNickname || !newJob) {
+    if (!newNickname && !newJob) {
       res.status(400).json({
         ok: false,
-        errorMessage: '닉네임 혹은 직업을 입력해주세요',
+        errorMessage: "nickname and job is required",
       });
       return;
     }
 
-    const todos = await db.Todo.find(
-      { owner: loginUserId, _id: { $ne: todoId } },
-      { nickname: 1 }
-    ).lean();
-
-    const index = todos.findIndex((obj) => obj.nickname === newNickname);
-
-    if (index > -1) {
+    if (!newNickname) {
       res.status(400).json({
         ok: false,
-        errorMessage: '이미 등록된 닉네임입니다.',
+        errorMessage: "nickname is required",
+      });
+      return;
+    }
+
+    if (!newJob) {
+      res.status(400).json({
+        ok: false,
+        errorMessage: "job is required",
+      });
+      return;
+    }
+
+    const todo = await db.Todo.findOne({
+      owner: loginUserId,
+      nickname: newNickname,
+    });
+
+    // 이미 캐릭터가 등록되어 있는 경우
+    if (todo) {
+      res.status(400).json({
+        ok: false,
+        errorMessage: "already registered character",
       });
       return;
     }
@@ -88,7 +127,7 @@ export default {
 
     res.status(200).json({
       ok: true,
-      message: '변경 성공',
+      message: "success",
       data: {
         updatedId: todoId,
         newNickname,
@@ -111,7 +150,7 @@ export default {
     if (response.deletedCount !== 1) {
       res.status(400).json({
         ok: false,
-        errorMessage: '삭제중 오류가 발생했습니다. 다시 시도해주세요.',
+        errorMessage: "삭제중 오류가 발생했습니다. 다시 시도해주세요.",
       });
       return;
     }
@@ -123,7 +162,7 @@ export default {
 
     res.status(200).json({
       ok: true,
-      message: '캐릭터 삭제',
+      message: "캐릭터 삭제",
       data: {
         deletedId: todoId,
       },
@@ -158,7 +197,7 @@ export default {
     if (!todo) {
       res.status(404).json({
         ok: false,
-        errorMessage: '존재하지 않는 캐릭터입니다.',
+        errorMessage: "존재하지 않는 캐릭터입니다.",
       });
       return;
     }
@@ -168,7 +207,7 @@ export default {
 
     res.status(200).json({
       ok: true,
-      message: todo.weekly[todoType] ? '체크' : '체크해제',
+      message: todo.weekly[todoType] ? "체크" : "체크해제",
     });
   },
 
@@ -178,7 +217,7 @@ export default {
       body: { category },
     } = req;
 
-    if (category === 'daily') {
+    if (category === "daily") {
       const dailyDefaults = {
         yeoro: false,
         chuchu: false,
@@ -200,10 +239,10 @@ export default {
       if (updateResult.modifiedCount === 0) {
         res.status(400).json({
           ok: false,
-          errorMessage: '초기화 에러',
+          errorMessage: "초기화 에러",
         });
       }
-    } else if (category === 'weekly') {
+    } else if (category === "weekly") {
       const weeklyDefaults = {
         yeoro: false,
         chuchu: false,
@@ -221,14 +260,14 @@ export default {
       if (updateResult.modifiedCount === 0) {
         res.status(400).json({
           ok: false,
-          errorMessage: '초기화 에러',
+          errorMessage: "초기화 에러",
         });
       }
     }
 
     res.status(200).json({
       ok: true,
-      message: '퀘스트 데이터 초기화 성공',
+      message: "퀘스트 데이터 초기화 성공",
       data: {
         category,
       },
@@ -243,12 +282,12 @@ export default {
 
     const user = await db.User.findById(loginUserId, { todoSeq: 1 });
 
-    if (direction === 'left') {
+    if (direction === "left") {
       [user.todoSeq[index - 1], user.todoSeq[index]] = [
         user.todoSeq[index],
         user.todoSeq[index - 1],
       ];
-    } else if (direction === 'right') {
+    } else if (direction === "right") {
       [user.todoSeq[index], user.todoSeq[index + 1]] = [
         user.todoSeq[index + 1],
         user.todoSeq[index],
