@@ -1,6 +1,6 @@
-import jwt from 'jsonwebtoken';
+import jwt from "jsonwebtoken";
 
-import db from '../models';
+import db from "../models";
 
 const { ACCESS_TOKEN_EXPIRES, REFRESH_TOKEN_EXPIRES } = process.env;
 

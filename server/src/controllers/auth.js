@@ -1,6 +1,6 @@
-import jwt from 'jsonwebtoken';
+import jwt from "jsonwebtoken";
 
-import { signAccessToken, verifyRefreshToken, verifyToken } from '../utils/jwt';
+import { signAccessToken, verifyRefreshToken, verifyToken } from "../utils/jwt";
 
 export default {
   reissueToken: async (req, res) => {
@@ -9,13 +9,13 @@ export default {
     if (!authorization) {
       res.status(401).json({
         ok: false,
-        errorMessage: '토큰이 존재하지 않음',
+        errorMessage: "토큰이 존재하지 않음",
       });
       return;
     }
 
-    const accessToken = authorization.split(' ')[1];
-    const refreshToken = refresh.split(' ')[1];
+    const accessToken = authorization.split(" ")[1];
+    const refreshToken = refresh.split(" ")[1];
 
     // 액세스 토큰 검증 (accessResult.ok === true 이면 유효, false이면 만료)
     const accessResult = verifyToken(accessToken);
@@ -26,12 +26,12 @@ export default {
     // 리프래쉬 토큰 검증 (true이면 유효, false이면 만료)
     const refreshResult = await verifyRefreshToken(refreshToken, decoded.id);
 
-    if (accessResult.ok === false && accessResult.message === 'jwt expired') {
+    if (accessResult.ok === false && accessResult.message === "jwt expired") {
       // Access Token과 Refresh Token 모두 만료됨
       if (refreshResult === false) {
         res.status(401).json({
           ok: false,
-          errorMessage: '인증 만료',
+          errorMessage: "인증 만료",
         });
       } else {
         // Access Token만 만료됨
@@ -51,7 +51,7 @@ export default {
     } else {
       res.status(200).json({
         ok: true,
-        message: '토큰이 만료되지 않음',
+        message: "토큰이 만료되지 않음",
       });
     }
   },

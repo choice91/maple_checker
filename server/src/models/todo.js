@@ -1,11 +1,11 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const questSchema = new mongoose.Schema(
   {
     owner: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
-      ref: 'User',
+      ref: "User",
     },
     createdAt: {
       type: Date,
@@ -34,6 +34,6 @@ const questSchema = new mongoose.Schema(
   }
 );
 
-const Todo = mongoose.model('Todo', questSchema);
+const Todo = mongoose.model("Todo", questSchema);
 
 export default Todo;

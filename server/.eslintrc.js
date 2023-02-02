@@ -1,7 +1,7 @@
 module.exports = {
   parserOptions: {
     ecmaVersion: 12,
-    sourceType: 'module',
+    sourceType: "module",
   },
   globals: {
     window: true,
@@ -10,9 +10,9 @@ module.exports = {
   env: {
     node: true,
   },
-  extends: ['airbnb-base', 'plugin:import/recommended', 'prettier'],
+  extends: ["airbnb-base", "plugin:import/recommended", "prettier"],
   rules: {
-    'import/prefer-default-export': 0,
-    'no-underscore-dangle': 0,
+    "import/prefer-default-export": 0,
+    "no-underscore-dangle": 0,
   },
 };

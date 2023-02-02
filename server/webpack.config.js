@@ -1,7 +1,7 @@
-const path = require('path');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const path = require("path");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
-const BASE_JS = './src/client/js/';
+const BASE_JS = "./src/client/js/";
 
 module.exports = {
   entry: {
@@ -14,13 +14,13 @@ module.exports = {
   // watch: true,
   plugins: [
     new MiniCssExtractPlugin({
-      filename: 'css/styles.css',
+      filename: "css/styles.css",
     }),
   ],
   output: {
-    filename: 'js/[name].js',
-    path: path.resolve(__dirname, 'assets'),
-    assetModuleFilename: 'images/[name].[ext]',
+    filename: "js/[name].js",
+    path: path.resolve(__dirname, "assets"),
+    assetModuleFilename: "images/[name].[ext]",
     // clean: true,
   },
   module: {
@@ -28,19 +28,19 @@ module.exports = {
       {
         test: /\.js$/,
         use: {
-          loader: 'babel-loader',
+          loader: "babel-loader",
           options: {
-            presets: [['@babel/preset-env', { targets: 'defaults' }]],
+            presets: [["@babel/preset-env", { targets: "defaults" }]],
           },
         },
       },
       {
         test: /\.scss$/,
-        use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
+        use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
       },
       {
         test: /\.(png|jpe?g)$/i,
-        type: 'asset',
+        type: "asset",
       },
     ],
   },

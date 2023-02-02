@@ -1,7 +1,7 @@
-import 'dotenv/config';
-import './db';
-import app from './app';
-import { monthlyResetScheduler, weeklyResetScheduler } from './scheduler';
+import "dotenv/config";
+import "./db";
+import app from "./app";
+import { monthlyResetScheduler, weeklyResetScheduler } from "./scheduler";
 
 const { PORT } = process.env;
 

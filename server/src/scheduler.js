@@ -1,10 +1,10 @@
-import cron from 'node-cron';
-import db from './models';
+import cron from "node-cron";
+import db from "./models";
 
 export const weeklyResetScheduler = cron.schedule(
-  '0 0 0 * * Thu',
+  "0 0 0 * * Thu",
   async () => {
-    console.log('보스 데이터 초기화', new Date().toString());
+    console.log("보스 데이터 초기화", new Date().toString());
 
     const weeklyBossDefault = {
       zaqqum: false,
@@ -50,9 +50,9 @@ export const weeklyResetScheduler = cron.schedule(
 );
 
 export const monthlyResetScheduler = cron.schedule(
-  '0 0 0 1 * *',
+  "0 0 0 1 * *",
   async () => {
-    console.log('월간 데이터 초기화', new Date().toString());
+    console.log("월간 데이터 초기화", new Date().toString());
 
     const monthlyBossDefault = { blackMagician: false };
 
