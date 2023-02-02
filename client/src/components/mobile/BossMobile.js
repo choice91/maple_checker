@@ -1,12 +1,12 @@
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Grid } from '@mui/material';
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Grid } from "@mui/material";
 
-import modalSlice from '../../redux/slices/modalSlice';
-import todoSlice from '../../redux/slices/todoSlice';
+import modalSlice from "../../redux/slices/modalSlice";
+import todoSlice from "../../redux/slices/todoSlice";
 
-import CardTitle from './element/CardTitle';
-import GridCard from './element/GridCard';
+import CardTitle from "./element/CardTitle";
+import GridCard from "./element/GridCard";
 
 const BossMobile = ({ weeklyArray, monthlyArray }) => {
   const dispatch = useDispatch();
@@ -14,7 +14,7 @@ const BossMobile = ({ weeklyArray, monthlyArray }) => {
   const { bossData, bossSeq, category } = useSelector((state) => state.boss);
 
   const openAddModal = () => {
-    const args = { page: 'boss' };
+    const args = { page: "boss" };
     dispatch(modalSlice.actions.openAddModal(args));
     dispatch(todoSlice.actions.clearTodoErrorMsg());
   };
@@ -38,7 +38,7 @@ const BossMobile = ({ weeklyArray, monthlyArray }) => {
             maxLength={bossSeq.length}
             nickname={bossData[seq].nickname}
             job={bossData[seq].job}
-            array={category === 'weekly' ? weeklyArray : monthlyArray}
+            array={category === "weekly" ? weeklyArray : monthlyArray}
             category={category}
             data={bossData[seq]}
           />

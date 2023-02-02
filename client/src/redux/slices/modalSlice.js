@@ -1,15 +1,15 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 const modalSlice = createSlice({
-  name: 'modal',
+  name: "modal",
   initialState: {
     isAddModalOpen: false,
     isUpdateModalOpen: false,
     isDelModalOpen: false,
-    id: '',
-    nickname: '',
-    job: '',
-    page: '',
+    id: "",
+    nickname: "",
+    job: "",
+    page: "",
   },
   reducers: {
     // 캐릭터 추가 모달 열기
@@ -20,7 +20,7 @@ const modalSlice = createSlice({
     // 캐릭터 추가 모달 닫기
     closeAddModal: (state, action) => {
       state.isAddModalOpen = false;
-      state.page = '';
+      state.page = "";
     },
     // 캐릭터 삭제 모달 열기
     openDelModal: (state, action) => {
@@ -32,9 +32,9 @@ const modalSlice = createSlice({
     // 캐릭터 삭제 모달 닫기
     closeDelModal: (state, action) => {
       state.isDelModalOpen = false;
-      state.id = '';
-      state.nickname = '';
-      state.page = '';
+      state.id = "";
+      state.nickname = "";
+      state.page = "";
     },
     // 캐릭터 닉네임 수정 모달 열기
     openUpdateModal: (state, action) => {
@@ -47,10 +47,10 @@ const modalSlice = createSlice({
     // 캐릭터 닉네임 수정 모달 닫기
     closeUpdateModal: (state, action) => {
       state.isUpdateModalOpen = false;
-      state.id = '';
-      state.nickname = '';
-      state.job = '';
-      state.page = '';
+      state.id = "";
+      state.nickname = "";
+      state.job = "";
+      state.page = "";
     },
   },
   extraReducers: {},
