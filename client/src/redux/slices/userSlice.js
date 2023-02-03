@@ -16,6 +16,7 @@ export const userSlice = createSlice({
     },
     signUpState: {
       isFetching: false,
+      isError: false,
       message: "",
     },
     profile: {
@@ -24,8 +25,12 @@ export const userSlice = createSlice({
     },
   },
   reducers: {
-    initLoginErrorMsg: (state, action) => {
-      state.loginErrorMessage = "";
+    initLoginState: (state, action) => {
+      state.loginState = {
+        isFetching: false,
+        isError: false,
+        message: "",
+      };
     },
   },
   extraReducers: {
@@ -34,11 +39,21 @@ export const userSlice = createSlice({
       state.loginState.isFetching = true;
     },
     [login.fulfilled]: (state, action) => {
-      state.loginState.isFetching = false;
+      state.loginState = {
+        isFetching: false,
+        message: "",
+      };
     },
     [login.rejected]: (state, action) => {
       state.loginState.isFetching = false;
-      state.loginState.message = action.payload.errorMessage;
+
+      if (
+        action.payload.errorMessage === "user not found" ||
+        action.payload.errorMessage === "incorrect password"
+      ) {
+        state.loginState.message = "아이디 또는 비밀번호를 잘못 입력했습니다.";
+        state.loginState.isError = true;
+      }
     },
 
     // 회원가입
