@@ -105,14 +105,12 @@ export default {
       return;
     }
 
-    const bosses = await db.Boss.findOne({
+    const boss = await db.Boss.findOne({
       owner: loginUserId,
       nickname: newNickname,
-    }).lean();
+    });
 
-    const index = bosses.findIndex((obj) => obj.nickname === newNickname);
-
-    if (index > -1) {
+    if (boss) {
       res.status(400).json({
         ok: false,
         errorMessage: "이미 등록된 닉네임입니다.",

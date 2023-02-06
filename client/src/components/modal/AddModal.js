@@ -1,5 +1,5 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
   Box,
@@ -25,9 +25,10 @@ import theme from "../../shared/Theme";
 const AddModal = ({ page, isAddModalOpen, addState }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { job } = useSelector((state) => state.modal);
 
   const [nickname, setNickname] = React.useState("");
-  const [job, setJob] = React.useState("");
+  // const [job, setJob] = React.useState("");
 
   const handleChangeNickname = (e) => {
     setNickname(e.target.value);
@@ -35,7 +36,6 @@ const AddModal = ({ page, isAddModalOpen, addState }) => {
 
   const handleClose = () => {
     dispatch(modalSlice.actions.closeAddModal());
-    setJob("");
 
     if (page === "todo") {
       dispatch(todoSlice.actions.clearTodoErrorMsg());
@@ -52,19 +52,17 @@ const AddModal = ({ page, isAddModalOpen, addState }) => {
     } else if (page === "boss") {
       dispatch(addCharacterToBoss(args));
     }
-
-    setJob("");
   };
 
   const handleAddCharacterEnter = (e) => {
     if (e.key === "Enter") {
       handleAddCharacter();
-      setJob("");
     }
   };
 
   const handleChangeJob = (e) => {
-    setJob(e.target.value);
+    // setJob(e.target.value);
+    dispatch(modalSlice.actions.setJob({ job: e.target.value }));
   };
 
   return (

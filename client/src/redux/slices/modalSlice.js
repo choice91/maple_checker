@@ -21,6 +21,7 @@ const modalSlice = createSlice({
     closeAddModal: (state, action) => {
       state.isAddModalOpen = false;
       state.page = "";
+      state.job = "";
     },
     // 캐릭터 삭제 모달 열기
     openDelModal: (state, action) => {
@@ -51,6 +52,12 @@ const modalSlice = createSlice({
       state.nickname = "";
       state.job = "";
       state.page = "";
+    },
+    setJob: (state, action) => {
+      state.job = action.payload.job;
+    },
+    clearJob: (state, action) => {
+      state.job = "";
     },
   },
   extraReducers: {},
