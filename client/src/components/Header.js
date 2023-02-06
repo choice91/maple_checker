@@ -13,8 +13,8 @@ import PaidIcon from "@mui/icons-material/Paid";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import LogoutIcon from "@mui/icons-material/Logout";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { removeCookie } from "../utils/Cookies";
-import { removeLocalStorage } from "../utils/LocalStorage";
+import { removeCookie } from "../shared/Cookies";
+import { removeLocalStorage } from "../shared/LocalStorage";
 
 import theme from "../shared/Theme";
 

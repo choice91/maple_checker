@@ -8,7 +8,7 @@ import {
   updateCharacterToBoss,
   resetBoss,
 } from "../async/boss";
-import { getLocalStorage, setLocalStorage } from "../../utils/LocalStorage";
+import { getLocalStorage, setLocalStorage } from "../../shared/LocalStorage";
 
 const bossSlice = createSlice({
   name: "boss",

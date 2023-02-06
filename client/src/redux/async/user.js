@@ -1,8 +1,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 import API from "../apis";
-import { setCookie } from "../../utils/Cookies";
-import { setLocalStorage } from "../../utils/LocalStorage";
+import { setCookie } from "../../shared/Cookies";
+import { setLocalStorage } from "../../shared/LocalStorage";
 
 export const login = createAsyncThunk(
   "user/login",

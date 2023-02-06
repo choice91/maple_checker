@@ -1,6 +1,6 @@
 import axios from "axios";
-import { getCookie, setCookie } from "../utils/Cookies";
-import { getLocalStorage, setLocalStorage } from "../utils/LocalStorage";
+import { getCookie, setCookie } from "../shared/Cookies";
+import { getLocalStorage, setLocalStorage } from "../shared/LocalStorage";
 
 const { NODE_ENV, REACT_APP_DEV_URL, REACT_APP_PROD_URL } = process.env;
 

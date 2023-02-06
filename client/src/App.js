@@ -6,8 +6,8 @@ import SignUp from "./pages/SignUp";
 import Todo from "./pages/Todo";
 import Boss from "./pages/Boss";
 import Profile from "./pages/Profile";
-import RequireAuth from "./utils/RequireAuth";
-import RedirectTo from "./utils/RedirectTo";
+import RequireAuth from "./shared/RequireAuth";
+import RedirectTo from "./shared/RedirectTo";
 
 import "./css/default.scss";
 import { setupInterceptor } from "./redux/apis";
