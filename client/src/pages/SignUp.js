@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import SensorOccupiedIcon from "@mui/icons-material/SensorOccupied";
 
+import userSlice from "../redux/slices/userSlice";
 import { idCheck, signUp } from "../redux/async/user";
 
 import SignLayout from "../layout/SignLayout";
@@ -26,20 +27,6 @@ const SignUp = () => {
   const [pw, setPw] = React.useState("");
   const [pw2, setPw2] = React.useState("");
   const [name, setName] = React.useState("");
-  const [idValidation, setIdValidation] = React.useState({
-    ok: true,
-    message: "",
-  });
-  const [pwCheck, setPwCheck] = React.useState({ ok: true, message: "" });
-  const [pwConfirmCheck, setPwConfirmCheck] = React.useState({
-    ok: true,
-    message: "",
-  });
-  const [nameCheck, setNameCheck] = React.useState({ ok: true, message: "" });
-  const [signUpResult, setSignUpResult] = React.useState({
-    ok: true,
-    message: "",
-  });
 
   const handleChange = (e) => {
     const {
@@ -61,17 +48,26 @@ const SignUp = () => {
     const regExp = /^[a-z]+[a-z0-9]{4,19}$/g;
 
     if (!id) {
-      setIdValidation({ ok: false, message: "아이디를 입력해주세요." });
+      dispatch(
+        userSlice.actions.validateId({
+          isError: true,
+          message: "아이디를 입력해주세요.",
+        })
+      );
     } else if (id.length < 5) {
-      setIdValidation({
-        ok: false,
-        message: "아이디를 5글자 이상 입력해주세요",
-      });
+      dispatch(
+        userSlice.actions.validateId({
+          isError: true,
+          message: "아이디를 5글자 이상 입력해주세요.",
+        })
+      );
     } else if (!regExp.test(id)) {
-      setIdValidation({
-        ok: false,
-        message: "영문자 또는 숫자 5~20자로 입력해주세요.",
-      });
+      dispatch(
+        userSlice.actions.validateId({
+          isError: true,
+          message: "영문자 또는 숫자 5~20자로 입력해주세요.",
+        })
+      );
     } else {
       const args = { data: { id: id.replaceAll(/\s/g, "") }, navigate };
       dispatch(idCheck(args));
@@ -80,31 +76,55 @@ const SignUp = () => {
 
   const handleCheckPw = () => {
     if (!pw) {
-      setPwCheck({ ok: false, message: "비밀번호를 입력하세요." });
+      dispatch(
+        userSlice.actions.validatePw({
+          isError: true,
+          message: "비밀번호를 입력하세요.",
+        })
+      );
     }
   };
 
   const handleCheckConfirmPw = () => {
-    if (!pw2) {
-      setPwConfirmCheck({ ok: false, message: "비밀번호 확인을 입력하세요." });
-    } else if (pw !== pw2) {
-      setPwCheck({ ok: false, message: "비밀번호가 일치하지 않습니다." });
-      setPwConfirmCheck({
-        ok: false,
-        message: "비밀번호가 일치하지 않습니다.",
-      });
+    if (pw !== pw2) {
+      dispatch(
+        userSlice.actions.comparePwAndPw2({
+          isError: true,
+          message: "비밀번호가 일치하지 않습니다.",
+        })
+      );
+    } else if (!pw2) {
+      dispatch(
+        userSlice.actions.validatePw2({
+          isError: true,
+          message: "비밀번호 확인을 입력하세요.",
+        })
+      );
     } else if (pw === pw2) {
-      setPwCheck({ ok: true, message: "사용할 수 있는 비밀번호입니다." });
-      setPwConfirmCheck({
-        ok: true,
-        message: "사용할 수 있는 비밀번호입니다.",
-      });
+      dispatch(
+        userSlice.actions.comparePwAndPw2({
+          isError: false,
+          message: "",
+        })
+      );
     }
   };
 
   const handleCheckName = () => {
     if (!name) {
-      setNameCheck({ ok: false, message: "이름을 입력해주세요" });
+      dispatch(
+        userSlice.actions.validateName({
+          isError: true,
+          message: "이름을 입력해주세요.",
+        })
+      );
+    } else {
+      dispatch(
+        userSlice.actions.validateName({
+          isError: false,
+          message: "",
+        })
+      );
     }
   };
 
@@ -113,21 +133,13 @@ const SignUp = () => {
     dispatch(signUp(data));
   };
 
+  const signUpButtonDisabled = () => {
+    return !name || !id || !pw || !pw2 || signUpState.isFetching;
+  };
+
   React.useEffect(() => {
-    if (signUpState.message === "id duplication") {
-      setIdValidation({
-        ok: false,
-        message: "중복된 아이디입니다.",
-      });
-    } else if (signUpState.message === "valid id") {
-      setIdValidation({
-        ok: true,
-        message: "사용할 수 있는 아이디입니다.",
-      });
-    } else if (signUpState.message === "exist id") {
-      setSignUpResult({ ok: false, message: "아이디 중복확인을 해주세요." });
-    }
-  }, [dispatch, signUpState]);
+    dispatch(userSlice.actions.initSignUpState());
+  }, []);
 
   return (
     <>
@@ -153,12 +165,12 @@ const SignUp = () => {
                 label="아이디"
                 type="text"
                 color="success"
-                error={!idValidation.ok}
+                error={signUpState.idCheckError}
                 fullWidth
                 required
                 autoFocus
                 autoComplete="off"
-                helperText={idValidation.message}
+                helperText={signUpState.idCheckMessage}
                 onChange={handleChange}
                 onBlur={handleCheckId}
                 sx={{ mb: 2 }}
@@ -168,8 +180,8 @@ const SignUp = () => {
                 label="비밀번호"
                 type="password"
                 color="success"
-                error={!pwCheck.ok}
-                helperText={pwCheck.message}
+                error={signUpState.pwCheckError}
+                helperText={signUpState.pwCheckMessage}
                 fullWidth
                 required
                 onChange={handleChange}
@@ -181,8 +193,8 @@ const SignUp = () => {
                 label="비밀번호 확인"
                 type="password"
                 color="success"
-                error={!pwConfirmCheck.ok}
-                helperText={pwConfirmCheck.message}
+                error={signUpState.pw2CheckError}
+                helperText={signUpState.pw2CheckMessage}
                 fullWidth
                 required
                 onChange={handleChange}
@@ -194,8 +206,8 @@ const SignUp = () => {
                 label="이름"
                 type="text"
                 color="success"
-                error={!nameCheck.ok}
-                helperText={nameCheck.message}
+                error={signUpState.nameCheckError}
+                helperText={signUpState.nameCHeckMessage}
                 fullWidth
                 required
                 onChange={handleChange}
@@ -207,7 +219,7 @@ const SignUp = () => {
                 fullWidth
                 onClick={handleSignUp}
                 color="success"
-                disabled={!name || !id || !pw || !pw2 || signUpState.isFetching}
+                disabled={signUpButtonDisabled()}
                 sx={{ mt: 3, fontSize: 20, fontWeight: 700 }}
               >
                 {signUpState.isFetching ? "회원가입중이에요" : "회원가입"}
@@ -216,7 +228,7 @@ const SignUp = () => {
                 component="span"
                 sx={{ fontSize: 12, color: theme.palette.error.main }}
               >
-                {signUpResult.message}
+                {signUpState.signUpErrorMessage}
               </Box>
             </Box>
             <Box sx={{ mt: 1, fontSize: 13, color: "#fff" }}>
