@@ -28,6 +28,18 @@ export const weeklyResetScheduler = cron.schedule(
       kalos: false,
     };
 
+    await db.Boss.updateMany({}, { $set: { weekly: weeklyBossDefault } });
+  },
+  {
+    scheduled: false,
+  }
+);
+
+export const weeklyQuestResetScheduler = cron.schedule(
+  "0 0 0 * * Mon",
+  async () => {
+    console.log("주간퀘스트 데이터 초기화", new Date().toString());
+
     const weeklyTodoDefault = {
       yeoro: false,
       chuchu: false,
@@ -41,7 +53,6 @@ export const weeklyResetScheduler = cron.schedule(
       odium: false,
     };
 
-    await db.Boss.updateMany({}, { $set: { weekly: weeklyBossDefault } });
     await db.Todo.updateMany({}, { $set: { weekly: weeklyTodoDefault } });
   },
   {
