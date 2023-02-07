@@ -108,6 +108,7 @@ export default {
     const boss = await db.Boss.findOne({
       owner: loginUserId,
       nickname: newNickname,
+      job: newJob,
     });
 
     if (boss) {
@@ -129,6 +130,7 @@ export default {
       data: {
         updatedId: bossId,
         newNickname,
+        newJob,
       },
     });
   },

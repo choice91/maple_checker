@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { ThemeProvider } from "@mui/material/styles";
 import {
   Box,
+  Button,
   ButtonGroup,
   IconButton,
   TableCell,
@@ -12,7 +13,6 @@ import {
 import ArrowLeftIcon from "@mui/icons-material/ArrowLeft";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import DeleteIcon from "@mui/icons-material/Delete";
-import CreateIcon from "@mui/icons-material/Create";
 
 import theme from "../../../shared/Theme";
 
@@ -101,12 +101,22 @@ const TableTitle = ({ index, id, nickname, job, page, maxLength }) => {
                 fontWeight: 700,
                 fontSize: 14,
                 color: "#ff6f61",
-                pt: 1,
                 minWidth: 120,
+                width: "100%",
+                pt: 0.5,
               }}
             >
-              <Typography>{nickname}</Typography>
-              <Typography sx={{ fontSize: 12 }}>({job})</Typography>
+              <Button
+                sx={{ display: "flex", flexDirection: "column" }}
+                onClick={handleOpenUpdateModal}
+              >
+                <Typography sx={{ fontWeight: 700 }}>{nickname}</Typography>
+                <Typography
+                  sx={{ fontSize: 12, p: 0, color: theme.palette.grey["500"] }}
+                >
+                  {job}
+                </Typography>
+              </Button>
             </Box>
             <ButtonGroup>
               <IconButton
@@ -122,19 +132,6 @@ const TableTitle = ({ index, id, nickname, job, page, maxLength }) => {
                 onClick={handleMoveLeft}
               >
                 <ArrowLeftIcon />
-              </IconButton>
-              <IconButton
-                size="small"
-                color="info"
-                sx={{
-                  color: theme.palette.grey["500"],
-                  "&:hover": {
-                    color: theme.palette.info.main,
-                  },
-                }}
-                onClick={handleOpenUpdateModal}
-              >
-                <CreateIcon fontSize="small" />
               </IconButton>
               <IconButton
                 size="small"

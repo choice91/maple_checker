@@ -109,6 +109,7 @@ export default {
     const todo = await db.Todo.findOne({
       owner: loginUserId,
       nickname: newNickname,
+      job: newJob,
     });
 
     // 이미 캐릭터가 등록되어 있는 경우

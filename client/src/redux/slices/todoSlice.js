@@ -161,11 +161,12 @@ const todoSlice = createSlice({
     [updateCharacter.fulfilled]: (state, action) => {
       const {
         payload: {
-          data: { updatedId, newNickname },
+          data: { updatedId, newNickname, newJob },
         },
       } = action;
 
       state.todoData[updatedId].nickname = newNickname;
+      state.todoData[updatedId].job = newJob;
     },
     [updateCharacter.rejected]: (state, action) => {
       switch (action.payload.errorMessage) {
