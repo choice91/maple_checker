@@ -211,9 +211,10 @@ const GridCard = (props) => {
                   sx={{
                     fontWeight: "500",
                     fontSize: 14,
+                    color: theme.palette.grey["500"],
                   }}
                 >
-                  ({job})
+                  {job}
                 </Typography>
               </Box>
               <Box>
