@@ -20,19 +20,20 @@ import { updateCharacterToBoss } from "../../redux/async/boss";
 
 import JobSelect from "./element/JobSelect";
 
+import useModal from "../../hooks/useModal";
 import theme from "../../shared/Theme";
 
 const UpdateModal = ({ page, isUpdateModalOpen, updateState }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { closeUpdateModal } = useModal();
 
   const { id, nickname, job } = useSelector((state) => state.modal);
 
   const [replaceNickname, setReplaceNickname] = React.useState("");
 
   const handleClose = () => {
-    const args = { replaceNickname };
-    dispatch(modalSlice.actions.closeUpdateModal(args));
+    closeUpdateModal();
 
     if (page === "todo") {
       dispatch(todoSlice.actions.clearTodoErrorMsg());

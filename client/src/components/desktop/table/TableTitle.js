@@ -14,9 +14,9 @@ import ArrowLeftIcon from "@mui/icons-material/ArrowLeft";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import DeleteIcon from "@mui/icons-material/Delete";
 
+import useModal from "../../../hooks/useModal";
 import theme from "../../../shared/Theme";
 
-import modalSlice from "../../../redux/slices/modalSlice";
 import todoSlice from "../../../redux/slices/todoSlice";
 import bossSlice from "../../../redux/slices/bossSlice";
 import { swapTodo } from "../../../redux/async/todo";
@@ -25,10 +25,10 @@ import { swapBoss } from "../../../redux/async/boss";
 const TableTitle = ({ index, id, nickname, job, page, maxLength }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { openUpdateModal, openDeleteModal } = useModal();
 
   const handleOpenUpdateModal = () => {
-    const args = { id, nickname, job, page };
-    dispatch(modalSlice.actions.openUpdateModal(args));
+    openUpdateModal({ id, nickname, job });
 
     if (page === "todo") {
       dispatch(todoSlice.actions.initUpdateState());
@@ -38,8 +38,7 @@ const TableTitle = ({ index, id, nickname, job, page, maxLength }) => {
   };
 
   const handleOpenDelModal = () => {
-    const args = { id, nickname, page };
-    dispatch(modalSlice.actions.openDelModal(args));
+    openDeleteModal({ id, nickname });
   };
 
   const handleMoveLeft = () => {
