@@ -6,6 +6,7 @@ const modalSlice = createSlice({
     isAddModalOpen: false,
     isUpdateModalOpen: false,
     isDelModalOpen: false,
+    isAccountDelModalOpen: false,
     id: "",
     nickname: "",
     job: "",
@@ -46,6 +47,12 @@ const modalSlice = createSlice({
       state.id = "";
       state.nickname = "";
       state.job = "";
+    },
+    openAccountDelModal: (state, action) => {
+      state.isAccountDelModalOpen = true;
+    },
+    closeAccountDelModal: (state, action) => {
+      state.isAccountDelModalOpen = false;
     },
     setJob: (state, action) => {
       state.job = action.payload.job;

@@ -169,3 +169,33 @@ export const updateProfile = createAsyncThunk(
     }
   }
 );
+
+export const deleteAccount = createAsyncThunk(
+  "user/deleteAccount",
+  async (payload, thunkAPI) => {
+    const { navigate } = payload;
+
+    try {
+      const response = await API.delete("/user/account");
+
+      if (response.data.ok) {
+        removeLocalStorage("token");
+        removeCookie("refresh");
+        navigate("/login", { replace: true });
+      }
+
+      return response.data;
+    } catch (err) {
+      switch (err.response.status) {
+        case 400:
+          return thunkAPI.rejectWithValue(err.response.data);
+        case 401:
+          if (err.response.data.error.name === "TokenExpiredError") {
+            localStorage.removeItem("user");
+            navigate("/login");
+          }
+          return;
+      }
+    }
+  }
+);

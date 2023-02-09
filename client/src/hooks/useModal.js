@@ -29,6 +29,14 @@ const useModal = () => {
     dispatch(modalSlice.actions.closeDelModal());
   };
 
+  const handleOpenAccountDelModal = () => {
+    dispatch(modalSlice.actions.openAccountDelModal());
+  };
+
+  const handleCloseAccountDelModal = () => {
+    dispatch(modalSlice.actions.closeAccountDelModal());
+  };
+
   return {
     openAddModal: handleOpenAddModal,
     closeAddModal: handleCloseAddModal,
@@ -36,6 +44,8 @@ const useModal = () => {
     closeUpdateModal: handleCloseUpdateModal,
     openDeleteModal: handleOpenDeleteModal,
     closeDeleteModal: handleCloseDeleteModal,
+    openAccountDelModal: handleOpenAccountDelModal,
+    closeAccountDelModal: handleCloseAccountDelModal,
   };
 };
 

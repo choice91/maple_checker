@@ -4,16 +4,20 @@ import { useNavigate } from "react-router-dom";
 import { Box, Button, TextField, ThemeProvider } from "@mui/material";
 
 import userSlice from "../redux/slices/userSlice";
-import { getProfile, updateProfile } from "../redux/async/user";
+import { deleteAccount, getProfile, updateProfile } from "../redux/async/user";
 
 import Header from "../components/Header";
 
+import useModal from "../hooks/useModal";
 import theme from "../shared/Theme";
+import AccountDeleteModal from "../components/modal/AccountDeleteModal";
 
 const Profile = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { openAccountDelModal, closeAccountDelModal } = useModal();
   const { profile } = useSelector((state) => state.user);
+  const { isAccountDelModalOpen } = useSelector((state) => state.modal);
 
   const [name, setName] = React.useState("");
   const [curPw, setCurPw] = React.useState("");
@@ -113,6 +117,14 @@ const Profile = () => {
     dispatch(updateProfile(args));
   };
 
+  const handleOpenAccountDelModal = () => {
+    openAccountDelModal();
+  };
+
+  const handleDeleteAccount = () => {
+    dispatch(deleteAccount({ navigate }));
+  };
+
   React.useEffect(() => {
     const args = { navigate };
     dispatch(getProfile(args));
@@ -136,12 +148,14 @@ const Profile = () => {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
+            flexDirection: "column",
             mt: 15,
           }}
         >
           <Box
             sx={{
-              border: "1px solid #fff",
+              border: `1px solid ${theme.palette.grey["500"]}`,
+              borderRadius: 1,
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
@@ -172,7 +186,6 @@ const Profile = () => {
               required={true}
               onChange={handleChangeCurPw}
               onBlur={handleOnBlurCurrentPw}
-              autoFocus={true}
               fullWidth
               sx={{ mb: 2 }}
             />
@@ -211,7 +224,23 @@ const Profile = () => {
               {profile.isFetching ? "변경중..." : "변경하기"}
             </Button>
           </Box>
+          <Box sx={{ mt: 1 }}>
+            <Button
+              variant="contained"
+              color="secondary"
+              size="small"
+              onClick={handleOpenAccountDelModal}
+            >
+              회원탈퇴
+            </Button>
+          </Box>
         </Box>
+
+        <AccountDeleteModal
+          isAccountDelModalOpen={isAccountDelModalOpen}
+          onClose={closeAccountDelModal}
+          handleDeleteAccount={handleDeleteAccount}
+        />
       </ThemeProvider>
     </>
   );
