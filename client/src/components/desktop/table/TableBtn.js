@@ -30,12 +30,10 @@ const TableBtn = ({ page, category }) => {
   };
 
   const resetData = () => {
-    const args = { data: { category }, navigate };
-
     if (page === "todo") {
-      dispatch(resetTodo(args));
+      dispatch(resetTodo({ navigate }));
     } else {
-      dispatch(resetBoss(args));
+      dispatch(resetBoss({ data: { category }, navigate }));
     }
   };
 
