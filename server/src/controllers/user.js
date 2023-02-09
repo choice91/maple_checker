@@ -120,14 +120,6 @@ export default {
       body: { name, curPw, newPw, verifyPw },
     } = req;
 
-    if (newPw !== verifyPw) {
-      res.status(400).json({
-        ok: false,
-        errorMessage: "password does not match",
-      });
-      return;
-    }
-
     const user = await db.User.findById(loginUserId);
 
     if (!user) {
@@ -148,7 +140,24 @@ export default {
       return;
     }
 
+    if (curPw === newPw) {
+      res.status(400).json({
+        ok: false,
+        errorMessage: "new password is same current password",
+      });
+      return;
+    }
+
+    if (newPw !== verifyPw) {
+      res.status(400).json({
+        ok: false,
+        errorMessage: "password does not match",
+      });
+      return;
+    }
+
     const newHashedPassword = await bcrypt.hash(newPw, 12);
+
     await db.User.updateOne(
       { _id: loginUserId },
       { name, password: newHashedPassword }
