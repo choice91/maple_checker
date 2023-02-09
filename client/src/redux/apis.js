@@ -1,33 +1,33 @@
-import axios from 'axios';
-import { getCookie, setCookie } from '../utils/Cookies';
-import { getLocalStorage, setLocalStorage } from '../utils/LocalStorage';
+import axios from "axios";
+import { getCookie, setCookie } from "../shared/Cookies";
+import { getLocalStorage, setLocalStorage } from "../shared/LocalStorage";
 
 const { NODE_ENV, REACT_APP_DEV_URL, REACT_APP_PROD_URL } = process.env;
 
 const returnBaseUrl = () => {
-  return NODE_ENV === 'development' ? REACT_APP_DEV_URL : REACT_APP_PROD_URL;
+  return NODE_ENV === "development" ? REACT_APP_DEV_URL : REACT_APP_PROD_URL;
 };
 
 const API = axios.create({
   baseURL: `${returnBaseUrl()}/api`,
   headers: {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   },
   withCredentials: true,
 });
 
 API.interceptors.request.use(
   (config) => {
-    const accessToken = getLocalStorage('token');
+    const accessToken = getLocalStorage("token");
 
     if (!accessToken) {
-      config.headers['Authorization'] = null;
-      config.headers['Refresh-Token'] = null;
+      config.headers["Authorization"] = null;
+      config.headers["Refresh-Token"] = null;
       return config;
     }
 
     if (config.headers && accessToken) {
-      config.headers['Authorization'] = `Bearer ${accessToken}`;
+      config.headers["Authorization"] = `Bearer ${accessToken}`;
       return config;
     }
   },
@@ -45,13 +45,13 @@ export const setupInterceptor = (navigate) => {
       const originalConfig = error.config;
 
       if (error.response && error.response.status === 401) {
-        const accessToken = getLocalStorage('token');
-        const refreshToken = getCookie('refresh');
+        const accessToken = getLocalStorage("token");
+        const refreshToken = getCookie("refresh");
 
         try {
           const response = await axios({
             url: `${returnBaseUrl()}/api/refresh`,
-            method: 'GET',
+            method: "GET",
             headers: {
               Authorization: `Bearer ${accessToken}`,
               refresh: `Bearer ${refreshToken}`,
@@ -69,8 +69,8 @@ export const setupInterceptor = (navigate) => {
               },
             } = response;
 
-            setLocalStorage('token', newAccessToken);
-            setCookie('refresh', newRefreshToken);
+            setLocalStorage("token", newAccessToken);
+            setCookie("refresh", newRefreshToken);
 
             return await API.request(originalConfig);
           }
@@ -84,8 +84,8 @@ export const setupInterceptor = (navigate) => {
             },
           } = error;
 
-          if (status === 401 && errorMessage === '인증 만료') {
-            navigate('/login');
+          if (status === 401 && errorMessage === "인증 만료") {
+            navigate("/login");
           }
 
           return Promise.reject(error);

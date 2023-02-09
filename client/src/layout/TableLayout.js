@@ -1,7 +1,7 @@
-import React from 'react';
-import { Container, Paper, TableContainer } from '@mui/material';
+import React from "react";
+import { Container, Paper, TableContainer } from "@mui/material";
 
-import TableBtn from '../components/desktop/table/TableBtn';
+import TableBtn from "../components/desktop/table/TableBtn";
 
 const TableLayout = ({ page, category, children }) => {
   return (
@@ -10,10 +10,10 @@ const TableLayout = ({ page, category, children }) => {
         component="main"
         maxWidth="lg"
         sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          flexDirection: 'column',
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          flexDirection: "column",
           mt: 10,
         }}
       >

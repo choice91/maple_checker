@@ -8,7 +8,7 @@ import {
   updateCharacterToBoss,
   resetBoss,
 } from "../async/boss";
-import { getLocalStorage, setLocalStorage } from "../../utils/LocalStorage";
+import { getLocalStorage, setLocalStorage } from "../../shared/LocalStorage";
 
 const bossSlice = createSlice({
   name: "boss",
@@ -153,11 +153,12 @@ const bossSlice = createSlice({
     [updateCharacterToBoss.fulfilled]: (state, action) => {
       const {
         payload: {
-          data: { updatedId, newNickname },
+          data: { updatedId, newNickname, newJob },
         },
       } = action;
 
       state.bossData[updatedId].nickname = newNickname;
+      state.bossData[updatedId].job = newJob;
     },
     [updateCharacterToBoss.rejected]: (state, action) => {
       switch (action.payload.errorMessage) {

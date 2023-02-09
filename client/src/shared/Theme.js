@@ -1,22 +1,22 @@
-import { createTheme } from '@mui/material/styles';
+import { createTheme } from "@mui/material/styles";
 
 export default createTheme({
   palette: {
-    mode: 'dark',
+    mode: "dark",
     primary: {
-      main: '#fff',
+      main: "#fff",
     },
     secondary: {
-      main: '#ff6f61',
+      main: "#ff6f61",
     },
     success: {
-      main: '#1976d2',
+      main: "#1976d2",
     },
     info: {
-      main: '#19ce60',
+      main: "#19ce60",
     },
     error: {
-      main: '#e74c3c',
+      main: "#e74c3c",
     },
   },
 });

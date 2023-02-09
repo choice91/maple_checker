@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 
-import { Container } from '@mui/material';
+import { Container } from "@mui/material";
 
 const SignLayout = ({ children }) => {
   return (
@@ -9,10 +9,10 @@ const SignLayout = ({ children }) => {
         component="main"
         maxWidth="xs"
         sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: '100vh',
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
         }}
       >
         {children}

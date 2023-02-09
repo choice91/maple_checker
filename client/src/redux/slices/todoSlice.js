@@ -161,11 +161,12 @@ const todoSlice = createSlice({
     [updateCharacter.fulfilled]: (state, action) => {
       const {
         payload: {
-          data: { updatedId, newNickname },
+          data: { updatedId, newNickname, newJob },
         },
       } = action;
 
       state.todoData[updatedId].nickname = newNickname;
+      state.todoData[updatedId].job = newJob;
     },
     [updateCharacter.rejected]: (state, action) => {
       switch (action.payload.errorMessage) {
@@ -197,43 +198,18 @@ const todoSlice = createSlice({
     // 초기화
     [resetTodo.pending]: (state, action) => {},
     [resetTodo.fulfilled]: (state, action) => {
-      const {
-        payload: {
-          data: { category },
-        },
-      } = action;
+      const weeklyDefaults = {
+        yeoro: false,
+        chuchu: false,
+        lachelein: false,
+        arcana: false,
+        morass: false,
+        esfera: false,
+      };
 
-      if (category === "daily") {
-        const dailyDefaults = {
-          yeoro: false,
-          chuchu: false,
-          lachelein: false,
-          arcana: false,
-          morass: false,
-          esfera: false,
-          cernium: false,
-          burningCernium: false,
-          arcs: false,
-          odium: false,
-        };
-
-        Object.keys(state.todoData).forEach((key) => {
-          state.todoData[key].daily = dailyDefaults;
-        });
-      } else if (category === "weekly") {
-        const weeklyDefaults = {
-          yeoro: false,
-          chuchu: false,
-          lachelein: false,
-          arcana: false,
-          morass: false,
-          esfera: false,
-        };
-
-        Object.keys(state.todoData).forEach((key) => {
-          state.todoData[key].weekly = weeklyDefaults;
-        });
-      }
+      Object.keys(state.todoData).forEach((key) => {
+        state.todoData[key].weekly = weeklyDefaults;
+      });
     },
     [resetTodo.rejected]: (state, action) => {},
   },

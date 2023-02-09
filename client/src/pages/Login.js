@@ -25,10 +25,6 @@ const Login = () => {
 
   const [id, setId] = React.useState("");
   const [pw, setPw] = React.useState("");
-  const [loginResult, setLoginResult] = React.useState({
-    ok: true,
-    message: "",
-  });
 
   const handleChangeId = (e) => {
     setId(e.target.value);
@@ -50,12 +46,8 @@ const Login = () => {
   };
 
   React.useEffect(() => {
-    if (loginState.message === "user not found") {
-      setLoginResult({ ok: false, message: "존재하지 않는 사용자입니다." });
-    } else if (loginState.message === "incorrect password") {
-      setLoginResult({ ok: false, message: "비밀번호가 틀렸습니다." });
-    }
-  }, [dispatch, loginState]);
+    dispatch(userSlice.actions.initLoginState());
+  }, []);
 
   return (
     <>
@@ -112,7 +104,7 @@ const Login = () => {
                 component="span"
                 sx={{ fontSize: 12, color: theme.palette.error.main }}
               >
-                {loginResult.message}
+                {loginState.message}
               </Box>
             </Box>
             <Box sx={{ mt: 1, fontSize: 13 }}>

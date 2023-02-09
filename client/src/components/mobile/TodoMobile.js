@@ -1,13 +1,13 @@
-import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { makeStyles } from '@mui/styles';
-import { Grid } from '@mui/material';
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { makeStyles } from "@mui/styles";
+import { Grid } from "@mui/material";
 
-import modalSlice from '../../redux/slices/modalSlice';
-import todoSlice from '../../redux/slices/todoSlice';
+import modalSlice from "../../redux/slices/modalSlice";
+import todoSlice from "../../redux/slices/todoSlice";
 
-import CardTitle from './element/CardTitle';
-import GridCard from './element/GridCard';
+import CardTitle from "./element/CardTitle";
+import GridCard from "./element/GridCard";
 
 const TodoMobile = ({ weeklyArray }) => {
   const dispatch = useDispatch();
@@ -15,7 +15,7 @@ const TodoMobile = ({ weeklyArray }) => {
   const { todoData, todoSeq } = useSelector((state) => state.todo);
 
   const handleOpenAddModal = () => {
-    const args = { page: 'todo' };
+    const args = { page: "todo" };
     dispatch(modalSlice.actions.openAddModal(args));
     dispatch(todoSlice.actions.clearTodoErrorMsg());
   };

@@ -6,21 +6,21 @@ import { ThemeProvider } from "@mui/material/styles";
 import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 
-import modalSlice from "../../../redux/slices/modalSlice";
 import todoSlice from "../../../redux/slices/todoSlice";
 import bossSlice from "../../../redux/slices/bossSlice";
 import { resetTodo } from "../../../redux/async/todo";
 import { resetBoss } from "../../../redux/async/boss";
 
+import useModal from "../../../hooks/useModal";
 import theme from "../../../shared/Theme";
 
 const TableBtn = ({ page, category }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { openAddModal } = useModal();
 
-  const openAddModal = () => {
-    const args = { page };
-    dispatch(modalSlice.actions.openAddModal(args));
+  const handleOpenAddModal = () => {
+    openAddModal();
 
     if (page === "todo") {
       dispatch(todoSlice.actions.initAddState());
@@ -30,12 +30,10 @@ const TableBtn = ({ page, category }) => {
   };
 
   const resetData = () => {
-    const args = { data: { category }, navigate };
-
     if (page === "todo") {
-      dispatch(resetTodo(args));
+      dispatch(resetTodo({ navigate }));
     } else {
-      dispatch(resetBoss(args));
+      dispatch(resetBoss({ data: { category }, navigate }));
     }
   };
 
@@ -50,7 +48,7 @@ const TableBtn = ({ page, category }) => {
             width: "100%",
           }}
         >
-          <Button startIcon={<PersonAddAltIcon />} onClick={openAddModal}>
+          <Button startIcon={<PersonAddAltIcon />} onClick={handleOpenAddModal}>
             캐릭터 추가
           </Button>
           <Button startIcon={<RestartAltIcon />} onClick={resetData}>

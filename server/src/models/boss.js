@@ -1,11 +1,11 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const bossSchema = new mongoose.Schema(
   {
     owner: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
-      ref: 'User',
+      ref: "User",
     },
     nickname: {
       type: String,
@@ -44,6 +44,6 @@ const bossSchema = new mongoose.Schema(
   { versionKey: false }
 );
 
-const Boss = mongoose.model('Boss', bossSchema);
+const Boss = mongoose.model("Boss", bossSchema);
 
 export default Boss;

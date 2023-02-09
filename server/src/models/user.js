@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema(
   {
@@ -6,14 +6,14 @@ const userSchema = new mongoose.Schema(
     password: { type: String, required: true },
     name: { type: String, required: true },
     refreshToken: { type: String },
-    todoSeq: { type: [mongoose.Schema.Types.ObjectId], ref: 'Todo' },
-    bossSeq: { type: [mongoose.Schema.Types.ObjectId], ref: 'Boss' },
+    todoSeq: { type: [mongoose.Schema.Types.ObjectId], ref: "Todo" },
+    bossSeq: { type: [mongoose.Schema.Types.ObjectId], ref: "Boss" },
   },
   {
     versionKey: false,
   }
 );
 
-const User = mongoose.model('User', userSchema);
+const User = mongoose.model("User", userSchema);
 
 export default User;

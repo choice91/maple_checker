@@ -11,22 +11,23 @@ import {
   ThemeProvider,
 } from "@mui/material";
 
-import modalSlice from "../../redux/slices/modalSlice";
 import { deleteCharacter } from "../../redux/async/todo";
 import { delCharacterToBoss } from "../../redux/async/boss";
 
 import CustomButton from "../CustomButton";
 
+import useModal from "../../hooks/useModal";
 import theme from "../../shared/Theme";
 
 const DelConfirmModal = ({ page, isDelModalOpen }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { closeDeleteModal } = useModal();
 
   const { id, nickname } = useSelector((state) => state.modal);
 
   const handleClose = () => {
-    dispatch(modalSlice.actions.closeDelModal());
+    closeDeleteModal();
   };
 
   const handleDelete = () => {

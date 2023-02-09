@@ -1,26 +1,26 @@
-import express from 'express';
+import express from "express";
 
-import { asyncHandler, authJWT } from '../middlewares';
-import bossCtrl from '../controllers/boss';
+import { asyncHandler, authJWT } from "../middlewares";
+import bossCtrl from "../controllers/boss";
 
 const bossRouter = express.Router();
 
 bossRouter
-  .route('/')
+  .route("/")
   .all(authJWT)
   .get(asyncHandler(bossCtrl.getBossData))
   .post(asyncHandler(bossCtrl.addCharacter));
-bossRouter.route('/check').all(authJWT).post(asyncHandler(bossCtrl.bossCheck));
+bossRouter.route("/check").all(authJWT).post(asyncHandler(bossCtrl.bossCheck));
 bossRouter
-  .route('/reset')
+  .route("/reset")
   .all(authJWT)
   .post(asyncHandler(bossCtrl.resetBossData));
 bossRouter
-  .route('/swap')
+  .route("/swap")
   .all(authJWT)
   .put(asyncHandler(bossCtrl.changeSequence));
 bossRouter
-  .route('/:bossId')
+  .route("/:bossId")
   .all(authJWT)
   .put(asyncHandler(bossCtrl.updateCharacterInfo))
   .delete(asyncHandler(bossCtrl.deleteCharacter));
