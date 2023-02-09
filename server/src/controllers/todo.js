@@ -215,63 +215,32 @@ export default {
   resetTodo: async (req, res) => {
     const {
       user: { id: loginUserId },
-      body: { category },
     } = req;
 
-    if (category === "daily") {
-      const dailyDefaults = {
-        yeoro: false,
-        chuchu: false,
-        lachelein: false,
-        arcana: false,
-        morass: false,
-        esfera: false,
-        cernium: false,
-        burningCernium: false,
-        arcs: false,
-        odium: false,
-      };
+    const weeklyDefaults = {
+      yeoro: false,
+      chuchu: false,
+      lachelein: false,
+      arcana: false,
+      morass: false,
+      esfera: false,
+    };
 
-      const updateResult = await db.Todo.updateMany(
-        { owner: loginUserId },
-        { daily: dailyDefaults }
-      );
+    const updateResult = await db.Todo.updateMany(
+      { owner: loginUserId },
+      { weekly: weeklyDefaults }
+    );
 
-      if (updateResult.modifiedCount === 0) {
-        res.status(400).json({
-          ok: false,
-          errorMessage: "초기화 에러",
-        });
-      }
-    } else if (category === "weekly") {
-      const weeklyDefaults = {
-        yeoro: false,
-        chuchu: false,
-        lachelein: false,
-        arcana: false,
-        morass: false,
-        esfera: false,
-      };
-
-      const updateResult = await db.Todo.updateMany(
-        { owner: loginUserId },
-        { weekly: weeklyDefaults }
-      );
-
-      if (updateResult.modifiedCount === 0) {
-        res.status(400).json({
-          ok: false,
-          errorMessage: "초기화 에러",
-        });
-      }
+    if (updateResult.modifiedCount === 0) {
+      res.status(400).json({
+        ok: false,
+        errorMessage: "초기화 에러",
+      });
     }
 
     res.status(200).json({
       ok: true,
       message: "퀘스트 데이터 초기화 성공",
-      data: {
-        category,
-      },
     });
   },
 
