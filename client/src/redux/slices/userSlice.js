@@ -28,7 +28,15 @@ export const userSlice = createSlice({
     },
     profile: {
       isFetching: false,
-      message: "",
+      username: "",
+      nameCheckError: false,
+      nameCheckMessage: "",
+      currentPwCheckError: false,
+      currentPwCheckMessage: "",
+      pwCheckError: false,
+      pwCheckMessage: "",
+      pw2CheckError: false,
+      pw2CheckMessage: "",
     },
   },
   reducers: {
@@ -43,6 +51,20 @@ export const userSlice = createSlice({
         isFetching: false,
         idCheckError: false,
         idCheckMessage: "",
+        pwCheckError: false,
+        pwCheckMessage: "",
+        pw2CheckError: false,
+        pw2CheckMessage: "",
+      };
+    },
+    initProfileState: (state, action) => {
+      state.profile = {
+        ...state.profile,
+        isFetching: false,
+        nameCheckError: false,
+        nameCheckMessage: "",
+        currentPwCheckError: false,
+        currentPwCheckMessage: "",
         pwCheckError: false,
         pwCheckMessage: "",
         pw2CheckError: false,
@@ -73,6 +95,12 @@ export const userSlice = createSlice({
     validateName: (state, action) => {
       state.signUpState.nameCheckError = action.payload.isError;
       state.signUpState.nameCHeckMessage = action.payload.message;
+    },
+    validateProfile: (state, action) => {
+      state.profile = {
+        ...state.profile,
+        ...action.payload,
+      };
     },
   },
   extraReducers: {
@@ -146,21 +174,53 @@ export const userSlice = createSlice({
     // 회원정보 불러오기
     [getProfile.pending]: (state, action) => {},
     [getProfile.fulfilled]: (state, action) => {
-      state.username = action.payload.user.name;
+      state.profile.username = action.payload.user.name;
     },
     [getProfile.rejected]: (state, action) => {},
 
     // 프로필 업데이트
     [updateProfile.pending]: (state, action) => {
-      state.profile.isFetching = true;
-      state.profile.message = "";
+      state.profile = {
+        ...state.profile,
+        isFetching: true,
+        nameCheckError: false,
+        nameCheckMessage: "",
+        currentPwCheckError: false,
+        currentPwCheckMessage: "",
+        pwCheckError: false,
+        pwCheckMessage: "",
+        pw2CheckError: false,
+        pw2CheckMessage: "",
+      };
     },
     [updateProfile.fulfilled]: (state, action) => {
       state.profile.isFetching = false;
     },
     [updateProfile.rejected]: (state, action) => {
       state.profile.isFetching = false;
-      state.profile.message = action.payload.errorMessage;
+
+      switch (action.payload.errorMessage) {
+        case "incorrect password":
+          state.profile.currentPwCheckError = true;
+          state.profile.currentPwCheckMessage = "비밀번호가 일치하지 않습니다.";
+          break;
+        case "new password is same current password":
+          state.profile.currentPwCheckError = true;
+          state.profile.currentPwCheckMessage =
+            "현재 비밀번호와 새 비밀번호가 일치합니다.";
+          state.profile.pwCheckError = true;
+          state.profile.pwCheckMessage =
+            "현재 비밀번호와 새 비밀번호가 일치합니다.";
+          break;
+        case "password does not match":
+          state.profile.pwCheckError = true;
+          state.profile.pwCheckMessage =
+            "변경할 비밀번호가 서로 일치하지 않습니다.";
+          state.profile.pw2CheckError = true;
+          state.profile.pw2CheckMessage =
+            "변경할 비밀번호가 서로 일치하지 않습니다.";
+          break;
+      }
     },
   },
 });

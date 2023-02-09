@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Box, Button, TextField, ThemeProvider } from "@mui/material";
 
+import userSlice from "../redux/slices/userSlice";
 import { getProfile, updateProfile } from "../redux/async/user";
 
 import Header from "../components/Header";
@@ -12,22 +13,12 @@ import theme from "../shared/Theme";
 const Profile = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { username, profile } = useSelector((state) => state.user);
+  const { profile } = useSelector((state) => state.user);
 
   const [name, setName] = React.useState("");
   const [curPw, setCurPw] = React.useState("");
   const [newPw, setNewPw] = React.useState("");
   const [verifyPw, setVerifyPw] = React.useState("");
-  const [profileError, setProfileError] = React.useState({
-    password: { isError: false, errorMessage: "" },
-    newPassword: { isError: false, errorMessage: "" },
-    verifyPassword: { isError: false, errorMessage: "" },
-  });
-  const profileErrorDefault = {
-    password: { isError: false, errorMessage: "" },
-    newPassword: { isError: false, errorMessage: "" },
-    verifyPassword: { isError: false, errorMessage: "" },
-  };
 
   const handleChangeName = (e) => {
     setName(e.target.value);
@@ -45,49 +36,81 @@ const Profile = () => {
     setVerifyPw(e.target.value);
   };
 
-  const handleSubmit = () => {
-    if (curPw === newPw) {
-      setProfileError({
-        ...profileErrorDefault,
-        password: {
-          isError: true,
-          errorMessage: "현재 비밀번호와 변경할 비밀번호가 일치합니다.",
-        },
-        newPassword: {
-          isError: true,
-          errorMessage: "현재 비밀번호와 변경할 비밀번호가 일치합니다.",
-        },
-      });
-    } else if (newPw !== verifyPw) {
-      setProfileError({
-        ...profileErrorDefault,
-        newPassword: {
-          isError: true,
-          errorMessage: "비밀번호가 서로 일치하지 않습니다.",
-        },
-        verifyPassword: {
-          isError: true,
-          errorMessage: "비밀번호가 서로 일치하지 않습니다.",
-        },
-      });
+  const handleOnBlurUsername = () => {
+    if (!name) {
+      dispatch(
+        userSlice.actions.validateProfile({
+          nameCheckError: true,
+          nameCheckMessage: "이름을 입력해주세요.",
+        })
+      );
     } else {
-      const args = { data: { name, curPw, newPw, verifyPw }, navigate };
-      dispatch(updateProfile(args));
+      dispatch(
+        userSlice.actions.validateProfile({
+          nameCheckError: false,
+          nameCheckMessage: "",
+        })
+      );
     }
   };
 
-  const handlePwErrorMessage = () => {
+  const handleOnBlurCurrentPw = () => {
     if (!curPw) {
-      setProfileError({
-        ...profileErrorDefault,
-        password: { isError: true, errorMessage: "비밀번호를 입력해주세요." },
-      });
+      dispatch(
+        userSlice.actions.validateProfile({
+          currentPwCheckError: true,
+          currentPwCheckMessage: "이름을 입력해주세요.",
+        })
+      );
     } else {
-      setProfileError({
-        ...profileErrorDefault,
-        password: { isError: false, errorMessage: "" },
-      });
+      dispatch(
+        userSlice.actions.validateProfile({
+          currentPwCheckError: false,
+          currentPwCheckMessage: "",
+        })
+      );
     }
+  };
+
+  const handleOnBlurPw = () => {
+    if (!newPw) {
+      dispatch(
+        userSlice.actions.validateProfile({
+          pwCheckError: true,
+          pwCheckMessage: "비밀번호를 입력해주세요.",
+        })
+      );
+    } else {
+      dispatch(
+        userSlice.actions.validateProfile({
+          pwCheckError: false,
+          pwCheckMessage: "",
+        })
+      );
+    }
+  };
+
+  const handleOnBlurPw2 = () => {
+    if (!newPw) {
+      dispatch(
+        userSlice.actions.validateProfile({
+          pw2CheckError: true,
+          pw2CheckMessage: "비밀번호를 입력해주세요.",
+        })
+      );
+    } else {
+      dispatch(
+        userSlice.actions.validateProfile({
+          pw2CheckError: false,
+          pw2CheckMessage: "",
+        })
+      );
+    }
+  };
+
+  const handleSubmit = () => {
+    const args = { data: { name, curPw, newPw, verifyPw }, navigate };
+    dispatch(updateProfile(args));
   };
 
   React.useEffect(() => {
@@ -96,32 +119,12 @@ const Profile = () => {
   }, []);
 
   React.useEffect(() => {
-    setName(username);
-  }, [username]);
+    setName(profile.username);
+  }, [profile]);
 
   React.useEffect(() => {
-    if (profile.message === "password incorrect") {
-      setProfileError({
-        ...profileErrorDefault,
-        password: { isError: true, errorMessage: "비밀번호가 틀렸습니다." },
-      });
-    } else if (profile.message === "password does not match") {
-      setProfileError({
-        ...profileErrorDefault,
-        newPassword: {
-          isError: true,
-          errorMessage: "비밀번호가 서로 일치하지 않습니다.",
-        },
-        verifyPassword: {
-          isError: true,
-          errorMessage: "비밀번호가 서로 일치하지 않습니다.",
-        },
-      });
-    } else if (profile.message === "user not found") {
-      alert("인증에 문제가 있습니다. 다시 로그인해주세요");
-      navigate("/login");
-    }
-  }, [dispatch, profile]);
+    dispatch(userSlice.actions.initProfileState());
+  }, []);
 
   return (
     <>
@@ -151,11 +154,12 @@ const Profile = () => {
               type="text"
               value={name}
               color="success"
-              error={!name ? true : false}
-              helperText={!name ? "이름을 입력해주세요." : ""}
+              error={profile.nameCheckError}
+              helperText={profile.nameCheckMessage}
               required={true}
               autoComplete="off"
               onChange={handleChangeName}
+              onBlur={handleOnBlurUsername}
               fullWidth
               sx={{ mt: 2, mb: 2, width: 300 }}
             />
@@ -163,11 +167,11 @@ const Profile = () => {
               label="현재 비밀번호"
               color="success"
               type="password"
-              error={profileError.password.isError}
-              helperText={profileError.password.errorMessage}
-              onBlur={handlePwErrorMessage}
+              error={profile.currentPwCheckError}
+              helperText={profile.currentPwCheckMessage}
               required={true}
               onChange={handleChangeCurPw}
+              onBlur={handleOnBlurCurrentPw}
               autoFocus={true}
               fullWidth
               sx={{ mb: 2 }}
@@ -176,10 +180,11 @@ const Profile = () => {
               label="새 비밀번호"
               color="success"
               type="password"
-              error={profileError.newPassword.isError}
-              helperText={profileError.newPassword.errorMessage}
+              error={profile.pwCheckError}
+              helperText={profile.pwCheckMessage}
               required={true}
               onChange={handleChangeNewPw}
+              onBlur={handleOnBlurPw}
               fullWidth
               sx={{ mb: 2 }}
             />
@@ -187,10 +192,11 @@ const Profile = () => {
               label="새 비밀번호 확인"
               color="success"
               type="password"
-              error={profileError.verifyPassword.isError}
-              helperText={profileError.verifyPassword.errorMessage}
+              error={profile.pw2CheckError}
+              helperText={profile.pw2CheckMessage}
               required={true}
               onChange={handleChangeVerifyPw}
+              onBlur={handleOnBlurPw2}
               fullWidth
               sx={{ mb: 2 }}
             />
@@ -199,12 +205,10 @@ const Profile = () => {
               color="success"
               disabled={
                 !name || !curPw || !newPw || !verifyPw || profile.isFetching
-                  ? true
-                  : false
               }
               onClick={handleSubmit}
             >
-              {profile.isFetching ? "요청중..." : "변경하기"}
+              {profile.isFetching ? "변경중..." : "변경하기"}
             </Button>
           </Box>
         </Box>

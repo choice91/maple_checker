@@ -1,8 +1,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 import API from "../apis";
-import { setCookie } from "../../shared/Cookies";
-import { setLocalStorage } from "../../shared/LocalStorage";
+import { removeCookie, setCookie } from "../../shared/Cookies";
+import { removeLocalStorage, setLocalStorage } from "../../shared/LocalStorage";
 
 export const login = createAsyncThunk(
   "user/login",
@@ -159,7 +159,12 @@ export const updateProfile = createAsyncThunk(
           }
           return;
         case 404:
-          return thunkAPI.rejectWithValue(err.response.data);
+          if (err.response.data.errorMessage === "user not found") {
+            removeLocalStorage("token");
+            removeCookie("refresh");
+            navigate("/login", { replace: true });
+          }
+          return;
       }
     }
   }
