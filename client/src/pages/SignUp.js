@@ -49,23 +49,23 @@ const SignUp = () => {
 
     if (!id) {
       dispatch(
-        userSlice.actions.validateId({
-          isError: true,
-          message: "아이디를 입력해주세요.",
+        userSlice.actions.validateSignUpstate({
+          idCheckError: true,
+          idCheckMessage: "아이디를 입력해주세요.",
         })
       );
     } else if (id.length < 5) {
       dispatch(
-        userSlice.actions.validateId({
-          isError: true,
-          message: "아이디를 5글자 이상 입력해주세요.",
+        userSlice.actions.validateSignUpstate({
+          idCheckError: true,
+          idCheckMessage: "아이디를 5글자 이상 입력해주세요.",
         })
       );
     } else if (!regExp.test(id)) {
       dispatch(
-        userSlice.actions.validateId({
-          isError: true,
-          message: "영문자 또는 숫자 5~20자로 입력해주세요.",
+        userSlice.actions.validateSignUpstate({
+          idCheckError: true,
+          idCheckMessage: "영문자 또는 숫자 5~20자로 입력해주세요.",
         })
       );
     } else {
@@ -77,9 +77,16 @@ const SignUp = () => {
   const handleCheckPw = () => {
     if (!pw) {
       dispatch(
-        userSlice.actions.validatePw({
-          isError: true,
-          message: "비밀번호를 입력하세요.",
+        userSlice.actions.validateSignUpstate({
+          pwCheckError: true,
+          pwCheckMessage: "비밀번호를 입력하세요.",
+        })
+      );
+    } else {
+      dispatch(
+        userSlice.actions.validateSignUpstate({
+          pwCheckError: false,
+          pwCheckMessage: "",
         })
       );
     }
@@ -88,23 +95,25 @@ const SignUp = () => {
   const handleCheckConfirmPw = () => {
     if (pw !== pw2) {
       dispatch(
-        userSlice.actions.comparePwAndPw2({
-          isError: true,
-          message: "비밀번호가 일치하지 않습니다.",
+        userSlice.actions.validateSignUpstate({
+          pwCheckError: true,
+          pwCheckMessage: "비밀번호가 일치하지 않습니다.",
+          pw2CheckError: true,
+          pw2CheckMessage: "비밀번호가 일치하지 않습니다.",
         })
       );
     } else if (!pw2) {
       dispatch(
-        userSlice.actions.validatePw2({
-          isError: true,
-          message: "비밀번호 확인을 입력하세요.",
+        userSlice.actions.validateSignUpstate({
+          pw2CheckError: true,
+          pw2CheckMessage: "비밀번호 확인을 입력하세요.",
         })
       );
     } else if (pw === pw2) {
       dispatch(
-        userSlice.actions.comparePwAndPw2({
-          isError: false,
-          message: "",
+        userSlice.actions.validateSignUpstate({
+          pw2CheckError: false,
+          pw2CheckMessage: "",
         })
       );
     }
@@ -113,16 +122,16 @@ const SignUp = () => {
   const handleCheckName = () => {
     if (!name) {
       dispatch(
-        userSlice.actions.validateName({
-          isError: true,
-          message: "이름을 입력해주세요.",
+        userSlice.actions.validateSignUpstate({
+          nameCheckError: true,
+          nameCHeckMessage: "이름을 입력해주세요.",
         })
       );
     } else {
       dispatch(
-        userSlice.actions.validateName({
-          isError: false,
-          message: "",
+        userSlice.actions.validateSignUpstate({
+          nameCheckError: false,
+          nameCHeckMessage: "",
         })
       );
     }
@@ -131,10 +140,6 @@ const SignUp = () => {
   const handleSignUp = () => {
     const data = { data: { id, pw, pw2, name }, navigate };
     dispatch(signUp(data));
-  };
-
-  const signUpButtonDisabled = () => {
-    return !name || !id || !pw || !pw2 || signUpState.isFetching;
   };
 
   React.useEffect(() => {
@@ -219,7 +224,7 @@ const SignUp = () => {
                 fullWidth
                 onClick={handleSignUp}
                 color="success"
-                disabled={signUpButtonDisabled()}
+                disabled={!name || !id || !pw || !pw2 || signUpState.isFetching}
                 sx={{ mt: 3, fontSize: 20, fontWeight: 700 }}
               >
                 {signUpState.isFetching ? "회원가입중이에요" : "회원가입"}

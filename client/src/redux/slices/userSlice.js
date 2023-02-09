@@ -71,30 +71,11 @@ export const userSlice = createSlice({
         pw2CheckMessage: "",
       };
     },
-    validateId: (state, action) => {
-      state.signUpState.idCheckError = action.payload.isError;
-      state.signUpState.idCheckMessage = action.payload.message;
-    },
-    validatePw: (state, action) => {
-      state.signUpState.pwCheckError = action.payload.isError;
-      state.signUpState.pwCheckMessage = action.payload.message;
-    },
-    validatePw2: (state, action) => {
-      state.signUpState.pw2CheckError = action.payload.isError;
-      state.signUpState.pw2CheckMessage = action.payload.message;
-    },
-    comparePwAndPw2: (state, action) => {
+    validateSignUpstate: (state, action) => {
       state.signUpState = {
         ...state.signUpState,
-        pwCheckError: action.payload.isError,
-        pwCheckMessage: action.payload.message,
-        pw2CheckError: action.payload.isError,
-        pw2CheckMessage: action.payload.message,
+        ...action.payload,
       };
-    },
-    validateName: (state, action) => {
-      state.signUpState.nameCheckError = action.payload.isError;
-      state.signUpState.nameCHeckMessage = action.payload.message;
     },
     validateProfile: (state, action) => {
       state.profile = {
@@ -128,12 +109,8 @@ export const userSlice = createSlice({
 
     // 회원가입
     [signUp.pending]: (state, action) => {
-      state.signUpState.isFetching = true;
-    },
-    [signUp.fulfilled]: (state, action) => {
-      state.signUpState.isFetching = false;
       state.signUpState = {
-        isFetching: false,
+        isFetching: true,
         idCheckError: false,
         idCheckMessage: "",
         pwCheckError: false,
@@ -145,14 +122,24 @@ export const userSlice = createSlice({
         signUpErrorMessage: "",
       };
     },
+    [signUp.fulfilled]: (state, action) => {
+      state.signUpState.isFetching = false;
+    },
     [signUp.rejected]: (state, action) => {
       state.signUpState.isFetching = false;
 
       if (action.payload.errorMessage === "password incorrect") {
         state.signUpState.signUpErrorMessage =
           "비밀번호가 서로 일치하지 않습니다.";
+        state.signUpState.pwCheckError = true;
+        state.signUpState.pwCheckMessage = "비밀번호가 서로 일치하지 않습니다.";
+        state.signUpState.pw2CheckError = true;
+        state.signUpState.pw2CheckMessage =
+          "비밀번호가 서로 일치하지 않습니다.";
       } else if (action.payload.errorMessage === "exist id") {
-        state.signUpState.signUpErrorMessage = "이미 존재하는 아이디입니다.";
+        state.signUpState.signUpErrorMessage = "아이디 중복확인을 해주세요.";
+        state.signUpState.idCheckError = true;
+        state.signUpState.idCheckMessage = "이미 존재하는 아이디입니다.";
       }
     },
 
