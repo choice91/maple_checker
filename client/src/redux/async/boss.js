@@ -25,7 +25,6 @@ export const addCharacterToBoss = createAsyncThunk(
     } catch (err) {
       switch (err.response.status) {
         case 400:
-          console.error(err.response);
           return thunkAPI.rejectWithValue(err.response.data);
         case 401:
           if (err.response.data.error.name === "TokenExpiredError") {
