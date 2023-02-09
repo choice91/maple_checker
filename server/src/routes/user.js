@@ -10,5 +10,9 @@ userRouter
   .all(authJWT)
   .get(asyncHandler(userCtrl.getUserProfile))
   .put(asyncHandler(userCtrl.updateUserProfile));
+userRouter
+  .route("/account")
+  .all(authJWT)
+  .delete(asyncHandler(userCtrl.deleteAccount));
 
 export default userRouter;

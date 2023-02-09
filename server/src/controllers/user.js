@@ -168,4 +168,25 @@ export default {
       message: "success",
     });
   },
+
+  deleteAccount: async (req, res) => {
+    const {
+      user: { id: loginUserId },
+    } = req;
+
+    const deleteResult = await db.User.deleteOne({ _id: loginUserId });
+
+    if (deleteResult.deletedCount < 1) {
+      res.status(400).json({
+        ok: false,
+        errorMessage: "delete account fail",
+      });
+      return;
+    }
+
+    await db.Todo.deleteMany({ owner: loginUserId });
+    await db.Boss.deleteMany({ owner: loginUserId });
+
+    res.status(200).json({ ok: true });
+  },
 };
